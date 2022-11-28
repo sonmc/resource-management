@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiTokenCheckMiddleware } from './common/middleware/api-token-check.middleware';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { AuthModule } from './modules/auth/auth.module';
-import { EmployeeModule } from './modules/employee/employee.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     EventEmitterModule.forRoot(),
     AuthModule,
-    EmployeeModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
