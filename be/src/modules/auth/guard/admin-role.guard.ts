@@ -4,7 +4,7 @@ import { UserService } from 'src/modules/user/user.service';
 
 @Injectable()
 export class AdminRoleGuard implements CanActivate {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();

@@ -9,8 +9,8 @@ import { LocalStrategy } from './guard/local.strategy';
 import { JwtStrategy } from './guard/jwt.strategy';
 
 @Module({
-  imports: [UserModule, PassportModule, JwtModule.registerAsync(jwtConfig)],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
-  controllers: [AuthController],
+	imports: [UserModule, PassportModule, JwtModule.registerAsync(jwtConfig)],
+	providers: [AuthService, LocalStrategy, JwtStrategy],
+	controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

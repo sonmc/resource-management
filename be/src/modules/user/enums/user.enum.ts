@@ -1,6 +1,6 @@
 enum UserRoles {
-  ADMIN = 'admin',
-  MEMBER = 'member',
+	ADMIN = 'admin',
+	MEMBER = 'member',
 }
 
-export { UserRoles };
+export {UserRoles};
