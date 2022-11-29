@@ -11,6 +11,7 @@ import { ApiTokenCheckMiddleware } from './common/middleware/api-token-check.mid
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { ProjectModule } from './modules/project/project.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UserModule } from './modules/user/user.module';
     EventEmitterModule.forRoot(),
     AuthModule,
     UserModule,
+    ProjectModule,
   ],
   controllers: [],
   providers: [],

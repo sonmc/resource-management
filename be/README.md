@@ -1,4 +1,3 @@
-  
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -49,8 +48,12 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
+## Generate module
 
-## Run migration 
+nest g res <-module-name->
+
+## Run migration
+
 npm run typeorm:cli migration:show  
 npm run migration:generate FirstMigration
 npm run migration:run
