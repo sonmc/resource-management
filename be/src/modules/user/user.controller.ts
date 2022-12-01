@@ -23,18 +23,6 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post("/register")
-  @ApiCreatedResponse({
-    description: "Created user object as response",
-    type: User,
-  })
-  @ApiBadRequestResponse({ description: "User cannot register. Try again!" })
-  async doUserRegistration(
-    userRegister: UserRegisterRequestDto
-  ): Promise<User> {
-    return await this.userService.doUserRegistration(userRegister);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {

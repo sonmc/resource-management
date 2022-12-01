@@ -11,7 +11,7 @@ export class AdminRoleGuard implements CanActivate {
 
     if (request?.user) {
       const { id } = request.user;
-      const user = await this.userService.getUserById(id);
+      const user = await this.userService.findById(id);
       return user.role === UserRoles.ADMIN;
     }
 
