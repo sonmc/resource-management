@@ -4,13 +4,14 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
 	constructor(private authService: AuthService) { }
 
-	// @UseGuards(LocalAuthGuard)
+	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	async login(@Body() loginDto: LoginDto): Promise<any> {
 		return this.authService.generateToken(loginDto);

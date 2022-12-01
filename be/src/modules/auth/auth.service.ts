@@ -13,7 +13,9 @@ export class AuthService {
 
 		if (!user) throw new BadRequestException();
 
-		if (!(await bcrypt.compare(password, user.password))) throw new UnauthorizedException();
+		//let isMatched = await bcrypt.compare(password, user.password);
+		let isMatched = password == user.password;
+		if (!(isMatched)) throw new UnauthorizedException();
 
 		return user;
 	}
