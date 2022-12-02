@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from '../../config/jwt.config';
 import { LocalStrategy } from './guard/local.strategy';
-import { JwtStrategy } from './guard/jwt.strategy';
+import { JwtStrategy } from './jwt/jwt.strategy';
 
 @Module({
 	imports: [UserModule, PassportModule, JwtModule.registerAsync(jwtConfig)],

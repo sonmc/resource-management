@@ -3,7 +3,7 @@ import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @ApiTags('Auth')
