@@ -1,47 +1,13 @@
 import { classToPlain, plainToClass } from "class-transformer";
-import { Repository, EntityRepository } from "typeorm";
+import { EntityRepository } from "typeorm";
 
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common";
 import { User } from "./entities/user.entity";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserDto } from "./dto/user.dto";
+import { CommonRepository } from "../common/common.repository";
 
-
-@Injectable()
 @EntityRepository(User)
-export class UserRepository extends Repository<User> {
-  public async findAll(): Promise<User[]> {
-    return await this.find({});
-  }
-
-  public async findById(userId: number): Promise<User> {
-    return await this.findOne(userId);
-  }
-
-  public async destroy(userId: number): Promise<void> {
-    const user = await this.findOne(userId);
-    await this.remove(user);
-  }
-
-  public async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const user = new User();
-
-    await this.save(user);
-    return user;
-  }
-
-  public async editUser(
-    userId: number,
-    updateUserDto: UpdateUserDto
-  ): Promise<User> {
-    const user = await this.findOne(userId);
-
-    await this.save(user);
-    return user;
-  }
-
-  async getUsersByEmail(email: string): Promise<UserDto[]> {
+export class UserRepository extends CommonRepository<User, User> {
+  async getUsersByEmail(email: string): Promise<User[]> {
     return this.find({
       where: {
         email: email,
@@ -55,33 +21,76 @@ export class UserRepository extends Repository<User> {
     });
   }
 
-  transform(model: User): UserDto {
-    const transformOptions = {};
-    return plainToClass(
-      UserDto,
-      classToPlain(model, transformOptions),
-      transformOptions
-    );
-  }
-
-  transformMany(models: User[]): UserDto[] {
-    return models.map((model) => this.transform(model));
-  }
-
-  async getEntityById(
-    id: string | number,
-    relations: string[] = [],
-    throwsException = false
-  ): Promise<UserDto> {
+  async getUserByEmail(email: string): Promise<User> {
     return await this.findOne({
-      where: { id },
-      relations,
+      where: { email: email },
     }).then((entity) => {
-      if (!entity && throwsException) {
+      if (!entity) {
         return Promise.reject(new NotFoundException("Model not found"));
       }
 
       return Promise.resolve(entity ? this.transform(entity) : null);
     });
+  }
+
+  async findUserAndMessageReadById(
+    id: number,
+    status: number | null
+  ): Promise<any> {
+    return await this.createQueryBuilder("user")
+      .leftJoinAndSelect("user.messages", "messages")
+      .where("messages.status = :status", { status })
+      .andWhere({ id })
+      .getOne();
+  }
+
+  async findAllConversation(
+    user_id: number | string
+  ): Promise<User | User | null> {
+    return await this.createQueryBuilder("users")
+      .innerJoinAndSelect("users.conversations", "conversations")
+      .leftJoinAndSelect("conversations.users", "usersInConversation")
+      .innerJoinAndMapOne(
+        "conversations.messages",
+        "conversations.messages",
+        "messages",
+        "messages.conversation_id = conversations.id"
+      )
+      .select([
+        "users",
+        "conversations",
+        "usersInConversation",
+        "userConversation.last_message_id",
+        "messages",
+      ])
+      .innerJoinAndMapOne(
+        "usersInConversation.last_message_id",
+        "usersInConversation.userConversation",
+        "userConversation",
+        "userConversation.conversation_id = conversations.id"
+      )
+      .where("users.id = :id", { id: user_id })
+      .orderBy("messages.id", "DESC")
+      .getOne()
+      .then((entity) => {
+        if (!entity) {
+          return Promise.reject(new NotFoundException("Model not found"));
+        }
+        return Promise.resolve(entity ? this.transform(entity) : null);
+      });
+  }
+
+  transform(model: User): User {
+    const transformOptions = {};
+
+    return plainToClass(
+      User,
+      classToPlain(model, transformOptions),
+      transformOptions
+    );
+  }
+
+  transformMany(models: User[]): User[] {
+    return models.map((model) => this.transform(model));
   }
 }

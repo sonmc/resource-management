@@ -1,26 +1,73 @@
+import {
+	Body,
+	Controller,
+	Get,
+	HttpException,
+	HttpStatus,
+	Post,
+	Request,
+	Response,
+	UseGuards,
+  } from '@nestjs/common';
+import { ApiTags } from "@nestjs/swagger";
+import { AuthService } from "./auth.service";  
+import { CreateUserDto } from "../user/dto/create-user.dto";
+import { AuthenticationGuard } from "./guard/auth.guard";
+import { User } from "../user/entities/user.entity";
+import { LocalAuthGuard } from "./guard/local.guard";
+import { UserService } from "../user/user.service";
 
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { JwtAuthGuard } from './jwt/jwt-auth.guard';
-import { LocalAuthGuard } from './guard/local-auth.guard';
-
-@ApiTags('Auth')
-@Controller('auth')
+@ApiTags("Auth")
+@Controller("auth")
+@Controller()
 export class AuthController {
-	constructor(private authService: AuthService) { }
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
-	@UseGuards(LocalAuthGuard)
-	@Post('login')
-	async login(@Body() loginDto: LoginDto): Promise<any> {
-		return this.authService.generateToken(loginDto);
-	}
+  @Post("/register")
+  async registerUser(@Body() input: CreateUserDto) {
+    const check = await this.validate(input.email);
+    if (!check) {
+      throw new HttpException(
+        { message: "User already exists" },
+        HttpStatus.BAD_REQUEST
+      );
+    }
 
-	@ApiBearerAuth()
-	@UseGuards(JwtAuthGuard)
-	@Get('user')
-	async user(@Request() req): Promise<any> {
-		return req.user;
-	}
+    input.password = await this.authService.hashPassword(input.password);
+    return this.userService.create(input);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post("/login")
+  async login(@Request() request): Promise<any> {
+    return this.authService.login(request.user);
+  }
+
+  @UseGuards(AuthenticationGuard)
+  @Get("current-user")
+  async getUserLoggedIn(@Request() request): Promise<User> {
+    return this.userService.findById(request.user.id);
+  }
+
+  @UseGuards(AuthenticationGuard)
+  @Post("/logout")
+  async getUserLogout(@Response() response): Promise<Response> {
+    response.setHeader("Set-Cookie", this.authService.getCookieForLogOut());
+    response.clearCookie("access_token");
+    response.clearCookie("token");
+
+    return response.sendStatus(200);
+  }
+
+  async validate(email: string) {
+    try {
+      const users = await this.userService.geUsersByEmail(email);
+      return users.length <= 0;
+    } catch (e) {
+      return false;
+    }
+  }
 }

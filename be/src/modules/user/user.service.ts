@@ -1,28 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { UserRegisterRequestDto } from './dto/user-register.req.dto';
-import { User } from './entities/user.entity';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./entities/user.entity";
+import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(UserRepository) private usersRepository: UserRepository
+  ) {}
 
-	async doUserRegistration(userRegister: UserRegisterRequestDto): Promise<User> {
-		const user = new User();
-		user.name = userRegister.name;
-		user.email = userRegister.email;
-		user.password = userRegister.password;
+  async findAll(
+    relations: string[] = [],
+    throwsException = false
+  ): Promise<User[]> {
+    return await this.usersRepository.getAllEntity(relations, throwsException);
+  }
 
-		return await user.save();
-	}
+  async create(inputs: CreateUserDto): Promise<User> {
+    return await this.usersRepository.createEntity(inputs);
+  }
 
-	async getUserByEmail(email: string): Promise<User | undefined> {
-		return User.findOne({ where: { email } });
-	}
+  async findById(
+    id: number,
+    relations: string[] = [],
+    throwsException = false
+  ): Promise<User> {
+    return await this.usersRepository.getEntityById(
+      id,
+      relations,
+      throwsException
+    );
+  }
 
-	async getUserById(id: number): Promise<User | undefined> {
-		return User.findOne({ where: { id } });
-	}
+  async findUserAndMessageReadById(
+    id: number,
+    status: number | null
+  ): Promise<User> {
+    return await this.usersRepository.findUserAndMessageReadById(id, status);
+  }
 
-	async findAll() {
-		return "This action return all users";
-	}
+  async deleteById(id: number): Promise<boolean> {
+    return await this.usersRepository.deleteEntityById(id);
+  }
+
+  async geUsersByEmail(email: string): Promise<User[]> {
+    return await this.usersRepository.getUsersByEmail(email);
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    return await this.usersRepository.getUserByEmail(email);
+  }
 }
