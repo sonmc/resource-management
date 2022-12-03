@@ -15,9 +15,9 @@ import { PassportModule } from "@nestjs/passport";
 import { UserRepository } from "./modules/user/user.repository";
 import { AuthController } from "./modules/auth/auth.controller";
 import { AuthService } from "./modules/auth/auth.service";
-import { UserService } from "./modules/user/user.service";
 import { LocalStrategy } from "./modules/auth/strategies/local.strategy";
-import { JsonWebTokenStrategy } from "./modules/auth/strategies/jwt.strategy";
+import { JwtStrategy } from "./modules/auth/strategies/jwt.strategy";
+import { UserService } from "./modules/user/user.service";
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { JsonWebTokenStrategy } from "./modules/auth/strategies/jwt.strategy";
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, LocalStrategy, JsonWebTokenStrategy],
+  providers: [AuthService, UserService, LocalStrategy, JwtStrategy],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
