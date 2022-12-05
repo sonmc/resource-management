@@ -1,13 +1,23 @@
 // @flow
 import { all, call, fork, takeEvery } from "redux-saga/effects";
 
-import { CHANGE_LAYOUT, CHANGE_SIDEBAR_THEME, CHANGE_LAYOUT_MODE, CHANGE_LAYOUT_WIDTH, CHANGE_LAYOUT_POSITION, CHANGE_TOPBAR_THEME, CHANGE_SIDEBAR_SIZE_TYPE, CHANGE_SIDEBAR_VIEW } from "./actionType";
+import {
+  CHANGE_LAYOUT,
+  CHANGE_SIDEBAR_THEME,
+  CHANGE_LAYOUT_MODE,
+  CHANGE_LAYOUT_WIDTH,
+  CHANGE_LAYOUT_POSITION,
+  CHANGE_TOPBAR_THEME,
+  CHANGE_SIDEBAR_SIZE_TYPE,
+  CHANGE_SIDEBAR_VIEW,
+} from "./actionType";
 
 /**
  * Changes the body attribute
  */
 function changeHTMLAttribute(attribute, value) {
-  if (document.documentElement) document.documentElement.setAttribute(attribute, value);
+  if (document.documentElement)
+    document.documentElement.setAttribute(attribute, value);
   return true;
 }
 

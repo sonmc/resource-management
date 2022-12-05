@@ -1,17 +1,16 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 // Front
-import Layout from './layouts/reducer';
+import Layout from "./layouts/reducer";
 
 // Authentication
-import Auth from './auth/reducer';
+import Auth from "./auth/reducer";
 
 //Form advanced
 
 const rootReducer = combineReducers({
-    // public
-    Layout,
-    Auth,
+  Layout,
+  Auth,
 });
 
 export default rootReducer;

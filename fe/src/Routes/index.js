@@ -17,7 +17,12 @@ const Index = () => {
           <NonAuthLayout>
             <Switch>
               {publicRoutes.map((route, idx) => (
-                <Route path={route.path} component={route.component} key={idx} exact={true} />
+                <Route
+                  path={route.path}
+                  component={route.component}
+                  key={idx}
+                  exact={true}
+                />
               ))}
             </Switch>
           </NonAuthLayout>
@@ -28,7 +33,12 @@ const Index = () => {
             <VerticalLayout>
               <Switch>
                 {authProtectedRoutes.map((route, idx) => (
-                  <AccessRoute path={route.path} component={route.component} key={idx} exact={true} />
+                  <AccessRoute
+                    path={route.path}
+                    component={route.component}
+                    key={idx}
+                    exact={true}
+                  />
                 ))}
               </Switch>
             </VerticalLayout>

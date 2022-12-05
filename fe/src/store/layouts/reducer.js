@@ -7,11 +7,19 @@ import {
   CHANGE_TOPBAR_THEME,
   CHANGE_SIDEBAR_SIZE_TYPE,
   CHANGE_SIDEBAR_VIEW,
-  RESET_VALUE,
 } from "./actionType";
 
 //constants
-import { layoutTypes, leftSidebarTypes, layoutModeTypes, layoutWidthTypes, layoutPositionTypes, topbarThemeTypes, leftsidbarSizeTypes, leftSidebarViewTypes } from "../../Components/constants/layout";
+import {
+  layoutTypes,
+  leftSidebarTypes,
+  layoutModeTypes,
+  layoutWidthTypes,
+  layoutPositionTypes,
+  topbarThemeTypes,
+  leftsidbarSizeTypes,
+  leftSidebarViewTypes,
+} from "../../Components/constants/layout";
 
 const INIT_STATE = {
   layoutType: layoutTypes.HORIZONTAL,

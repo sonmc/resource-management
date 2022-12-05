@@ -1,13 +1,13 @@
-import { all, fork } from 'redux-saga/effects';
+import { all, fork } from "redux-saga/effects";
 //layout
-import LayoutSaga from './layouts/saga';
+import LayoutSaga from "./layouts/saga";
 //Auth
-import AuthSaga from './auth/saga';
+import AuthSaga from "./auth/saga";
 
 export default function* rootSaga() {
-    yield all([
-        //public
-        fork(LayoutSaga),
-        fork(AuthSaga),
-    ]);
+  yield all([
+    //public
+    fork(LayoutSaga),
+    fork(AuthSaga),
+  ]);
 }

@@ -11,13 +11,16 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService
-  ) { }
+  ) {}
 
   async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 12);
   }
 
-  async comparePassword(password: string, storePasswordHash: string): Promise<any> {
+  async comparePassword(
+    password: string,
+    storePasswordHash: string
+  ): Promise<any> {
     return await bcrypt.compare(password, storePasswordHash);
   }
 
@@ -38,7 +41,7 @@ export class AuthService {
       id: user.id,
     };
 
-    return { access_token: this.jwtService.sign(payload) };
+    return { token: this.jwtService.sign(payload) };
   }
 
   public getCookieForLogOut() {

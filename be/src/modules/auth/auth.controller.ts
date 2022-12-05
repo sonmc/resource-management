@@ -8,18 +8,19 @@ import {
   Request,
   Response,
   UseGuards,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { UserDto } from "../user/dto/user.dto";
 import { AuthService } from "./auth.service";
 import { AuthenticationGuard } from "./guard/auth.guard";
 import { LocalAuthGuard } from "./guard/local.guard";
+import { JwtStrategy } from "./strategies/jwt.strategy";
 
 @ApiTags("Auth")
 @Controller("auth")
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) { }
-
+  constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post("/login")
@@ -27,6 +28,11 @@ export class AuthController {
     return this.authService.login(request.user);
   }
 
+  @UseGuards(JwtStrategy)
+  @Get("/login")
+  async verifyToken(@Request() request): Promise<UserDto> {
+    return this.authService.login(request);
+  }
 
   @UseGuards(AuthenticationGuard)
   @Post("/logout")
@@ -37,5 +43,4 @@ export class AuthController {
 
     return response.sendStatus(200);
   }
-
 }
