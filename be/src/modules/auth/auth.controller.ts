@@ -2,34 +2,40 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Post,
   Request,
+  Response,
   UseGuards,
-} from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "../user/entities/user.entity";
+} from '@nestjs/common';
+import { ApiTags } from "@nestjs/swagger";
 import { AuthService } from "./auth.service";
-import { LoginDto } from "./dto/login.dto";
-import { JwtAuthGuard } from "./guard/jwt-auth.guard";
-import { LocalAuthGuard } from "./guard/local-auth.guard";
+import { AuthenticationGuard } from "./guard/auth.guard";
+import { LocalAuthGuard } from "./guard/local.guard";
 
 @ApiTags("Auth")
 @Controller("auth")
+@Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
-  //@UseGuards(LocalAuthGuard)
-  @Post("login")
-  async login(@Body() loginDto: LoginDto): Promise<any> {
-    return this.authService.generateToken(loginDto);
+
+  @UseGuards(LocalAuthGuard)
+  @Post("/login")
+  async login(@Request() request): Promise<any> {
+    return this.authService.login(request.user);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get("user")
-  async user(): Promise<any> {
-    var u = new User();
-    u.id = 1;
-    return u;
+
+  @UseGuards(AuthenticationGuard)
+  @Post("/logout")
+  async getUserLogout(@Response() response): Promise<Response> {
+    response.setHeader("Set-Cookie", this.authService.getCookieForLogOut());
+    response.clearCookie("access_token");
+    response.clearCookie("token");
+
+    return response.sendStatus(200);
   }
+
 }

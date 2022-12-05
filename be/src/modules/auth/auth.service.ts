@@ -1,38 +1,50 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "../user/user.service";
+import { AuthPayload } from "./interfaces/auth-payload.interface";
+import { User } from "../user/entities/user.entity";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private userService: UserService
   ) {}
 
-  async validateUserCreds(email: string, password: string): Promise<any> {
-    const user = await this.userService.findByMail(email);
-    console.log(user);
-    if (!user) throw new BadRequestException();
+  async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, 12);
+  }
 
-    //let isMatched = await bcrypt.compare(password, user.password);
-    let isMatched = password == user.password;
-    if (!isMatched) throw new UnauthorizedException();
+  async comparePassword(
+    password: string,
+    storePasswordHash: string
+  ): Promise<any> {
+    return await bcrypt.compare(password, storePasswordHash);
+  }
 
+  async authentication(email: string, password: string): Promise<any> {
+    const user = await this.userService.getUserByEmail(email);
+    const check = await this.comparePassword(password, user.password);
+
+    if (!user || !check) {
+      return false;
+    }
     return user;
   }
 
-  generateToken(user: any) {
-    return {
-      access_token: this.jwtService.sign({
-        name: user.name,
-        sub: user.id,
-      }),
+  async login(user: User) {
+    const payload: AuthPayload = {
+      name: user.name,
+      email: user.email,
+      id: user.id,
     };
+
+    return { access_token: this.jwtService.sign(payload) };
+  }
+
+  public getCookieForLogOut() {
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
 }
