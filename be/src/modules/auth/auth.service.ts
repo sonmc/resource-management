@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
@@ -17,16 +13,11 @@ export class AuthService {
     private userService: UserService
   ) { }
 
-  //function hash password
   async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 12);
   }
 
-  //function compare password param with user password in database
-  async comparePassword(
-    password: string,
-    storePasswordHash: string
-  ): Promise<any> {
+  async comparePassword(password: string, storePasswordHash: string): Promise<any> {
     return await bcrypt.compare(password, storePasswordHash);
   }
 
