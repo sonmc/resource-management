@@ -1,54 +1,23 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { User } from "./entities/user.entity"; 
-import { UserRepository } from "./user.repository";
+import { Repository } from 'typeorm';
+import { User } from "./entities/user.entity";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserRepository) private usersRepository: UserRepository
-  ) {}
+    @InjectRepository(User) private userRepository: Repository<User>
+  ) { }
 
-  async findAll(
-    relations: string[] = [],
-    throwsException = false
-  ): Promise<User[]> {
-    return await this.usersRepository.getAllEntity(relations, throwsException);
+  getUserByEmail(email: string): Promise<User> {
+    var user = this.userRepository.findOne({
+      where: { email }
+    });
+    return user;
   }
 
-  async create(inputs: CreateUserDto): Promise<User> {
-    return await this.usersRepository.createEntity(inputs);
-  }
-
-  async findById(
-    id: number,
-    relations: string[] = [],
-    throwsException = false
-  ): Promise<User> {
-    return await this.usersRepository.getEntityById(
-      id,
-      relations,
-      throwsException
-    );
-  }
-
-  async findUserAndMessageReadById(
-    id: number,
-    status: number | null
-  ): Promise<User> {
-    return await this.usersRepository.findUserAndMessageReadById(id, status);
-  }
-
-  async deleteById(id: number): Promise<boolean> {
-    return await this.usersRepository.deleteEntityById(id);
-  }
-
-  async geUsersByEmail(email: string): Promise<User[]> {
-    return await this.usersRepository.getUsersByEmail(email);
-  }
-
-  async getUserByEmail(email: string): Promise<User> {
-    return await this.usersRepository.getUserByEmail(email);
+  findAll(): Promise<User[]> {
+    var users = this.userRepository.find();
+    return users;
   }
 }

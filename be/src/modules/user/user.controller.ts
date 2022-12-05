@@ -10,7 +10,7 @@ export class UserController {
   constructor(
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService
-  ) {}
+  ) { }
 
   @UseGuards(JwtStrategy)
   @Get()

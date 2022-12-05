@@ -15,7 +15,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService
-  ) {}
+  ) { }
 
   //function hash password
   async hashPassword(password: string): Promise<string> {
@@ -37,7 +37,6 @@ export class AuthService {
     if (!user || !check) {
       return false;
     }
-
     return user;
   }
 
@@ -50,7 +49,7 @@ export class AuthService {
 
     return { access_token: this.jwtService.sign(payload) };
   }
-  
+
   public getCookieForLogOut() {
     return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
