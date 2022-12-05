@@ -11,7 +11,7 @@ import { typeOrmAsyncConfig } from "./config/typeorm.config";
 import { AuthModule } from "./modules/auth/auth.module";
 import { UserModule } from "./modules/user/user.module";
 import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
+import { PassportModule } from "@nestjs/passport"; 
 import { AuthController } from "./modules/auth/auth.controller";
 import { AuthService } from "./modules/auth/auth.service";
 import { LocalStrategy } from "./modules/auth/strategies/local.strategy";
@@ -21,7 +21,7 @@ import { UserService } from "./modules/user/user.service";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig), 
     AuthModule,
     UserModule,
     PassportModule,

@@ -17,13 +17,6 @@ const Header = ({ headerClass }) => {
     setSearch(!search);
   };
 
-  const toogleMenuBtn = () => {
-    var windowSize = document.documentElement.clientWidth;
-
-    if (windowSize > 767) document.querySelector(".hamburger-icon").classList.toggle("open");
-
-    document.body.classList.contains("menu") ? document.body.classList.remove("menu") : document.body.classList.add("menu");
-  };
   return (
     <React.Fragment>
       <header id="page-topbar" className={headerClass}>
@@ -52,15 +45,28 @@ const Header = ({ headerClass }) => {
             </div>
 
             <div className="d-flex align-items-center">
-              <Dropdown isOpen={search} toggle={toogleSearch} className="d-md-none topbar-head-dropdown header-item">
-                <DropdownToggle type="button" tag="button" className="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle">
+              <Dropdown
+                isOpen={search}
+                toggle={toogleSearch}
+                className="d-md-none topbar-head-dropdown header-item"
+              >
+                <DropdownToggle
+                  type="button"
+                  tag="button"
+                  className="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                >
                   <i className="bx bx-search fs-22"></i>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-lg dropdown-menu-end p-0">
                   <Form className="p-3">
                     <div className="form-group m-0">
                       <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search ..." aria-label="Recipient's username" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Search ..."
+                          aria-label="Recipient's username"
+                        />
                         <button className="btn btn-primary" type="submit">
                           <i className="mdi mdi-magnify"></i>
                         </button>

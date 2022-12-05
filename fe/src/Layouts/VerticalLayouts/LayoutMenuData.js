@@ -17,7 +17,8 @@ const Navdata = () => {
       activeIconItems.forEach((item) => {
         item.classList.remove("active");
         var id = item.getAttribute("subitems");
-        if (document.getElementById(id)) document.getElementById(id).classList.remove("show");
+        if (document.getElementById(id))
+          document.getElementById(id).classList.remove("show");
       });
     }
   }
@@ -39,13 +40,13 @@ const Navdata = () => {
       isHeader: true,
     },
     {
-      id: "homes",
-      label: "Homes",
+      id: "projects",
+      label: "Projects",
       icon: "ri-honour-line",
-      link: "/home",
+      link: "/projects",
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("Homes");
+        setIscurrentState("Projects");
       },
     },
     {
@@ -61,9 +62,29 @@ const Navdata = () => {
       },
       stateVariables: isTables,
       subItems: [
-        { id: "basictables", label: "Basic Tables", link: "/tables-basic", parentId: "tables" },
-        { id: "gridjs", label: "Grid Js", link: "/tables-gridjs", parentId: "tables" },
+        {
+          id: "basictables",
+          label: "Basic Tables",
+          link: "/tables-basic",
+          parentId: "tables",
+        },
+        {
+          id: "gridjs",
+          label: "Grid Js",
+          link: "/tables-gridjs",
+          parentId: "tables",
+        },
       ],
+    },
+    {
+      id: "employees",
+      label: "Employees",
+      icon: "ri-honour-line",
+      link: "/employees",
+      click: function (e) {
+        e.preventDefault();
+        setIscurrentState("Employees");
+      },
     },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;

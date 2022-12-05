@@ -3,7 +3,6 @@ import { Card, CardBody, Col, Container, Row, Table } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import BreadCrumb from "../../../Components/Common/BreadCrumb";
 import UiContent from "../../../Components/Common/UiContent";
-import { TableFoot } from "./BasicTablesCode";
 
 const BasicTables = () => {
   return (
@@ -11,7 +10,9 @@ const BasicTables = () => {
       <UiContent />
       <div className="page-content">
         <MetaTags>
-          <title>Basic Tables | Velzon - React Admin & Dashboard Template</title>
+          <title>
+            Basic Tables | Velzon - React Admin & Dashboard Template
+          </title>
         </MetaTags>
         <Container fluid>
           <BreadCrumb title="Basic Tables" pageTitle="Tables" />
@@ -63,13 +64,6 @@ const BasicTables = () => {
                         </tfoot>
                       </Table>
                     </div>
-                  </div>
-                  <div className="d-none code-view">
-                    <pre className="language-markup" style={{ height: "275px" }}>
-                      <code>
-                        <TableFoot />
-                      </code>
-                    </pre>
                   </div>
                 </CardBody>
               </Card>

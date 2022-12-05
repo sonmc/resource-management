@@ -35,10 +35,21 @@ const SidebarContent = (props) => {
       // to set aria expand true remaining
       parentCollapseDiv.classList.add("show");
       parentCollapseDiv.parentElement.children[0].classList.add("active");
-      parentCollapseDiv.parentElement.children[0].setAttribute("aria-expanded", "true");
+      parentCollapseDiv.parentElement.children[0].setAttribute(
+        "aria-expanded",
+        "true"
+      );
       if (parentCollapseDiv.parentElement.closest(".collapse.menu-dropdown")) {
-        parentCollapseDiv.parentElement.closest(".collapse").classList.add("show");
-        if (parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling) parentCollapseDiv.parentElement.closest(".collapse").previousElementSibling.classList.add("active");
+        parentCollapseDiv.parentElement
+          .closest(".collapse")
+          .classList.add("show");
+        if (
+          parentCollapseDiv.parentElement.closest(".collapse")
+            .previousElementSibling
+        )
+          parentCollapseDiv.parentElement
+            .closest(".collapse")
+            .previousElementSibling.classList.add("active");
       }
       return false;
     }
@@ -80,10 +91,20 @@ const SidebarContent = (props) => {
               </li>
             ) : item.subItems ? (
               <li className="nav-item">
-                <Link onClick={item.click} className="nav-link menu-link" to={item.link ? item.link : "/#"} data-bs-toggle="collapse">
-                  <i className={item.icon}></i> <span data-key="t-apps">{item.label}</span>
+                <Link
+                  onClick={item.click}
+                  className="nav-link menu-link"
+                  to={item.link ? item.link : "/#"}
+                  data-bs-toggle="collapse"
+                >
+                  <i className={item.icon}></i>{" "}
+                  <span data-key="t-apps">{item.label}</span>
                 </Link>
-                <Collapse className="menu-dropdown" isOpen={item.stateVariables} id="sidebarApps">
+                <Collapse
+                  className="menu-dropdown"
+                  isOpen={item.stateVariables}
+                  id="sidebarApps"
+                >
                   <ul className="nav nav-sm flex-column test">
                     {/* subItms  */}
                     {item.subItems &&
@@ -91,27 +112,48 @@ const SidebarContent = (props) => {
                         <React.Fragment key={key}>
                           {!subItem.isChildItem ? (
                             <li className="nav-item">
-                              <Link to={subItem.link ? subItem.link : "/#"} className="nav-link">
+                              <Link
+                                to={subItem.link ? subItem.link : "/#"}
+                                className="nav-link"
+                              >
                                 {subItem.label}
                               </Link>
                             </li>
                           ) : (
                             <li className="nav-item">
-                              <Link onClick={subItem.click} className="nav-link" to="/#" data-bs-toggle="collapse">
+                              <Link
+                                onClick={subItem.click}
+                                className="nav-link"
+                                to="/#"
+                                data-bs-toggle="collapse"
+                              >
                                 {" "}
                                 {subItem.label}
                               </Link>
-                              <Collapse className="menu-dropdown" isOpen={subItem.stateVariables} id="sidebarEcommerce">
+                              <Collapse
+                                className="menu-dropdown"
+                                isOpen={subItem.stateVariables}
+                                id="sidebarEcommerce"
+                              >
                                 <ul className="nav nav-sm flex-column">
                                   {/* child subItms  */}
                                   {subItem.childItems &&
-                                    (subItem.childItems || []).map((childItem, key) => (
-                                      <li className="nav-item" key={key}>
-                                        <Link to={childItem.link ? childItem.link : "/#"} className="nav-link">
-                                          {childItem.label}
-                                        </Link>
-                                      </li>
-                                    ))}
+                                    (subItem.childItems || []).map(
+                                      (childItem, key) => (
+                                        <li className="nav-item" key={key}>
+                                          <Link
+                                            to={
+                                              childItem.link
+                                                ? childItem.link
+                                                : "/#"
+                                            }
+                                            className="nav-link"
+                                          >
+                                            {childItem.label}
+                                          </Link>
+                                        </li>
+                                      )
+                                    )}
                                 </ul>
                               </Collapse>
                             </li>
@@ -123,7 +165,10 @@ const SidebarContent = (props) => {
               </li>
             ) : (
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={item.link ? item.link : "/#"}>
+                <Link
+                  className="nav-link menu-link"
+                  to={item.link ? item.link : "/#"}
+                >
                   <i className={item.icon}></i> <span>{item.label}</span>
                 </Link>
               </li>
