@@ -1,18 +1,37 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
-import rootReducer from "./reducers";
-import rootSaga from "./sagas";
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
-const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import authReducer from './auth/authSlice';
+import layoutReducer from './layouts/slice';
+import authSaga from './auth/saga';
+import layoutSaga from './layouts/saga';
 
-export function configureStore(initialState) {
-  const store = createStore(
-    rootReducer,
-    initialState,
-    composeEnhancers(applyMiddleware(...middlewares))
-  );
-  sagaMiddleware.run(rootSaga);
-  return store;
+const rootReducer = combineReducers({
+    auth: authReducer,
+    layout: layoutReducer,
+});
+const composeEnhancer =
+    process.env.NODE_ENV !== 'production' && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+              shouldHotReload: false,
+          })
+        : compose;
+function* rootSaga() {
+    try {
+        yield all([authSaga(), layoutSaga()]);
+    } catch (err) {
+        // eslint-disable-next-line no-console
+        console.trace(err);
+    }
 }
+const sagaMiddleware = createSagaMiddleware();
+const configStore = () => {
+    const middleWares = [sagaMiddleware];
+    const enhancers = [applyMiddleware(...middleWares)];
+    const store = createStore(rootReducer, composeEnhancer(...enhancers));
+    sagaMiddleware.run(rootSaga);
+    return store;
+};
+
+export default configStore;
