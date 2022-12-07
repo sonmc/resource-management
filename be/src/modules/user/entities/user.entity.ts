@@ -33,6 +33,12 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @Column()
+  status: number;
+
+  @Column()
+  avatar: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
