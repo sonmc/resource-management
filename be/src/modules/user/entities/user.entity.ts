@@ -4,44 +4,44 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { ApiProperty } from "@nestjs/swagger";
-import { UserRoles } from "../enums/user.enum";
+import { Workload } from "src/modules/workload/entities/workload.entity";
+import { Project } from "src/modules/project/entities/project.entity";
+import { Role } from "src/modules/role/entities/role.entity";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
-  @ApiProperty({ description: "Primary key as User ID", example: 1 })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ description: "User name", example: "Jhon Doe" })
   @Column()
   name: string;
 
-  @ApiProperty({
-    description: "User email address",
-    example: "jhon.doe@gmail.com",
-  })
   @Column({
     unique: true,
   })
   email: string;
 
-  @ApiProperty({ description: "Hashed user password" })
   @Column()
   password: string;
 
-  @Column({ type: "enum", enum: UserRoles, default: UserRoles.MEMBER })
-  role: UserRoles;
+  @Column()
+  status: number;
 
-  @ApiProperty({ description: "When user was created" })
+  @Column()
+  avatar: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
-  @ApiProperty({ description: "When user was updated" })
   @UpdateDateColumn()
   updatedAt: Date;
 
@@ -50,4 +50,15 @@ export class User extends BaseEntity {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(password || this.password, salt);
   }
+
+  @OneToOne(() => Role, (role) => role.user)
+  @JoinColumn()
+  role: Role;
+
+  @OneToMany(() => Workload, (workload) => workload.user)
+  workloads: Workload[];
+
+  @ManyToMany(() => Project, (project) => project.users)
+  @JoinTable()
+  projects: Project[];
 }

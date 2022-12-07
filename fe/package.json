@@ -6,6 +6,7 @@
     "@ckeditor/ckeditor5-build-classic": "^32.0.0",
     "@ckeditor/ckeditor5-react": "^4.0.0",
     "@lourenci/react-kanban": "^2.1.0",
+    "@reduxjs/toolkit": "^1.9.1",
     "@simonwep/pickr": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
