@@ -11,4 +11,4 @@ import { UserService } from "./user.service";
   exports: [TypeOrmModule, UserService],
   imports: [ConfigModule, TypeOrmModule.forFeature([User])],
 })
-export class UserModule { }
+export class UserModule {}
