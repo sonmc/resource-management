@@ -36,7 +36,7 @@ export class User extends BaseEntity {
   @Column()
   status: number;
 
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 
   @CreateDateColumn()

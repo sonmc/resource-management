@@ -17,8 +17,7 @@ const Navdata = () => {
       activeIconItems.forEach((item) => {
         item.classList.remove("active");
         var id = item.getAttribute("subitems");
-        if (document.getElementById(id))
-          document.getElementById(id).classList.remove("show");
+        if (document.getElementById(id)) document.getElementById(id).classList.remove("show");
       });
     }
   }
@@ -84,6 +83,16 @@ const Navdata = () => {
       click: function (e) {
         e.preventDefault();
         setIscurrentState("Employees");
+      },
+    },
+    {
+      id: "roles",
+      label: "Roles",
+      icon: "ri-honour-line",
+      link: "/roles",
+      click: function (e) {
+        e.preventDefault();
+        setIscurrentState("Roles");
       },
     },
   ];

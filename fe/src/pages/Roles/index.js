@@ -5,7 +5,7 @@ import BreadCrumb from "../../Components/Common/BreadCrumb";
 import UiContent from "../../Components/Common/UiContent";
 import { Link } from "react-router-dom";
 
-const Projects = () => {
+const Roles = () => {
   return (
     <React.Fragment>
       <UiContent />
@@ -108,4 +108,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Roles;
