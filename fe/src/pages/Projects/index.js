@@ -3,8 +3,139 @@ import { Card, CardBody, Col, Container, Input, Label, Row, Table, CardHeader } 
 import MetaTags from 'react-meta-tags';
 import BreadCrumb from '../../Components/Common/BreadCrumb';
 import UiContent from '../../Components/Common/UiContent';
-import { Link } from 'react-router-dom';
-
+const Data = [
+    {
+        projectName: 'Kidsenglish',
+        members: [
+            {
+                name: 'Lê Đạt',
+                role: 'Dev',
+                workloads: [
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                ],
+            },
+            {
+                name: 'Lê Đạt2',
+                role: 'Dev',
+                workloads: [
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                ],
+            },
+            {
+                name: 'Lê Đạt3',
+                role: 'Dev',
+                workloads: [
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                    {
+                        value: '100',
+                    },
+                ],
+            },
+        ],
+    },
+];
 const Projects = () => {
     return (
         <React.Fragment>
@@ -21,80 +152,47 @@ const Projects = () => {
                                 <CardHeader>
                                     <h4 className="card-title mb-0 flex-grow-1">Default Tables</h4>
                                 </CardHeader>
-
                                 <CardBody>
                                     <div className="table-responsive">
                                         <Table className="align-middle table-nowrap mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Customer</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Invoice</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">Project</th>
+                                                    <th scope="col">Members</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <Link to="#" className="fw-medium">
-                                                            #VZ2110
-                                                        </Link>
-                                                    </th>
-                                                    <td>Bobby Davis</td>
-                                                    <td>October 15, 2021</td>
-                                                    <td>$2,300</td>
-                                                    <td>
-                                                        <Link to="#" className="link-success">
-                                                            View More <i className="ri-arrow-right-line align-middle"></i>
-                                                        </Link>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <Link to="#" className="fw-medium">
-                                                            #VZ2109
-                                                        </Link>
-                                                    </th>
-                                                    <td>Christopher Neal</td>
-                                                    <td>October 7, 2021</td>
-                                                    <td>$5,500</td>
-                                                    <td>
-                                                        <Link to="#" className="link-success">
-                                                            View More <i className="ri-arrow-right-line align-middle"></i>
-                                                        </Link>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <Link to="#" className="fw-medium">
-                                                            #VZ2108
-                                                        </Link>
-                                                    </th>
-                                                    <td>Monkey Karry</td>
-                                                    <td>October 5, 2021</td>
-                                                    <td>$2,420</td>
-                                                    <td>
-                                                        <Link to="#" className="link-success">
-                                                            View More <i className="ri-arrow-right-line align-middle"></i>
-                                                        </Link>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">
-                                                        <Link to="#" className="fw-medium">
-                                                            #VZ2107
-                                                        </Link>
-                                                    </th>
-                                                    <td>James White</td>
-                                                    <td>October 2, 2021</td>
-                                                    <td>$7,452</td>
-                                                    <td>
-                                                        <Link to="#" className="link-success">
-                                                            View More <i className="ri-arrow-right-line align-middle"></i>
-                                                        </Link>
-                                                    </td>
-                                                </tr>
+                                                {Data.map((x, key) => (
+                                                    <>
+                                                        <tr>
+                                                            <th scope="row" rowSpan={x.members.length}>
+                                                                {x.projectName}
+                                                            </th>
+                                                            <th scope="row">{x.members[0].name}</th>
+                                                            {x.members[0].workloads.map((z, key3) => (
+                                                                <th scope="row" key={key3}>
+                                                                    {z.value}
+                                                                </th>
+                                                            ))}
+                                                        </tr>
+                                                        {x.members.map((y, key2) => {
+                                                            return key2 > 0 ? (
+                                                                <tr>
+                                                                    <th scope="row" key={key2}>
+                                                                        {y.name}
+                                                                    </th>
+                                                                    {y.workloads.map((z, key3) => (
+                                                                        <th scope="row" key={key3}>
+                                                                            {z.value}
+                                                                        </th>
+                                                                    ))}
+                                                                </tr>
+                                                            ) : (
+                                                                ''
+                                                            );
+                                                        })}
+                                                    </>
+                                                ))}
                                             </tbody>
                                         </Table>
                                     </div>
