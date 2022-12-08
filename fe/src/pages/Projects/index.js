@@ -5,11 +5,13 @@ import BreadCrumb from "../../Components/Common/BreadCrumb";
 import UiContent from "../../Components/Common/UiContent";
 const Data = [
   {
+    id: 1,
     projectName: "Kidsenglish",
     members: [
       {
         name: "Lê Đạt",
         role: "Dev",
+        notes: "Some comment for this project",
         workloads: [
           {
             value: "100",
@@ -52,6 +54,141 @@ const Data = [
       {
         name: "Lê Đạt2",
         role: "Dev",
+        notes: "Some comment for this project",
+        workloads: [
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+        ],
+      },
+      {
+        name: "Lê Đạt3",
+        role: "Dev",
+        workloads: [
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    projectName: "Telehealth",
+    members: [
+      {
+        name: "Lê Đạt",
+        role: "Dev",
+        notes: "Some comment for this project",
+        workloads: [
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+          {
+            value: "100",
+          },
+        ],
+      },
+      {
+        name: "Lê Đạt2",
+        role: "Dev",
+        notes: "Some comment for this project",
         workloads: [
           {
             value: "100",
@@ -149,49 +286,51 @@ const Projects = () => {
           <Row>
             <Col xl={12}>
               <Card>
-                <CardHeader>
-                  <h4 className="card-title mb-0 flex-grow-1">Default Tables</h4>
-                </CardHeader>
                 <CardBody>
                   <div className="table-responsive">
-                    <Table className="align-middle table-nowrap mb-0">
+                    <Table className="align-middle table-nowrap mb-0 table-bordered">
                       <thead>
                         <tr>
-                          <th scope="col">Project</th>
+                          <th scope="col">Project name</th>
                           <th scope="col">Members</th>
+                          <th scope="col">Role</th>
                         </tr>
                       </thead>
                       <tbody>
                         {Data.map((x, key) => (
-                          <>
+                          <React.Fragment key={x.id}>
                             <tr>
-                              <th scope="row" rowSpan={x.members.length}>
+                              <td scope="row" rowSpan={x.members.length}>
                                 {x.projectName}
-                              </th>
-                              <th scope="row">{x.members[0].name}</th>
+                              </td>
+                              <td scope="row">{x.members[0].name}</td>
+                              <td scope="row">{x.members[0].role}</td>
                               {x.members[0].workloads.map((z, key3) => (
-                                <th scope="row" key={key3}>
-                                  {z.value}
-                                </th>
+                                <td scope="row" style={{ background: "green", fontWeight: 700 }} key={key3}>
+                                  {z.value} %
+                                </td>
                               ))}
                             </tr>
                             {x.members.map((y, key2) => {
                               return key2 > 0 ? (
                                 <tr>
-                                  <th scope="row" key={key2}>
+                                  <td scope="row" key={key2}>
                                     {y.name}
-                                  </th>
+                                  </td>
+                                  <td scope="row" key={key2}>
+                                    {y.role}
+                                  </td>
                                   {y.workloads.map((z, key3) => (
-                                    <th scope="row" key={key3}>
-                                      {z.value}
-                                    </th>
+                                    <td scope="row" style={{ background: "green", fontWeight: 700 }} key={key3}>
+                                      {z.value} %
+                                    </td>
                                   ))}
                                 </tr>
                               ) : (
                                 ""
                               );
                             })}
-                          </>
+                          </React.Fragment>
                         ))}
                       </tbody>
                     </Table>
