@@ -5,18 +5,8 @@ import MetaTags from "react-meta-tags";
 import BreadCrumb from "../../Components/Common/BreadCrumb";
 import UiContent from "../../Components/Common/UiContent";
 import { Link } from "react-router-dom";
-import { employeeActions, employeeSelector } from "../../store/employee/slice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 
 const Employees = () => {
-  const dispatch = useDispatch();
-  const filterEmployee = useSelector(employeeSelector.filter);
-  debugger;
-  useEffect(() => {
-    dispatch(employeeActions.getEmployee());
-  }, [filterEmployee]);
-
   return (
     <React.Fragment>
       <UiContent />

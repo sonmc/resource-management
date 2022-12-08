@@ -7,24 +7,8 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 
-//import actions
-import { layoutActions } from "../../store/actions";
-import { layoutSelector } from "../../store/selector";
-
-//redux
-import { useSelector, useDispatch } from "react-redux";
-
 const Layout = (props) => {
   const [headerClass, setHeaderClass] = useState("");
-  const dispatch = useDispatch();
-
-  const layoutType = useSelector(layoutSelector.layoutType);
-
-  useEffect(() => {
-    if (layoutType) {
-      dispatch(layoutActions.changeLayout(layoutType));
-    }
-  }, [layoutType, dispatch]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollNavigation, true);
