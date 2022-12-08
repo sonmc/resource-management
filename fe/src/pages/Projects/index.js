@@ -279,7 +279,7 @@ const Projects = () => {
       <UiContent />
       <div className="page-content">
         <MetaTags>
-          <title>Resource management | Project management</title>
+          <title>Resource management | Projects</title>
         </MetaTags>
         <Container fluid>
           <BreadCrumb title="Projects" pageTitle="Tables" />

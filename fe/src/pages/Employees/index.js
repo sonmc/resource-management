@@ -1,27 +1,34 @@
-import React from "react";
+/* eslint-disable no-debugger */
+import React, { useEffect } from "react";
 import { Card, CardBody, Col, Container, Input, Label, Row, Table, CardHeader } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import BreadCrumb from "../../Components/Common/BreadCrumb";
 import UiContent from "../../Components/Common/UiContent";
 import { Link } from "react-router-dom";
+import { employeeActions, employeeSelector } from "../../store/employee/slice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Employees = () => {
+  const dispatch = useDispatch();
+  const filterEmployee = useSelector(employeeSelector.filter);
+  debugger;
+  useEffect(() => {
+    dispatch(employeeActions.getEmployee());
+  }, [filterEmployee]);
+
   return (
     <React.Fragment>
       <UiContent />
       <div className="page-content">
         <MetaTags>
-          <title>Resource management | Employee management</title>
+          <title>Resource management | Employees</title>
         </MetaTags>
         <Container fluid>
           <BreadCrumb title="Employees" pageTitle="Tables" />
           <Row>
             <Col xl={12}>
               <Card>
-                <CardHeader>
-                  <h4 className="card-title mb-0 flex-grow-1">Employee List</h4>
-                </CardHeader>
-
                 <CardBody>
                   <div className="table-responsive">
                     <Table className="align-middle table-nowrap mb-0">

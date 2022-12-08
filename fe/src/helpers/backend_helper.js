@@ -20,3 +20,4 @@ export const isUserAuthenticated = () => {
 export const Login = (data) => api.create(url.LOGIN, data);
 
 export const GetCurrentUser = () => api.getWithToken(url.LOGIN);
+export const GetEmployee = () => api.getWithToken(url.GET_EMPLOYEES);

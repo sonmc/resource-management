@@ -11,17 +11,13 @@ const Roles = () => {
       <UiContent />
       <div className="page-content">
         <MetaTags>
-          <title>Resource management | Project management</title>
+          <title>Resource management | Roles</title>
         </MetaTags>
         <Container fluid>
           <BreadCrumb title="Projects" pageTitle="Tables" />
           <Row>
             <Col xl={12}>
               <Card>
-                <CardHeader>
-                  <h4 className="card-title mb-0 flex-grow-1">Default Tables</h4>
-                </CardHeader>
-
                 <CardBody>
                   <div className="table-responsive">
                     <Table className="align-middle table-nowrap mb-0">
