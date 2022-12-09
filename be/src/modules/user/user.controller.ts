@@ -4,7 +4,6 @@ import { JwtStrategy } from "../auth/strategies/jwt.strategy";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserService } from "./user.service";
 
-@ApiTags("User")
 @UseGuards(JwtStrategy)
 @Controller("users")
 export class UserController {

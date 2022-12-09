@@ -1,10 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-//Tables
-import BasicTables from "../pages/Tables/BasicTables/BasicTables";
-import GridTables from "../pages/Tables/GridTables/GridTables";
-
 //pages
 
 import Cover404 from "../pages/Authentication/Errors/Cover404";
@@ -16,8 +12,6 @@ import Projects from "../pages/Projects";
 import Roles from "../pages/Roles";
 
 const authProtectedRoutes = [
-  { path: "/tables-basic", component: BasicTables },
-  { path: "/tables-gridjs", component: GridTables },
   { path: "/projects", component: Projects },
   { path: "/employees", component: Employees },
   { path: "/roles", component: Roles },

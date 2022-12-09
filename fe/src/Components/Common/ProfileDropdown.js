@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import avatar1 from "../../assets/images/users/avatar-1.jpg";
+import { authActions } from "../../Recoil/actions/auth.actions";
 
 const ProfileDropdown = () => {
+  const authAction = authActions();
   const history = useHistory();
   //Dropdown Toggle
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
@@ -11,6 +13,7 @@ const ProfileDropdown = () => {
     setIsProfileDropdown(!isProfileDropdown);
   };
   const logout = () => {
+    authAction.logout();
     history.push("/login");
   };
   return (

@@ -1,16 +1,14 @@
 import axios from "axios";
 
-// default
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 // content type
 axios.defaults.headers.post["Content-Type"] = "application/json";
+
 // intercepting to capture errors
 axios.interceptors.response.use(
   function (response) {
     return response.data ? response.data : response;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
     let message;
     switch (error.status) {
       case 500:
@@ -28,19 +26,22 @@ axios.interceptors.response.use(
     return Promise.reject(message);
   }
 );
+
 /**
  * Sets the default authorization
  * @param {*} token
  */
 const setAuthorization = () => {
-  const token = JSON.parse(localStorage.getItem("authUser"));
+  const token = JSON.parse(localStorage.getItem("token"));
   if (token) {
     axios.defaults.headers.common["Authorization"] = token;
   }
 };
+
 const removeAuthorization = () => {
   delete axios.defaults.headers.common["Authorization"];
 };
+
 class APIClient {
   getWithToken = (url, params) => {
     setAuthorization();
@@ -54,8 +55,7 @@ class APIClient {
         return paramKeys;
       });
 
-      const queryString =
-        paramKeys && paramKeys.length ? paramKeys.join("&") : "";
+      const queryString = paramKeys && paramKeys.length ? paramKeys.join("&") : "";
       response = axios.get(`${url}?${queryString}`, params);
     } else {
       response = axios.get(`${url}`, params);
@@ -63,6 +63,7 @@ class APIClient {
 
     return response;
   };
+
   /**
    * post given data to url
    */
@@ -70,6 +71,7 @@ class APIClient {
     setAuthorization();
     return axios.post(url, data);
   };
+
   /**
    * Updates data
    */
@@ -77,6 +79,7 @@ class APIClient {
     setAuthorization();
     return axios.put(url, data);
   };
+
   /**
    * Delete
    */
@@ -84,6 +87,7 @@ class APIClient {
     setAuthorization();
     return axios.delete(url, { ...config });
   };
+
   get = (url, params) => {
     removeAuthorization();
     let response;
@@ -96,8 +100,7 @@ class APIClient {
         return paramKeys;
       });
 
-      const queryString =
-        paramKeys && paramKeys.length ? paramKeys.join("&") : "";
+      const queryString = paramKeys && paramKeys.length ? paramKeys.join("&") : "";
       response = axios.get(`${url}?${queryString}`, params);
     } else {
       response = axios.get(`${url}`, params);
@@ -105,6 +108,7 @@ class APIClient {
 
     return response;
   };
+
   /**
    * post given data to url
    */
@@ -112,6 +116,7 @@ class APIClient {
     removeAuthorization();
     return axios.post(url, data);
   };
+
   /**
    * Updates data
    */
@@ -119,6 +124,7 @@ class APIClient {
     removeAuthorization();
     return axios.put(url, data);
   };
+
   /**
    * Delete
    */
@@ -127,8 +133,9 @@ class APIClient {
     return axios.delete(url, { ...config });
   };
 }
+
 const getLoggedinUser = () => {
-  const user = localStorage.getItem("authUser");
+  const user = localStorage.getItem("user");
   if (!user) {
     return null;
   } else {

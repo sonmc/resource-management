@@ -6,24 +6,37 @@ import { withRouter, Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import logoLight from "../../assets/images/logo-light.png";
+import { authActions } from "../../Recoil/actions/auth.actions";
+import { useHistory } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
+  const authAction = authActions();
+  const history = useHistory();
+
   const validation = useFormik({
     enableReinitialize: true,
-
+    initialValues: {
+      username: "",
+      password: "",
+    },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
+      username: Yup.string().required("Please Enter Your Account"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      authAction.login(values).then((res) => {
+        if (res) {
+          history.push("/");
+        }
+      });
+    },
   });
-
   return (
     <React.Fragment>
       <ParticlesAuth>
         <div className="auth-page-content">
           <MetaTags>
-            <title>Basic SignIn | Velzon - React Admin & Dashboard Template</title>
+            <title>Resource Management | Login</title>
           </MetaTags>
           <Container>
             <Row>
@@ -58,19 +71,19 @@ const Login = (props) => {
                       >
                         <div className="mb-3">
                           <Label htmlFor="email" className="form-label">
-                            Email
+                            Account
                           </Label>
                           <Input
-                            name="email"
+                            name="username"
                             className="form-control"
-                            placeholder="Enter email"
-                            type="email"
+                            placeholder="Enter your account"
+                            type="username"
                             onChange={validation.handleChange}
                             onBlur={validation.handleBlur}
-                            value={validation.values.email || ""}
-                            invalid={validation.touched.email && validation.errors.email ? true : false}
+                            value={validation.values.username || ""}
+                            invalid={validation.touched.email && validation.errors.username ? true : false}
                           />
-                          {validation.touched.email && validation.errors.email ? <FormFeedback type="invalid">{validation.errors.email}</FormFeedback> : null}
+                          {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
                         </div>
 
                         <div className="mb-3">

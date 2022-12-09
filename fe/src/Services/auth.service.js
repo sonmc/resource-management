@@ -1,5 +1,4 @@
-import { APIClient } from "./api_helper";
-import * as url from "./url_helper";
+import { APIClient } from "../helpers/api_helper";
 
 const api = new APIClient();
 // Gets the logged in user data from local session
@@ -17,7 +16,6 @@ export const isUserAuthenticated = () => {
 };
 
 // Login Method
-export const Login = (data) => api.create(url.LOGIN, data);
-
-export const GetCurrentUser = () => api.getWithToken(url.LOGIN);
-export const GetEmployee = () => api.getWithToken(url.GET_EMPLOYEES);
+export const Login = (url, data) => api.create(url, data);
+export const Register = (url, data) => api.create(url, data);
+export const GetCurrentUser = (url) => api.getWithToken(url);

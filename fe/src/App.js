@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { RecoilRoot } from "recoil";
 import "./assets/scss/themes.scss";
 //imoprt Route
 import Route from "./Routes";
@@ -10,7 +11,9 @@ function App() {
 
   return (
     <React.Fragment>
-      <Route />
+      <RecoilRoot>
+        <Route />
+      </RecoilRoot>
     </React.Fragment>
   );
 }
