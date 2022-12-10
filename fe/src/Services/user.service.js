@@ -1,7 +1,7 @@
-import { APIClient } from "../helpers/api_helper";
-
+import { APIClient } from '../helpers/api_helper';
+const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
 const api = new APIClient();
 
-export const Get = (url) => api.getWithToken(url);
-export const Update = (url, params) => api.updateWithToken(url, params);
-export const Create = (url, params) => api.createWithToken(url, params);
+export const Get = () => api.getWithToken(baseUrl);
+export const Update = (params) => api.updateWithToken(baseUrl, params);
+export const Create = (params) => api.createWithToken(baseUrl, params);
