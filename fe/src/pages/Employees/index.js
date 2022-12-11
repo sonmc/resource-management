@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Col, Container, Row, Table, Button } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
-import BreadCrumb from '../../Components/Common/BreadCrumb';
 import UiContent from '../../Components/Common/UiContent';
 import { Link } from 'react-router-dom';
 import ModalUpdate from './FormUpdate';
 import { Get, Create, Update } from '../../Services/user.service';
+import { useRecoilValue } from 'recoil';
+import { roleAtom } from '../../Recoil/states/role';
+
 const Employees = () => {
+    const roles = useRecoilValue(roleAtom);
+    const [employeeId, setEmployeeId] = useState(0);
     const [employees, setEmployees] = useState([]);
-    const [titleForm, setTitleForm] = useState('Create user');
     const [filter, setFilter] = useState({});
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
 
     const fetchEmployee = () => {
-        Get().then((res) => {
+        Get({}).then((res) => {
             setEmployees(res);
         });
     };
 
-    const showFormCreate = (title) => {
-        setTitleForm(title);
+    const showFormUpdate = (employeeId) => {
+        setEmployeeId(employeeId);
         setShowFormUpdate(!isShowFormUpdate);
     };
 
@@ -29,9 +32,17 @@ const Employees = () => {
 
     const save = (employee) => {
         if (employee.id) {
-            Update(employee.id, employee);
+            Update(employee)
+                .then((res) => {
+                    setShowFormUpdate(false);
+                })
+                .catch((err) => {});
         } else {
-            Create(employee);
+            Create(employee)
+                .then((res) => {
+                    setEmployees([...employees, res]);
+                })
+                .catch((error) => {});
         }
     };
 
@@ -51,7 +62,7 @@ const Employees = () => {
                         <Col xl={12}>
                             <Card>
                                 <CardBody>
-                                    <Button color="success" onClick={() => showFormCreate('Create employee')}>
+                                    <Button color="success" onClick={() => showFormUpdate()}>
                                         Create new
                                     </Button>
                                     <div className="table-responsive mt-3">
@@ -81,12 +92,9 @@ const Employees = () => {
                                                             <td style={{ fontSize: 15, textAlign: 'center' }}>
                                                                 <span className="badge bg-success">{emp.status ? 'Active' : 'Inactive'}</span>
                                                             </td>
-                                                            <td>
-                                                                <Button color="success btn-sm" onClick={() => showFormCreate('Update employee')}>
+                                                            <td style={{ textAlign: 'center' }}>
+                                                                <Button color="success btn-sm" onClick={() => showFormUpdate(emp.id)}>
                                                                     Update
-                                                                </Button>
-                                                                <Button className="mx-2" color="danger btn-sm" onClick={() => showFormCreate('Create employee')}>
-                                                                    Delete
                                                                 </Button>
                                                             </td>
                                                         </tr>
@@ -99,7 +107,7 @@ const Employees = () => {
                             </Card>
                         </Col>
                     </Row>
-                    <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} titleForm={titleForm} />
+                    <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} employeeId={employeeId} roles={roles} />
                 </Container>
             </div>
         </React.Fragment>

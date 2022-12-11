@@ -42,12 +42,18 @@ const CreateModal = (props) => {
                                 <Input type="text" className="form-control" name="name" placeholder="Enter project name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
-
+                        <div className="col-lg-12">
+                            <label className="form-label"> Start Date</label>
+                            <input type="date" className="form-control" name="startDate" onChange={(x) => changeField(x)}></input>
+                        </div>
+                        <div className="col-lg-12">
+                            <label className="form-label"> Members</label>
+                            <input type="text" className="form-control" name="startDate" onChange={(x) => changeField(x)}></input>
+                        </div>
                         <div className="col-lg-12">
                             <label className="form-label">Notes</label>
                             <textarea type="text" className="form-control" name="notes" placeholder="Enter notes" onChange={(x) => changeField(x)} />
                         </div>
-
                         <div className="col-lg-12">
                             <div className="hstack gap-2 justify-content-end">
                                 <Button color="light" onClick={() => closeFormUpdate(false)}>

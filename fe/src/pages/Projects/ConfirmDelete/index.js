@@ -24,7 +24,7 @@ const ConfirmDeleteModal = (props) => {
                             <Button color="light" onClick={() => closeConfirmDelete(false)}>
                                 Close
                             </Button>
-                            <Button color="primary" onClick={() => confirmed()}>
+                            <Button color="success" onClick={() => confirmed()}>
                                 Ok
                             </Button>
                         </div>

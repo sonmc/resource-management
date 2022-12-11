@@ -44,7 +44,6 @@ class APIClient {
         let response;
 
         let paramKeys = [];
-
         if (params) {
             Object.keys(params).map((key) => {
                 paramKeys.push(key + '=' + params[key]);
@@ -67,7 +66,7 @@ class APIClient {
 
     updateWithToken = (url, data) => {
         setAuthorization();
-        return axios.put(url, data);
+        return axios.put(url + '/' + data.id, data);
     };
 
     deleteWithToken = (url, config) => {

@@ -37,15 +37,15 @@ const AddMemberModal = (props) => {
                         <Col xxl={12}>
                             <div>
                                 <label htmlFor="userName" className="form-label">
-                                    Project name
+                                    Members
                                 </label>
                                 <Input type="text" className="form-control" name="name" placeholder="Enter project name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
 
                         <div className="col-lg-12">
-                            <label className="form-label">Notes</label>
-                            <textarea type="text" className="form-control" name="notes" placeholder="Enter notes" onChange={(x) => changeField(x)} />
+                            <label className="form-label">Workload</label>
+                            <input type="number" className="form-control" name="workload" onChange={(x) => changeField(x)}></input>
                         </div>
 
                         <div className="col-lg-12">
@@ -53,7 +53,7 @@ const AddMemberModal = (props) => {
                                 <Button color="light" onClick={() => closeFormAddMember(false)}>
                                     Close
                                 </Button>
-                                <Button color="primary" onClick={() => update()}>
+                                <Button color="success" onClick={() => update()}>
                                     Save
                                 </Button>
                             </div>
