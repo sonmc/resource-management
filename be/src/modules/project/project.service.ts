@@ -7,7 +7,7 @@ import { Project } from './entities/project.entity';
 
 @Injectable()
 export class ProjectService {
-    constructor(@InjectRepository(Project) private projectRepository: Repository<Project>, private readonly userService: UserService) {}
+    constructor(@InjectRepository(Project) private projectRepository: Repository<Project>, private readonly userService: UserService) { }
 
     async create(createProjectDto: CreateProjectDto) {
         return await 'This action adds a new project';
@@ -15,12 +15,7 @@ export class ProjectService {
 
     async findAll() {
         let projects = await Project.find({
-            join: {
-                alias: 'project',
-                leftJoinAndSelect: {
-                    users: 'project.users',
-                },
-            },
+            relations: ["users", "users.role", "users.workload"],
         });
 
         return projects;

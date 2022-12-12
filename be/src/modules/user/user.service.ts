@@ -7,7 +7,7 @@ import { User } from './entities/user.entity';
 import { Role } from '../role/entities/role.entity';
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Role) private roleRepository: Repository<Role>) {}
+    constructor(@InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Role) private roleRepository: Repository<Role>) { }
 
     async getUserByEmail(email: string): Promise<User> {
         var user = await this.userRepository.findOne({
@@ -29,6 +29,7 @@ export class UserService {
         data.role = await this.roleRepository.findOne(userDto.roleId);
         data.id = 0;
         var user = await this.userRepository.create(data);
+        await this.userRepository.save(user);
         return user;
     }
 
