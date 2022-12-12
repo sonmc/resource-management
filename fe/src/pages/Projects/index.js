@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Card, CardBody, Col, Container, Input, Label, Row, Table, CardHeader, Button } from "reactstrap";
+import { Card, CardBody, Col, Container, Row, Table, Button } from "reactstrap";
 import MetaTags from "react-meta-tags";
-import BreadCrumb from "../../Components/Common/BreadCrumb";
 import UiContent from "../../Components/Common/UiContent";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -56,8 +55,6 @@ const Projects = () => {
     Get(filter).then((res) => {
       setProjects(res);
     });
-    // const projects = Get(filter);
-    // setProjects(projects);
   };
 
   useEffect(() => {
@@ -83,16 +80,16 @@ const Projects = () => {
                     <Table className="align-middle table-nowrap mb-0 table-bordered">
                       <thead>
                         <tr>
-                          <th rowSpan="2" style={{ width: "30%", textAlign: "center" }}>
+                          <th rowSpan="2" style={{ textAlign: "center" }}>
                             Project name
                           </th>
-                          <th rowSpan="2" style={{ width: "40%", textAlign: "center" }}>
+                          <th rowSpan="2" style={{ textAlign: "center" }}>
                             Notes
                           </th>
-                          <th rowSpan="2" style={{ width: "15%", textAlign: "center" }}>
+                          <th rowSpan="2" style={{ textAlign: "center" }}>
                             Members
                           </th>
-                          <th rowSpan="2" style={{ width: "5%", textAlign: "center" }}>
+                          <th rowSpan="2" style={{ textAlign: "center" }}>
                             Role
                           </th>
                           <th colSpan="4" style={{ textAlign: "center" }}>
@@ -119,39 +116,32 @@ const Projects = () => {
                       <tbody>
                         {projects.map((x, key) => (
                           <React.Fragment key={x.id}>
-                            {key > 0 && (
-                              <tr>
-                                <td colSpan={16}></td>
-                              </tr>
-                            )}
                             <tr>
-                              <th rowSpan={x.members.length} style={{ position: "relative" }}>
+                              <th rowSpan={x.users.length} style={{ position: "relative" }}>
                                 <Link to="#" onClick={() => showFormAddMember()} className="link-success fs-100" style={{ position: "absolute", top: "-10px", right: "0px" }}>
                                   <i className="ri-add-box-fill" style={{ fontSize: "40px" }} />
                                 </Link>
-                                {x.projectName}
+                                {x.name}
                               </th>
-                              <td rowSpan={x.members.length} style={{ position: "relative" }}>
-                                {x.notes}
+                              <td rowSpan={x.users.length} style={{ position: "relative" }}>
+                                {x.note}
                               </td>
                               <td style={{ position: "relative" }}>
                                 <Link to="#" className="link-danger fs-15" onClick={() => showConfirmDeleteModal()} style={{ position: "absolute", top: 0, right: 0 }}>
                                   <i className="ri-indeterminate-circle-line" style={{ fontSize: "20px" }} />
                                 </Link>
-                                {x.members[0].name}
+                                {x.users[0].name}
                               </td>
-                              <td>{x.members[0].role}</td>
-                              {x.members[0].workloads.map((z, key3) => {
-                                return z.weeks.map((w, key4) => {
-                                  return (
-                                    <td style={{ textAlign: "center" }} key={key3 + key4}>
-                                      {w.value} %
-                                    </td>
-                                  );
-                                });
+                              <td style={{ textAlign: "center" }}>{x.users[0].role?.name}</td>
+                              {x.users[0].workloads.map((z, key3) => {
+                                return (
+                                  <td style={{ textAlign: "center" }} key={key3}>
+                                    {z.value} {z.value && <span>%</span>}
+                                  </td>
+                                );
                               })}
                             </tr>
-                            {x.members.map((y, key2) => {
+                            {x.users.map((y, key2) => {
                               return key2 > 0 ? (
                                 <tr>
                                   <td key={key2} style={{ position: "relative" }}>
@@ -160,21 +150,36 @@ const Projects = () => {
                                     </Link>
                                     {y.name}
                                   </td>
-                                  <td key={key2}>{y.role}</td>
+                                  <td style={{ textAlign: "center" }} key={key2}>
+                                    {y.role?.name}
+                                  </td>
                                   {y.workloads.map((z, key3) => {
-                                    return z.weeks.map((w, key4) => {
-                                      return (
-                                        <td style={{ textAlign: "center" }} key={key3 + key4}>
-                                          {w.value} %
-                                        </td>
-                                      );
-                                    });
+                                    return (
+                                      <td style={{ textAlign: "center" }} key={key3}>
+                                        {z.value} {z.value && <span>%</span>}
+                                      </td>
+                                    );
                                   })}
                                 </tr>
                               ) : (
                                 ""
                               );
                             })}
+                            <tr>
+                              <th colSpan={4}>Total</th>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
                           </React.Fragment>
                         ))}
                       </tbody>

@@ -28,8 +28,8 @@ export class ProjectService {
                             let workload = new Workload();
                             workload.id = 0;
                             workload.startDate = new Date;
-                            workload.value = "";
-                            workload.user = user;
+                            workload.value = "70";
+                            workload.userId = user.id;
                             user.workloads.push(workload);
                         }
                     }
