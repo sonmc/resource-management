@@ -9,6 +9,9 @@ export class Workload extends BaseEntity {
     @Column()
     value: string;
 
+    @Column()
+    startDate: Date;
+
     @ManyToOne(() => User, (user) => user.workloads)
     user: User;
 }
