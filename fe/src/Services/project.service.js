@@ -7,4 +7,5 @@ export const Get = (filter) => {
 };
 export const Create = (params) => api.createWithToken(baseUrl, params);
 export const Update = (params) => api.updateWithToken(baseUrl, params);
-export const AddMember = (params) => api.updateWithToken(baseUrl, params);
+export const AddMember = (params) =>
+  api.createWithToken(baseUrl + "/add-member", params);
