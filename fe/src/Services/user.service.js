@@ -1,4 +1,4 @@
-import { APIClient } from '../helpers/api_helper';
+import { APIClient } from "../helpers/api_helper";
 const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
 const api = new APIClient();
 

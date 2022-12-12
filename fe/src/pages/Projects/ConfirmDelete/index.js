@@ -1,38 +1,36 @@
-import React, { useState } from 'react';
-import { Col, Button, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
+import React from "react";
+import { Button, Modal, ModalHeader, ModalBody, Col } from "reactstrap";
 
 const ConfirmDeleteModal = (props) => {
-    const { isShowConfirmModal, closeConfirmDelete, confirmed } = props;
+  const { isShowConfirmModal, closeConfirmDelete, confirmed } = props;
 
-    return (
-        <Modal
-            id="flipModal"
-            modalClassName="flip"
-            isOpen={isShowConfirmModal}
-            toggle={() => {
-                closeConfirmDelete(false);
-            }}
-            centered
-        >
-            <ModalHeader>
-                <h5 className="modal-title">Confirm Delete</h5>
-            </ModalHeader>
-            <ModalBody>
-                <div className="row g-3">
-                    <div className="col-lg-12">
-                        <div className="hstack gap-2 justify-content-end">
-                            <Button color="light" onClick={() => closeConfirmDelete(false)}>
-                                Close
-                            </Button>
-                            <Button color="success" onClick={() => confirmed()}>
-                                Ok
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </ModalBody>
-        </Modal>
-    );
+  return (
+    <Modal
+      id="flipModal"
+      modalClassName="flip"
+      isOpen={isShowConfirmModal}
+      toggle={() => {
+        closeConfirmDelete(false);
+      }}
+      centered
+    >
+      <ModalHeader className="p-3 bg-soft-info">Are you sure you want to remove this member ?</ModalHeader>
+      <ModalBody>
+        <div className="row g-3">
+          <Col lg={12}>
+            <div className="hstack gap-2 justify-content-end">
+              <Button color="light" onClick={() => closeConfirmDelete(false)}>
+                Close
+              </Button>
+              <Button color="success" onClick={() => confirmed()}>
+                Ok
+              </Button>
+            </div>
+          </Col>
+        </div>
+      </ModalBody>
+    </Modal>
+  );
 };
 
 export default ConfirmDeleteModal;

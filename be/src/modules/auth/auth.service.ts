@@ -11,11 +11,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService
-  ) {}
-
-  async hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, 12);
-  }
+  ) { }
 
   async comparePassword(
     password: string,

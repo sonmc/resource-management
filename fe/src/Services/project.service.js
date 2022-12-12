@@ -6,3 +6,5 @@ export const Get = (filter) => {
   return api.getWithToken(baseUrl);
 };
 export const Create = (params) => api.createWithToken(baseUrl, params);
+export const Update = (params) => api.updateWithToken(baseUrl, params);
+export const AddMember = (params) => api.updateWithToken(baseUrl, params);

@@ -1,4 +1,4 @@
-import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Workload } from 'src/modules/workload/entities/workload.entity';
 import { Project } from 'src/modules/project/entities/project.entity';
@@ -49,7 +49,7 @@ export class User extends BaseEntity {
         this.password = await bcrypt.hash(password || this.password, salt);
     }
 
-    @OneToOne(() => Role, (role) => role.user, {
+    @ManyToOne(() => Role, (role) => role.users, {
         eager: true,
     })
     @JoinColumn()

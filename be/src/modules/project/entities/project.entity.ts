@@ -20,6 +20,9 @@ export class Project extends BaseEntity {
   @Column()
   note: string;
 
+  @Column()
+  startDate: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -28,4 +31,8 @@ export class Project extends BaseEntity {
 
   @ManyToMany(() => User, (user) => user.projects)
   users: User[];
+
+  setUsers(users: User[]) {
+    this.users = users;
+  }
 }

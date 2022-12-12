@@ -17,19 +17,27 @@ export class UserService {
     }
 
     async findAll(): Promise<User[]> {
-        return await this.userRepository.find();
+        return await this.userRepository.createQueryBuilder()
+            .select("users.id")
+            .addSelect("users.name")
+            .addSelect("users.email")
+            .addSelect("users.status")
+            .addSelect("users.phoneNumber")
+            .addSelect("users.dob")
+            .addSelect("users.gender")
+            .from(User, "users")
+            .where("users.id > :id", { id: 1 }).getMany();
     }
 
     async create(userDto: CreateUserDto): Promise<User> {
-        // const userConverted = Object.assign(new User(), userDto);
-        const data = await this.userRepository.findOne(1);
-        data.email = userDto.email;
-        data.name = userDto.name;
-        data.phoneNumber = userDto.phoneNumber;
-        data.role = await this.roleRepository.findOne(userDto.roleId);
-        data.id = 0;
-        var user = await this.userRepository.create(data);
-        await this.userRepository.save(user);
+        try {
+            userDto.role = await this.roleRepository.findOne(+userDto.roleId);
+            var user = await this.userRepository.create(userDto);
+            await user.setPassword('123456');
+            await this.userRepository.save(user);
+        } catch (error) {
+            console.log(error)
+        }
         return user;
     }
 

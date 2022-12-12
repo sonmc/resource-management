@@ -13,4 +13,4 @@ import { User } from '../user/entities/user.entity';
     exports: [TypeOrmModule, ProjectService],
     imports: [ConfigModule, TypeOrmModule.forFeature([Project]), TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([Role])],
 })
-export class ProjectModule {}
+export class ProjectModule { }

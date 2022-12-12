@@ -1,18 +1,23 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Put } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
-import { ApiTags } from '@nestjs/swagger';
+import { UpdateProjectDto } from './dto/update-project.dto';
+import { AddMemberDto } from './dto/add-member.dto';
 
-@ApiTags('Project')
 @UseGuards(JwtStrategy)
 @Controller('projects')
 export class ProjectController {
-    constructor(private readonly projectService: ProjectService) {}
+    constructor(private readonly projectService: ProjectService) { }
 
     @Post()
     async create(@Body() createProjectDto: CreateProjectDto) {
         return await this.projectService.create(createProjectDto);
+    }
+
+    @Post("add-member")
+    async addMember(@Body() addMemberDto: AddMemberDto) {
+        return await this.projectService.addMember(addMemberDto);
     }
 
     @Get()
@@ -25,8 +30,10 @@ export class ProjectController {
         return await this.projectService.findOne(+id);
     }
 
-    @Delete(':id')
-    async remove(@Param('id') id: string) {
-        return await this.projectService.remove(+id);
+    @Put(':id')
+    update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+        return this.projectService.update(+id, updateProjectDto);
     }
+
+
 }
