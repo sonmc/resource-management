@@ -6,7 +6,9 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinTable,
 } from "typeorm";
+
 import { User } from "src/modules/user/entities/user.entity";
 
 @Entity({ name: "projects" })
@@ -21,15 +23,20 @@ export class Project extends BaseEntity {
   note: string;
 
   @Column()
-  startDate: Date;
+  start_date: Date;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
 
-  @ManyToMany(() => User, (user) => user.projects)
+  @ManyToMany(() => User, (users) => users.projects)
+  @JoinTable({
+    name: "users_projects",
+    joinColumn: { name: "project_id", referencedColumnName: "id" },
+    inverseJoinColumn: { name: "user_id" },
+  })
   users: User[];
 
   setUsers(users: User[]) {

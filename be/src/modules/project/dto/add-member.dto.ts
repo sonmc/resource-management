@@ -1,7 +1,7 @@
 export class AddMemberDto {
-  projectId: number;
-  startDate: Date;
+  project_id: number;
+  start_Date: Date;
   workload: number;
-  userId: number;
+  user_id: number;
 
 }
