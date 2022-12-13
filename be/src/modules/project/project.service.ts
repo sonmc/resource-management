@@ -13,10 +13,10 @@ import { UserProject } from "../user_project/entities/user_project.entity";
 export class ProjectService {
   constructor(
     @InjectRepository(Project) private projectRepository: Repository<Project>,
-    @InjectRepository(UserProject)
-    private userProjectRepository: Repository<UserProject>,
-    @InjectRepository(Workload) private workloadRepository: Repository<Workload>
-  ) {}
+    @InjectRepository(UserProject) private userProjectRepository: Repository<UserProject>,
+    @InjectRepository(Workload) private workloadRepository: Repository<Workload>,
+    @InjectRepository(User) private userRepository: Repository<User>
+  ) { }
 
   async create(createProjectDto: CreateProjectDto) {
     try {
@@ -24,7 +24,7 @@ export class ProjectService {
       await this.projectRepository.save(project);
       const user = new User();
       const users = [];
-      user.workloads = this.generateWorkload(0, "", new Date());
+      user.workloads = this.generateWorkload(0, "", new Date(), project.id);
       users.push(user);
       project.setUsers(users);
     } catch (error) {
@@ -43,12 +43,16 @@ export class ProjectService {
     const workloads = this.generateWorkload(
       addMember.user_id,
       addMember.workload + "",
-      addMember.start_Date
+      addMember.start_Date,
+      addMember.project_id
     );
     workloads.forEach((wl) => {
       this.workloadRepository.create(wl);
     });
     this.workloadRepository.save(workloads);
+    const user = await this.userRepository.findOne(addMember.user_id);
+    user.workloads = workloads;
+    return user;
   }
 
   async findAll() {
@@ -60,12 +64,12 @@ export class ProjectService {
         if (project.users.length > 0) {
           project.users.forEach((user) => {
             if (user.workloads.length == 0) {
-              user.workloads = this.generateWorkload(user.id, "", new Date());
+              user.workloads = this.generateWorkload(user.id, "", new Date(), project.id);
             }
           });
         } else {
           const user = new User();
-          user.workloads = this.generateWorkload(0, "", new Date());
+          user.workloads = this.generateWorkload(0, "", new Date(), project.id);
           project.users.push(user);
         }
       });
@@ -85,7 +89,7 @@ export class ProjectService {
     return await this.projectRepository.save(roleTrans);
   }
 
-  private generateWorkload(userId: number, value: string, start_Date: Date) {
+  private generateWorkload(userId: number, value: string, start_Date: Date, projectId: number) {
     const workloads = [];
     for (let index = 0; index < 12; index++) {
       let workload = new Workload();
@@ -93,6 +97,7 @@ export class ProjectService {
       workload.start_date = start_Date;
       workload.value = value;
       workload.user_id = userId;
+      workload.project_id = projectId;
       workloads.push(workload);
     }
     return workloads;

@@ -4,14 +4,14 @@ import { Role } from "src/modules/role/entities/role.entity";
 
 export class CreateUserDto {
     @IsNotEmpty()
-    roleId: number;
+    role_id: number;
     dob: Date;
     @IsNotEmpty()
     name: string;
     @IsNotEmpty()
     @IsEmail()
     email: string;
-    phoneNumber: string;
+    phone_pumber: string;
     status: number;
     avatar: string;
     gender: boolean;

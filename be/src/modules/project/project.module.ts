@@ -1,3 +1,4 @@
+import { User } from 'src/modules/user/entities/user.entity';
 import { UserProject } from "./../user_project/entities/user_project.entity";
 import { Module } from "@nestjs/common";
 import { ProjectService } from "./project.service";
@@ -17,6 +18,7 @@ import { Workload } from "../workload/entities/workload.entity";
     TypeOrmModule.forFeature([UserProject]),
     TypeOrmModule.forFeature([Role]),
     TypeOrmModule.forFeature([Workload]),
+    TypeOrmModule.forFeature([User]),
   ],
 })
-export class ProjectModule {}
+export class ProjectModule { }

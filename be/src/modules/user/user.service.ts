@@ -11,7 +11,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Role) private roleRepository: Repository<Role>
-  ) {}
+  ) { }
 
   async getUserByEmail(email: string): Promise<User> {
     var user = await this.userRepository.findOne({
@@ -21,23 +21,12 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository
-      .createQueryBuilder()
-      .select("users.id")
-      .addSelect("users.name")
-      .addSelect("users.email")
-      .addSelect("users.status")
-      .addSelect("users.phone_number")
-      .addSelect("users.dob")
-      .addSelect("users.gender")
-      .from(User, "users")
-      .where("users.id > :id", { id: 1 })
-      .getMany();
+    return await this.userRepository.find();
   }
 
   async create(userDto: CreateUserDto): Promise<User> {
     try {
-      userDto.role = await this.roleRepository.findOne(+userDto.roleId);
+      userDto.role = await this.roleRepository.findOne(+userDto.role_id);
       var user = await this.userRepository.create(userDto);
       await user.setPassword("123456");
       await this.userRepository.save(user);

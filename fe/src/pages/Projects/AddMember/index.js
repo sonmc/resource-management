@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Col,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Input,
-  Label,
-} from "reactstrap";
+import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from "reactstrap";
 import Select from "react-select";
 import { usersAtom } from "../../../Recoil/states/users";
 import { useRecoilValue } from "recoil";
@@ -29,12 +21,7 @@ const AddMemberModal = (props) => {
   };
 
   const update = () => {
-    addMember(
-      project.id,
-      objForm.member.id,
-      objForm.workload,
-      objForm.startDate
-    );
+    addMember(project.id, objForm.member.id, objForm.workload, objForm.startDate);
   };
 
   const handleUserChanged = (user) => {
@@ -67,7 +54,7 @@ const AddMemberModal = (props) => {
                   value={objForm.member}
                   onChange={handleUserChanged}
                   getOptionLabel={(option) => {
-                    return option.name;
+                    return option.name + " (" + option.role.name + ")";
                   }}
                   getOptionValue={(option) => {
                     return option.id;
@@ -94,12 +81,7 @@ const AddMemberModal = (props) => {
                 <label htmlFor="workload" className="form-label">
                   Workload
                 </label>
-                <Input
-                  type="number"
-                  className="form-control"
-                  name="workload"
-                  onChange={(x) => changeField(x)}
-                />
+                <Input type="number" className="form-control" name="workload" onChange={(x) => changeField(x)} />
               </>
             </Col>
 

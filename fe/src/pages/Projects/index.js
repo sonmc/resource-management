@@ -11,20 +11,7 @@ import Flatpickr from "react-flatpickr";
 import NoteControl from "../../Components/Common/Note";
 import { Update, AddMember } from "../../Services/project.service";
 
-const weeks = [
-  "w1",
-  "w2",
-  "w3",
-  "w4",
-  "w1",
-  "w2",
-  "w3",
-  "w4",
-  "w1",
-  "w2",
-  "w3",
-  "w4",
-];
+const weeks = ["w1", "w2", "w3", "w4", "w1", "w2", "w3", "w4", "w1", "w2", "w3", "w4"];
 const Projects = () => {
   const [filter, setFilter] = useState({});
   const [isShowFormUpdate, setShowFormUpdate] = useState(false);
@@ -71,6 +58,10 @@ const Projects = () => {
       user_id,
       workload,
       start_Date,
+    }).then((res) => {
+      const project = projects.find((x) => x.id == project_id);
+      project.users.push(res);
+      setProjects(projects.map((p) => (p.id == project.id ? project : p)));
     });
   };
 
@@ -108,12 +99,8 @@ const Projects = () => {
                   <div className="d-flex align-items-center">
                     <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
                     <div className="flex-shrink-0">
-                      <button
-                        className="btn btn-success add-btn"
-                        onClick={() => showFormCreate()}
-                      >
-                        <i className="ri-add-line align-bottom me-1"></i> Create
-                        New
+                      <button className="btn btn-success add-btn" onClick={() => showFormCreate()}>
+                        <i className="ri-add-line align-bottom me-1"></i> Create New
                       </button>
                     </div>
                   </div>
@@ -136,11 +123,7 @@ const Projects = () => {
                       </div>
                       <div className="col-xxl-2 col-sm-6">
                         <div className="search-box">
-                          <input
-                            type="text"
-                            className="form-control search"
-                            placeholder="Search by name"
-                          />
+                          <input type="text" className="form-control search" placeholder="Search by name" />
                           <i className="ri-search-line search-icon"></i>
                         </div>
                       </div>
@@ -194,10 +177,7 @@ const Projects = () => {
                               </tr>
                             )}
                             <tr>
-                              <th
-                                rowSpan={x.users.length}
-                                style={{ position: "relative" }}
-                              >
+                              <th rowSpan={x.users.length} style={{ position: "relative" }}>
                                 <Link
                                   to="#"
                                   onClick={() => showFormAddMember(x)}
@@ -208,23 +188,12 @@ const Projects = () => {
                                     right: "0px",
                                   }}
                                 >
-                                  <i
-                                    className="ri-add-box-fill"
-                                    style={{ fontSize: "40px" }}
-                                  />
+                                  <i className="ri-add-box-fill" style={{ fontSize: "40px" }} />
                                 </Link>
                                 {x.name}
                               </th>
-                              <td
-                                rowSpan={x.users.length}
-                                style={{ position: "relative" }}
-                              >
-                                <NoteControl
-                                  value={x.note}
-                                  onChangeNote={(value) =>
-                                    onChangeNote(value, x.id)
-                                  }
-                                />
+                              <td rowSpan={x.users.length} style={{ position: "relative" }}>
+                                <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                               </td>
                               <td style={{ position: "relative" }}>
                                 {x.users[0].name && (
@@ -238,23 +207,15 @@ const Projects = () => {
                                       right: 0,
                                     }}
                                   >
-                                    <i
-                                      className="ri-indeterminate-circle-line"
-                                      style={{ fontSize: "20px" }}
-                                    />
+                                    <i className="ri-indeterminate-circle-line" style={{ fontSize: "20px" }} />
                                   </Link>
                                 )}
                                 {x.users[0].name}
                               </td>
-                              <td style={{ textAlign: "center" }}>
-                                {x.users[0].role?.name}
-                              </td>
+                              <td style={{ textAlign: "center" }}>{x.users[0].role?.name}</td>
                               {x.users[0].workloads.map((z, key3) => {
                                 return (
-                                  <td
-                                    style={{ textAlign: "center" }}
-                                    key={key3}
-                                  >
+                                  <td style={{ textAlign: "center" }} key={key3}>
                                     {z.value} {z.value && <span>%</span>}
                                   </td>
                                 );
@@ -275,22 +236,14 @@ const Projects = () => {
                                           right: 0,
                                         }}
                                       >
-                                        <i
-                                          className="ri-indeterminate-circle-line"
-                                          style={{ fontSize: "20px" }}
-                                        />
+                                        <i className="ri-indeterminate-circle-line" style={{ fontSize: "20px" }} />
                                       </Link>
                                       {y.name}
                                     </td>
-                                    <td style={{ textAlign: "center" }}>
-                                      {y.role?.name}
-                                    </td>
+                                    <td style={{ textAlign: "center" }}>{y.role?.name}</td>
                                     {y.workloads.map((z, key3) => {
                                       return (
-                                        <td
-                                          style={{ textAlign: "center" }}
-                                          key={key3}
-                                        >
+                                        <td style={{ textAlign: "center" }} key={key3}>
                                           {z.value} {z.value && <span>%</span>}
                                         </td>
                                       );
@@ -308,22 +261,9 @@ const Projects = () => {
               </div>
             </Col>
           </div>
-          <CreateModal
-            save={save}
-            isShowFormUpdate={isShowFormUpdate}
-            closeFormUpdate={closeFormUpdate}
-          />
-          <AddMemberModal
-            addMember ={addMember}
-            isShowFormAddMember={isShowFormAddMember}
-            closeFormAddMember={closeFormAddMember}
-            project={project}
-          />
-          <ConfirmDeleteModal
-            confirmed={remove}
-            isShowConfirmModal={isShowConfirmModal}
-            closeConfirmDelete={closeConfirmDelete}
-          />
+          <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} />
+          <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} />
+          <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
         </Container>
       </div>
     </React.Fragment>

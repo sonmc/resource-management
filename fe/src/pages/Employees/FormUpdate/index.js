@@ -4,11 +4,11 @@ import { Get } from "../../../Services/user.service";
 import Flatpickr from "react-flatpickr";
 
 const EMPLOYEE_DEFAULT = {
-  roleId: 2,
+  role_id: 2,
   dob: "2000-01-01",
   name: "",
   email: "",
-  phoneNumber: "",
+  phone_number: "",
   status: 1,
   avatar: "",
   gender: 1,
@@ -92,7 +92,7 @@ const ModalUpdate = (props) => {
               <label htmlFor="dob" className="form-label">
                 Role
               </label>
-              <select value={employee.roleId} className="form-control" name="roleId" onChange={(x) => changeField(x)}>
+              <select value={employee.role_id} className="form-control" name="role_id" onChange={(x) => changeField(x)}>
                 {roles.map((role, key) => {
                   return (
                     <React.Fragment key={key}>
@@ -106,7 +106,7 @@ const ModalUpdate = (props) => {
               <label htmlFor="phoneNumber" className="form-label">
                 Phone number
               </label>
-              <Input value={employee.phoneNumber} type="number" className="form-control" name="phoneNumber" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
+              <Input value={employee.phone_number} type="number" className="form-control" name="phone_number" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
             </Col>
             <Col xxl={6}>
               <label htmlFor="phoneNumber" className="form-label">
