@@ -7,7 +7,7 @@ const CreateModal = (props) => {
   const [project, setProject] = useState({
     id: 0,
     name: "",
-    startDate: "",
+    start_date: "",
     note: "",
   });
 
@@ -50,7 +50,7 @@ const CreateModal = (props) => {
                   dateFormat: "d M, Y",
                 }}
                 onChange={([value]) => {
-                  changeField({ target: { name: "startDate", value } });
+                  changeField({ target: { name: "start_date", value } });
                 }}
                 placeholder="Select Date"
               />

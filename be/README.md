@@ -53,8 +53,7 @@ Nest is [MIT licensed](LICENSE).
 nest g res <-module-name->
 
 ## Run migration
-
-npm run typeorm:cli migration:show  
+ 
 npm run migration:generate FirstMigration
-npm run migration:run
-npm run migration:revert
+npm run migration:run 
+npm run start
