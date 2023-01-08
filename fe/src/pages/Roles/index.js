@@ -68,7 +68,7 @@ const Roles = () => {
 
                                 <CardBody>
                                     <div className="table-responsive mt-3">
-                                        <Table className="table-bordered table-hover align-middle table-nowrap mb-0">
+                                        <Table className="table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
