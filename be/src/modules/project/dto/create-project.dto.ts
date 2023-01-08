@@ -3,6 +3,6 @@ export class CreateProjectDto {
   @IsNotEmpty()
   name: string;
   note: string;
-  startDate: Date;
+  start_date: Date;
 
 }
