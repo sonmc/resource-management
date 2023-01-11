@@ -12,13 +12,17 @@ const config: ConnectionOptions = {
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
-    entities: [__dirname + './../../**/*.schema{.ts,.js}'],
+    entities: [__dirname + './../../**/*.entity{.ts,.js}'],
     synchronize: false,
     migrationsRun: true,
+    migrationsTableName: 'migrations',
     migrations: ['database/migrations/**/*{.ts,.js}'],
     cli: {
         migrationsDir: 'database/migrations',
     },
+    // ssl: {
+    //   rejectUnauthorized: false,
+    // },
 };
 
 console.log(config);

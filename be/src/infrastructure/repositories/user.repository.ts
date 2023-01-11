@@ -1,63 +1,65 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserModel } from '../../domain/model/user.model';
-import { UserRepository } from '../../domain/repositories/user-repository.interface';
-import { User } from '../schemas/user.schema';
+import { UserM } from '../../domain/model/user';
+import { UserRepository } from '../../domain/repositories/userRepository.interface';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class DatabaseUserRepository implements UserRepository {
-    constructor(
-        @InjectRepository(User)
-        private readonly userEntityRepository: Repository<User>
-    ) {}
-    async updateRefreshToken(username: string, refreshToken: string): Promise<void> {
-        await this.userEntityRepository.update(
-            {
-                name: username,
-            },
-            { hach_refresh_token: refreshToken }
-        );
+  constructor(
+    @InjectRepository(User)
+    private readonly userEntityRepository: Repository<User>,
+  ) {}
+  async updateRefreshToken(username: string, refreshToken: string): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        username: username,
+      },
+      { hach_refresh_token: refreshToken },
+    );
+  }
+  async getUserByUsername(username: string): Promise<UserM> {
+    const adminUserEntity = await this.userEntityRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+    if (!adminUserEntity) {
+      return null;
     }
-    async getUserByUsername(username: string): Promise<UserModel> {
-        const adminUserEntity = await this.userEntityRepository.findOne({
-            where: {
-                username: username,
-            },
-        });
-        if (!adminUserEntity) {
-            return null;
-        }
-        return this.toUser(adminUserEntity);
-    }
-    async updateLastLogin(username: string): Promise<void> {
-        await this.userEntityRepository.update(
-            {
-                name: username,
-            },
-            { last_login: () => 'CURRENT_TIMESTAMP' }
-        );
-    }
+    return this.toUser(adminUserEntity);
+  }
+  async updateLastLogin(username: string): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        username: username,
+      },
+      { last_login: () => 'CURRENT_TIMESTAMP' },
+    );
+  }
 
-    private toUser(adminUserEntity: User): UserModel {
-        const adminUser: UserModel = new UserModel();
+  private toUser(adminUserEntity: User): UserM {
+    const adminUser: UserM = new UserM();
 
-        adminUser.id = adminUserEntity.id;
-        adminUser.username = adminUserEntity.name;
-        adminUser.password = adminUserEntity.password;
-        adminUser.createDate = adminUserEntity.created_at;
-        adminUser.updatedDate = adminUserEntity.updated_at;
-        adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token;
+    adminUser.id = adminUserEntity.id;
+    adminUser.username = adminUserEntity.username;
+    adminUser.password = adminUserEntity.password;
+    adminUser.createDate = adminUserEntity.createdate;
+    adminUser.updatedDate = adminUserEntity.updateddate;
+    adminUser.lastLogin = adminUserEntity.last_login;
+    adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token;
 
-        return adminUser;
-    }
+    return adminUser;
+  }
 
-    private toUserEntity(adminUser: UserModel): User {
-        const adminUserEntity: User = new User();
+  private toUserEntity(adminUser: UserM): User {
+    const adminUserEntity: User = new User();
 
-        adminUserEntity.name = adminUser.username;
-        adminUserEntity.password = adminUser.password;
+    adminUserEntity.username = adminUser.username;
+    adminUserEntity.password = adminUser.password;
+    adminUserEntity.last_login = adminUser.lastLogin;
 
-        return adminUserEntity;
-    }
+    return adminUserEntity;
+  }
 }
