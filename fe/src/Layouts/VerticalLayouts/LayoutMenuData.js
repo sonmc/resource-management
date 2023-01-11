@@ -9,19 +9,6 @@ const Navdata = () => {
 
   const [iscurrentState, setIscurrentState] = useState("Homes");
 
-  function updateIconSidebar(e) {
-    if (e && e.target && e.target.getAttribute("subitems")) {
-      const ul = document.getElementById("two-column-menu");
-      const iconItems = ul.querySelectorAll(".nav-icon.active");
-      let activeIconItems = [...iconItems];
-      activeIconItems.forEach((item) => {
-        item.classList.remove("active");
-        var id = item.getAttribute("subitems");
-        if (document.getElementById(id)) document.getElementById(id).classList.remove("show");
-      });
-    }
-  }
-
   useEffect(() => {
     document.body.classList.remove("twocolumn-panel");
 
@@ -39,31 +26,34 @@ const Navdata = () => {
       isHeader: true,
     },
     {
-      id: "homes",
-      label: "Homes",
+      id: "projects",
+      label: "Projects",
       icon: "ri-honour-line",
-      link: "/home",
+      link: "/projects",
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("Homes");
+        setIscurrentState("Projects");
       },
     },
     {
-      id: "tables",
-      label: "Tables",
-      icon: "ri-layout-grid-line",
-      link: "/#",
+      id: "employees",
+      label: "Employees",
+      icon: "ri-honour-line",
+      link: "/employees",
       click: function (e) {
         e.preventDefault();
-        setIsTables(!isTables);
-        setIscurrentState("Tables");
-        updateIconSidebar(e);
+        setIscurrentState("Employees");
       },
-      stateVariables: isTables,
-      subItems: [
-        { id: "basictables", label: "Basic Tables", link: "/tables-basic", parentId: "tables" },
-        { id: "gridjs", label: "Grid Js", link: "/tables-gridjs", parentId: "tables" },
-      ],
+    },
+    {
+      id: "roles",
+      label: "Roles",
+      icon: "ri-honour-line",
+      link: "/roles",
+      click: function (e) {
+        e.preventDefault();
+        setIscurrentState("Roles");
+      },
     },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;

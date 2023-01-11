@@ -1,6 +1,6 @@
-// 
+//
 // _topbar.scss
-// 
+//
 
 #page-topbar {
     position: fixed;
@@ -9,9 +9,9 @@
     left: 0;
     z-index: 1002;
     background-color: $header-bg;
-    transition: all .1s ease-out;
+    transition: all 0.1s ease-out;
 
-    &.topbar-shadow{
+    &.topbar-shadow {
         box-shadow: $box-shadow;
     }
 
@@ -49,7 +49,7 @@
         }
     }
 
-    .user-name-text{
+    .user-name-text {
         color: var(--#{$variable-prefix}gray-700);
     }
 }
@@ -103,7 +103,6 @@
 
 @media (max-width: 767.98px) {
     .logo {
-
         span.logo-lg {
             display: none;
         }
@@ -132,14 +131,14 @@
 
 .topbar-badge {
     right: -9px;
-    top: 4px!important;
+    top: 4px !important;
 }
 
 .topbar-user {
     @media (min-width: 768px) {
-        background-color: $topbar-user-bg;
+        // background-color: $topbar-user-bg;
     }
-    
+
     .dropdown-menu {
         top: 6px !important;
     }
@@ -183,22 +182,22 @@
 
 // Full Screen
 .fullscreen-enable {
-    [data-toggle="fullscreen"] {
+    [data-toggle='fullscreen'] {
         .bx-fullscreen::before {
-            content: "\eacb";
+            content: '\eacb';
         }
     }
 }
 // Dark mode enable
-[data-layout-mode="dark"] {
+[data-layout-mode='dark'] {
     .light-dark-mode {
         .bx-moon::before {
-            content: "\ec34";
+            content: '\ec34';
         }
     }
 }
 
-[data-topbar="dark"] {
+[data-topbar='dark'] {
     #page-topbar {
         background-color: $header-bg-dark;
         border-color: $header-bg-dark;
@@ -210,7 +209,7 @@
 
             &:hover,
             &:focus {
-                background-color: rgba($white,0.07);
+                background-color: rgba($white, 0.07);
                 color: $white;
             }
         }
@@ -218,7 +217,7 @@
 
     .topbar-user {
         @media (min-width: 767.99px) {
-            background-color: $topbar-user-bg-dark;
+            // background-color: $topbar-user-bg-dark;
         }
 
         .user-name-text {
@@ -239,7 +238,6 @@
     }
 
     .app-search {
-
         .form-control {
             background-color: rgba($white, 0.05);
             color: $white;
@@ -270,8 +268,8 @@
     }
 }
 
-[data-layout="vertical"] {
-    &[data-layout-style="detached"]{
+[data-layout='vertical'] {
+    &[data-layout-style='detached'] {
         @media (min-width: 1024.1px) {
             #page-topbar {
                 left: 0 !important;
@@ -292,8 +290,8 @@
                 margin: 0 auto;
             }
 
-            &[data-sidebar-size="sm"],
-            &[data-sidebar-size="sm-hover"]{
+            &[data-sidebar-size='sm'],
+            &[data-sidebar-size='sm-hover'] {
                 .navbar-brand-box {
                     background-color: transparent !important;
                     position: relative;
@@ -311,7 +309,7 @@
             }
         }
 
-        &[data-topbar="dark"]{
+        &[data-topbar='dark'] {
             .horizontal-logo {
                 .logo-dark {
                     display: none;
@@ -324,14 +322,13 @@
     }
 }
 
-[data-layout="horizontal"] {
-
+[data-layout='horizontal'] {
     #page-topbar {
         left: 0;
         border-bottom: 1px solid var(--#{$variable-prefix}gray-300);
 
         @media (min-width: 1024.1px) {
-            &.topbar-shadow{
+            &.topbar-shadow {
                 box-shadow: none;
             }
         }
@@ -341,14 +338,14 @@
         @media (min-width: 1024.1px) {
             margin-top: $header-height;
         }
-        
+
         padding: calc(45px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
     }
 }
 
-[data-layout="vertical"] {
-    &[data-sidebar-size="sm"],
-    &[data-sidebar-size="sm-hover"]{
+[data-layout='vertical'] {
+    &[data-sidebar-size='sm'],
+    &[data-sidebar-size='sm-hover'] {
         #page-topbar {
             @media (min-width: 768px) {
                 left: $vertical-menu-width-sm;
@@ -356,7 +353,7 @@
         }
     }
 
-    &[data-sidebar-size="md"]{
+    &[data-sidebar-size='md'] {
         #page-topbar {
             @media (min-width: 768px) {
                 left: $vertical-menu-width-md;
@@ -365,7 +362,7 @@
     }
 }
 
-[data-layout="twocolumn"] { 
+[data-layout='twocolumn'] {
     #page-topbar {
         @media (min-width: 768px) {
             left: calc(#{$twocolumn-menu-iconview-width} + #{$twocolumn-menu-width});

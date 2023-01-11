@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { Dropdown, DropdownMenu, DropdownToggle, Form } from "reactstrap";
 
 //import images
-import logoSm from "../../assets/images/logo-sm.png";
 import logoDark from "../../assets/images/logo-dark.png";
-import logoLight from "../../assets/images/logo-light.png";
 
 //import Components
 import FullScreenDropdown from "../../Components/Common/FullScreenDropdown";
@@ -17,13 +15,6 @@ const Header = ({ headerClass }) => {
     setSearch(!search);
   };
 
-  const toogleMenuBtn = () => {
-    var windowSize = document.documentElement.clientWidth;
-
-    if (windowSize > 767) document.querySelector(".hamburger-icon").classList.toggle("open");
-
-    document.body.classList.contains("menu") ? document.body.classList.remove("menu") : document.body.classList.add("menu");
-  };
   return (
     <React.Fragment>
       <header id="page-topbar" className={headerClass}>
@@ -32,20 +23,8 @@ const Header = ({ headerClass }) => {
             <div className="d-flex">
               <div className="navbar-brand-box horizontal-logo">
                 <Link to="/" className="logo logo-dark">
-                  <span className="logo-sm">
-                    <img src={logoSm} alt="" height="22" />
-                  </span>
                   <span className="logo-lg">
                     <img src={logoDark} alt="" height="17" />
-                  </span>
-                </Link>
-
-                <Link to="/" className="logo logo-light">
-                  <span className="logo-sm">
-                    <img src={logoSm} alt="" height="22" />
-                  </span>
-                  <span className="logo-lg">
-                    <img src={logoLight} alt="" height="17" />
                   </span>
                 </Link>
               </div>
