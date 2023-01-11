@@ -1,57 +1,32 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { ApiTokenCheckMiddleware } from "./common/middleware/api-token-check.middleware";
-import { typeOrmAsyncConfig } from "./config/typeorm.config";
-
-import { AuthModule } from "./modules/auth/auth.module";
-import { UserModule } from "./modules/user/user.module";
-import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
-import { ProjectModule } from "./modules/project/project.module";
-import { RoleModule } from "./modules/role/role.module";
-
-import { AuthController } from "./modules/auth/auth.controller";
-import { AuthService } from "./modules/auth/auth.service";
-import { LocalStrategy } from "./modules/auth/strategies/local.strategy";
-import { JwtStrategy } from "./modules/auth/strategies/jwt.strategy";
-import { UserService } from "./modules/user/user.service";
-import { ProjectService } from "./modules/project/project.service";
-import { RoleService } from "./modules/role/role.service";
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { LoggerModule } from './infrastructure/logger/logger.module';
+import { ExceptionsModule } from './infrastructure/exceptions/exceptions.module';
+import { UsecasesProxyModule } from './infrastructure/usecases-proxy/usecases-proxy.module';
+import { ControllersModule } from './infrastructure/controllers/controllers.module';
+import { BcryptModule } from './infrastructure/services/bcrypt/bcrypt.module';
+import { JwtModule as JwtServiceModule } from './infrastructure/services/jwt/jwt.module';
+import { EnvironmentConfigModule } from './infrastructure/config/environment-config/environment-config.module';
+import { LocalStrategy } from './infrastructure/common/strategies/local.strategy';
+import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy';
+import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwt-refresh.strategy';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    AuthModule,
-    UserModule,
-    ProjectModule,
-    RoleModule,
-    PassportModule,
-    JwtModule.register({
-      secret: "JWT_SECRET_KEY",
-      signOptions: { expiresIn: "60m" },
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [
-    AuthService,
-    UserService,
-    ProjectService,
-    RoleService,
-    LocalStrategy,
-    JwtStrategy,
-  ],
+    imports: [
+        PassportModule,
+        JwtModule.register({
+            secret: 'JWT_SECRET_KEY',
+            signOptions: { expiresIn: '60m' },
+        }),
+        LoggerModule,
+        ExceptionsModule,
+        UsecasesProxyModule.register(),
+        ControllersModule,
+        BcryptModule,
+        JwtServiceModule,
+        EnvironmentConfigModule,
+    ],
+    providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ApiTokenCheckMiddleware)
-      .forRoutes({ path: "/", method: RequestMethod.ALL });
-  }
-}
+export class AppModule {}

@@ -4,8 +4,8 @@
 
 ## Installation
 
-```bash
-$ npm install
+```
+$ yarn
 ```
 
 ## Running the app
@@ -34,28 +34,17 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
--   Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
--   Website - [https://nestjs.com](https://nestjs.com/)
--   Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
-
-## Generate module
-
-nest g res <-module-name->
-
 ## Run migration
 
-npm run migration:generate FirstMigration
-npm run migration:run
-npm run start
-npm run start:debug
+npm run typeorm:generate:win -n init
+npm run typeorm:run:win
+
 password default: $2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2
+
+# Architecture
+
+Concretely, there are 3 main packages: domain, usecases and infrastructure. These packages have to respect these rules:
+
+-   domain contains the business code and its logic and has no outward dependency: nor on frameworks (NestJS in our case), nor on use_cases or infrastructure packages.
+-   usecases is like a conductor. It will depend only on domain package to execute business logic. use_cases should not have any dependencies on infrastructure (including framework or npm module).
+-   infrastructure contains all the technical details, configuration, implementations (database, web services, npm module, etc.), and must not contain any business logic. infrastructure has dependencies on domain, use_cases and frameworks.
