@@ -7,13 +7,17 @@ import { UsecasesProxyModule } from './infrastructure/usecases-proxy/usecases-pr
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 import { BcryptModule } from './infrastructure/services/bcrypt/bcrypt.module';
 import { JwtModule as JwtServiceModule } from './infrastructure/services/jwt/jwt.module';
-import { EnvironmentConfigModule } from './infrastructure/config/environment-config/environment-config.module';
 import { LocalStrategy } from './infrastructure/common/strategies/local.strategy';
 import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy';
 import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwt-refresh.strategy';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmAsyncConfig } from './infrastructure/config/typeorm.config';
 
 @Module({
     imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
         PassportModule,
         JwtModule.register({
             secret: 'JWT_SECRET_KEY',
@@ -25,7 +29,6 @@ import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwt-
         ControllersModule,
         BcryptModule,
         JwtServiceModule,
-        EnvironmentConfigModule,
     ],
     providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
 })

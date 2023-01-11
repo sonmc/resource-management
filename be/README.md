@@ -36,8 +36,8 @@ $ npm run test:cov
 
 ## Run migration
 
-npm run typeorm:generate:win -n init
-npm run typeorm:run:win
+npm run typeorm:generate -n Init
+npm run typeorm:run
 
 password default: $2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2
 
