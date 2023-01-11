@@ -41,7 +41,7 @@ npm run typeorm:run
 
 password default: $2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2
 
-# Architecture
+# Clean Architecture
 
 Concretely, there are 3 main packages: domain, usecases and infrastructure. These packages have to respect these rules:
 

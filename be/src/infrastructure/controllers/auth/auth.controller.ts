@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Inject, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { AuthLoginDto } from './auth-dto.class';
-import { IsAuthPresenter } from './auth.presenter';
+import { AuthLoginDto } from './dto/auth-dto.class';
+import { IsAuthPresenter } from './dto/auth.presenter';
 
 import JwtRefreshGuard from '../../common/guards/jwtRefresh.guard';
 import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
