@@ -28,7 +28,8 @@ axios.interceptors.response.use(
 );
 
 const setAuthorization = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const tokenStr = localStorage.getItem("token");
+  const token = tokenStr ? JSON.parse(tokenStr) : null;
   if (token) {
     axios.defaults.headers.common["Authorization"] = token;
   }
@@ -50,7 +51,8 @@ class APIClient {
         return paramKeys;
       });
 
-      const queryString = paramKeys && paramKeys.length ? paramKeys.join("&") : "";
+      const queryString =
+        paramKeys && paramKeys.length ? paramKeys.join("&") : "";
       response = axios.get(`${url}?${queryString}`, params);
     } else {
       response = axios.get(`${url}`, params);
@@ -86,7 +88,8 @@ class APIClient {
         return paramKeys;
       });
 
-      const queryString = paramKeys && paramKeys.length ? paramKeys.join("&") : "";
+      const queryString =
+        paramKeys && paramKeys.length ? paramKeys.join("&") : "";
       response = axios.get(`${url}?${queryString}`, params);
     } else {
       response = axios.get(`${url}`, params);

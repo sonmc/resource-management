@@ -7,7 +7,8 @@
 ```
 $ yarn
 ```
-
+## install NODEV_ENV
+npm install -g win-node-env
 ## Running the app
 
 ```bash

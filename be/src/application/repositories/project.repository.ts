@@ -9,7 +9,7 @@ import { Project } from '../../infrastructure/schemas/project.schema';
 export class ProjectRepository implements IProjectRepository {
     constructor(
         @InjectRepository(Project)
-        private readonly projectRepository: Repository<Project>
+        private readonly repository: Repository<Project>
     ) {}
 
     async update(id: number, projectModel: ProjectModel): Promise<void> {
@@ -19,19 +19,19 @@ export class ProjectRepository implements IProjectRepository {
     }
     async insert(todo: ProjectModel): Promise<ProjectModel> {
         const todoEntity = this.toTodoEntity(todo);
-        const result = await this.projectRepository.insert(todoEntity);
+        const result = await this.repository.insert(todoEntity);
         return this.toTodo(result.generatedMaps[0] as Project);
     }
     async findAll(): Promise<ProjectModel[]> {
-        const todosEntity = await this.projectRepository.find();
+        const todosEntity = await this.repository.find();
         return todosEntity.map((todoEntity) => this.toTodo(todoEntity));
     }
     async findById(id: number): Promise<ProjectModel> {
-        const todoEntity = await this.projectRepository.findOneOrFail(id);
+        const todoEntity = await this.repository.findOneOrFail(id);
         return this.toTodo(todoEntity);
     }
     async deleteById(id: number): Promise<void> {
-        await this.projectRepository.delete({ id: id });
+        await this.repository.delete({ id: id });
     }
 
     private toTodo(todoEntity: Project): ProjectModel {
