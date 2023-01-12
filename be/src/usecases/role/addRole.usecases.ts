@@ -1,15 +1,14 @@
+import { RoleModel } from 'src/domain/model/role';
 import { ILogger } from '../../domain/logger/logger.interface';
-import { ProjectModel } from '../../domain/model/project';
-import { ProjectRepository } from '../../domain/repositories/projectRepository.interface';
+import { IRoleRepository } from '../../domain/repositories/roleRepository.interface';
 
 export class addTodoUseCases {
-    constructor(private readonly logger: ILogger, private readonly projectRepository: ProjectRepository) {}
+    constructor(private readonly logger: ILogger, private readonly roleRepository: IRoleRepository) {}
 
-    async execute(content: string): Promise<ProjectModel> {
-        const project = new ProjectModel();
+    async execute(content: string): Promise<RoleModel> {
+        const project = new RoleModel();
         project.content = content;
-        project.isDone = false;
-        const result = await this.projectRepository.insert(project);
+        const result = await this.roleRepository.insert(project);
         this.logger.log('addProjectUseCases execute', 'New project have been inserted');
         return result;
     }

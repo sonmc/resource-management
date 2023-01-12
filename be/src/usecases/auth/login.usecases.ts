@@ -1,10 +1,10 @@
 import { IBcryptService } from '../../domain/adapters/bcrypt.interface';
 import { IJwtService, IJwtServicePayload } from '../../domain/adapters/jwt.interface';
 import { ILogger } from '../../domain/logger/logger.interface';
-import { UserRepository } from '../../domain/repositories/userRepository.interface';
+import { IUserRepository } from '../../domain/repositories/userRepository.interface';
 
 export class LoginUseCases {
-    constructor(private readonly logger: ILogger, private readonly jwtTokenService: IJwtService, private readonly userRepository: UserRepository, private readonly bcryptService: IBcryptService) {}
+    constructor(private readonly logger: ILogger, private readonly jwtTokenService: IJwtService, private readonly userRepository: IUserRepository, private readonly bcryptService: IBcryptService) {}
 
     async getCookieWithJwtToken(username: string) {
         this.logger.log('LoginUseCases execute', `The user ${username} have been logged.`);

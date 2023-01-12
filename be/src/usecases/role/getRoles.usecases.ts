@@ -1,8 +1,8 @@
 import { RoleModel } from '../../domain/model/role';
-import { RoleRepository } from '../../domain/repositories/roleRepository.interface';
+import { IRoleRepository } from '../../domain/repositories/roleRepository.interface';
 
 export class getTodosUseCases {
-    constructor(private readonly roleRepository: RoleRepository) {}
+    constructor(private readonly roleRepository: IRoleRepository) {}
 
     async execute(): Promise<RoleModel[]> {
         return await this.roleRepository.findAll();

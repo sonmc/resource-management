@@ -1,9 +1,9 @@
 import { ProjectModel } from '../model/project';
 
-export interface ProjectRepository {
+export interface IProjectRepository {
     insert(project: ProjectModel): Promise<ProjectModel>;
     findAll(): Promise<ProjectModel[]>;
     findById(id: number): Promise<ProjectModel>;
-    update(id: number, isDone: boolean): Promise<void>;
+    update(id: number, projectModel: ProjectModel): Promise<void>;
     deleteById(id: number): Promise<void>;
 }

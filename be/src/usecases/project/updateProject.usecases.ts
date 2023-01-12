@@ -1,11 +1,12 @@
+import { ProjectModel } from 'src/domain/model/project';
 import { ILogger } from '../../domain/logger/logger.interface';
-import { TodoRepository } from '../../domain/repositories/todoRepository.interface';
+import { IProjectRepository } from '../../domain/repositories/projectRepository.interface';
 
-export class updateTodoUseCases {
-  constructor(private readonly logger: ILogger, private readonly todoRepository: TodoRepository) {}
+export class UpdateProjectUseCases {
+    constructor(private readonly logger: ILogger, private readonly projectRepository: IProjectRepository) {}
 
-  async execute(id: number, isDone: boolean): Promise<void> {
-    await this.todoRepository.updateContent(id, isDone);
-    this.logger.log('updateTodoUseCases execute', `Todo ${id} have been updated`);
-  }
+    async execute(id: number, projectModel: ProjectModel): Promise<void> {
+        await this.projectRepository.update(id, projectModel);
+        this.logger.log('updateTodoUseCases execute', `Todo ${id} have been updated`);
+    }
 }

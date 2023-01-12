@@ -1,12 +1,12 @@
 import { UserM, UserWithoutPassword } from '../../domain/model/user';
-import { UserRepository } from '../../domain/repositories/userRepository.interface';
+import { IUserRepository } from '../../domain/repositories/userRepository.interface';
 
 export class IsAuthenticatedUseCases {
-  constructor(private readonly adminUserRepo: UserRepository) {}
+    constructor(private readonly adminUserRepo: IUserRepository) {}
 
-  async execute(username: string): Promise<UserWithoutPassword> {
-    const user: UserM = await this.adminUserRepo.getUserByUsername(username);
-    const { password, ...info } = user;
-    return info;
-  }
+    async execute(username: string): Promise<UserWithoutPassword> {
+        const user: UserM = await this.adminUserRepo.getUserByUsername(username);
+        const { password, ...info } = user;
+        return info;
+    }
 }

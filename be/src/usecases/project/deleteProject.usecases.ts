@@ -1,11 +1,11 @@
 import { ILogger } from '../../domain/logger/logger.interface';
-import { TodoRepository } from '../../domain/repositories/todoRepository.interface';
+import { IProjectRepository } from '../../domain/repositories/projectRepository.interface';
 
-export class deleteTodoUseCases {
-    constructor(private readonly logger: ILogger, private readonly todoRepository: TodoRepository) {}
+export class DeleteProjectUseCases {
+    constructor(private readonly logger: ILogger, private readonly projectRepository: IProjectRepository) {}
 
     async execute(id: number): Promise<void> {
-        await this.todoRepository.deleteById(id);
+        await this.projectRepository.deleteById(id);
         this.logger.log('deleteTodoUseCases execute', `Todo ${id} have been deleted`);
     }
 }

@@ -1,8 +1,8 @@
 import { ProjectModel } from '../../domain/model/project';
-import { ProjectRepository } from '../../domain/repositories/projectRepository.interface';
+import { IProjectRepository } from '../../domain/repositories/projectRepository.interface';
 
-export class GetTodoUseCases {
-    constructor(private readonly projectRepository: ProjectRepository) {}
+export class GetProjectUseCases {
+    constructor(private readonly projectRepository: IProjectRepository) {}
 
     async execute(id: number): Promise<ProjectModel> {
         return await this.projectRepository.findById(id);

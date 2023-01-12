@@ -13,9 +13,9 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
             database: process.env.DB_NAME,
             password: process.env.DB_PASSWORD,
             entities: [__dirname + '/../**/*.schema.{js,ts}'],
-            migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+            migrations: [__dirname + '/../migrations/*{.ts,.js}'],
             cli: {
-                migrationsDir: __dirname + '/../database/migrations',
+                migrationsDir: __dirname + '/../migrations',
             },
             extra: {
                 charset: 'utf8mb4_unicode_ci',
@@ -34,9 +34,9 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     entities: [__dirname + '/../**/*.schema.{js,ts}'],
-    migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+    migrations: [__dirname + '/../migrations/*{.ts,.js}'],
     cli: {
-        migrationsDir: __dirname + '/../database/migrations',
+        migrationsDir: __dirname + '/../migrations',
     },
     extra: {
         charset: 'utf8mb4_unicode_ci',
