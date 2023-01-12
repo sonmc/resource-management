@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod, NestModule } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { LoggerModule } from './infrastructure/logger/logger.module';
@@ -13,7 +13,7 @@ import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwt-
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './infrastructure/config/typeorm.config';
-
+import { ApiTokenMiddleware } from './application/middleware/api-token.middleware';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -32,4 +32,8 @@ import { typeOrmAsyncConfig } from './infrastructure/config/typeorm.config';
     ],
     providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(ApiTokenMiddleware).forRoutes({ path: '/', method: RequestMethod.ALL });
+    }
+}
