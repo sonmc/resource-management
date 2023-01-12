@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserM } from '../../domain/model/user';
+import { UserModel } from '../../domain/model/user';
 import { IUserRepository } from '../../domain/repositories/userRepository.interface';
 import { User } from '../../infrastructure/schemas/user.schema';
 
@@ -19,7 +19,7 @@ export class UserRepository implements IUserRepository {
             { hach_refresh_token: refreshToken }
         );
     }
-    async getUserByUsername(username: string): Promise<UserM> {
+    async getUserByUsername(username: string): Promise<UserModel> {
         const adminUserEntity = await this.userEntityRepository.findOne({
             where: {
                 username: username,
@@ -39,8 +39,8 @@ export class UserRepository implements IUserRepository {
         );
     }
 
-    private toUser(adminUserEntity: User): UserM {
-        const adminUser: UserM = new UserM();
+    private toUser(adminUserEntity: User): UserModel {
+        const adminUser: UserModel = new UserModel();
 
         adminUser.id = adminUserEntity.id;
         adminUser.username = adminUserEntity.username;
@@ -53,7 +53,7 @@ export class UserRepository implements IUserRepository {
         return adminUser;
     }
 
-    private toUserEntity(adminUser: UserM): User {
+    private toUserEntity(adminUser: UserModel): User {
         const adminUserEntity: User = new User();
 
         adminUserEntity.username = adminUser.username;

@@ -36,14 +36,15 @@ export class AuthController {
 
     @Post('login')
     @UseGuards(LoginGuard)
-    @ApiBearerAuth()
     @ApiBody({ type: AuthLoginDto })
-    @ApiOperation({ description: 'login' })
     async login(@Body() auth: AuthLoginDto, @Request() request: any) {
         const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
         const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
-        request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
-        return { accessTokenCookie, refreshTokenCookie };
+        //request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+        return {
+            accessTokenCookie,
+            refreshTokenCookie,
+        };
     }
 
     @Post('logout')
@@ -56,9 +57,7 @@ export class AuthController {
     }
 
     @Get('is_authenticated')
-    @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
-    @ApiOperation({ description: 'is_authenticated' })
     @ApiResponseType(IsAuthPresenter, false)
     async isAuthenticated(@Req() request: any) {
         const user = await this.isAuthUsecaseProxy.getInstance().execute(request.user.username);

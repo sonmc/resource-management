@@ -22,7 +22,7 @@ const Login = () => {
             password: Yup.string().required('Please Enter Your Password'),
         }),
         onSubmit: (values) => {
-            authAction.login(values).then((res) => { 
+            authAction.login(values).then((res) => {
                 if (res) {
                     history.push('/');
                 }

@@ -11,21 +11,23 @@ export function authActions() {
 
     function login({ username, password }) {
         return Login(baseUrl + 'login', { username, password }).then((res) => {
-            localStorage.setItem('token', JSON.stringify(res.token));
+            localStorage.setItem('token', JSON.stringify(res.accessTokenCookie));
             getCurrentUser();
             return res;
         });
     }
 
     function getCurrentUser() {
-        return GetCurrentUser(baseUrl + 'login').then((res) => {
+        return GetCurrentUser(baseUrl + 'is_authenticated').then((res) => {
             localStorage.setItem('user', JSON.stringify(res));
         });
     }
 
     function logout() {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        return Login(baseUrl + 'login').then((res) => {
+            getCurrentUser();
+            return res;
+        });
     }
 
     function register(user) {
