@@ -1,74 +1,59 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { UserModel } from "../../domain/model/user";
-import { IUserRepository } from "../../domain/repositories/userRepository.interface";
-import { User } from "../../infrastructure/schemas/user.schema";
+import { ADMIN_ID } from '../../business-rules/employee.rule';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { LessThan, Repository } from 'typeorm';
+import { UserEntity } from '../../domain/entities/user.entity';
+import { IUserRepository } from '../../domain/repositories/user-repository.interface';
+import { User } from '../../infrastructure/schemas/user.schema';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-  constructor(
-    @InjectRepository(User)
-    private readonly repository: Repository<User>
-  ) {}
+    constructor(
+        @InjectRepository(User)
+        private readonly repository: Repository<User>
+    ) {}
 
-  async findAll(): Promise<UserModel[]> {
-    const users = await this.repository.find();
-    return users.map((u) => this.toUser(u));
-  }
-
-  async updateRefreshToken(
-    username: string,
-    refreshToken: string
-  ): Promise<void> {
-    await this.repository.update(
-      {
-        username: username,
-      },
-      { hash_refresh_token: refreshToken }
-    );
-  }
-  async getUserByUsername(username: string): Promise<UserModel> {
-    const adminUserEntity = await this.repository.findOne({
-      where: {
-        username: username,
-      },
-    });
-    if (!adminUserEntity) {
-      return null;
+    findOne(id: number): Promise<UserEntity> {
+        return this.repository.findOne(id);
     }
-    return this.toUser(adminUserEntity);
-  }
-  async updateLastLogin(username: string): Promise<void> {
-    await this.repository.update(
-      {
-        username: username,
-      },
-      { last_login: () => "CURRENT_TIMESTAMP" }
-    );
-  }
 
-  private toUser(adminUserEntity: User): UserModel {
-    const adminUser: UserModel = new UserModel();
+    async findAll(): Promise<UserEntity[]> {
+        const users = await this.repository.find({
+            where: { id: LessThan(ADMIN_ID) },
+        });
+        return users.map((u) => new UserEntity(u));
+    }
 
-    adminUser.id = adminUserEntity.id;
-    adminUser.username = adminUserEntity.username;
-    adminUser.password = adminUserEntity.password;
-    adminUser.createDate = adminUserEntity.created_at;
-    adminUser.updatedDate = adminUserEntity.updated_at;
-    adminUser.lastLogin = adminUserEntity.last_login;
-    adminUser.hashRefreshToken = adminUserEntity.hash_refresh_token;
+    async insert(user: UserEntity): Promise<UserEntity> {
+        const result = await this.repository.insert(user);
+        return new UserEntity(result.generatedMaps[0] as User);
+    }
 
-    return adminUser;
-  }
-
-  private toUserEntity(adminUser: UserModel): User {
-    const adminUserEntity: User = new User();
-
-    adminUserEntity.username = adminUser.username;
-    adminUserEntity.password = adminUser.password;
-    adminUserEntity.last_login = adminUser.lastLogin;
-
-    return adminUserEntity;
-  }
+    async updateRefreshToken(username: string, refreshToken: string): Promise<void> {
+        await this.repository.update(
+            {
+                username: username,
+            },
+            { hash_refresh_token: refreshToken }
+        );
+    }
+    async getUserByUsername(username: string): Promise<UserEntity> {
+        const adminUserEntity = await this.repository.findOne({
+            where: {
+                username: username,
+            },
+        });
+        if (!adminUserEntity) {
+            return null;
+        }
+        return new UserEntity(adminUserEntity);
+    }
+    async updateLastLogin(username: string): Promise<void> {
+        await this.repository.update(
+            {
+                username: username,
+            },
+            { last_login: () => 'CURRENT_TIMESTAMP' }
+        );
+    }
 }

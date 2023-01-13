@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProjectModel } from 'src/domain/model/project';
+import { ProjectEntity } from 'src/domain/entities/project.entity';
 import { Repository } from 'typeorm';
-import { IProjectRepository } from '../../domain/repositories/projectRepository.interface';
+import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
 
 @Injectable()
@@ -12,39 +12,45 @@ export class ProjectRepository implements IProjectRepository {
         private readonly repository: Repository<Project>
     ) {}
 
-    async update(id: number, projectModel: ProjectModel): Promise<void> {
-        // await this.projectRepository.update({
+    async update(id: number, projectEntity: ProjectEntity): Promise<void> {
+        // await this.repository.update({
         //   id: id,
         // });
     }
-    async insert(todo: ProjectModel): Promise<ProjectModel> {
+
+    async insert(todo: ProjectEntity): Promise<ProjectEntity> {
         const todoEntity = this.toTodoEntity(todo);
         const result = await this.repository.insert(todoEntity);
         return this.toTodo(result.generatedMaps[0] as Project);
     }
-    async findAll(): Promise<ProjectModel[]> {
-        const todosEntity = await this.repository.find();
-        return todosEntity.map((todoEntity) => this.toTodo(todoEntity));
+
+    async findAll(): Promise<ProjectEntity[]> {
+        const projects = await this.repository
+            .find({
+                relations: ['users', 'users.role', 'users.workloads'],
+            })
+            .then((p) => p.map((x) => new ProjectEntity(x)));
+        return projects;
     }
-    async findById(id: number): Promise<ProjectModel> {
+
+    async findById(id: number): Promise<ProjectEntity> {
         const todoEntity = await this.repository.findOneOrFail(id);
         return this.toTodo(todoEntity);
     }
+
     async deleteById(id: number): Promise<void> {
         await this.repository.delete({ id: id });
     }
 
-    private toTodo(todoEntity: Project): ProjectModel {
-        const todo: ProjectModel = new ProjectModel();
+    private toTodo(todoEntity: Project): ProjectEntity {
+        const project: ProjectEntity = new ProjectEntity();
 
-        todo.id = todoEntity.id;
-        todo.createdDate = todoEntity.created_at;
-        todo.updatedDate = todoEntity.updated_at;
+        project.id = todoEntity.id;
 
-        return todo;
+        return project;
     }
 
-    private toTodoEntity(todo: ProjectModel): Project {
+    private toTodoEntity(todo: ProjectEntity): Project {
         const todoEntity: Project = new Project();
 
         todoEntity.id = todo.id;

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RoleModel } from 'src/domain/model/Role';
-import { Repository } from 'typeorm';
-import { IRoleRepository } from '../../domain/repositories/RoleRepository.interface';
+import { ADMIN_ID } from 'src/business-rules/role.rule';
+import { Repository, LessThan } from 'typeorm';
+import { IRoleRepository } from '../../domain/repositories/role-repository.interface';
 import { Role } from '../../infrastructure/schemas/Role.schema';
+import { RoleEntity } from 'src/domain/entities/role.entity';
 
 @Injectable()
 export class RoleRepository implements IRoleRepository {
@@ -12,37 +13,41 @@ export class RoleRepository implements IRoleRepository {
         private readonly repository: Repository<Role>
     ) {}
 
-    async update(id: number, roleModel: RoleModel): Promise<void> {
+    async update(id: number, roleDto: RoleEntity): Promise<void> {
         // await this.repository.update({
-        //   id: id,
+        //     id: id,
         // });
     }
-    async insert(role: RoleModel): Promise<RoleModel> {
-        const roleEntity = this.toRoleEntity(role);
-        const result = await this.repository.insert(roleEntity);
-        return this.toRole(result.generatedMaps[0] as Role);
+
+    async insert(role: RoleEntity): Promise<RoleEntity> {
+        const roleSchema = this.toRoleEntity(role);
+        const result = await this.repository.insert(roleSchema);
+        const r = result.generatedMaps[0] as Role;
+        const roleDto = new RoleEntity(r);
+        return roleDto;
     }
-    async findAll(): Promise<RoleModel[]> {
-        const rolesEntity = await this.repository.find();
-        return rolesEntity.map((roleEntity) => this.toRole(roleEntity));
+
+    async findAll() {
+        const datas = await this.repository.find({
+            where: {
+                id: LessThan(ADMIN_ID),
+            },
+        });
+        const roles = datas.map((r) => new RoleEntity(r));
+        return roles;
     }
-    async findById(id: number): Promise<RoleModel> {
-        const roleEntity = await this.repository.findOneOrFail(id);
-        return this.toRole(roleEntity);
+
+    async findById(id: number): Promise<RoleEntity> {
+        const roleSchema = await this.repository.findOneOrFail(id);
+        const roleDto = new RoleEntity(roleSchema);
+        return roleDto;
     }
+
     async deleteById(id: number): Promise<void> {
         await this.repository.delete({ id: id });
     }
 
-    private toRole(roleEntity: Role): RoleModel {
-        const role: RoleModel = new RoleModel();
-
-        role.id = roleEntity.id;
-
-        return role;
-    }
-
-    private toRoleEntity(role: RoleModel): Role {
+    private toRoleEntity(role: RoleEntity): Role {
         const roleEntity: Role = new Role();
 
         roleEntity.id = role.id;

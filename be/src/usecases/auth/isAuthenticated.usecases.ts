@@ -1,11 +1,11 @@
-import { UserModel, UserWithoutPassword } from '../../domain/model/user';
-import { IUserRepository } from '../../domain/repositories/userRepository.interface';
+import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
+import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 
 export class IsAuthenticatedUseCases {
-    constructor(private readonly adminUserRepo: IUserRepository) {}
+    constructor(private readonly userService: IUserRepository) {}
 
     async execute(username: string): Promise<UserWithoutPassword> {
-        const user: UserModel = await this.adminUserRepo.getUserByUsername(username);
+        const user: UserEntity = await this.userService.getUserByUsername(username);
         const { password, ...info } = user;
         return info;
     }

@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
 import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { TokenPayload } from '../../../domain/model/auth';
+import { AuthEntity } from '../../../domain/entities/auth.entity';
 import { LoggerService } from '../../logger/logger.service';
 import { ExceptionsService } from '../../exceptions/exceptions.service';
 
@@ -28,9 +28,9 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-ref
         });
     }
 
-    async validate(request: Request, payload: TokenPayload) {
+    async validate(request: Request, authEntity: AuthEntity) {
         const refreshToken = request.cookies?.Refresh;
-        const user = this.loginUsecaseProxy.getInstance().getUserIfRefreshTokenMatches(refreshToken, payload.username);
+        const user = this.loginUsecaseProxy.getInstance().getUserIfRefreshTokenMatches(refreshToken, authEntity.username);
         if (!user) {
             this.logger.warn('JwtStrategy', `User not found or hash not correct`);
             this.exceptionService.UnauthorizedException({ message: 'User not found or hash not correct' });
