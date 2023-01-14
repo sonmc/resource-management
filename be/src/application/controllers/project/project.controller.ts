@@ -21,7 +21,7 @@ export class ProjectController {
     constructor(
         @Inject(UsecasesProxyModule.GET_PROJECTS_USECASES_PROXY)
         private readonly getProjectsUsecaseProxy: UseCaseProxy<GetProjectsUseCases>,
-        @Inject(UsecasesProxyModule.POST_PROJECT_USECASES_PROXY)
+        @Inject(UsecasesProxyModule.CREATE_PROJECT_USECASES_PROXY)
         private readonly createProjectsUsecaseProxy: UseCaseProxy<CreateProjectUseCases>,
         @Inject(UsecasesProxyModule.ADD_MEMBER_USECASES_PROXY)
         private readonly addMemberUsecaseProxy: UseCaseProxy<AddMemberUseCases>
