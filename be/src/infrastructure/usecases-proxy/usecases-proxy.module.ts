@@ -39,6 +39,7 @@ export class UsecasesProxyModule {
         return {
             module: UsecasesProxyModule,
             providers: [
+                // Auth
                 getLoginProvide(UsecasesProxyModule.LOGIN_USECASES_PROXY),
                 isAuthenticatedProvide(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY),
                 logoutProvide(UsecasesProxyModule.LOGOUT_USECASES_PROXY),
