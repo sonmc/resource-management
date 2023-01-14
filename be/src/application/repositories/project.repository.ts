@@ -18,9 +18,9 @@ export class ProjectRepository implements IProjectRepository {
         // });
     }
 
-    async insert(todo: ProjectEntity): Promise<ProjectEntity> {
-        const todoEntity = this.toTodoEntity(todo);
-        const result = await this.repository.insert(todoEntity);
+    async create(projectE: ProjectEntity): Promise<ProjectEntity> {
+        const project = this.toProjectSchema(projectE);
+        const result = await this.repository.insert(project);
         return this.toTodo(result.generatedMaps[0] as Project);
     }
 
@@ -50,11 +50,9 @@ export class ProjectRepository implements IProjectRepository {
         return project;
     }
 
-    private toTodoEntity(todo: ProjectEntity): Project {
-        const todoEntity: Project = new Project();
-
-        todoEntity.id = todo.id;
-
-        return todoEntity;
+    private toProjectSchema(todo: ProjectEntity): Project {
+        const project: Project = new Project();
+        project.id = todo.id;
+        return project;
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ADMIN_ID } from 'src/business-rules/role.rule';
-import { Repository, LessThan } from 'typeorm';
+import { Repository, LessThan, MoreThan } from 'typeorm';
 import { IRoleRepository } from '../../domain/repositories/role-repository.interface';
 import { Role } from '../../infrastructure/schemas/Role.schema';
 import { RoleEntity } from 'src/domain/entities/role.entity';
@@ -19,39 +19,46 @@ export class RoleRepository implements IRoleRepository {
         // });
     }
 
-    async insert(role: RoleEntity): Promise<RoleEntity> {
-        const roleSchema = this.toRoleEntity(role);
-        const result = await this.repository.insert(roleSchema);
-        const r = result.generatedMaps[0] as Role;
-        const roleDto = new RoleEntity(r);
-        return roleDto;
+    async create(role: RoleEntity): Promise<RoleEntity> {
+        const roleSchema = this.toRoleSchema(role);
+        const result = await this.repository.create(roleSchema);
+        await this.repository.save(result);
+        const roleE = this.toRoleEntity(result);
+        return roleE;
     }
 
     async findAll() {
         const datas = await this.repository.find({
             where: {
-                id: LessThan(ADMIN_ID),
+                id: MoreThan(ADMIN_ID),
             },
         });
-        const roles = datas.map((r) => new RoleEntity(r));
+        const roles = datas.map((r) => this.toRoleEntity(r));
         return roles;
     }
 
     async findById(id: number): Promise<RoleEntity> {
         const roleSchema = await this.repository.findOneOrFail(id);
-        const roleDto = new RoleEntity(roleSchema);
-        return roleDto;
+        const roleE = this.toRoleEntity(roleSchema);
+        return roleE;
     }
 
     async deleteById(id: number): Promise<void> {
         await this.repository.delete({ id: id });
     }
 
-    private toRoleEntity(role: RoleEntity): Role {
-        const roleEntity: Role = new Role();
-
-        roleEntity.id = role.id;
-
-        return roleEntity;
+    private toRoleSchema(roleE: RoleEntity): Role {
+        const role: Role = new Role();
+        role.id = roleE.id;
+        role.name = roleE.name;
+        role.description = roleE.description || '';
+        return role;
+    }
+    private toRoleEntity(role: Role): RoleEntity {
+        const roleE: RoleEntity = new RoleEntity();
+        roleE.id = role.id;
+        roleE.name = role.name;
+        roleE.description = role.description || '';
+        return roleE;
     }
 }

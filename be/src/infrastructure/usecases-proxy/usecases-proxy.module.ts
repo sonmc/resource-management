@@ -27,6 +27,10 @@ import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
 import { GetEmployeesUseCases } from 'src/usecases/employee/get-employees.usecases';
 import { WorkloadRepository } from 'src/application/repositories/workload.repository';
 import { UserProjectRepository } from 'src/application/repositories/user-project.repository';
+import { GetEmployeeUseCases } from 'src/usecases/employee/get-employee.usecases';
+import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
+import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
+import { CreateEmployeeUseCases } from 'src/usecases/employee/create-employee.usercase';
 
 @Module({
     imports: [LoggerModule, JwtModule, BcryptModule, RepositoriesModule, ExceptionsModule],
@@ -43,10 +47,13 @@ export class UsecasesProxyModule {
     static ADD_MEMBER_USECASES_PROXY = 'addMemberUsecasesProxy';
     // Role
     static GET_ROLES_USECASES_PROXY = 'getRolesUsecasesProxy';
-    static POST_ROLE_USECASES_PROXY = 'postRoleUsecasesProxy';
+    static CREATE_ROLE_USECASES_PROXY = 'createRoleUsecasesProxy';
     static PUT_ROLE_USECASES_PROXY = 'putRoleUsecasesProxy';
+    static DELETE_ROLE_USECASES_PROXY = 'deleteRoleUsecasesProxy';
     // Employee
     static GET_EMPLOYEES_USECASES_PROXY = 'getEmployeesUsecasesProxy';
+    static GET_EMPLOYEE_USECASES_PROXY = 'getEmployeeUsecasesProxy';
+    static CREATE_EMPLOYEES_USECASES_PROXY = 'createEmployeesUsecasesProxy';
 
     static register(): DynamicModule {
         return {
@@ -67,6 +74,7 @@ export class UsecasesProxyModule {
                     provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
                     useFactory: () => new UseCaseProxy(new LogoutUseCases()),
                 },
+                // Projects
                 {
                     inject: [ProjectRepository],
                     provide: UsecasesProxyModule.GET_PROJECTS_USECASES_PROXY,
@@ -82,15 +90,38 @@ export class UsecasesProxyModule {
                     provide: UsecasesProxyModule.ADD_MEMBER_USECASES_PROXY,
                     useFactory: (logger: LoggerService, userRepository: UserRepository, userProjectRepository: UserProjectRepository, workloadRepository: WorkloadRepository) => new UseCaseProxy(new AddMemberUseCases(logger, userRepository, userProjectRepository, workloadRepository)),
                 },
+                // Roles
                 {
                     inject: [LoggerService, RoleRepository],
                     provide: UsecasesProxyModule.GET_ROLES_USECASES_PROXY,
                     useFactory: (logger: LoggerService, RoleRepository: RoleRepository) => new UseCaseProxy(new GetRolesUseCases(logger, RoleRepository)),
                 },
                 {
+                    inject: [LoggerService, RoleRepository],
+                    provide: UsecasesProxyModule.CREATE_ROLE_USECASES_PROXY,
+                    useFactory: (logger: LoggerService, RoleRepository: RoleRepository) => new UseCaseProxy(new CreateRoleUseCases(logger, RoleRepository)),
+                },
+                {
+                    inject: [LoggerService, RoleRepository],
+                    provide: UsecasesProxyModule.DELETE_ROLE_USECASES_PROXY,
+                    useFactory: (logger: LoggerService, RoleRepository: RoleRepository) => new UseCaseProxy(new DeleteRoleUseCases(logger, RoleRepository)),
+                },
+
+                // Employees
+                {
                     inject: [LoggerService, UserRepository],
                     provide: UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY,
                     useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new GetEmployeesUseCases(logger, UserRepository)),
+                },
+                {
+                    inject: [LoggerService, UserRepository],
+                    provide: UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
+                    useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new GetEmployeeUseCases(logger, UserRepository)),
+                },
+                {
+                    inject: [LoggerService, UserRepository],
+                    provide: UsecasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
+                    useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new CreateEmployeeUseCases(logger, UserRepository)),
                 },
             ],
             exports: [
@@ -104,8 +135,12 @@ export class UsecasesProxyModule {
                 UsecasesProxyModule.ADD_MEMBER_USECASES_PROXY,
                 // Roles
                 UsecasesProxyModule.GET_ROLES_USECASES_PROXY,
+                UsecasesProxyModule.CREATE_ROLE_USECASES_PROXY,
+                UsecasesProxyModule.DELETE_ROLE_USECASES_PROXY,
                 // Employees
                 UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY,
+                UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
+                UsecasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
             ],
         };
     }

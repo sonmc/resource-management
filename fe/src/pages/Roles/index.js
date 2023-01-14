@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardBody, Col, Container, Row, Table, Button } from 'reactstrap';
+import { CardBody, Col, Container, Table, Button } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import ModalUpdate from './FormUpdate';
-import { Get, Create, Update } from '../../Services/role.service';
+import ConfirmDelete from './ConfirmDelete';
+import { Get, Create, Update, Delete } from '../../Services/role.service';
 
 const Roles = () => {
     const [roleId, setRoleId] = useState(0);
     const [roles, setRoles] = useState([]);
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
-
+    const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
     const fetchRole = () => {
         Get({}).then((res) => {
             setRoles(res);
@@ -20,8 +21,16 @@ const Roles = () => {
         setShowFormUpdate(!isShowFormUpdate);
     };
 
+    const showConfirmDelete = (roleId) => {
+        setRoleId(roleId);
+        setShowConfirmDelete(!isShowConfirmDelete);
+    };
+
     const closeFormUpdate = () => {
         setShowFormUpdate(false);
+    };
+    const closeConfirmDelete = () => {
+        setShowConfirmDelete(false);
     };
 
     const save = (role) => {
@@ -39,6 +48,16 @@ const Roles = () => {
                 })
                 .catch((error) => {});
         }
+    };
+
+    const deleteRole = (roleId) => {
+        Delete(roleId)
+            .then((res) => {
+                const newRoles = roles.filter((role) => role.id !== res);
+                setRoles(newRoles);
+                setShowConfirmDelete(false);
+            })
+            .catch((err) => {});
     };
 
     useEffect(() => {
@@ -77,16 +96,16 @@ const Roles = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {roles.map((emp, key) => {
+                                                {roles.map((role, key) => {
                                                     return (
                                                         <tr key={key}>
                                                             <th>{key + 1}</th>
-                                                            <td>{emp.name}</td>
+                                                            <td>{role.name}</td>
                                                             <td>
-                                                                <Button color="success btn-sm" onClick={() => showFormUpdate(emp.id)}>
+                                                                <Button color="success btn-sm" onClick={() => showFormUpdate(role.id)}>
                                                                     Update
                                                                 </Button>
-                                                                <Button color="danger btn-sm mx-3" onClick={() => showFormUpdate(emp.id)}>
+                                                                <Button color="danger btn-sm mx-3" onClick={() => showConfirmDelete(role.id)}>
                                                                     Delete
                                                                 </Button>
                                                             </td>
@@ -101,6 +120,7 @@ const Roles = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
+                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
                 </Container>
             </div>
         </React.Fragment>

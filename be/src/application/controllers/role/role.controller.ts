@@ -1,11 +1,14 @@
-import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
+import { CreateRolePresenter } from './presenter/create-role.presenter';
+import { Controller, Get, Post, Inject, Body, UseGuards, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
-import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
-import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
+import { toRoleEntity } from 'src/actions/role.action';
 
+import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
+import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
+import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
 @Controller('roles')
 @ApiTags('roles')
 @UseGuards(JwtStrategy)
@@ -13,12 +16,27 @@ import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 export class RoleController {
     constructor(
         @Inject(UsecasesProxyModule.GET_ROLES_USECASES_PROXY)
-        private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>
+        private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
+        @Inject(UsecasesProxyModule.CREATE_ROLE_USECASES_PROXY)
+        private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
+        @Inject(UsecasesProxyModule.DELETE_ROLE_USECASES_PROXY)
+        private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
     ) {}
 
     @Get()
     async get() {
         const roles = await this.getRolesUsecaseProxy.getInstance().execute();
         return roles;
+    }
+
+    @Post()
+    async create(@Body() createRolePresenter: CreateRolePresenter) {
+        const roleEntity = toRoleEntity(createRolePresenter);
+        return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string) {
+        return await this.deleteRoleUsecaseProxy.getInstance().execute(+id);
     }
 }

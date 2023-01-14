@@ -6,5 +6,5 @@ export interface IUserRepository {
     updateRefreshToken(username: string, refreshToken: string): Promise<void>;
     findAll(): Promise<UserEntity[]>;
     findOne(id: number): Promise<UserEntity>;
-    insert(user: UserEntity): Promise<UserEntity>;
+    create(user: UserEntity): Promise<UserEntity>;
 }

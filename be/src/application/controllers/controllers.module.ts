@@ -8,7 +8,7 @@ import { UsecasesProxyModule } from '../../infrastructure/usecases-proxy/usecase
 import { AuthController } from './auth/auth.controller';
 import { ProjectController } from './project/project.controller';
 import { RoleController } from './role/role.controller';
-import { UserController } from './user/user.controller';
+import { UserController } from './employee/employee.controller';
 
 @Module({
     imports: [UsecasesProxyModule.register()],

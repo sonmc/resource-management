@@ -111,7 +111,7 @@ const Employees = () => {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
-                                                    <th>Name</th>
+                                                    <th>UserName</th>
                                                     <th>Email</th>
                                                     <th>Role</th>
                                                     <th style={{ width: '10%', textAlign: 'center' }}>Status</th>
@@ -125,7 +125,7 @@ const Employees = () => {
                                                             <th>{key + 1}</th>
                                                             <th>
                                                                 <Link to="#" className="fw-medium">
-                                                                    {emp.name}
+                                                                    {emp.username}
                                                                 </Link>
                                                             </th>
                                                             <td>{emp.email}</td>
