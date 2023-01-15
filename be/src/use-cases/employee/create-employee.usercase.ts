@@ -6,6 +6,8 @@ export class CreateEmployeeUseCases {
     constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository) {}
 
     async execute(userE: UserEntity): Promise<UserEntity> {
-        return await this.userRepository.create(userE);
+        const user = await this.userRepository.create(userE);
+        this.logger.log('createEmployeeUseCases execute', 'New employee have been inserted');
+        return user;
     }
 }

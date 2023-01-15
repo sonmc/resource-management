@@ -1,13 +1,13 @@
 import { Controller, Get, Post, Inject, Body, UseGuards, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
-import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
+import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 
-import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
-import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
-import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
+import { CreateRoleUseCases } from 'src/use-cases/role/create-role.usecases';
+import { DeleteRoleUseCases } from 'src/use-cases/role/delete-role.usecases';
+import { GetRolesUseCases } from 'src/use-cases/role/get-roles.usecases';
 import { CreateRolePresenter } from './presenter/create-role.presenter';
 import { RoleEntity } from 'src/domain/entities/role.entity';
 
@@ -17,11 +17,11 @@ import { RoleEntity } from 'src/domain/entities/role.entity';
 @ApiResponse({ status: 500, description: 'Internal error' })
 export class RoleController {
     constructor(
-        @Inject(UsecasesProxyModule.GET_ROLES_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.GET_ROLES_USECASES_PROXY)
         private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
-        @Inject(UsecasesProxyModule.CREATE_ROLE_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY)
         private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
-        @Inject(UsecasesProxyModule.DELETE_ROLE_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.DELETE_ROLE_USECASES_PROXY)
         private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
     ) {}
 

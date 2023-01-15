@@ -13,12 +13,12 @@ export class GetProjectsUseCases {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
                     if (user.workloads.length == 0) {
-                        user.workloads = generateWorkload(user.id, '', new Date(), project.id);
+                        user.workloads = generateWorkload(user.id, '', project.id);
                     }
                 });
             } else {
                 const user = new UserEntity(new User());
-                user.workloads = generateWorkload(0, '', new Date(), project.id);
+                user.workloads = generateWorkload(0, '', project.id);
                 project.users.push(user);
             }
         });

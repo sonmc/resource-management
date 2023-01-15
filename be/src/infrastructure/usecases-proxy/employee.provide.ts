@@ -1,7 +1,7 @@
 import { UserRepository } from 'src/presentation/repositories/user.repository';
-import { CreateEmployeeUseCases } from 'src/usecases/employee/create-employee.usercase';
-import { GetOneUseCases } from 'src/usecases/employee/get-one.usecases';
-import { GetAllUseCases } from 'src/usecases/employee/get-all.usecases';
+import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.usercase';
+import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
+import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
 import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
 

@@ -1,12 +1,12 @@
 import { Controller, UseGuards, Get, Post, Body, Query, Inject } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
-import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
-import { GetAllUseCases } from 'src/usecases/employee/get-all.usecases';
+import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
+import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { CreateEmployeePresenter } from './presenter/create-employee.presenter';
-import { CreateEmployeeUseCases } from 'src/usecases/employee/create-employee.usercase';
-import { GetOneUseCases } from 'src/usecases/employee/get-one.usecases';
+import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.usercase';
+import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
 
@@ -16,11 +16,11 @@ import { UserEntity } from 'src/domain/entities/user.entity';
 @ApiResponse({ status: 500, description: 'Internal error' })
 export class UserController {
     constructor(
-        @Inject(UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
         private readonly getAllUsecaseProxy: UseCaseProxy<GetAllUseCases>,
-        @Inject(UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
         private readonly getOneUsecaseProxy: UseCaseProxy<GetOneUseCases>,
-        @Inject(UsecasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUsecaseProxy: UseCaseProxy<CreateEmployeeUseCases>
     ) {}
 

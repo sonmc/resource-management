@@ -124,7 +124,7 @@ const Employees = () => {
                                                         <tr key={key}>
                                                             <th>{key + 1}</th>
                                                             <th>
-                                                                <Link to="#" className="fw-medium">
+                                                                <Link to="#" title="click for more detail" className="fw-medium">
                                                                     {emp.username}
                                                                 </Link>
                                                             </th>

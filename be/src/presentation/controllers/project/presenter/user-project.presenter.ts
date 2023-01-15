@@ -1,4 +1,4 @@
-export class AddMemberEntity {
+export class UserProjectPresenter {
     project_id: number;
     start_date: Date;
     end_date: Date;

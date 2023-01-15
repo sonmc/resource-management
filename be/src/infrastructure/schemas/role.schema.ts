@@ -12,6 +12,7 @@ export class Role extends BaseEntity {
 
     @Column()
     description: string;
+    
     @CreateDateColumn()
     created_at: Date;
 

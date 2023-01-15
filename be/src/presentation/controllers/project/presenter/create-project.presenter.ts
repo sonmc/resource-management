@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from 'src/domain/entities/user.entity';
 
-export class ProjectPresenter {
+export class CreateProjectPresenter {
     @ApiProperty()
     id: number;
     @ApiProperty()
@@ -9,5 +8,5 @@ export class ProjectPresenter {
     @ApiProperty()
     note: string;
     @ApiProperty()
-    users: UserEntity[] = [];
+    start_date: Date;
 }

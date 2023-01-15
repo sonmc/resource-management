@@ -1,32 +1,28 @@
-import { UserEntity } from 'src/domain/entities/user.entity';
-import { ProjectEntity } from 'src/domain/entities/project.entity';
+import { ApiProperty } from '@nestjs/swagger';
 import { RoleEntity } from 'src/domain/entities/role.entity';
 import { WorkloadEntity } from 'src/domain/entities/workload.entity';
 
 export class UserPresenter {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     username: string;
+    @ApiProperty()
     email: string;
+    @ApiProperty()
     phone_number: string;
+    @ApiProperty()
     password: string;
+    @ApiProperty()
     status: number;
+    @ApiProperty()
     gender: boolean;
+    @ApiProperty()
     avatar: string;
+    @ApiProperty()
     dob: Date;
+    @ApiProperty()
     role: RoleEntity;
+    @ApiProperty()
     workloads: WorkloadEntity[];
-
-    constructor(user: UserEntity) {
-        this.id = user.id;
-        this.username = user.username;
-        this.email = user.email;
-        this.phone_number = user.phone_number;
-        this.password = user.password;
-        this.status = user.status;
-        this.gender = user.gender;
-        this.avatar = user.avatar;
-        this.dob = user.dob;
-        this.role = user.role;
-        this.workloads = user.workloads;
-    }
 }

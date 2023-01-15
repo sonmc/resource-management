@@ -2,9 +2,9 @@ import { ProjectRepository } from 'src/presentation/repositories/project.reposit
 import { UserProjectRepository } from 'src/presentation/repositories/user-project.repository';
 import { UserRepository } from 'src/presentation/repositories/user.repository';
 import { WorkloadRepository } from 'src/presentation/repositories/workload.repository';
-import { AddMemberUseCases } from 'src/usecases/project/add-member.usercase';
-import { CreateProjectUseCases } from 'src/usecases/project/add-project.usecases';
-import { GetProjectsUseCases } from 'src/usecases/project/get-projects.usecases';
+import { AddMemberUseCases } from 'src/use-cases/project/add-member-to-project.usercase';
+import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
+import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
 import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
 

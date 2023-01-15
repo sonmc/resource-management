@@ -7,7 +7,7 @@ export class CreateProjectUseCases {
 
     async execute(project: ProjectEntity): Promise<ProjectEntity> {
         const result = await this.projectRepository.create(project);
-        this.logger.log('addProjectUseCases execute', 'New project have been inserted');
+        this.logger.log('createProjectUseCases execute', 'New project have been inserted');
         return result;
     }
 }

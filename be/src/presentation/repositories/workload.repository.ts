@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { IWorkloadRepository } from 'src/domain/repositories/workload-repository.interface';
 import { WorkloadEntity } from 'src/domain/entities/workload.entity';
 import { Workload } from 'src/infrastructure/schemas/workload.schema';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class WorkloadRepository implements IWorkloadRepository {
@@ -14,14 +15,14 @@ export class WorkloadRepository implements IWorkloadRepository {
 
     async findAll(): Promise<WorkloadEntity[]> {
         const workloads = await this.repository.find();
-        return workloads.map((w) => new WorkloadEntity(w));
+        return workloads.map((w) => plainToClass(WorkloadEntity, w));
     }
 
     async create(workload: WorkloadEntity): Promise<WorkloadEntity> {
-        throw new Error('Method not implemented.');
-    }
-
-    async save(): Promise<WorkloadEntity> {
-        throw new Error('Method not implemented.');
+        const workloadSchema = plainToClass(Workload, workload);
+        const result = await this.repository.create(workloadSchema);
+        await this.repository.save(result);
+        const workloadE = plainToClass(WorkloadEntity, result);
+        return workloadE;
     }
 }

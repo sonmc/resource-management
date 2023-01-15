@@ -4,9 +4,15 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 export class UserProject {
     @Column()
     @PrimaryColumn()
-    project_id: number;
+    project_id: Number;
 
     @Column()
     @PrimaryColumn()
-    user_id: number;
+    user_id: Number;
+
+    @Column()
+    start_date: Date;
+
+    @Column()
+    end_date: Date;
 }

@@ -1,7 +1,7 @@
 import { RoleRepository } from 'src/presentation/repositories/role.repository';
-import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
-import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
-import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
+import { CreateRoleUseCases } from 'src/use-cases/role/create-role.usecases';
+import { DeleteRoleUseCases } from 'src/use-cases/role/delete-role.usecases';
+import { GetRolesUseCases } from 'src/use-cases/role/get-roles.usecases';
 import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
 

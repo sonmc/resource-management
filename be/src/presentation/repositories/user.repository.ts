@@ -1,3 +1,4 @@
+import { plainToClass } from 'class-transformer';
 import { PASSWORD_DEFAULT } from './../../business-rules/employee.rule';
 import { ADMIN_ID } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
@@ -19,7 +20,7 @@ export class UserRepository implements IUserRepository {
 
     async findOne(id: number): Promise<UserEntity> {
         const user = await this.userRepository.findOne(id);
-        const userE = this.toUserEntity(user);
+        const userE = plainToClass(UserEntity, user);
         return userE;
     }
 
@@ -29,17 +30,17 @@ export class UserRepository implements IUserRepository {
                 where: { id: MoreThan(ADMIN_ID) },
                 relations: ['role'],
             })
-            .then((u) => u.map((x) => this.toUserEntity(x)));
+            .then((u) => u.map((x) => plainToClass(UserEntity, x)));
         return users;
     }
 
     async create(user: UserEntity): Promise<UserEntity> {
-        const userSchema = this.toUserSchema(user);
+        const userSchema = plainToClass(User, user);
         await userSchema.setPassword(PASSWORD_DEFAULT);
         userSchema.role = await this.roleRepository.findOne(user.role_id);
         const result = await this.userRepository.create(userSchema);
         await this.userRepository.save(result);
-        const userE = this.toUserEntity(result);
+        const userE = plainToClass(UserEntity, result);
         return userE;
     }
 
@@ -61,7 +62,7 @@ export class UserRepository implements IUserRepository {
         if (!user) {
             return null;
         }
-        return this.toUserEntity(user);
+        return plainToClass(UserEntity, user);
     }
 
     async updateLastLogin(username: string): Promise<void> {
@@ -71,31 +72,5 @@ export class UserRepository implements IUserRepository {
             },
             { last_login: () => 'CURRENT_TIMESTAMP' }
         );
-    }
-
-    private toUserSchema(userE: UserEntity): User {
-        const user: User = new User();
-        user.id = userE.id;
-        user.username = userE.username;
-        user.password = userE.password;
-        user.email = userE.email;
-        user.phone_number = userE.phone_number;
-        user.gender = userE.gender;
-        user.status = userE.status;
-        user.dob = userE.dob;
-        return user;
-    }
-
-    private toUserEntity(user: User): UserEntity {
-        const userE: UserEntity = new UserEntity();
-        userE.id = user.id;
-        userE.username = user.username;
-        userE.email = user.email;
-        userE.phone_number = user.phone_number;
-        userE.gender = user.gender;
-        userE.status = user.status;
-        userE.dob = user.dob;
-        userE.role = user.role;
-        return userE;
     }
 }

@@ -1,7 +1,7 @@
 import { UserRepository } from 'src/presentation/repositories/user.repository';
-import { IsAuthenticatedUseCases } from 'src/usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from 'src/usecases/auth/login.usecases';
-import { LogoutUseCases } from 'src/usecases/auth/logout.usecases';
+import { IsAuthenticatedUseCases } from 'src/use-cases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from 'src/use-cases/auth/login.usecases';
+import { LogoutUseCases } from 'src/use-cases/auth/logout.usecases';
 import { LoggerService } from '../logger/logger.service';
 import { BcryptService } from '../services/bcrypt/bcrypt.service';
 import { JwtTokenService } from '../services/jwt/jwt.service';

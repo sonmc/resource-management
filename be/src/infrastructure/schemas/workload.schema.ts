@@ -8,9 +8,7 @@ export class Workload extends BaseEntity {
 
     @Column()
     value: string;
-
-    @Column()
-    start_date: Date;
+ 
 
     @Column()
     user_id: number;

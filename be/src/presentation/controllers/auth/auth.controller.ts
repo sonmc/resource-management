@@ -9,10 +9,10 @@ import { JwtAuthGuard } from '../../../infrastructure/common/guards/jwtAuth.guar
 import { LoginGuard } from '../../../infrastructure/common/guards/login.guard';
 
 import { UseCaseProxy } from '../../../infrastructure/usecases-proxy/usecases-proxy';
-import { UsecasesProxyModule } from '../../../infrastructure/usecases-proxy/usecases-proxy.module';
-import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases';
-import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
+import { UseCasesProxyModule } from '../../../infrastructure/usecases-proxy/usecases-proxy.module';
+import { LoginUseCases } from '../../../use-cases/auth/login.usecases';
+import { IsAuthenticatedUseCases } from '../../../use-cases/auth/isAuthenticated.usecases';
+import { LogoutUseCases } from '../../../use-cases/auth/logout.usecases';
 
 import { ApiResponseType } from '../../../infrastructure/common/swagger/response.decorator';
 
@@ -26,11 +26,11 @@ import { ApiResponseType } from '../../../infrastructure/common/swagger/response
 @ApiExtraModels(AuthPresenter)
 export class AuthController {
     constructor(
-        @Inject(UsecasesProxyModule.LOGIN_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
         private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-        @Inject(UsecasesProxyModule.LOGOUT_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.LOGOUT_USECASES_PROXY)
         private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
-        @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
+        @Inject(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
         private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>
     ) {}
 

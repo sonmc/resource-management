@@ -1,3 +1,4 @@
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -19,9 +20,10 @@ export class ProjectRepository implements IProjectRepository {
     }
 
     async create(projectE: ProjectEntity): Promise<ProjectEntity> {
-        const project = this.toProjectSchema(projectE);
-        const result = await this.repository.insert(project);
-        return this.toTodo(result.generatedMaps[0] as Project);
+        const project = plainToClass(Project, projectE);
+        const result = await this.repository.create(project);
+        await this.repository.save(result);
+        return plainToClass(ProjectEntity, result);
     }
 
     async findAll(): Promise<ProjectEntity[]> {
@@ -29,30 +31,16 @@ export class ProjectRepository implements IProjectRepository {
             .find({
                 relations: ['users', 'users.role', 'users.workloads'],
             })
-            .then((p) => p.map((x) => new ProjectEntity(x)));
+            .then((p) => plainToInstance(ProjectEntity, p));
         return projects;
     }
 
     async findById(id: number): Promise<ProjectEntity> {
-        const todoEntity = await this.repository.findOneOrFail(id);
-        return this.toTodo(todoEntity);
+        const project = await this.repository.findOneOrFail(id);
+        return plainToClass(ProjectEntity, project);
     }
 
     async deleteById(id: number): Promise<void> {
         await this.repository.delete({ id: id });
-    }
-
-    private toTodo(todoEntity: Project): ProjectEntity {
-        const project: ProjectEntity = new ProjectEntity();
-
-        project.id = todoEntity.id;
-
-        return project;
-    }
-
-    private toProjectSchema(todo: ProjectEntity): Project {
-        const project: Project = new Project();
-        project.id = todo.id;
-        return project;
     }
 }
