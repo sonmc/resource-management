@@ -1,4 +1,4 @@
-import { RoleRepository } from 'src/application/repositories/role.repository';
+import { RoleRepository } from 'src/presentation/repositories/role.repository';
 import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
 import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
 import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';

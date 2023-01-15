@@ -1,14 +1,16 @@
-import { CreateRolePresenter } from './presenter/create-role.presenter';
 import { Controller, Get, Post, Inject, Body, UseGuards, Delete, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { plainToClass } from 'class-transformer';
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
-import { toRoleEntity } from 'src/actions/role.action';
 
 import { CreateRoleUseCases } from 'src/usecases/role/create-role.usecases';
 import { DeleteRoleUseCases } from 'src/usecases/role/delete-role.usecases';
 import { GetRolesUseCases } from 'src/usecases/role/get-roles.usecases';
+import { CreateRolePresenter } from './presenter/create-role.presenter';
+import { RoleEntity } from 'src/domain/entities/role.entity';
+
 @Controller('roles')
 @ApiTags('roles')
 @UseGuards(JwtStrategy)
@@ -31,7 +33,7 @@ export class RoleController {
 
     @Post()
     async create(@Body() createRolePresenter: CreateRolePresenter) {
-        const roleEntity = toRoleEntity(createRolePresenter);
+        const roleEntity = plainToClass(RoleEntity, createRolePresenter);
         return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
     }
 

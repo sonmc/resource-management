@@ -2,12 +2,13 @@ import { Controller, UseGuards, Get, Post, Body, Query, Inject } from '@nestjs/c
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
-import { GetEmployeesUseCases } from 'src/usecases/employee/get-employees.usecases';
+import { GetAllUseCases } from 'src/usecases/employee/get-all.usecases';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { CreateEmployeePresenter } from './presenter/create-employee.presenter';
 import { CreateEmployeeUseCases } from 'src/usecases/employee/create-employee.usercase';
-import { toEmployeeEntity } from 'src/actions/employee.action';
-import { GetEmployeeUseCases } from 'src/usecases/employee/get-employee.usecases';
+import { GetOneUseCases } from 'src/usecases/employee/get-one.usecases';
+import { plainToClass } from 'class-transformer';
+import { UserEntity } from 'src/domain/entities/user.entity';
 
 @Controller('employees')
 @ApiTags('employees')
@@ -16,26 +17,24 @@ import { GetEmployeeUseCases } from 'src/usecases/employee/get-employee.usecases
 export class UserController {
     constructor(
         @Inject(UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
-        private readonly getUsersUsecaseProxy: UseCaseProxy<GetEmployeesUseCases>,
+        private readonly getAllUsecaseProxy: UseCaseProxy<GetAllUseCases>,
         @Inject(UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
-        private readonly getUserUsecaseProxy: UseCaseProxy<GetEmployeeUseCases>,
+        private readonly getOneUsecaseProxy: UseCaseProxy<GetOneUseCases>,
         @Inject(UsecasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUsecaseProxy: UseCaseProxy<CreateEmployeeUseCases>
     ) {}
 
     @Get()
     async get(@Query() query) {
-        let response = null;
         if (query.id) {
-            response = await this.getUserUsecaseProxy.getInstance().execute(query?.id);
+            return await this.getOneUsecaseProxy.getInstance().execute(query?.id);
         }
-        response = await this.getUsersUsecaseProxy.getInstance().execute();
-        return response;
+        return await this.getAllUsecaseProxy.getInstance().execute();
     }
 
     @Post()
     async create(@Body() createEmployeePresenter: CreateEmployeePresenter) {
-        const userEntity = toEmployeeEntity(createEmployeePresenter);
+        const userEntity = plainToClass(UserEntity, createEmployeePresenter);
         return await this.createEmployeeUsecaseProxy.getInstance().execute(userEntity);
     }
 

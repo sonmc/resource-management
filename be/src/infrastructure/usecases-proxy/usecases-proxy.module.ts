@@ -5,12 +5,12 @@ import { LoggerModule } from '../logger/logger.module';
 
 import { BcryptModule } from '../services/bcrypt/bcrypt.module';
 import { JwtModule } from '../services/jwt/jwt.module';
-import { RepositoriesModule } from '../../application/repositories/zrepository.module';
+import { RepositoriesModule } from 'src/presentation/repositories/zrepository.module';
 
 import { getLoginProvide, isAuthenticatedProvide, logoutProvide } from './auth.provide';
-import { addMemberProvide, createProjectProvide, getProjectProvide } from './project.provider';
-import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provider';
-import { getEmployeeProvide, getEmployeesProvide, createEmployeeProvide } from './employee.provider';
+import { addMemberProvide, createProjectProvide, getProjectProvide } from './project.provide';
+import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
+import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.provide';
 
 @Module({
     imports: [LoggerModule, JwtModule, BcryptModule, RepositoriesModule, ExceptionsModule],
@@ -52,8 +52,8 @@ export class UsecasesProxyModule {
                 createRoleProvide(UsecasesProxyModule.CREATE_ROLE_USECASES_PROXY),
                 deleteRoleProvide(UsecasesProxyModule.DELETE_ROLE_USECASES_PROXY),
                 // Employees
-                getEmployeeProvide(UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
-                getEmployeesProvide(UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
+                getAllProvide(UsecasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
+                getOneProvide(UsecasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
                 createEmployeeProvide(UsecasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
             ],
             exports: [

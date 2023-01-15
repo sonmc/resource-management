@@ -1,7 +1,7 @@
-import { ProjectRepository } from 'src/application/repositories/project.repository';
-import { UserProjectRepository } from 'src/application/repositories/user-project.repository';
-import { UserRepository } from 'src/application/repositories/user.repository';
-import { WorkloadRepository } from 'src/application/repositories/workload.repository';
+import { ProjectRepository } from 'src/presentation/repositories/project.repository';
+import { UserProjectRepository } from 'src/presentation/repositories/user-project.repository';
+import { UserRepository } from 'src/presentation/repositories/user.repository';
+import { WorkloadRepository } from 'src/presentation/repositories/workload.repository';
 import { AddMemberUseCases } from 'src/usecases/project/add-member.usercase';
 import { CreateProjectUseCases } from 'src/usecases/project/add-project.usecases';
 import { GetProjectsUseCases } from 'src/usecases/project/get-projects.usecases';
