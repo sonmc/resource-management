@@ -12,25 +12,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './infrastructure/config/typeorm.config';
 import { ApiTokenMiddleware } from './presentation/middleware/api-token.middleware';
 @Module({
-    imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-        PassportModule,
-        JwtModule.register({
-            secret: 'JWT_SECRET_KEY',
-            signOptions: { expiresIn: '60m' },
-        }),
-        LoggerModule,
-        ExceptionsModule,
-        UseCasesProxyModule.register(),
-        ControllersModule,
-        BcryptModule,
-        JwtServiceModule,
-    ],
-    providers: [],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    PassportModule,
+    JwtModule.register({
+      secret: 'JWT_SECRET_KEY',
+      signOptions: { expiresIn: '60m' },
+    }),
+    LoggerModule,
+    ExceptionsModule,
+    UseCasesProxyModule.register(),
+    ControllersModule,
+    BcryptModule,
+    JwtServiceModule,
+  ],
+  providers: [],
 })
 export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(ApiTokenMiddleware).forRoutes({ path: '/', method: RequestMethod.ALL });
-    }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ApiTokenMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
 }
