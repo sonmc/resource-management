@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Container, Row, Table, Button } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row, Table, Button, Label } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -192,7 +192,9 @@ const Projects = () => {
                                 >
                                   <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                 </Link>
-                                {x.name}
+                                <Link to="#" onClick={() => showFormAddMember(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                  {x.name}
+                                </Link>
                               </th>
                               <td rowSpan={x.users.length} style={{ position: 'relative' }}>
                                 <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
