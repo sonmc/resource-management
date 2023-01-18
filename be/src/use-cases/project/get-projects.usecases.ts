@@ -7,9 +7,9 @@ import { IProjectRepository } from '../../domain/repositories/project-repository
 export class GetProjectsUseCases {
   constructor(private readonly projectRepository: IProjectRepository) {}
 
-  async execute(limit: number, cursor: number): Promise<ProjectEntity[]> {
-    const projects = await this.projectRepository.findAll(limit, cursor);
-    projects.forEach((project) => {
+  async execute(limit: number, cursor: number): Promise<any> {
+    const res = await this.projectRepository.findAll(limit, cursor);
+    res.projects.forEach((project) => {
       if (project.users.length > 0) {
         project.users.forEach((user) => {
           if (user.workloads.length == 0) {
@@ -22,6 +22,6 @@ export class GetProjectsUseCases {
         project.users.push(user);
       }
     });
-    return projects;
+    return res;
   }
 }

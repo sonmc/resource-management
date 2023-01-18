@@ -70,10 +70,10 @@ export class ProjectRepository implements IProjectRepository {
       findOption = findOptionInitial;
     }
 
-    const quizzes = await this.repository.find(findOption as FindManyOptions);
+    const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
     const res = {
-      quizzes: (quizzes as [Project]).slice(0, realLimit),
-      hasMore: (quizzes as [Project]).length === realLimitPlusOne,
+      projects: projects.slice(0, realLimit),
+      hasMore: projects.length === realLimitPlusOne,
     };
     return res;
   }
