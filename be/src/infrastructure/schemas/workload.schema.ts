@@ -1,14 +1,12 @@
-import { BaseEntity, Column, Entity, ManyToOne, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
+import {  Column, Entity, ManyToOne, JoinTable } from 'typeorm';
 import { User } from './user.schema';
+import { BaseEntity } from './base.schema';
 
 @Entity({ name: 'workloads' })
 export class Workload extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+ 
     @Column()
     value: string;
- 
 
     @Column()
     user_id: number;
