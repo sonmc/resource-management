@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { JwtAuthGuard } from './../../../infrastructure/common/guards/jwtAuth.guard';
-import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL } from '@nestjs/common';
-=======
 import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL, CACHE_MANAGER } from '@nestjs/common';
->>>>>>> develop
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
@@ -13,14 +9,10 @@ import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.u
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
-<<<<<<< HEAD
 import { Role } from 'src/domain/enums/role.enum';
 import { Roles } from 'src/infrastructure/decorators/role.decorator';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
-=======
-import Cache from 'cache-manager';
->>>>>>> develop
-
+import { Cache } from 'cache-manager';
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
 @ApiTags('employees')
@@ -28,29 +20,35 @@ import Cache from 'cache-manager';
 export class UserController {
   constructor(
     @Inject(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
-    private readonly getAllUsecaseProxy: UseCaseProxy<GetAllUseCases>,
+    private readonly getAllUseCaseProxy: UseCaseProxy<GetAllUseCases>,
     @Inject(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
-    private readonly getOneUsecaseProxy: UseCaseProxy<GetOneUseCases>,
+    private readonly getOneUseCaseProxy: UseCaseProxy<GetOneUseCases>,
     @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
-    private readonly createEmployeeUsecaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
+    private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   @Get()
   @CacheTTL(10)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.DEV)
   @UseGuards(JwtAuthGuard, RolesGuard)
   async get(@Query() query) {
     if (query.id) {
-      return await this.getOneUsecaseProxy.getInstance().execute(query?.id);
+      return await this.getOneUseCaseProxy.getInstance().execute(query?.id);
     }
-    return await this.getAllUsecaseProxy.getInstance().execute();
+    const employees_cached = await this.cacheManager.get('employees');
+    if (!employees_cached) {
+      const employees = await this.getAllUseCaseProxy.getInstance().execute();
+      await this.cacheManager.set('employees', employees);
+      return employees;
+    }
+    return employees_cached;
   }
 
   @Post()
   async create(@Body() createEmployeePresenter: CreateEmployeePresenter) {
     const userEntity = plainToClass(UserEntity, createEmployeePresenter);
-    return await this.createEmployeeUsecaseProxy.getInstance().execute(userEntity);
+    return await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
   }
 
   // @Put(':id')
