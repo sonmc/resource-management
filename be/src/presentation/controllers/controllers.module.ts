@@ -11,8 +11,8 @@ import { RoleController } from './role/role.controller';
 import { UserController } from './employee/employee.controller';
 
 @Module({
-    imports: [UseCasesProxyModule.register()],
-    controllers: [AuthController, ProjectController, RoleController, UserController],
-    providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
+  imports: [UseCasesProxyModule.register()],
+  controllers: [AuthController, ProjectController, RoleController, UserController],
+  providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}
