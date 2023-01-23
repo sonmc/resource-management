@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL, CACHE_MANAGER } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
@@ -9,6 +9,7 @@ import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.u
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
+import Cache from 'cache-manager';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
@@ -22,7 +23,8 @@ export class UserController {
     @Inject(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
     private readonly getOneUsecaseProxy: UseCaseProxy<GetOneUseCases>,
     @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
-    private readonly createEmployeeUsecaseProxy: UseCaseProxy<CreateEmployeeUseCases>
+    private readonly createEmployeeUsecaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   @Get()

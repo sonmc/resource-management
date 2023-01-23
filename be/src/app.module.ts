@@ -16,6 +16,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 @Module({
   imports: [
     CacheModule.register({
+      isGlobal: true,
       memory: redisStore,
       host: 'localhost', //default host
       port: 6379, //default port
