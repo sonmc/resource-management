@@ -34,6 +34,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ControllersModule,
     BcryptModule,
     JwtServiceModule,
+    CacheInterceptor,
   ],
   providers: [
     {

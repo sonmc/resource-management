@@ -1,19 +1,21 @@
+import { JwtAuthGuard } from './../../../infrastructure/common/guards/jwtAuth.guard';
 import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { CreateEmployeePresenter } from './presenter/create-employee.presenter';
 import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.usercase';
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
+import { Role } from 'src/domain/enums/role.enum';
+import { Roles } from 'src/infrastructure/decorators/role.decorator';
+import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
 @ApiTags('employees')
-@UseGuards(JwtStrategy)
 @ApiResponse({ status: 500, description: 'Internal error' })
 export class UserController {
   constructor(
@@ -27,6 +29,8 @@ export class UserController {
 
   @Get()
   @CacheTTL(10)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUsecaseProxy.getInstance().execute(query?.id);
