@@ -11,17 +11,12 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmAsyncConfig } from './infrastructure/config/typeorm.config';
 import { ApiTokenMiddleware } from './presentation/middleware/api-token.middleware';
-import * as redisStore from 'cache-manager-redis-store';
+
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { redisOptions } from './infrastructure/config/redis.config';
 @Module({
   imports: [
-    CacheModule.register({
-      isGlobal: true,
-      memory: redisStore,
-      host: 'localhost', //default host
-      port: 6379, //default port
-      ttl: 2000, //ttl
-    }),
+    CacheModule.register(redisOptions),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     PassportModule,
