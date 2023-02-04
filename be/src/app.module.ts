@@ -14,16 +14,14 @@ import { ApiTokenMiddleware } from './presentation/middleware/api-token.middlewa
 
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { redisOptions } from './infrastructure/config/redis.config';
+import { jwtOptions } from './infrastructure/config/jwt.config';
 @Module({
   imports: [
     CacheModule.register(redisOptions),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    JwtModule.register(jwtOptions),
     PassportModule,
-    JwtModule.register({
-      secret: 'JWT_SECRET_KEY',
-      signOptions: { expiresIn: '60m' },
-    }),
     LoggerModule,
     ExceptionsModule,
     UseCasesProxyModule.register(),
