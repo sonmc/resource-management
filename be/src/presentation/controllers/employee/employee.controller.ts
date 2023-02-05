@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from './../../../infrastructure/common/guards/jwtAuth.guard';
 import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL, CACHE_MANAGER } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
@@ -13,6 +12,7 @@ import { Role } from 'src/domain/enums/role.enum';
 import { Roles } from 'src/infrastructure/decorators/role.decorator';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 import { Cache } from 'cache-manager';
+import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
@@ -32,7 +32,7 @@ export class UserController {
   @Get()
   @CacheTTL(10)
   @Roles(Role.ADMIN, Role.DEV)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtStrategy, RolesGuard)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUseCaseProxy.getInstance().execute(query?.id);
