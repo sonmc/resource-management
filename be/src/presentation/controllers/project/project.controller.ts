@@ -4,7 +4,6 @@ import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
 import { Body, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -17,6 +16,7 @@ import { CreateProjectPresenter } from './presenter/create-project.presenter';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
 import { PagingDataDto } from 'src/domain/dto/paging.dto';
+import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('projects')
