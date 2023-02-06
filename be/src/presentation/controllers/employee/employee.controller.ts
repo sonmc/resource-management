@@ -12,7 +12,7 @@ import { Role } from 'src/domain/enums/role.enum';
 import { Roles } from 'src/infrastructure/decorators/role.decorator';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 import { Cache } from 'cache-manager';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
+import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
@@ -31,8 +31,7 @@ export class UserController {
 
   @Get()
   @CacheTTL(10)
-  @Roles(Role.ADMIN, Role.DEV)
-  @UseGuards(JwtStrategy, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUseCaseProxy.getInstance().execute(query?.id);

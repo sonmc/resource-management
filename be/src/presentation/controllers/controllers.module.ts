@@ -8,12 +8,11 @@ import { AuthController } from './auth/auth.controller';
 import { ProjectController } from './project/project.controller';
 import { RoleController } from './role/role.controller';
 import { UserController } from './employee/employee.controller';
-import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 
 @Module({
   imports: [UseCasesProxyModule.register()],
   controllers: [AuthController, ProjectController, RoleController, UserController],
-  providers: [LocalStrategy, RolesGuard, JwtAuthGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
+  providers: [LocalStrategy, RolesGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}

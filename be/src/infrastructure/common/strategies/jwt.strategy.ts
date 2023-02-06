@@ -9,27 +9,28 @@ import { LoggerService } from '../../logger/logger.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
-        private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-        private readonly logger: LoggerService,
-        private readonly exceptionService: ExceptionsService
-    ) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: process.env.JWT_SECRET,
-        });
-    }
+  constructor(
+    @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
+    private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
+    private readonly logger: LoggerService,
+    private readonly exceptionService: ExceptionsService
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: process.env.JWT_SECRET,
+    });
+  }
 
-    async validate(payload: any) {
-        const user = this.loginUsecaseProxy.getInstance().validateUserForJWTStragtegy(payload.username);
-        if (!user) {
-            this.logger.warn('JwtStrategy', `User not found`);
-            this.exceptionService.UnauthorizedException({
-                message: 'User not found',
-            });
-        }
-        return user;
+  async validate(payload: any) {
+    console.log('-------', payload);
+    const user = this.loginUsecaseProxy.getInstance().validateUserForJWTStragtegy(payload.username);
+    if (!user) {
+      this.logger.warn('JwtStrategy', `User not found`);
+      this.exceptionService.UnauthorizedException({
+        message: 'User not found',
+      });
     }
+    return user;
+  }
 }

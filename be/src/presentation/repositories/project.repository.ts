@@ -5,6 +5,7 @@ import { ProjectEntity } from 'src/domain/entities/project.entity';
 import { FindManyOptions, Raw, Repository, MoreThan } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
+import { PagingDataDto } from 'src/domain/dto/paging.dto';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
@@ -26,16 +27,6 @@ export class ProjectRepository implements IProjectRepository {
     return plainToClass(ProjectEntity, result);
   }
 
-  // async findAll(): Promise<ProjectEntity[]> {
-  //   const projects = await this.repository
-  //     .find({
-  //       relations: ['users', 'users.role', 'users.workloads'],
-  //     })
-  //     .then((p) => plainToInstance(ProjectEntity, p));
-
-  //   return projects;
-  // }
-
   async findById(id: number): Promise<ProjectEntity> {
     const project = await this.repository.findOneOrFail(id);
     return plainToClass(ProjectEntity, project);
@@ -45,9 +36,9 @@ export class ProjectRepository implements IProjectRepository {
     await this.repository.delete(id);
   }
 
-  async findAll(limit: number, cursor: number): Promise<any> {
+  async findAll(limit: number = 10, cursor: number = 0): Promise<PagingDataDto> {
     const realLimit = Math.min(20, limit);
-    const realLimitPlusOne = realLimit + 1;
+    const realLimitPlusOne = realLimit;
 
     let findOptionInitial: FindManyOptions = {
       relations: ['users', 'users.role', 'users.workloads'],
@@ -71,10 +62,9 @@ export class ProjectRepository implements IProjectRepository {
     }
 
     const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
-    const res = {
-      projects: projects.slice(0, realLimit),
-      hasMore: projects.length === realLimitPlusOne,
-    };
+    const datas = projects.slice(0, realLimit);
+    const hasMore = projects.length === realLimitPlusOne;
+    const res = new PagingDataDto(datas, hasMore);
     return res;
   }
 }
