@@ -45,6 +45,9 @@ const Projects = () => {
     setShowFormConfirmModal(false);
   };
 
+  const goProjectDetail = () => {
+    console.log('goProjectDetail');
+  };
   const save = (project) => {
     Create(project).then((res) => {
       setProjects([...projects, res]);
@@ -86,7 +89,6 @@ const Projects = () => {
     fetchProject(filter);
   }, [filter]);
 
-  console.log(projects);
   return (
     <React.Fragment>
       <div className="page-content">
@@ -192,7 +194,7 @@ const Projects = () => {
                                 >
                                   <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                 </Link>
-                                <Link to="#" onClick={() => showFormAddMember(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
                                   {x.name}
                                 </Link>
                               </th>

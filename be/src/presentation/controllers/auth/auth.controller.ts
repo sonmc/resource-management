@@ -12,15 +12,12 @@ import { UseCaseProxy } from '../../../infrastructure/usecases-proxy/usecases-pr
 import { UseCasesProxyModule } from '../../../infrastructure/usecases-proxy/usecases-proxy.module';
 import { LoginUseCases } from '../../../use-cases/auth/login.usecases';
 import { IsAuthenticatedUseCases } from '../../../use-cases/auth/isAuthenticated.usecases';
-import { LogoutUseCases } from '../../../use-cases/auth/logout.usecases';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
     private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-    @Inject(UseCasesProxyModule.LOGOUT_USECASES_PROXY)
-    private readonly logoutUsecaseProxy: UseCaseProxy<LogoutUseCases>,
     @Inject(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>
   ) {}
@@ -42,7 +39,7 @@ export class AuthController {
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Request() request: any) {
-    const cookie = await this.logoutUsecaseProxy.getInstance().execute();
+    const cookie = ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0'];
     request.res.setHeader('Set-Cookie', cookie);
     return 'Logout successful';
   }
@@ -54,7 +51,7 @@ export class AuthController {
     return response;
   }
 
-  @Get('refresh')
+  @Post('refresh')
   @UseGuards(JwtRefreshGuard)
   async refresh(@Req() request: any) {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getJwtToken(request.user.username);

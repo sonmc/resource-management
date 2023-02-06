@@ -8,22 +8,17 @@ axios.interceptors.response.use(
   function (response) {
     return response.data ? response.data : response;
   },
-  function (error) {
-    let message;
-    switch (error.status) {
-      case 500:
-        message = 'Internal Server Error';
-        break;
-      case 401:
-        message = 'Invalid credentials';
-        break;
-      case 404:
-        message = 'Sorry! the data you are looking for could not be found';
-        break;
-      default:
-        message = error.message || error;
+  async (error) => {
+    if (error.response.status === 401) {
+      // const currentUser = JSON.parse(localStorage.getItem('user'));
+      // const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;
+      // let apiResponse = await axios.post(url, currentUser);
+      // localStorage.setItem('tokens', JSON.stringify(apiResponse.data));
+      // error.config.headers['Authorization'] = `bearer ${apiResponse.data.access_token}`;
+      // return axios(error.config);
+    } else {
+      return Promise.reject(error);
     }
-    return Promise.reject(message);
   }
 );
 
@@ -50,13 +45,11 @@ class APIClient {
         paramKeys.push(key + '=' + params[key]);
         return paramKeys;
       });
-
       const queryString = paramKeys && paramKeys.length ? paramKeys.join('&') : '';
       response = axios.get(`${url}?${queryString}`, params);
     } else {
       response = axios.get(`${url}`, params);
     }
-
     return response;
   };
 

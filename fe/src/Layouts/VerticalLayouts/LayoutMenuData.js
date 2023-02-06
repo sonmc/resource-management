@@ -1,59 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
 
 const Navdata = () => {
-  const history = useHistory();
-
-  const [isTables, setIsTables] = useState(false);
-  const [isHomes, setIsHomes] = useState(false);
-
-  const [iscurrentState, setIscurrentState] = useState("Homes");
-
-  useEffect(() => {
-    document.body.classList.remove("twocolumn-panel");
-
-    if (iscurrentState !== "Tables") {
-      setIsTables(false);
-    }
-    if (iscurrentState !== "Homes") {
-      setIsHomes(false);
-    }
-  }, [history, isTables, iscurrentState]);
-
   const menuItems = [
     {
-      label: "Menu",
+      label: 'Menu',
       isHeader: true,
     },
     {
-      id: "projects",
-      label: "Projects",
-      icon: "ri-honour-line",
-      link: "/projects",
+      id: 'projects',
+      label: 'Projects',
+      icon: 'ri-honour-line',
+      link: '/projects',
+    },
+    {
+      id: 'employees',
+      label: 'Employees',
+      icon: 'ri-honour-line',
+      link: '/employees',
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("Projects");
       },
     },
     {
-      id: "employees",
-      label: "Employees",
-      icon: "ri-honour-line",
-      link: "/employees",
-      click: function (e) {
-        e.preventDefault();
-        setIscurrentState("Employees");
-      },
+      id: 'roles',
+      label: 'Roles',
+      icon: 'ri-honour-line',
+      link: '/roles',
     },
     {
-      id: "roles",
-      label: "Roles",
-      icon: "ri-honour-line",
-      link: "/roles",
-      click: function (e) {
-        e.preventDefault();
-        setIscurrentState("Roles");
-      },
+      id: 'vacation-calendar',
+      label: 'Vacation Calendar',
+      icon: 'ri-honour-line',
+      link: '/vacation-calendar',
+    },
+    {
+      id: 'vacations',
+      label: 'Vacations',
+      icon: 'ri-honour-line',
+      link: '/vacations',
     },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;
