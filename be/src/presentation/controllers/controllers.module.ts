@@ -9,10 +9,11 @@ import { ProjectController } from './project/project.controller';
 import { RoleController } from './role/role.controller';
 import { UserController } from './employee/employee.controller';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
+import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 
 @Module({
   imports: [UseCasesProxyModule.register()],
   controllers: [AuthController, ProjectController, RoleController, UserController],
-  providers: [LocalStrategy, RolesGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
+  providers: [LocalStrategy, JwtStrategy, RolesGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}
