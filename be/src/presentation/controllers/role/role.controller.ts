@@ -16,29 +16,29 @@ import { RoleEntity } from 'src/domain/entities/role.entity';
 @UseGuards(JwtStrategy)
 @ApiResponse({ status: 500, description: 'Internal error' })
 export class RoleController {
-    constructor(
-        @Inject(UseCasesProxyModule.GET_ROLES_USECASES_PROXY)
-        private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
-        @Inject(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY)
-        private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
-        @Inject(UseCasesProxyModule.DELETE_ROLE_USECASES_PROXY)
-        private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
-    ) {}
+  constructor(
+    @Inject(UseCasesProxyModule.GET_ROLES_USECASES_PROXY)
+    private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
+    @Inject(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY)
+    private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
+    @Inject(UseCasesProxyModule.DELETE_ROLE_USECASES_PROXY)
+    private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
+  ) {}
 
-    @Get()
-    async get() {
-        const roles = await this.getRolesUsecaseProxy.getInstance().execute();
-        return roles;
-    }
+  @Get()
+  async get() {
+    const roles = await this.getRolesUsecaseProxy.getInstance().execute();
+    return roles;
+  }
 
-    @Post()
-    async create(@Body() createRolePresenter: CreateRolePresenter) {
-        const roleEntity = plainToClass(RoleEntity, createRolePresenter);
-        return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
-    }
+  @Post()
+  async create(@Body() createRolePresenter: CreateRolePresenter) {
+    const roleEntity = plainToClass(RoleEntity, createRolePresenter);
+    return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
+  }
 
-    @Delete(':id')
-    async remove(@Param('id') id: string) {
-        return await this.deleteRoleUsecaseProxy.getInstance().execute(+id);
-    }
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return await this.deleteRoleUsecaseProxy.getInstance().execute(+id);
+  }
 }

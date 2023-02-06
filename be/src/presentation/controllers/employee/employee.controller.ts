@@ -1,5 +1,4 @@
 import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors, CacheInterceptor, CacheTTL, CACHE_MANAGER } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
@@ -16,8 +15,7 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
-@ApiTags('employees')
-@ApiResponse({ status: 500, description: 'Internal error' })
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController {
   constructor(
     @Inject(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
@@ -31,7 +29,7 @@ export class UserController {
 
   @Get()
   @CacheTTL(10)
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN, Role.DEV)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUseCaseProxy.getInstance().execute(query?.id);
