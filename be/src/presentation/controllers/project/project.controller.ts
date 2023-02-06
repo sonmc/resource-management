@@ -1,5 +1,4 @@
 import { CacheInterceptor, CacheTTL, Controller, Get, Inject, Req } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
@@ -17,12 +16,11 @@ import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
 import { PagingDataDto } from 'src/domain/dto/paging.dto';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
+import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('projects')
-@ApiTags('projects')
-@UseGuards(JwtStrategy)
-@ApiResponse({ status: 500, description: 'Internal error' })
+@UseGuards(JwtAuthGuard)
 export class ProjectController {
   constructor(
     @Inject(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY)
