@@ -8,7 +8,7 @@ import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { Role } from 'src/domain/enums/role.enum';
-import { Roles } from 'src/infrastructure/decorators/role.decorator';
+import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 import { Cache } from 'cache-manager';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
@@ -29,7 +29,7 @@ export class UserController {
 
   @Get()
   @CacheTTL(10)
-  @Roles(Role.ADMIN, Role.DEV)
+  //@Permission(Role.ADMIN, Role.DEV)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUseCaseProxy.getInstance().execute(query?.id);

@@ -1,6 +1,7 @@
-import {  Column,  Entity, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 import { User } from './user.schema';
 import { BaseEntity } from './base.schema';
+import { Kanban } from './kanban.schema';
 @Entity({ name: 'projects' })
 export class Project extends BaseEntity {
   @Column()
@@ -11,8 +12,13 @@ export class Project extends BaseEntity {
 
   @Column()
   start_date: Date;
- 
-  @ManyToMany(() => User, (users) => users.projects)
+
+  @OneToMany(() => Kanban, (k) => k.project, {
+    eager: true,
+  })
+  kanbans: Kanban[];
+
+  @ManyToMany(() => User, (user) => user.projects)
   @JoinTable({
     name: 'users_projects',
     joinColumn: { name: 'project_id', referencedColumnName: 'id' },

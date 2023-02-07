@@ -10,6 +10,7 @@ import Projects from '../pages/Projects';
 import Roles from '../pages/Roles';
 import VacationCalendar from '../pages/VacationCalendar';
 import Vacations from '../pages/VacationManage';
+import Perms from '../pages/Perms';
 
 const authProtectedRoutes = [
   { path: '/projects', component: Projects },
@@ -17,6 +18,7 @@ const authProtectedRoutes = [
   { path: '/roles', component: Roles },
   { path: '/vacation-calendar', component: VacationCalendar },
   { path: '/vacations', component: Vacations },
+  { path: '/permissions', component: Perms },
   {
     path: '/',
     exact: true,

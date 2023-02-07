@@ -1,6 +1,6 @@
 import { RoleEntity } from '../entities/role.entity';
 
-export interface IRoleRepository {
+export interface IPermissionRepository {
   create(role: RoleEntity): Promise<RoleEntity>;
   findAll(): Promise<RoleEntity[]>;
   findById(id: number): Promise<RoleEntity>;

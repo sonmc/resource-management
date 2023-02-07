@@ -14,6 +14,10 @@ export class RoleRepository implements IRoleRepository {
     private readonly repository: Repository<Role>
   ) {}
 
+  async findByUserId(userId: number): Promise<RoleEntity[]> {
+    throw new Error('Method not implemented.');
+  }
+
   async update(id: number, roleDto: RoleEntity): Promise<void> {
     // await this.repository.update({
     //     id: id,
