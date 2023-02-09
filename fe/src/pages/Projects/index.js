@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Container, Row, Table, Button, Label } from 'reactstrap';
+import { CardBody, Col, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -10,8 +10,10 @@ import ConfirmDeleteModal from './ConfirmDelete';
 import Flatpickr from 'react-flatpickr';
 import NoteControl from '../../Components/Common/Note';
 import { Update, AddMember } from '../../Services/project.service';
+import { useHistory } from 'react-router-dom';
 
 const weeks = ['w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4'];
+
 const Projects = () => {
   const [filter, setFilter] = useState({});
   const [isShowFormUpdate, setShowFormUpdate] = useState(false);
@@ -19,7 +21,7 @@ const Projects = () => {
   const [isShowConfirmModal, setShowFormConfirmModal] = useState(false);
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState(0);
-
+  let history = useHistory();
   const showFormAddMember = (project) => {
     setProject(project);
     setShowFormAddMember(!isShowFormAddMember);
@@ -46,7 +48,7 @@ const Projects = () => {
   };
 
   const goProjectDetail = () => {
-    console.log('goProjectDetail');
+    history.push('/project-detail');
   };
   const save = (project) => {
     Create(project).then((res) => {

@@ -41,7 +41,7 @@ export class ProjectRepository implements IProjectRepository {
     const realLimitPlusOne = realLimit;
 
     let findOptionInitial: FindManyOptions = {
-      relations: ['users', 'users.role', 'users.workloads'],
+      relations: ['users', 'users.workloads'],
       order: {
         created_at: 'DESC',
       },

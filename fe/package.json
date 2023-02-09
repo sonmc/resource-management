@@ -23,9 +23,13 @@
     "react-tsparticles": "^1.40.0",
     "reactstrap": "^9.0.1",
     "recoil": "^0.7.6",
+    "react-dual-listbox": "^2.2.0",
+    "@lourenci/react-kanban": "^2.1.0",
+    "simplebar-react": "^2.3.6",
     "swiper": "^8.0.6",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "react-countup": "^6.1.1"
   },
   "scripts": {
     "start": "env-cmd -f .env react-scripts start",

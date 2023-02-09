@@ -7,15 +7,15 @@ import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.u
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
 import { UserEntity } from 'src/domain/entities/user.entity';
-import { Role } from 'src/domain/enums/role.enum';
-import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
-import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
+import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { Cache } from 'cache-manager';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
+import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
+import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('employees')
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class UserController {
   constructor(
     @Inject(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY)
@@ -29,7 +29,7 @@ export class UserController {
 
   @Get()
   @CacheTTL(10)
-  //@Permission(Role.ADMIN, Role.DEV)
+  @Permissions(EndPoint.EMPLOYEE_GET)
   async get(@Query() query) {
     if (query.id) {
       return await this.getOneUseCaseProxy.getInstance().execute(query?.id);

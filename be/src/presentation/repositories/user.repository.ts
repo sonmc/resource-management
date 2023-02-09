@@ -28,7 +28,7 @@ export class UserRepository implements IUserRepository {
     let users = await this.userRepository
       .find({
         where: { id: MoreThan(ADMIN_ID) },
-        relations: ['role'],
+        relations: ['roles'],
       })
       .then((u) => u.map((x) => plainToClass(UserWithoutPassword, x)));
     return users;
@@ -57,6 +57,7 @@ export class UserRepository implements IUserRepository {
       where: {
         username: username,
       },
+      relations: ['roles'],
     });
     if (!user) {
       return null;

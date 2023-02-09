@@ -15,7 +15,6 @@ import { CreateProjectPresenter } from './presenter/create-project.presenter';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
 import { PagingDataDto } from 'src/domain/dto/paging.dto';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 
 @UseInterceptors(CacheInterceptor)

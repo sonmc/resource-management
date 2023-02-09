@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from "reactstrap";
-import Flatpickr from "react-flatpickr";
+import React, { useState } from 'react';
+import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
+import Flatpickr from 'react-flatpickr';
 
 const CreateModal = (props) => {
   const { isShowFormUpdate, closeFormUpdate, save } = props;
   const [project, setProject] = useState({
     id: 0,
-    name: "",
-    start_date: "",
-    note: "",
+    name: '',
+    start_date: '',
+    note: '',
   });
 
   const changeField = (event) => {
@@ -47,10 +47,10 @@ const CreateModal = (props) => {
               <Flatpickr
                 className="form-control"
                 options={{
-                  dateFormat: "d M, Y",
+                  dateFormat: 'd M, Y',
                 }}
                 onChange={([value]) => {
-                  changeField({ target: { name: "start_date", value } });
+                  changeField({ target: { name: 'start_date', value } });
                 }}
                 placeholder="Select Date"
               />
