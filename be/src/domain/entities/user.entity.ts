@@ -12,7 +12,7 @@ export class UserWithoutPassword {
   gender: boolean;
   avatar: string;
   dob: Date;
-  roles: RoleEntity;
+  roles: RoleEntity[];
   hash_refresh_token: string;
   workloads: WorkloadEntity[];
   projects: ProjectEntity[];

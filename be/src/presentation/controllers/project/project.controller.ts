@@ -16,10 +16,13 @@ import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
 import { PagingDataDto } from 'src/domain/dto/paging.dto';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
+import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
+import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
+import { EndPoint } from 'src/domain/enums/endpoint.enum';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('projects')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ProjectController {
   constructor(
     @Inject(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY)
@@ -31,6 +34,7 @@ export class ProjectController {
   ) {}
 
   @CacheTTL(10)
+  @Permissions(EndPoint.PROJECT_GET)
   @Get()
   async getAll(@Query() query): Promise<PagingDataDto> {
     const { cursor, limit } = query;

@@ -81,6 +81,8 @@ const Roles = () => {
     this.setState({ selected });
   };
 
+  const updatePermission = () => {};
+
   useEffect(() => {
     fetchRole();
   }, []);
@@ -113,6 +115,7 @@ const Roles = () => {
                         <tr>
                           <th style={{ width: 5 }}>No.</th>
                           <th>Name</th>
+                          <th>Description</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -122,6 +125,7 @@ const Roles = () => {
                             <tr key={key}>
                               <th>{key + 1}</th>
                               <td>{role.name}</td>
+                              <td>{role.description}</td>
                               <td>
                                 <Button color="success btn-sm" onClick={() => showFormUpdate(role.id)}>
                                   Update
@@ -165,6 +169,9 @@ const Roles = () => {
                       moveBottom: <span className="mdi mdi-chevron-double-down" key="key" />,
                     }}
                   />
+                  <button className="btn btn-success add-btn mt-3" onClick={() => updatePermission()}>
+                    Save
+                  </button>
                 </CardBody>
               </div>
             </Col>

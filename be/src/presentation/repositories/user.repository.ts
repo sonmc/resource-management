@@ -1,21 +1,20 @@
 import { plainToClass } from 'class-transformer';
-import { PASSWORD_DEFAULT } from './../../business-rules/employee.rule';
-import { ADMIN_ID } from '../../business-rules/employee.rule';
+import { ADMIN_ID, PASSWORD_DEFAULT } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
+import { Not, Equal, Repository } from 'typeorm';
 import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
-import { Role } from 'src/infrastructure/schemas/role.schema';
-
+import { hash } from 'src/infrastructure/services/bcrypt.service';
+import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>
+    @InjectRepository(UserRole)
+    private readonly userRoleRepository: Repository<UserRole>
   ) {}
 
   async findOne(id: number): Promise<UserEntity> {
@@ -27,7 +26,7 @@ export class UserRepository implements IUserRepository {
   async findAll(): Promise<UserWithoutPassword[]> {
     let users = await this.userRepository
       .find({
-        where: { id: MoreThan(ADMIN_ID) },
+        where: { id: Not(Equal(ADMIN_ID)) },
         relations: ['roles'],
       })
       .then((u) => u.map((x) => plainToClass(UserWithoutPassword, x)));
@@ -36,10 +35,15 @@ export class UserRepository implements IUserRepository {
 
   async create(user: UserEntity): Promise<UserEntity> {
     const userSchema = plainToClass(User, user);
-    await userSchema.setPassword(PASSWORD_DEFAULT);
-    const result = await this.userRepository.create(userSchema);
-    await this.userRepository.save(result);
-    const userE = plainToClass(UserEntity, result);
+    userSchema.password = await hash(PASSWORD_DEFAULT);
+    const userCreated = await this.userRepository.create(userSchema);
+    await this.userRepository.save(userCreated);
+    user.roles.forEach(async (role) => {
+      const userRole = new UserRole(+role.id, role.id);
+      const userRoleCreated = await this.userRoleRepository.create(userRole);
+      await this.userRoleRepository.save(userRoleCreated);
+    });
+    const userE = plainToClass(UserEntity, userCreated);
     return userE;
   }
 
@@ -57,7 +61,7 @@ export class UserRepository implements IUserRepository {
       where: {
         username: username,
       },
-      relations: ['roles'],
+      relations: ['roles', 'roles.permissions'],
     });
     if (!user) {
       return null;

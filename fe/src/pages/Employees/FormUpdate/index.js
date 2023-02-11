@@ -20,6 +20,8 @@ const ModalUpdate = (props) => {
   const [title, setTitle] = useState('Create employee');
 
   const changeField = (event) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     let emp = { ...employee, [event.target.name]: event.target.value };
     setEmployee(emp);
   };
@@ -37,10 +39,9 @@ const ModalUpdate = (props) => {
       });
       setTitle('Update employee');
     } else {
-      setEmployee({ ...EMPLOYEE_DEFAULT, role_id: roles ? 0 : roles[0].id });
+      setEmployee({ ...employee, role_id: roles ? roles[0].id : 0 });
     }
   }, [employeeId]);
-
   return (
     <Modal
       id="flipModal"

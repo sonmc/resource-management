@@ -11,7 +11,7 @@ export class Role extends BaseEntity {
   @Column()
   description?: string;
 
-  @ManyToMany(() => User, (users) => users.projects)
+  @ManyToMany(() => User, (users) => users.roles)
   @JoinTable({
     name: 'users_roles',
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
@@ -19,7 +19,9 @@ export class Role extends BaseEntity {
   })
   users: User[];
 
-  @ManyToMany(() => Permission, (permission) => permission.roles)
+  @ManyToMany(() => Permission, (permission) => permission.roles, {
+    eager: true,
+  })
   @JoinTable({
     name: 'roles_pems',
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },

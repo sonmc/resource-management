@@ -1,5 +1,5 @@
+import { hash } from 'src/infrastructure/services/bcrypt.service';
 import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { BaseEntity } from './base.schema';
 import { Project } from './project.schema';
 import { Role } from './role.schema';
@@ -43,8 +43,7 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   async setPassword(password: string) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(password || this.password, salt);
+    this.password = await hash(password || this.password);
   }
 
   @OneToMany(() => Workload, (workload) => workload.user, {

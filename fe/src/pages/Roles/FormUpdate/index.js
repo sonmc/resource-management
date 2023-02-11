@@ -3,7 +3,6 @@ import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reacts
 import { Get } from '../../../Services/user.service';
 
 const ROLE_DEFAULT = {
-  id: 0,
   name: '',
   description: '',
 };

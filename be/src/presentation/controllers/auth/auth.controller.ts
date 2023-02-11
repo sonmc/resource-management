@@ -1,3 +1,5 @@
+import { plainToInstance } from 'class-transformer';
+import { convertPermissions, convertRoles } from 'src/actions/auth.action';
 import { Body, Controller, Get, Inject, Post, Req, Request, UseGuards } from '@nestjs/common';
 
 import { Headers } from '@nestjs/common';
@@ -27,7 +29,10 @@ export class AuthController {
   async login(@Body() auth: AuthLoginDto, @Request() request: any) {
     const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(auth.username);
     const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(auth.username);
-    const currentUser = new AuthPresenter(request.user);
+    const currentUser = new AuthPresenter();
+    currentUser.username = request.user.username;
+    currentUser.permissions = convertPermissions(request.user.roles);
+    currentUser.roles = convertRoles(request.user.roles);
     request.res.setHeader('Set-Cookie', [accessToken, refreshToken]);
     return {
       accessToken,
@@ -47,7 +52,7 @@ export class AuthController {
   @Get('is_authenticated')
   async isAuthenticated(@Headers() headers) {
     const user = await this.isAuthUsecaseProxy.getInstance().execute(headers.authentication);
-    const response = new AuthPresenter(user);
+    const response = plainToInstance(AuthPresenter, user);
     return response;
   }
 
