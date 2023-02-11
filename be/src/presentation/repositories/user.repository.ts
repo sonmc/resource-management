@@ -37,13 +37,15 @@ export class UserRepository implements IUserRepository {
     const userSchema = plainToClass(User, user);
     userSchema.password = await hash(PASSWORD_DEFAULT);
     const userCreated = await this.userRepository.create(userSchema);
-    await this.userRepository.save(userCreated);
-    user.roles.forEach(async (role) => {
-      const userRole = new UserRole(+role.id, role.id);
-      const userRoleCreated = await this.userRoleRepository.create(userRole);
-      await this.userRoleRepository.save(userRoleCreated);
-    });
-    const userE = plainToClass(UserEntity, userCreated);
+    const userAdded = await this.userRepository.save(userCreated);
+    if (userAdded) {
+      user.roles.forEach(async (role) => {
+        const userRole = new UserRole(+role.id, role.id);
+        const userRoleCreated = await this.userRoleRepository.create(userRole);
+        await this.userRoleRepository.save(userRoleCreated);
+      });
+    }
+    const userE = plainToClass(UserEntity, userAdded);
     return userE;
   }
 
