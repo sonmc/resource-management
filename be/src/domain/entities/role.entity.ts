@@ -1,7 +1,8 @@
-import { Role } from 'src/infrastructure/schemas/role.schema';
+import { Permission } from 'src/infrastructure/schemas/permission.schema';
 
 export class RoleEntity {
-    id: number;
-    name: string;
-    description: string;
+  id: number;
+  name: string;
+  permissions: Permission[];
+  description?: string;
 }

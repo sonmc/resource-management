@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ADMIN_ID } from 'src/business-rules/role.rule';
-import { Repository, MoreThan } from 'typeorm';
+import { Repository, MoreThan, Not, Equal } from 'typeorm';
 import { IRoleRepository } from '../../domain/repositories/role-repository.interface';
 import { Role } from '../../infrastructure/schemas/Role.schema';
 import { RoleEntity } from 'src/domain/entities/role.entity';
@@ -13,6 +13,10 @@ export class RoleRepository implements IRoleRepository {
     @InjectRepository(Role)
     private readonly repository: Repository<Role>
   ) {}
+
+  async findByUserId(userId: number): Promise<RoleEntity[]> {
+    throw new Error('Method not implemented.');
+  }
 
   async update(id: number, roleDto: RoleEntity): Promise<void> {
     // await this.repository.update({
@@ -31,7 +35,7 @@ export class RoleRepository implements IRoleRepository {
   async findAll() {
     const datas = await this.repository.find({
       where: {
-        id: MoreThan(ADMIN_ID),
+        id: Not(Equal(ADMIN_ID)),
       },
     });
     const roles = datas.map((r) => plainToClass(RoleEntity, r));

@@ -6,4 +6,5 @@ export interface IRoleRepository {
   findById(id: number): Promise<RoleEntity>;
   update(id: number, RoleEntity: RoleEntity): Promise<void>;
   deleteById(id: number): Promise<void>;
+  findByUserId(userId: number): Promise<RoleEntity[]>;
 }

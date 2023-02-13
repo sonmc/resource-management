@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
 import { Get } from '../../../Services/user.service';
 import Flatpickr from 'react-flatpickr';
+import Select from 'react-select';
+import { GENDER_MALE, GENDER_FEMALE, STATUS_INACTIVE, STATUS_ACTIVE } from '../../../Constant/index';
 
 const EMPLOYEE_DEFAULT = {
   role_id: 0,
@@ -18,6 +20,7 @@ const ModalUpdate = (props) => {
   const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
   const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
   const [title, setTitle] = useState('Create employee');
+  const [selectedRoles, setRoles] = useState(null);
 
   const changeField = (event) => {
     let emp = { ...employee, [event.target.name]: event.target.value };
@@ -29,6 +32,15 @@ const ModalUpdate = (props) => {
     save(employee, 'CREATE');
   };
 
+  const handleMulti = (selectedRoles) => {
+    setRoles(selectedRoles);
+  };
+
+  useEffect(() => {
+    let emp = { ...employee, roles: selectedRoles };
+    setEmployee(emp);
+  }, [selectedRoles]);
+
   useEffect(() => {
     if (employeeId) {
       const params = { id: employeeId };
@@ -37,10 +49,10 @@ const ModalUpdate = (props) => {
       });
       setTitle('Update employee');
     } else {
-      setEmployee({ ...EMPLOYEE_DEFAULT, role_id: roles ? 0 : roles[0].id });
+      setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
     }
   }, [employeeId]);
-
+  console.log(employee);
   return (
     <Modal
       id="flipModal"
@@ -98,13 +110,13 @@ const ModalUpdate = (props) => {
               <label className="form-label">Status</label>
               <div>
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="status" checked={employee.gender == '1'} value={1} onChange={(x) => changeField(x)} />
+                  <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_ACTIVE} value={1} onChange={(x) => changeField(x)} />
                   <label className="form-check-label" htmlFor="inlineRadio1">
                     Active
                   </label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="status" checked={employee.gender == '0'} value={0} onChange={(x) => changeField(x)} />
+                  <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_INACTIVE} value={0} onChange={(x) => changeField(x)} />
                   <label className="form-check-label" htmlFor="inlineRadio2">
                     Inactive
                   </label>
@@ -115,13 +127,13 @@ const ModalUpdate = (props) => {
               <label className="form-label">Gender</label>
               <div>
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="gender" checked={employee.gender == '1'} value={1} onChange={(x) => changeField(x)} />
+                  <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={1} onChange={(x) => changeField(x)} />
                   <label className="form-check-label" htmlFor="inlineRadio1">
                     Male
                   </label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input className="form-check-input" type="radio" name="gender" checked={employee.gender == '0'} value={0} onChange={(x) => changeField(x)} />
+                  <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={0} onChange={(x) => changeField(x)} />
                   <label className="form-check-label" htmlFor="inlineRadio2">
                     Female
                   </label>
@@ -132,15 +144,20 @@ const ModalUpdate = (props) => {
               <label htmlFor="dob" className="form-label">
                 Role
               </label>
-              <select value={employee.role_id} className="form-control" name="role_id" onChange={(x) => changeField(x)}>
-                {roles.map((role, key) => {
-                  return (
-                    <React.Fragment key={key}>
-                      <option value={role.id}>{role.name}</option>
-                    </React.Fragment>
-                  );
-                })}
-              </select>
+              <Select
+                value={selectedRoles}
+                getOptionLabel={(option) => {
+                  return option.name;
+                }}
+                getOptionValue={(option) => {
+                  return option.id;
+                }}
+                isMulti={true}
+                onChange={(x) => {
+                  handleMulti(x);
+                }}
+                options={roles}
+              />
             </Col>
             <Col xxl={12}>
               <div className="hstack gap-2 justify-content-end">

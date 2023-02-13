@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, CardBody, Col, Container, Row, Table, Button, Label } from 'reactstrap';
+import { CardBody, Col, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -10,8 +10,10 @@ import ConfirmDeleteModal from './ConfirmDelete';
 import Flatpickr from 'react-flatpickr';
 import NoteControl from '../../Components/Common/Note';
 import { Update, AddMember } from '../../Services/project.service';
+import { useHistory } from 'react-router-dom';
 
 const weeks = ['w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4'];
+
 const Projects = () => {
   const [filter, setFilter] = useState({});
   const [isShowFormUpdate, setShowFormUpdate] = useState(false);
@@ -19,7 +21,7 @@ const Projects = () => {
   const [isShowConfirmModal, setShowFormConfirmModal] = useState(false);
   const [projects, setProjects] = useState([]);
   const [project, setProject] = useState(0);
-
+  let history = useHistory();
   const showFormAddMember = (project) => {
     setProject(project);
     setShowFormAddMember(!isShowFormAddMember);
@@ -45,6 +47,9 @@ const Projects = () => {
     setShowFormConfirmModal(false);
   };
 
+  const goProjectDetail = () => {
+    history.push('/project-detail');
+  };
   const save = (project) => {
     Create(project).then((res) => {
       setProjects([...projects, res]);
@@ -86,7 +91,6 @@ const Projects = () => {
     fetchProject(filter);
   }, [filter]);
 
-  console.log(projects);
   return (
     <React.Fragment>
       <div className="page-content">
@@ -192,7 +196,7 @@ const Projects = () => {
                                 >
                                   <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                 </Link>
-                                <Link to="#" onClick={() => showFormAddMember(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
                                   {x.name}
                                 </Link>
                               </th>

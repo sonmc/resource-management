@@ -1,10 +1,8 @@
 import { CacheInterceptor, CacheTTL, Controller, Get, Inject, Req } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
-import { Body, Post, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
+import { Body, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -16,12 +14,15 @@ import { UserPresenter } from './presenter/user-presenter';
 import { CreateProjectPresenter } from './presenter/create-project.presenter';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
+import { PagingDataDto } from 'src/domain/dto/paging.dto';
+import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
+import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
+import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
+import { EndPoint } from 'src/domain/enums/endpoint.enum';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('projects')
-@ApiTags('projects')
-@UseGuards(JwtStrategy)
-@ApiResponse({ status: 500, description: 'Internal error' })
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ProjectController {
   constructor(
     @Inject(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY)
@@ -33,15 +34,17 @@ export class ProjectController {
   ) {}
 
   @CacheTTL(10)
+  @Permissions(EndPoint.PROJECT_GET)
   @Get()
-  async get(): Promise<ProjectEntity[]> {
-    const projects = await this.getProjectsUsecaseProxy.getInstance().execute();
-    const response = projects.map((p) => plainToClass(ProjectPresenter, p));
+  async getAll(@Query() query): Promise<PagingDataDto> {
+    const { cursor, limit } = query;
+    let response = await this.getProjectsUsecaseProxy.getInstance().execute(limit, cursor);
+    response = response.datas.map((p) => plainToClass(ProjectPresenter, p));
     return response;
   }
 
   @Post()
-  async Create(@Body() createProjectPresenter: CreateProjectPresenter): Promise<ProjectPresenter> {
+  async create(@Body() createProjectPresenter: CreateProjectPresenter): Promise<ProjectPresenter> {
     const project = plainToClass(ProjectEntity, createProjectPresenter);
     const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
     const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
