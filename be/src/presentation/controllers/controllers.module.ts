@@ -8,13 +8,14 @@ import { AuthController } from './auth/auth.controller';
 import { ProjectController } from './project/project.controller';
 import { RoleController } from './role/role.controller';
 import { UserController } from './employee/employee.controller';
+import { PermissionController } from './permission/permission.controller';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
 import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 
 @Module({
   imports: [UseCasesProxyModule.register()],
-  controllers: [AuthController, ProjectController, RoleController, UserController],
+  controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController],
   providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}

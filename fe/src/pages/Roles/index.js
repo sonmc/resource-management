@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { CardBody, Col, Container, Table, Button, CardTitle } from 'reactstrap';
+import { CardBody, Col, Container, Table, Button, Label } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import ModalUpdate from './FormUpdate';
 import ConfirmDelete from './ConfirmDelete';
-import { Get, Create, Update, Delete } from '../../Services/role.service';
+import { Get as GetRole, Create, Update, Delete } from '../../Services/role.service';
+import { Get as GetPermission } from '../../Services/permission.service';
 import DualListBox from 'react-dual-listbox';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
-const options = [
-  { value: 'luna', label: 'Moon' },
-  { value: 'phobos', label: 'Phobos' },
-  { value: 'deimos', label: 'Deimos' },
-  { value: 'io', label: 'Io' },
-  { value: 'europa', label: 'Europa' },
-  { value: 'ganymede', label: 'Ganymede' },
-  { value: 'callisto', label: 'Callisto' },
-  { value: 'mimas', label: 'Mimas' },
-  { value: 'enceladus', label: 'Enceladus' },
-  { value: 'tethys', label: 'Tethys' },
-  { value: 'rhea', label: 'Rhea' },
-  { value: 'titan', label: 'Titan' },
-];
 const Roles = () => {
-  const [roleSelected, setRole] = useState(['phobos', 'titan', 'deimos']);
+  const [permissionOfSelected, setPermissionSelected] = useState([]);
   const [roleId, setRoleId] = useState(0);
   const [roles, setRoles] = useState([]);
+  const [permissions, setPermissions] = useState([]);
   const [isShowFormUpdate, setShowFormUpdate] = useState(false);
   const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
   const fetchRole = () => {
-    Get({}).then((res) => {
+    GetRole({}).then((res) => {
       setRoles(res);
+    });
+  };
+
+  const fetchPermissions = () => {
+    GetPermission({}).then((res) => {
+      setPermissions(res);
     });
   };
 
@@ -81,12 +75,14 @@ const Roles = () => {
     this.setState({ selected });
   };
 
-  const updatePermission = () => {};
+  const savePermissions = () => {};
 
   useEffect(() => {
     fetchRole();
+    fetchPermissions();
   }, []);
 
+  console.log(roles);
   return (
     <React.Fragment>
       <div className="page-content">
@@ -151,12 +147,15 @@ const Roles = () => {
                 <CardBody>
                   <Col lg={6} className="mb-3">
                     <select id="custom-select" className="form-select">
-                      <option>Role - Admin</option>
+                      {roles.map((role, key) => {
+                        return <option key={key}>Role - {role.name}</option>;
+                      })}
                     </select>
                   </Col>
+                  <Label>Permission list</Label>
                   <DualListBox
-                    options={options}
-                    selected={roleSelected}
+                    options={permissions}
+                    selected={permissionOfSelected}
                     onChange={onChange}
                     icons={{
                       moveLeft: <span className="mdi mdi-chevron-left" key="key" />,
@@ -169,7 +168,7 @@ const Roles = () => {
                       moveBottom: <span className="mdi mdi-chevron-double-down" key="key" />,
                     }}
                   />
-                  <button className="btn btn-success add-btn mt-3" onClick={() => updatePermission()}>
+                  <button className="btn btn-success add-btn mt-3" onClick={() => savePermissions()}>
                     Save
                   </button>
                 </CardBody>

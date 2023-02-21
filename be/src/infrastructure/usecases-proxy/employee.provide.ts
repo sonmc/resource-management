@@ -6,23 +6,23 @@ import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
 
 export function getOneProvide(provide) {
-    return {
-        inject: [LoggerService, UserRepository],
-        provide,
-        useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new GetOneUseCases(logger, UserRepository)),
-    };
+  return {
+    inject: [LoggerService, UserRepository],
+    provide,
+    useFactory: (logger: LoggerService, userRepository: UserRepository) => new UseCaseProxy(new GetOneUseCases(logger, userRepository)),
+  };
 }
 export function getAllProvide(provide) {
-    return {
-        inject: [LoggerService, UserRepository],
-        provide,
-        useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new GetAllUseCases(logger, UserRepository)),
-    };
+  return {
+    inject: [LoggerService, UserRepository],
+    provide,
+    useFactory: (logger: LoggerService, userRepository: UserRepository) => new UseCaseProxy(new GetAllUseCases(logger, userRepository)),
+  };
 }
 export function createEmployeeProvide(provide) {
-    return {
-        inject: [LoggerService, UserRepository],
-        provide,
-        useFactory: (logger: LoggerService, UserRepository: UserRepository) => new UseCaseProxy(new CreateEmployeeUseCases(logger, UserRepository)),
-    };
+  return {
+    inject: [LoggerService, UserRepository],
+    provide,
+    useFactory: (logger: LoggerService, userRepository: UserRepository) => new UseCaseProxy(new CreateEmployeeUseCases(logger, userRepository)),
+  };
 }

@@ -10,6 +10,7 @@ import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
 import { addMemberProvide, createProjectProvide, getProjectProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
 import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.provide';
+import { getPermissionsProvide } from './permission.provide';
 
 @Module({
   imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
@@ -32,6 +33,8 @@ export class UseCasesProxyModule {
   static GET_EMPLOYEES_USECASES_PROXY = 'GetEmployeesUseCasesProxy';
   static GET_EMPLOYEE_USECASES_PROXY = 'GetEmployeeUseCasesProxy';
   static CREATE_EMPLOYEES_USECASES_PROXY = 'CreateEmployeesUseCasesProxy';
+  // Permission
+  static GET_PERMISSIONS_USECASES_PROXY = 'GetPermissionsUseCasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -52,6 +55,8 @@ export class UseCasesProxyModule {
         getAllProvide(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
         getOneProvide(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
         createEmployeeProvide(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
+        // Permissions
+        getPermissionsProvide(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY),
       ],
       exports: [
         // Auths
@@ -69,6 +74,8 @@ export class UseCasesProxyModule {
         UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY,
         UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
         UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
+        // Permissions
+        UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY,
       ],
     };
   }

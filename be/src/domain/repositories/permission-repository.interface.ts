@@ -1,10 +1,10 @@
-import { RoleEntity } from '../entities/role.entity';
+import { PermissionEntity } from '../entities/permission.entity';
 
 export interface IPermissionRepository {
-  create(role: RoleEntity): Promise<RoleEntity>;
-  findAll(): Promise<RoleEntity[]>;
-  findById(id: number): Promise<RoleEntity>;
-  update(id: number, RoleEntity: RoleEntity): Promise<void>;
+  create(role: PermissionEntity): Promise<PermissionEntity>;
+  findAll(): Promise<PermissionEntity[]>;
+  findById(id: number): Promise<PermissionEntity>;
+  update(id: number, permissionEntity: PermissionEntity): Promise<void>;
   deleteById(id: number): Promise<void>;
-  findByUserId(userId: number): Promise<RoleEntity[]>;
+  findByUserId(userId: number): Promise<PermissionEntity[]>;
 }
