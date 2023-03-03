@@ -17,50 +17,48 @@ import { IsAuthenticatedUseCases } from '../../../use-cases/auth/isAuthenticated
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
-    private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-    @Inject(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
-    private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>
-  ) {}
+    constructor(
+        @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
+        private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
+        @Inject(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
+        private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>
+    ) {}
 
-  @Post('login')
-  @UseGuards(LocalGuard)
-  async login(@Body() auth: AuthLoginDto, @Request() request: any) {
-    const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(auth.username);
-    const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(auth.username);
-    const currentUser = new AuthPresenter();
-    currentUser.username = request.user.username;
-    currentUser.permissions = convertPermissions(request.user.roles);
-    currentUser.roles = convertRoles(request.user.roles);
-    request.res.setHeader('Set-Cookie', [accessToken, refreshToken]);
-    return {
-      accessToken,
-      refreshToken,
-      currentUser,
-    };
-  }
+    @Post('login')
+    @UseGuards(LocalGuard)
+    async login(@Body() auth: AuthLoginDto, @Request() request: any) {
+        const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(auth.username);
+        const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(auth.username);
+        const currentUser = new AuthPresenter();
+        currentUser.username = request.user.username;
+        currentUser.permissions = convertPermissions(request.user.roles);
+        currentUser.roles = convertRoles(request.user.roles);
+        return {
+            accessToken,
+            refreshToken,
+            currentUser,
+        };
+    }
 
-  @Post('logout')
-  @UseGuards(JwtAuthGuard)
-  async logout(@Request() request: any) {
-    const cookie = ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0'];
-    request.res.setHeader('Set-Cookie', cookie);
-    return 'Logout successful';
-  }
+    @Post('logout')
+    @UseGuards(JwtAuthGuard)
+    async logout(@Request() request: any) {
+        const cookie = ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0'];
+        request.res.setHeader('Set-Cookie', cookie);
+        return 'Logout successful';
+    }
 
-  @Get('is_authenticated')
-  async isAuthenticated(@Headers() headers) {
-    const user = await this.isAuthUsecaseProxy.getInstance().execute(headers.authentication);
-    const response = plainToInstance(AuthPresenter, user);
-    return response;
-  }
+    @Get('is_authenticated')
+    async isAuthenticated(@Headers() headers) {
+        const user = await this.isAuthUsecaseProxy.getInstance().execute(headers.authentication);
+        const response = plainToInstance(AuthPresenter, user);
+        return response;
+    }
 
-  @Post('refresh')
-  @UseGuards(JwtRefreshGuard)
-  async refresh(@Req() request: any) {
-    const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getJwtToken(request.user.username);
-    request.res.setHeader('Set-Cookie', accessTokenCookie);
-    return 'Refresh successful';
-  }
+    @Post('refresh')
+    @UseGuards(JwtRefreshGuard)
+    async refresh(@Req() request: any) {
+        const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(request.user.username);
+        return accessToken;
+    }
 }

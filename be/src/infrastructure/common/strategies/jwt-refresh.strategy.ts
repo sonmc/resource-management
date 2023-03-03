@@ -11,30 +11,30 @@ import { ExceptionsService } from '../../exceptions/exceptions.service';
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh-token') {
-  constructor(
-    @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
-    private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
-    private readonly logger: LoggerService,
-    private readonly exceptionService: ExceptionsService
-  ) {
-    super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          return request;
-        },
-      ]),
-      secretOrKey: process.env.JWT_REFRESH_TOKEN_SECRET,
-      passReqToCallback: true,
-    });
-  }
-
-  async validate(request: Request, authEntity: AuthEntity) {
-    const refreshToken = request.cookies?.Refresh;
-    const user = this.loginUsecaseProxy.getInstance().getUserIfRefreshTokenMatches(refreshToken, authEntity.username);
-    if (!user) {
-      this.logger.warn('JwtStrategy', `User not found or hash not correct`);
-      this.exceptionService.UnauthorizedException({ message: 'User not found or hash not correct' });
+    constructor(
+        @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
+        private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
+        private readonly logger: LoggerService,
+        private readonly exceptionService: ExceptionsService
+    ) {
+        super({
+            jwtFromRequest: ExtractJwt.fromExtractors([
+                (request: Request) => {
+                    return request;
+                },
+            ]),
+            secretOrKey: process.env.JWT_REFRESH_TOKEN_SECRET,
+            passReqToCallback: true,
+        });
     }
-    return user;
-  }
+
+    async validate(request: Request, authEntity: AuthEntity) {
+        const refreshToken = '';
+        const user = this.loginUsecaseProxy.getInstance().getUserIfRefreshTokenMatches(refreshToken, authEntity.username);
+        if (!user) {
+            this.logger.warn('JwtStrategy', `User not found or hash not correct`);
+            this.exceptionService.UnauthorizedException({ message: 'User not found or hash not correct' });
+        }
+        return user;
+    }
 }
