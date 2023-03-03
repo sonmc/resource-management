@@ -1,8 +1,8 @@
-import { APIClient } from "../helpers/api_helper";
+import { APIClient } from '../helpers/api_helper';
 const baseUrl = `${process.env.REACT_APP_API_URL}/projects`;
 const api = new APIClient();
 
-export const Get = (params) => api.getWithToken(baseUrl);
-export const Create = (params) => api.createWithToken(baseUrl, params);
-export const Update = (params) => api.updateWithToken(baseUrl, params);
-export const AddMember = (params) => api.createWithToken(baseUrl + "/add-member", params);
+export const Get = (params) => api.get(baseUrl);
+export const Create = (params) => api.create(baseUrl, params);
+export const Update = (params) => api.update(baseUrl, params);
+export const AddMember = (params) => api.create(baseUrl + '/add-member', params);

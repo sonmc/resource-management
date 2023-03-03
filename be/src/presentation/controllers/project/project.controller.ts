@@ -24,41 +24,41 @@ import { EndPoint } from 'src/domain/enums/endpoint.enum';
 @Controller('projects')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ProjectController {
-  constructor(
-    @Inject(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY)
-    private readonly getProjectsUsecaseProxy: UseCaseProxy<GetProjectsUseCases>,
-    @Inject(UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY)
-    private readonly createProjectsUsecaseProxy: UseCaseProxy<CreateProjectUseCases>,
-    @Inject(UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY)
-    private readonly addMemberUsecaseProxy: UseCaseProxy<AddMemberUseCases>
-  ) {}
+    constructor(
+        @Inject(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY)
+        private readonly getProjectsUsecaseProxy: UseCaseProxy<GetProjectsUseCases>,
+        @Inject(UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY)
+        private readonly createProjectsUsecaseProxy: UseCaseProxy<CreateProjectUseCases>,
+        @Inject(UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY)
+        private readonly addMemberUsecaseProxy: UseCaseProxy<AddMemberUseCases>
+    ) {}
 
-  @CacheTTL(10)
-  @Permissions(EndPoint.PROJECT_GET)
-  @Get()
-  async getAll(@Query() query): Promise<PagingDataDto> {
-    const { cursor, limit } = query;
-    let response = await this.getProjectsUsecaseProxy.getInstance().execute(limit, cursor);
-    response = response.datas.map((p) => plainToClass(ProjectPresenter, p));
-    return response;
-  }
+    @CacheTTL(10)
+    @Permissions(EndPoint.PROJECT_GET)
+    @Get()
+    async getAll(@Query() query): Promise<PagingDataDto> {
+        const { cursor, limit } = query;
+        let response = await this.getProjectsUsecaseProxy.getInstance().execute(limit, cursor);
+        response = response.datas.map((p) => plainToClass(ProjectPresenter, p));
+        return response;
+    }
 
-  @Post()
-  async create(@Body() createProjectPresenter: CreateProjectPresenter): Promise<ProjectPresenter> {
-    const project = plainToClass(ProjectEntity, createProjectPresenter);
-    const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
-    const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
-    const workloads = generateWorkload(0, '', projectPresenter.id);
-    const user = plainToClass(UserEntity, { workloads: workloads });
-    projectPresenter.users.push(user);
-    return projectPresenter;
-  }
+    @Post()
+    async create(@Body() createProjectPresenter: CreateProjectPresenter): Promise<ProjectPresenter> {
+        const project = plainToClass(ProjectEntity, createProjectPresenter);
+        const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
+        const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
+        const workloads = generateWorkload(0, '', projectPresenter.id);
+        const user = plainToClass(UserEntity, { workloads: workloads });
+        projectPresenter.users.push(user);
+        return projectPresenter;
+    }
 
-  @Post('add-member')
-  async addMember(@Body() userProjectPresenter: UserProjectPresenter): Promise<UserPresenter> {
-    const addMemberEntity = plainToClass(AddMemberEntity, userProjectPresenter);
-    const useEntity = await this.addMemberUsecaseProxy.getInstance().execute(addMemberEntity);
-    const response = plainToClass(UserPresenter, useEntity);
-    return response;
-  }
+    @Post('add-member')
+    async addMember(@Body() userProjectPresenter: UserProjectPresenter): Promise<UserPresenter> {
+        const addMemberEntity = plainToClass(AddMemberEntity, userProjectPresenter);
+        const useEntity = await this.addMemberUsecaseProxy.getInstance().execute(addMemberEntity);
+        const response = plainToClass(UserPresenter, useEntity);
+        return response;
+    }
 }
