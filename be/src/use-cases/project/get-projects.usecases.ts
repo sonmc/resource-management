@@ -6,23 +6,23 @@ import { ProjectEntity } from '../../domain/entities/project.entity';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 
 export class GetProjectsUseCases {
-  constructor(private readonly projectRepository: IProjectRepository) {}
+    constructor(private readonly projectRepository: IProjectRepository) {}
 
-  async execute(limit: number, cursor: number): Promise<PagingDataDto> {
-    const res = await this.projectRepository.findAll(limit, cursor);
-    res.datas.forEach((project) => {
-      if (project.users.length > 0) {
-        project.users.forEach((user) => {
-          if (user.workloads.length == 0) {
-            user.workloads = generateWorkload(user.id, '', project.id);
-          }
+    async execute(filter: any, paging: any): Promise<PagingDataDto> {
+        const res = await this.projectRepository.findAll(filter, paging);
+        res.datas.forEach((project) => {
+            if (project.users.length > 0) {
+                project.users.forEach((user) => {
+                    if (user.workloads.length == 0) {
+                        user.workloads = generateWorkload(user.id, '', project.id);
+                    }
+                });
+            } else {
+                const user = new UserEntity(new User());
+                user.workloads = generateWorkload(0, '', project.id);
+                project.users.push(user);
+            }
         });
-      } else {
-        const user = new UserEntity(new User());
-        user.workloads = generateWorkload(0, '', project.id);
-        project.users.push(user);
-      }
-    });
-    return res;
-  }
+        return res;
+    }
 }

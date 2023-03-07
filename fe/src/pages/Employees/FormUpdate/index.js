@@ -51,8 +51,7 @@ const ModalUpdate = (props) => {
     } else {
       setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
     }
-  }, [employeeId]);
-  console.log(employee);
+  }, [employeeId]); 
   return (
     <Modal
       id="flipModal"

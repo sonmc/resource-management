@@ -29,8 +29,7 @@ const AddMemberModal = (props) => {
     let obj = { ...objForm, member: user };
     setObjForm(obj);
   };
-
-  console.log(users);
+ 
   return (
     <Modal
       id="flipModal"
