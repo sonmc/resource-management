@@ -1,5 +1,4 @@
 import { compare, hash } from 'src/infrastructure/services/bcrypt.service';
-import { IBcryptService } from 'src/domain/adapters/bcrypt.interface';
 import { IJwtService, IJwtServicePayload } from '../../domain/adapters/jwt.interface';
 import { ILogger } from 'src/domain/logger/logger.interface';
 import { IUserRepository } from 'src/domain/repositories/user-repository.interface';
@@ -57,12 +56,10 @@ export class LoginUseCases {
         if (!user) {
             return null;
         }
-
         const isRefreshTokenMatching = await compare(refreshToken, user.hash_refresh_token);
         if (isRefreshTokenMatching) {
             return user;
         }
-
         return null;
     }
 }

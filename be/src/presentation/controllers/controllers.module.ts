@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtRefreshTokenStrategy } from 'src/infrastructure/common/strategies/jwt-refresh.strategy';
-import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strategy';
 import { ExceptionsService } from 'src/infrastructure/exceptions/exceptions.service';
 import { LoggerService } from 'src/infrastructure/logger/logger.service';
 import { UseCasesProxyModule } from '../../infrastructure/usecases-proxy/usecases-proxy.module';
@@ -10,8 +8,10 @@ import { RoleController } from './role/role.controller';
 import { UserController } from './employee/employee.controller';
 import { PermissionController } from './permission/permission.controller';
 import { RolesGuard } from 'src/infrastructure/common/guards/role.guard';
-import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
+import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
+import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strategy';
+import { JwtRefreshTokenStrategy } from 'src/infrastructure/common/strategies/jwt-refresh.strategy';
 
 @Module({
     imports: [UseCasesProxyModule.register()],

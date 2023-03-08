@@ -15,12 +15,11 @@ axios.interceptors.response.use(
     },
     async (error) => {
         if (error.response.status === 401) {
-            // const currentUser = JSON.parse(localStorage.getItem('user'));
-            // const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;
-            // let apiResponse = await axios.post(url, currentUser);
-            // localStorage.setItem('tokens', JSON.stringify(apiResponse.data));
-            // error.config.headers['Authorization'] = `bearer ${apiResponse.data.access_token}`;
-            // return axios(error.config);
+            const currentUser = JSON.parse(localStorage.getItem('user'));
+            const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;
+            let apiResponse = await axios.post(url, currentUser);
+            error.config.headers['Authorization'] = `bearer ${apiResponse}`;
+            return axios(error.config);
         } else {
             return Promise.reject(error);
         }

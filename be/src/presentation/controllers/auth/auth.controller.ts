@@ -43,8 +43,8 @@ export class AuthController {
     @Post('logout')
     @UseGuards(JwtAuthGuard)
     async logout(@Request() request: any) {
-        const cookie = ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0'];
-        request.res.setHeader('Set-Cookie', cookie);
+        request.res.cookie('access_token', '', { httpOnly: true });
+        request.res.cookie('refresh_token', '', { httpOnly: true });
         return 'Logout successful';
     }
 
@@ -59,6 +59,9 @@ export class AuthController {
     @UseGuards(JwtRefreshGuard)
     async refresh(@Req() request: any) {
         const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(request.user.username);
+        const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(request.user.username);
+        request.res.cookie('access_token', accessToken, { httpOnly: true });
+        request.res.cookie('refresh_token', refreshToken, { httpOnly: true });
         return accessToken;
     }
 }
