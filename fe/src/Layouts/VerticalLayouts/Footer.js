@@ -8,7 +8,7 @@ const Footer = () => {
                 <Container fluid>
                     <Row>
                         <Col sm={6}>
-                            <div className="text-sm-end d-none d-sm-block"> </div>
+                            <div className="text-sm-end d-none d-sm-block"> design by sonmc </div>
                         </Col>
                     </Row>
                 </Container>

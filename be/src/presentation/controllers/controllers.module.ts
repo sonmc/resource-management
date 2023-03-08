@@ -14,8 +14,8 @@ import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 
 @Module({
-  imports: [UseCasesProxyModule.register()],
-  controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController],
-  providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
+    imports: [UseCasesProxyModule.register()],
+    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController],
+    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}

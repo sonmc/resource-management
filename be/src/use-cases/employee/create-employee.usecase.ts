@@ -2,10 +2,12 @@ import { UserWithoutPassword } from 'src/domain/entities/user.entity';
 import { IUserRepository } from 'src/domain/repositories/user-repository.interface';
 import { ILogger } from '../../domain/logger/logger.interface';
 
-export class GetAllUseCases {
+export class CreateEmployeeUseCases {
     constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository) {}
 
-    async execute(query: any): Promise<UserWithoutPassword[]> {
-        return await this.userRepository.findAll(query);
+    async execute(userE: UserWithoutPassword): Promise<UserWithoutPassword> {
+        const user = await this.userRepository.createOrUpdate(userE);
+        this.logger.log('createEmployeeUseCases execute', 'New employee have been inserted');
+        return user;
     }
 }

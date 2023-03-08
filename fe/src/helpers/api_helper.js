@@ -9,8 +9,6 @@ axios.interceptors.response.use(
         return response.data ? response.data : response;
     },
     async (error) => {
-        // eslint-disable-next-line no-debugger
-        debugger;
         if (error.response.status === 401) {
             // const currentUser = JSON.parse(localStorage.getItem('user'));
             // const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;

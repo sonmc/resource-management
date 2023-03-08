@@ -24,7 +24,13 @@ const Index = () => {
         getRoles().then((res) => {
             setRoles(res);
         });
-        getUsers().then((res) => {
+        getUsers({
+            searchTerm: '',
+            roleId: 0,
+            status: 1,
+        }).then((res) => {
+            // eslint-disable-next-line no-debugger
+            debugger;
             setUsers(res);
         });
     }, [setRoles, setUsers]);

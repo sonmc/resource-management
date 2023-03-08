@@ -16,7 +16,7 @@ const weeks = ['w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3',
 
 const Projects = () => {
     const [paging, setPaging] = useState({
-        cursor: 1,
+        cursor: 0,
         limit: 10,
     });
     const [filter, setFilter] = useState({
