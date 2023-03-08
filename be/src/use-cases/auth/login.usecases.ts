@@ -12,7 +12,7 @@ export class LoginUseCases {
         const secret = process.env.JWT_SECRET;
         const expiresIn = process.env.JWT_EXPIRATION_TIME + 's';
         const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
-        return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${expiresIn}`;
+        return token;
     }
 
     async getJwtRefreshToken(username: string) {
@@ -21,11 +21,7 @@ export class LoginUseCases {
         const expiresIn = process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME + 's';
         const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
         await this.setCurrentRefreshToken(token, username);
-        const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${expiresIn}`;
-        return {
-            cookie,
-            token,
-        };
+        return token;
     }
 
     async validateUserForLocalStragtegy(username: string, pass: string) {
