@@ -2,7 +2,7 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
-import { FindManyOptions, Repository, MoreThan, MoreThanOrEqual } from 'typeorm';
+import { FindManyOptions, Repository, MoreThanOrEqual } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
 import { PagingDataDto } from 'src/domain/dto/paging.dto';
@@ -13,12 +13,6 @@ export class ProjectRepository implements IProjectRepository {
         @InjectRepository(Project)
         private readonly repository: Repository<Project>
     ) {}
-
-    async update(id: number, projectEntity: ProjectEntity): Promise<void> {
-        // await this.repository.update({
-        //   id: id,
-        // });
-    }
 
     async create(projectE: ProjectEntity): Promise<ProjectEntity> {
         const project = plainToClass(Project, projectE);
@@ -40,7 +34,7 @@ export class ProjectRepository implements IProjectRepository {
         const realLimit = Math.min(20, paging.limit);
 
         let findOptionInitial: FindManyOptions = {
-            relations: ['users', 'users.workloads'],
+            relations: ['users', 'users.workloads', 'users.roles'],
             order: {
                 created_at: 'DESC',
             },

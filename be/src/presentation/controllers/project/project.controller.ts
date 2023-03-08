@@ -55,7 +55,7 @@ export class ProjectController {
     }
 
     @Post('add-member')
-    async addMember(@Body() userProjectPresenter: UserProjectPresenter): Promise<UserPresenter> {
+    async addMember(@Body() userProjectPresenter: UserProjectPresenter): Promise<UserPresenter[]> {
         const addMemberEntity = plainToClass(AddMemberEntity, userProjectPresenter);
         const useEntity = await this.addMemberUsecaseProxy.getInstance().execute(addMemberEntity);
         const response = plainToClass(UserPresenter, useEntity);

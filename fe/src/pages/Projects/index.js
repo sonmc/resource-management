@@ -66,14 +66,9 @@ const Projects = () => {
         });
     };
 
-    const addMember = (project_id, user_id, workload, start_Date) => {
-        AddMember({
-            project_id,
-            user_id,
-            workload,
-            start_Date,
-        }).then((res) => {
-            const project = projects.find((x) => x.id == project_id);
+    const addMember = (data) => {
+        AddMember(data).then((res) => {
+            const project = projects.find((x) => x.id == data.project_id);
             project.users.push(res);
             setProjects(projects.map((p) => (p.id == project.id ? project : p)));
             setShowFormAddMember(false);
@@ -103,7 +98,7 @@ const Projects = () => {
     useEffect(() => {
         fetchProject(filter);
     }, [filter]);
-    console.log(filter);
+
     return (
         <React.Fragment>
             <div className="page-content">
@@ -138,6 +133,7 @@ const Projects = () => {
                                                         mode: 'range',
                                                         dateFormat: 'd M, Y',
                                                     }}
+                                                    value={filter.start_date}
                                                 />
                                             </div>
                                             <div className="col-xxl-2 col-sm-6">
@@ -233,7 +229,13 @@ const Projects = () => {
                                                                 )}
                                                                 {x.users[0].username}
                                                             </td>
-                                                            <td style={{ textAlign: 'center' }}>{x.users[0].role?.name}</td>
+                                                            <td style={{ textAlign: 'center' }}>
+                                                                {x.users[0].roles
+                                                                    .map((r) => {
+                                                                        return r.name;
+                                                                    })
+                                                                    .join(', ')}
+                                                            </td>
                                                             {x.users[0].workloads.map((z, key3) => {
                                                                 return (
                                                                     <td style={{ textAlign: 'center' }} key={key3}>
@@ -261,7 +263,13 @@ const Projects = () => {
                                                                             </Link>
                                                                             {y.username}
                                                                         </td>
-                                                                        <td style={{ textAlign: 'center' }}>{y.role?.name}</td>
+                                                                        <td style={{ textAlign: 'center' }}>
+                                                                            {y.roles
+                                                                                .map((role) => {
+                                                                                    return role.name;
+                                                                                })
+                                                                                .join(', ')}
+                                                                        </td>
                                                                         {y.workloads.map((z, key3) => {
                                                                             return (
                                                                                 <td style={{ textAlign: 'center' }} key={key3}>

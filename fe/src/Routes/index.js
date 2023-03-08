@@ -29,8 +29,6 @@ const Index = () => {
             roleId: 0,
             status: 1,
         }).then((res) => {
-            // eslint-disable-next-line no-debugger
-            debugger;
             setUsers(res);
         });
     }, [setRoles, setUsers]);

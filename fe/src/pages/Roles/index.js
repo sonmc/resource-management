@@ -94,7 +94,7 @@ const Roles = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Roles</h5>
+                                        <h3 className="card-title mb-0 flex-grow-1">Roles</h3>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success add-btn" onClick={() => showFormUpdate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create New
@@ -139,34 +139,36 @@ const Roles = () => {
                                 <hr style={{ color: '#c0c0c0' }} />
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Permissions</h5>
+                                        <h3 className="card-title mb-0 flex-grow-1">Roles</h3>
                                     </div>
                                 </div>
 
                                 <CardBody>
-                                    <Col lg={6} className="mb-3">
+                                    <Col lg={4} className="mb-3">
                                         <select id="custom-select" className="form-select">
                                             {roles.map((role, key) => {
                                                 return <option key={key}>Role - {role.name}</option>;
                                             })}
                                         </select>
                                     </Col>
-                                    <Label>Permission list</Label>
-                                    <DualListBox
-                                        options={permissions}
-                                        selected={permissionOfSelected}
-                                        onChange={onChange}
-                                        icons={{
-                                            moveLeft: <span className="mdi mdi-chevron-left" key="key" />,
-                                            moveAllLeft: [<span className="mdi mdi-chevron-double-left" key="key" />],
-                                            moveRight: <span className="mdi mdi-chevron-right" key="key" />,
-                                            moveAllRight: [<span className="mdi mdi-chevron-double-right" key="key" />],
-                                            moveDown: <span className="mdi mdi-chevron-down" key="key" />,
-                                            moveUp: <span className="mdi mdi-chevron-up" key="key" />,
-                                            moveTop: <span className="mdi mdi-chevron-double-up" key="key" />,
-                                            moveBottom: <span className="mdi mdi-chevron-double-down" key="key" />,
-                                        }}
-                                    />
+                                    <h6 className="card-title flex-grow-1 mb-2">Permissions</h6>
+                                    <Col lg={8}>
+                                        <DualListBox
+                                            options={permissions}
+                                            selected={permissionOfSelected}
+                                            onChange={onChange}
+                                            icons={{
+                                                moveLeft: <span className="mdi mdi-chevron-left" key="key" />,
+                                                moveAllLeft: [<span className="mdi mdi-chevron-double-left" key="key" />],
+                                                moveRight: <span className="mdi mdi-chevron-right" key="key" />,
+                                                moveAllRight: [<span className="mdi mdi-chevron-double-right" key="key" />],
+                                                moveDown: <span className="mdi mdi-chevron-down" key="key" />,
+                                                moveUp: <span className="mdi mdi-chevron-up" key="key" />,
+                                                moveTop: <span className="mdi mdi-chevron-double-up" key="key" />,
+                                                moveBottom: <span className="mdi mdi-chevron-double-down" key="key" />,
+                                            }}
+                                        />
+                                    </Col>
                                     <button className="btn btn-success add-btn mt-3" onClick={() => savePermissions()}>
                                         Save
                                     </button>

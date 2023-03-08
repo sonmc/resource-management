@@ -9,10 +9,13 @@ const AddMemberModal = (props) => {
     const users = useRecoilValue(usersAtom);
     const { isShowFormAddMember, closeFormAddMember, addMember, project } = props;
 
+    let dateNow = new Date();
+    dateNow.setDate(dateNow.getDate() + 7);
+
     const [objForm, setObjForm] = useState({
-        member: null,
-        startDate: new Date(),
-        endDate: new Date(),
+        members: [],
+        start_date: new Date(),
+        end_date: dateNow,
         workload: 100,
     });
 
@@ -22,15 +25,14 @@ const AddMemberModal = (props) => {
     };
 
     const update = () => {
-        addMember(project.id, objForm.member.id, objForm.workload, objForm.startDate);
+        addMember({ ...objForm, project_id: +project.id });
     };
 
-    const handleUserChanged = (user) => {
-        let obj = { ...objForm, member: user };
+    const handleUserChanged = (users) => {
+        let obj = { ...objForm, members: users };
         setObjForm(obj);
     };
 
-    console.log(users);
     return (
         <Modal
             id="flipModal"
@@ -53,8 +55,8 @@ const AddMemberModal = (props) => {
                                 <Select
                                     name="choices-single-default"
                                     id="choices-single-default"
-                                    value={objForm.member}
-                                    onChange={handleUserChanged}
+                                    value={objForm.members}
+                                    onChange={(x) => handleUserChanged(x)}
                                     getOptionLabel={(option) => {
                                         return option.username;
                                     }}
@@ -75,6 +77,7 @@ const AddMemberModal = (props) => {
                                 options={{
                                     dateFormat: 'd M, Y',
                                 }}
+                                value={objForm.start_date}
                                 placeholder="Select start date"
                             />
                         </Col>
@@ -88,6 +91,7 @@ const AddMemberModal = (props) => {
                                     dateFormat: 'd M, Y',
                                 }}
                                 placeholder="Select end date"
+                                value={objForm.end_date}
                             />
                         </Col>
                         <Col xxl={12}>

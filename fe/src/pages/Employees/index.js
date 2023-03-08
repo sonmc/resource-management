@@ -58,7 +58,7 @@ const Employees = () => {
     useEffect(() => {
         fetchEmployee(filter);
     }, [filter]);
-    console.log(filter);
+
     return (
         <React.Fragment>
             <div className="page-content">
