@@ -33,9 +33,9 @@ export class AuthController {
         currentUser.username = request.user.username;
         currentUser.permissions = convertPermissions(request.user.roles);
         currentUser.roles = convertRoles(request.user.roles);
+        request.res.cookie('access_token', accessToken, { httpOnly: true });
+        request.res.cookie('refresh_token', refreshToken, { httpOnly: true });
         return {
-            accessToken,
-            refreshToken,
             currentUser,
         };
     }
