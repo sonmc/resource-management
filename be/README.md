@@ -40,6 +40,8 @@ $ npm run test:cov
 
 ## Run migration
 
+npm install -g win-node-env
+
 npm run typeorm:generate -n Init
 npm run typeorm:run
 
