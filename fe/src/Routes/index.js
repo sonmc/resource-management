@@ -20,14 +20,15 @@ const Index = () => {
   const [_, setRoles] = useRecoilState(roleAtom);
   const [__, setUsers] = useRecoilState(usersAtom);
   useEffect(() => {
-    if (document.documentElement) document.documentElement.setAttribute("data-layout", "horizontal");
+    if (document.documentElement)
+      document.documentElement.setAttribute("data-layout", "horizontal");
     getRoles().then((res) => {
       setRoles(res);
     });
     getUsers().then((res) => {
       setUsers(res);
     });
-  }, []);
+  }, [setRoles, setUsers]);
 
   return (
     <React.Fragment>
@@ -36,7 +37,12 @@ const Index = () => {
           <NonAuthLayout>
             <Switch>
               {publicRoutes.map((route, idx) => (
-                <Route path={route.path} component={route.component} key={idx} exact={true} />
+                <Route
+                  path={route.path}
+                  component={route.component}
+                  key={idx}
+                  exact={true}
+                />
               ))}
             </Switch>
           </NonAuthLayout>
@@ -47,7 +53,12 @@ const Index = () => {
             <VerticalLayout>
               <Switch>
                 {authProtectedRoutes.map((route, idx) => (
-                  <AccessRoute path={route.path} component={route.component} key={idx} exact={true} />
+                  <AccessRoute
+                    path={route.path}
+                    component={route.component}
+                    key={idx}
+                    exact={true}
+                  />
                 ))}
               </Switch>
             </VerticalLayout>
