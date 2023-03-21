@@ -10,14 +10,10 @@ const Vacations = () => {
                     <title>Resource management | Vacations</title>
                 </MetaTags>
                 <Container fluid>
-                    <div className="row">
-                        <Col lg={12}>
-                            <div className="card" id="Vacation">
-                                <CardBody>
-                                    <div className="table-responsive mt-3 col-lg-6">Vacations page</div>
-                                </CardBody>
-                            </div>
-                        </Col>
+                    <div className="card" id="Vacation">
+                        <CardBody>
+                            <div className="table-responsive mt-3 col-lg-6">Vacations page</div>
+                        </CardBody>
                     </div>
                 </Container>
             </div>
