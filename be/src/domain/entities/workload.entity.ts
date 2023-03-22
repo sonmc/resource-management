@@ -6,5 +6,6 @@ export class WorkloadEntity {
     value: string;
     user_id: number;
     project_id: number;
+
     user: UserEntity;
 }

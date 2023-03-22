@@ -9,4 +9,6 @@ export abstract class BaseEntity {
 
     @UpdateDateColumn()
     updated_at: Date;
+ 
+    created_by: number;
 }
