@@ -10,12 +10,10 @@ import Roles from '../pages/Roles';
 import VacationCalendar from '../pages/VacationCalendar';
 import Vacations from '../pages/VacationManage';
 import TaskDetails from '../pages/Projects/ProjectManage/TaskDetails';
-import TaskList from '../pages/Projects/ProjectManage/TaskList';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
     { path: '/project-detail', component: ProjectDetail },
-    { path: '/apps-tasks-list-view', component: TaskList },
     { path: '/tasks-details', component: TaskDetails },
     { path: '/employees', component: Employees },
     { path: '/vacation-calendar', component: VacationCalendar },

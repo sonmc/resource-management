@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Init1675766806882 implements MigrationInterface {
-    name = 'Init1675766806882'
+export class Init1679393748564 implements MigrationInterface {
+    name = 'Init1679393748564'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`tasks\` (\`id\` varchar(36) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NOT NULL, \`status\` int NOT NULL, \`estimated_start\` int NOT NULL, \`estimated_end\` int NOT NULL, \`index\` int NOT NULL, \`kanbanColumnId\` varchar(36) NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
@@ -13,11 +13,11 @@ export class Init1675766806882 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`users\` (\`id\` varchar(36) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`username\` varchar(255) NOT NULL, \`email\` varchar(255) NOT NULL, \`phone_number\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, \`status\` int NOT NULL, \`gender\` tinyint NOT NULL, \`avatar\` varchar(255) NULL, \`dob\` datetime NOT NULL, \`last_login\` datetime NULL, \`hash_refresh_token\` varchar(255) NULL, UNIQUE INDEX \`IDX_fe0bb3f6520ee0469504521e71\` (\`username\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`roles\` (\`id\` varchar(36) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`description\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`permissions\` (\`id\` varchar(36) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`label\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`roles_pems\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_projects\` (\`project_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`project_id\`, \`user_id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`roles_pems\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_kanbans\` (\`kanban_id\` int NOT NULL, \`user_id\` int NOT NULL, \`joined_date\` datetime NOT NULL, \`user_shared\` int NOT NULL, PRIMARY KEY (\`kanban_id\`, \`user_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`users_tasks\` (\`task_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`task_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_roles\` (\`role_id\` int NOT NULL, \`user_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`user_id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`users_tasks\` (\`task_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`task_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_vacations\` (\`vacation_id\` varchar(36) NOT NULL, \`user_id\` varchar(36) NOT NULL, INDEX \`IDX_e3d41ac4def7bdaa9ef8d986d1\` (\`vacation_id\`), INDEX \`IDX_4b06962fad72e30249fa98f689\` (\`user_id\`), PRIMARY KEY (\`vacation_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`start_date\``);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`end_date\``);
@@ -221,11 +221,11 @@ export class Init1675766806882 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX \`IDX_4b06962fad72e30249fa98f689\` ON \`users_vacations\``);
         await queryRunner.query(`DROP INDEX \`IDX_e3d41ac4def7bdaa9ef8d986d1\` ON \`users_vacations\``);
         await queryRunner.query(`DROP TABLE \`users_vacations\``);
-        await queryRunner.query(`DROP TABLE \`users_roles\``);
         await queryRunner.query(`DROP TABLE \`users_tasks\``);
+        await queryRunner.query(`DROP TABLE \`users_roles\``);
         await queryRunner.query(`DROP TABLE \`users_kanbans\``);
-        await queryRunner.query(`DROP TABLE \`users_projects\``);
         await queryRunner.query(`DROP TABLE \`roles_pems\``);
+        await queryRunner.query(`DROP TABLE \`users_projects\``);
         await queryRunner.query(`DROP TABLE \`permissions\``);
         await queryRunner.query(`DROP TABLE \`roles\``);
         await queryRunner.query(`DROP INDEX \`IDX_fe0bb3f6520ee0469504521e71\` ON \`users\``);
