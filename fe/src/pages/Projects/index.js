@@ -113,7 +113,7 @@ const Projects = () => {
                                     <div className="d-flex align-items-center">
                                         <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
                                         <div className="flex-shrink-0">
-                                            <button className="btn btn-success add-btn" onClick={() => showFormCreate()}>
+                                            <button className="btn btn-success" onClick={() => showFormCreate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create New
                                             </button>
                                         </div>
