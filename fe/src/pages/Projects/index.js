@@ -138,7 +138,12 @@ const Projects = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-6">
                                                 <div className="search-box">
-                                                    <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
+                                                    <input
+                                                        type="text"
+                                                        onChange={(x) => handleChangeFilter('project_name', x.target.value)}
+                                                        className="form-control search"
+                                                        placeholder="Search by name"
+                                                    />
                                                     <i className="ri-search-line search-icon"></i>
                                                 </div>
                                             </div>
@@ -205,7 +210,12 @@ const Projects = () => {
                                                                 >
                                                                     <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                                                 </Link>
-                                                                <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                                                <Link
+                                                                    to="#"
+                                                                    onClick={() => goProjectDetail(x)}
+                                                                    className="fs-100"
+                                                                    style={{ fontSize: '15px' }}
+                                                                >
                                                                     {x.name}
                                                                 </Link>
                                                             </th>
@@ -259,7 +269,10 @@ const Projects = () => {
                                                                                     right: 0,
                                                                                 }}
                                                                             >
-                                                                                <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                                <i
+                                                                                    className="ri-indeterminate-circle-line"
+                                                                                    style={{ fontSize: '20px' }}
+                                                                                />
                                                                             </Link>
                                                                             {y.username}
                                                                         </td>
@@ -291,7 +304,12 @@ const Projects = () => {
                         </Col>
                     </div>
                     <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} />
-                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} />
+                    <AddMemberModal
+                        addMember={addMember}
+                        isShowFormAddMember={isShowFormAddMember}
+                        closeFormAddMember={closeFormAddMember}
+                        project={project}
+                    />
                     <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
                 </Container>
             </div>

@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+let isRefreshing = false;
+let failedQueue = [];
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_URL + '/',
     headers: {
@@ -14,28 +15,59 @@ api.interceptors.request.use(function (req) {
     req.withCredentials = true;
     return req;
 });
+const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+
+    failedQueue = [];
+};
+
 api.interceptors.response.use(
     (res) => {
         return res.data ? res.data : res;
     },
-    async (err) => {
-        const originalConfig = err.config;
-
-        if (originalConfig.url !== '/auth/login' && err.response) {
-            // Access Token was expired
-            if (err.response.status === 401 && !originalConfig._retry) {
-                originalConfig._retry = true;
-                try {
-                    const currentUser = JSON.parse(localStorage.getItem('user'));
-                    const rs = await api.post('auth/refresh', currentUser);
-                    originalConfig.headers['Authorization'] = `bearer ${rs}`;
-                    return api(originalConfig);
-                } catch (_error) {
-                    return Promise.reject(_error);
+    (err) => {
+        const originalRequest = err.config;
+        if (originalRequest.url !== '/auth/login' && originalRequest.url !== '/auth/refresh' && err.response) {
+            if (err.response.status === 401 && !originalRequest._retry) {
+                if (isRefreshing) {
+                    return new Promise(function (resolve, reject) {
+                        failedQueue.push({ resolve, reject });
+                    })
+                        .then((token) => {
+                            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+                            return api(originalRequest);
+                        })
+                        .catch((err) => {
+                            return Promise.reject(err);
+                        });
                 }
+
+                originalRequest._retry = true;
+                isRefreshing = true;
+                const currentUser = JSON.parse(localStorage.getItem('user'));
+                return new Promise(function (resolve, reject) {
+                    api.post('auth/refresh', currentUser)
+                        .then((rs) => {
+                            originalRequest.headers['Authorization'] = `bearer ${rs}`;
+                            processQueue(null, rs);
+                            resolve(api(originalRequest));
+                        })
+                        .catch((err) => {
+                            processQueue(err, null);
+                            reject(err);
+                        })
+                        .then(() => {
+                            isRefreshing = false;
+                        });
+                });
             }
         }
-
         return Promise.reject(err);
     }
 );
