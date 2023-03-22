@@ -177,12 +177,7 @@ const Roles = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete
-                        deleteRole={deleteRole}
-                        isShowConfirmDelete={isShowConfirmDelete}
-                        closeConfirmDelete={closeConfirmDelete}
-                        roleId={roleId}
-                    />
+                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
                 </Container>
             </div>
         </React.Fragment>
