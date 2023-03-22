@@ -14,10 +14,22 @@ import { UserProjectRepository } from './user-project.repository';
 import { PermissionRepository } from './permission.repository';
 import { Permission } from 'src/infrastructure/schemas/permission.schema';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
+import { VacationRepository } from './vacation.repository';
+import { Vacation } from 'src/infrastructure/schemas/vacation.schema';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([Project]), TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([Role]), TypeOrmModule.forFeature([Workload]), TypeOrmModule.forFeature([UserProject]), TypeOrmModule.forFeature([Permission]), TypeOrmModule.forFeature([UserRole])],
-  providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository],
-  exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository],
+    imports: [
+        ConfigModule,
+        TypeOrmModule.forFeature([Project]),
+        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([Role]),
+        TypeOrmModule.forFeature([Workload]),
+        TypeOrmModule.forFeature([UserProject]),
+        TypeOrmModule.forFeature([Permission]),
+        TypeOrmModule.forFeature([UserRole]),
+        TypeOrmModule.forFeature([Vacation]),
+    ],
+    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
+    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
 })
 export class RepositoriesModule {}
