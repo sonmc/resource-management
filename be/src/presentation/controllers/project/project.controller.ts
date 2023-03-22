@@ -35,10 +35,9 @@ export class ProjectController {
 
     @CacheTTL(10)
     @Permissions(EndPoint.PROJECT_GET)
-    @Post()
-    async getAll(@Body() body): Promise<PagingDataDto> {
-        const { filter, paging } = body;
-        let response = await this.getProjectsUsecaseProxy.getInstance().execute(filter, paging);
+    @Get()
+    async getAll(@Query() query): Promise<PagingDataDto> {
+        let response = await this.getProjectsUsecaseProxy.getInstance().execute(query);
         response = response.datas.map((p) => plainToClass(ProjectPresenter, p));
         return response;
     }

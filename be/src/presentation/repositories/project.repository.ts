@@ -30,8 +30,8 @@ export class ProjectRepository implements IProjectRepository {
         await this.repository.delete(id);
     }
 
-    async findAll(filter: any = { limit: 10, cursor: 0 }, paging: any): Promise<PagingDataDto> {
-        const realLimit = Math.min(20, paging.limit);
+    async findAll(query: any): Promise<PagingDataDto> {
+        const realLimit = Math.min(20, query.limit);
 
         let findOptionInitial: FindManyOptions = {
             relations: ['users', 'users.workloads', 'users.roles'],
@@ -42,11 +42,11 @@ export class ProjectRepository implements IProjectRepository {
         };
 
         let findOption: FindManyOptions;
-        if (paging.cursor) {
+        if (query.cursor) {
             findOption = {
                 ...findOptionInitial,
                 where: {
-                    id: MoreThanOrEqual(paging.cursor),
+                    id: MoreThanOrEqual(query.cursor),
                 },
             };
         } else {

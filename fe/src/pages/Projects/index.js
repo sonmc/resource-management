@@ -80,7 +80,7 @@ const Projects = () => {
     };
 
     const fetchProject = (filter) => {
-        FetchProject({ filter, paging }).then((res) => {
+        FetchProject({ ...filter, ...paging }).then((res) => {
             setProjects(res);
         });
     };
@@ -196,64 +196,72 @@ const Projects = () => {
                                                                 <td colSpan={16}></td>
                                                             </tr>
                                                         )}
-                                                        <tr>
-                                                            <th rowSpan={x.users.length} style={{ position: 'relative' }}>
-                                                                <Link
-                                                                    to="#"
-                                                                    onClick={() => showFormAddMember(x)}
-                                                                    className="link-success fs-100"
-                                                                    style={{
-                                                                        position: 'absolute',
-                                                                        top: '-10px',
-                                                                        right: '0px',
-                                                                    }}
-                                                                >
-                                                                    <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
-                                                                </Link>
-                                                                <Link
-                                                                    to="#"
-                                                                    onClick={() => goProjectDetail(x)}
-                                                                    className="fs-100"
-                                                                    style={{ fontSize: '15px' }}
-                                                                >
-                                                                    {x.name}
-                                                                </Link>
-                                                            </th>
-                                                            <td rowSpan={x.users.length} style={{ position: 'relative' }}>
-                                                                <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
-                                                            </td>
-                                                            <td style={{ position: 'relative' }}>
-                                                                {x.users[0].username && (
+                                                        {x.users.length > 0 && (
+                                                            <tr>
+                                                                <th rowSpan={x.users.length} style={{ position: 'relative' }}>
                                                                     <Link
                                                                         to="#"
-                                                                        className="link-danger fs-15"
-                                                                        onClick={() => showConfirmDeleteModal()}
+                                                                        onClick={() => showFormAddMember(x)}
+                                                                        className="link-success fs-100"
                                                                         style={{
                                                                             position: 'absolute',
-                                                                            top: 0,
-                                                                            right: 0,
+                                                                            top: '-10px',
+                                                                            right: '0px',
                                                                         }}
                                                                     >
-                                                                        <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                        <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                                                     </Link>
-                                                                )}
-                                                                {x.users[0].username}
-                                                            </td>
-                                                            <td style={{ textAlign: 'center' }}>
-                                                                {x.users[0].roles
-                                                                    .map((r) => {
-                                                                        return r.name;
-                                                                    })
-                                                                    .join(', ')}
-                                                            </td>
-                                                            {x.users[0].workloads.map((z, key3) => {
-                                                                return (
-                                                                    <td style={{ textAlign: 'center' }} key={key3}>
-                                                                        {z.value} {z.value && <span>%</span>}
-                                                                    </td>
-                                                                );
-                                                            })}
-                                                        </tr>
+                                                                    <Link
+                                                                        to="#"
+                                                                        onClick={() => goProjectDetail(x)}
+                                                                        className="fs-100"
+                                                                        style={{ fontSize: '15px' }}
+                                                                    >
+                                                                        {x.name}
+                                                                    </Link>
+                                                                </th>
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative' }}>
+                                                                    <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
+                                                                </td>
+                                                                <td style={{ position: 'relative' }}>
+                                                                    {x.users[0]?.username && (
+                                                                        <Link
+                                                                            to="#"
+                                                                            className="link-danger fs-15"
+                                                                            onClick={() => showConfirmDeleteModal()}
+                                                                            style={{
+                                                                                position: 'absolute',
+                                                                                top: 0,
+                                                                                right: 0,
+                                                                            }}
+                                                                        >
+                                                                            <i
+                                                                                className="ri-indeterminate-circle-line"
+                                                                                style={{ fontSize: '20px' }}
+                                                                            />
+                                                                        </Link>
+                                                                    )}
+                                                                    {x.users[0]?.username}
+                                                                </td>
+                                                                <td style={{ textAlign: 'center' }}>
+                                                                    {(x.users[0]?.roles &&
+                                                                        x.users[0].roles.length > 0 &&
+                                                                        x.users[0].roles
+                                                                            .map((r) => {
+                                                                                return r.name;
+                                                                            })
+                                                                            .join(', ')) ||
+                                                                        ''}
+                                                                </td>
+                                                                {x.users[0].workloads.map((z, key3) => {
+                                                                    return (
+                                                                        <td style={{ textAlign: 'center' }} key={key3}>
+                                                                            {z.value} {z.value && <span>%</span>}
+                                                                        </td>
+                                                                    );
+                                                                })}
+                                                            </tr>
+                                                        )}
                                                         {x.users.map((y, key2) => {
                                                             return (
                                                                 key2 > 0 && (

@@ -8,8 +8,8 @@ import { IProjectRepository } from '../../domain/repositories/project-repository
 export class GetProjectsUseCases {
     constructor(private readonly projectRepository: IProjectRepository) {}
 
-    async execute(filter: any, paging: any): Promise<PagingDataDto> {
-        const res = await this.projectRepository.findAll(filter, paging);
+    async execute(query: any): Promise<PagingDataDto> {
+        const res = await this.projectRepository.findAll(query);
         res.datas.forEach((project) => {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
