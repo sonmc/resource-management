@@ -43,8 +43,7 @@ export class AuthController {
     @Post('logout')
     @UseGuards(JwtAuthGuard)
     async logout(@Request() request: any) {
-        request.res.cookie('access_token', '', { httpOnly: true });
-        request.res.cookie('refresh_token', '', { httpOnly: true });
+        request.res.clearCookie();
         return 'Logout successful';
     }
 
