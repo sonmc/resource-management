@@ -1,5 +1,5 @@
 import { APIClient } from '../helpers/api_helper';
-const baseUrl = `${process.env.REACT_APP_API_URL}/projects`;
+const baseUrl = `projects`;
 const api = new APIClient();
 
 export const FetchProject = (params) => api.create(baseUrl, params);

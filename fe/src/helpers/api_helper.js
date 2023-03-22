@@ -1,28 +1,42 @@
 import axios from 'axios';
 
-// content type
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL + '/',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+api.defaults.headers.post['Content-Type'] = 'application/json';
 
 // intercepting to capture errors
-axios.interceptors.request.use(function (req) {
+api.interceptors.request.use(function (req) {
     req.withCredentials = true;
     return req;
 });
-
-axios.interceptors.response.use(
-    function (response) {
-        return response.data ? response.data : response;
+api.interceptors.response.use(
+    (res) => {
+        return res.data ? res.data : res;
     },
-    async (error) => {
-        if (error.response.status === 401) {
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;
-            let apiResponse = await axios.post(url, currentUser);
-            error.config.headers['Authorization'] = `bearer ${apiResponse}`;
-            return axios(error.config);
-        } else {
-            return Promise.reject(error);
+    async (err) => {
+        const originalConfig = err.config;
+
+        if (originalConfig.url !== '/auth/login' && err.response) {
+            // Access Token was expired
+            if (err.response.status === 401 && !originalConfig._retry) {
+                originalConfig._retry = true;
+                try {
+                    const currentUser = JSON.parse(localStorage.getItem('user'));
+                    const rs = await api.post('auth/refresh', currentUser);
+                    originalConfig.headers['Authorization'] = `bearer ${rs}`;
+                    return api(originalConfig);
+                } catch (_error) {
+                    return Promise.reject(_error);
+                }
+            }
         }
+
+        return Promise.reject(err);
     }
 );
 
@@ -36,23 +50,23 @@ class APIClient {
                 return paramKeys;
             });
             const queryString = paramKeys && paramKeys.length ? paramKeys.join('&') : '';
-            response = axios.get(`${url}?${queryString}`, params);
+            response = api.get(`${url}?${queryString}`, params);
         } else {
-            response = axios.get(`${url}`, params);
+            response = api.get(`${url}`, params);
         }
         return response;
     };
 
     create = (url, data) => {
-        return axios.post(url, data);
+        return api.post(url, data);
     };
 
     update = (url, data) => {
-        return axios.put(url, data);
+        return api.put(url, data);
     };
 
     delete = (url, config) => {
-        return axios.delete(url, { ...config });
+        return api.delete(url, { ...config });
     };
 }
 
