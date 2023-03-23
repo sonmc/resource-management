@@ -26,10 +26,10 @@ export class AddMemberUseCases {
                 const workloads = generateWorkload(data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
                 Promise.all(
                     workloads.map(async (wl) => {
+                        wl.user = await this.userRepository.findOne(wl.user_id);
                         await this.workloadRepository.create(wl);
                     })
                 );
-
                 const userSchema = await this.userRepository.findOne(user.id);
                 userSchema.workloads = workloads;
                 this.logger.log('AddMemberUseCases execute', 'New member have been added');

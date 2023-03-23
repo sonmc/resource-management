@@ -10,9 +10,21 @@ export function generateWorkload(start_date, end_date, user_id: number, value: s
         for (let index = 0; index < weekNumber; index++) {
             let workload = new WorkloadEntity();
             workload.id = 0;
-            workload.value = index < weekNumber ? value : '';
+            workload.value = index < effortWeek ? value : '';
             workload.user_id = user_id;
             workload.start_date = weekNumberDate[index].start_date;
+            workload.end_date = weekNumberDate[index].end_date;
+            workload.project_id = projectId;
+            workloads.push(workload);
+        }
+    } else {
+        for (let index = 0; index < 12; index++) {
+            let workload = new WorkloadEntity();
+            workload.id = 0;
+            workload.value = '';
+            workload.user_id = user_id;
+            workload.start_date = null;
+            workload.end_date = null;
             workload.project_id = projectId;
             workloads.push(workload);
         }

@@ -18,17 +18,7 @@ import { VacationRepository } from './vacation.repository';
 import { Vacation } from 'src/infrastructure/schemas/vacation.schema';
 
 @Module({
-    imports: [
-        ConfigModule,
-        TypeOrmModule.forFeature([Project]),
-        TypeOrmModule.forFeature([User]),
-        TypeOrmModule.forFeature([Role]),
-        TypeOrmModule.forFeature([Workload]),
-        TypeOrmModule.forFeature([UserProject]),
-        TypeOrmModule.forFeature([Permission]),
-        TypeOrmModule.forFeature([UserRole]),
-        TypeOrmModule.forFeature([Vacation]),
-    ],
+    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation])],
     providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
     exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
 })
