@@ -1,4 +1,3 @@
-import { Workload } from 'src/infrastructure/schemas/workload.schema';
 import { UserEntity } from './user.entity';
 
 export class WorkloadEntity {
@@ -6,6 +5,7 @@ export class WorkloadEntity {
     value: string;
     user_id: number;
     project_id: number;
-
+    start_date: Date;
+    end_date: Date;
     user: UserEntity;
 }

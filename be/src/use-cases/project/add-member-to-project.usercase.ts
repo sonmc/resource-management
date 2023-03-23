@@ -23,7 +23,7 @@ export class AddMemberUseCases {
             });
             await this.userProjectRepository.create(userProject);
 
-            const workloads = generateWorkload(user.id, data.workload + '', data.project_id);
+            const workloads = generateWorkload(data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
             workloads.forEach(async (wl) => {
                 await this.workloadRepository.create(wl);
             });

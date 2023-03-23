@@ -2,10 +2,10 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
-import { FindManyOptions, Repository, MoreThanOrEqual } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
-import { PagingDataDto } from 'src/domain/dto/paging.dto';
+import { ProjectFilterPresenter } from '../controllers/project/presenter/project-filter.presenter';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
@@ -30,32 +30,15 @@ export class ProjectRepository implements IProjectRepository {
         await this.repository.delete(id);
     }
 
-    async findAll(filter: any = { limit: 10, cursor: 0 }, paging: any): Promise<PagingDataDto> {
-        const realLimit = Math.min(20, paging.limit);
-
+    async findAll(filter: ProjectFilterPresenter): Promise<ProjectEntity[]> {
         let findOptionInitial: FindManyOptions = {
             relations: ['users', 'users.workloads', 'users.roles'],
             order: {
                 created_at: 'DESC',
             },
-            take: realLimit,
         };
 
-        let findOption: FindManyOptions;
-        if (paging.cursor) {
-            findOption = {
-                ...findOptionInitial,
-                where: {
-                    id: MoreThanOrEqual(paging.cursor),
-                },
-            };
-        } else {
-            findOption = findOptionInitial;
-        }
-        const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
-        const datas = projects.slice(0, realLimit);
-        const hasMore = projects.length === realLimit;
-        const res = new PagingDataDto(datas, hasMore);
-        return res;
+        const projects = await this.repository.find(findOptionInitial as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
+        return projects;
     }
 }
