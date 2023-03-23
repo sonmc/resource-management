@@ -2,7 +2,7 @@ import { CacheInterceptor, CacheTTL, Controller, Inject } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
-import { Body, Post, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
+import { Body, Get, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -34,10 +34,9 @@ export class ProjectController {
 
     @CacheTTL(10)
     @Permissions(EndPoint.PROJECT_GET)
-    @Post()
-    async getAll(@Body() body): Promise<ProjectPresenter[]> {
-        const { filter } = body;
-        let response = await this.getProjectsUsecaseProxy.getInstance().execute(filter);
+    @Get()
+    async getAll(@Query() query): Promise<ProjectEntity[]> {
+        let response = await this.getProjectsUsecaseProxy.getInstance().execute(query);
         response = response.map((p) => plainToClass(ProjectPresenter, p));
         return response;
     }

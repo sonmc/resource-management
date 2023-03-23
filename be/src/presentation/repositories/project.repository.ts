@@ -2,10 +2,9 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, Repository, Between, ILike } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
-import { ProjectFilterPresenter } from '../controllers/project/presenter/project-filter.presenter';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
@@ -30,15 +29,19 @@ export class ProjectRepository implements IProjectRepository {
         await this.repository.delete(id);
     }
 
-    async findAll(filter: ProjectFilterPresenter): Promise<ProjectEntity[]> {
-        let findOptionInitial: FindManyOptions = {
+    async findAll(query: any): Promise<ProjectEntity[]> {
+        let findOption: FindManyOptions = {
             relations: ['users', 'users.workloads', 'users.roles'],
             order: {
                 created_at: 'DESC',
             },
+            where: {
+                name: ILike(`%${query.project_name || ''}%`),
+                start_date: Between(new Date(query.start_date), new Date(query.end_date)),
+            },
         };
 
-        const projects = await this.repository.find(findOptionInitial as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
+        const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
         return projects;
     }
 }

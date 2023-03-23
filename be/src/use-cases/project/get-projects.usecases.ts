@@ -8,9 +8,9 @@ import { IProjectRepository } from '../../domain/repositories/project-repository
 export class GetProjectsUseCases {
     constructor(private readonly projectRepository: IProjectRepository) {}
 
-    async execute(filter: ProjectFilterPresenter): Promise<ProjectEntity[]> {
-        const datas = await this.projectRepository.findAll(filter);
-        datas.forEach((project) => {
+    async execute(query: any): Promise<ProjectEntity[]> {
+        const res = await this.projectRepository.findAll(query);
+        res.forEach((project) => {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
                     if (user.workloads.length == 0) {
@@ -23,6 +23,6 @@ export class GetProjectsUseCases {
                 project.users.push(user);
             }
         });
-        return datas;
+        return res;
     }
 }
