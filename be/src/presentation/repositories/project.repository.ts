@@ -2,10 +2,9 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
-import { FindManyOptions, Repository, MoreThanOrEqual } from 'typeorm';
+import { FindManyOptions, Repository, Between, ILike } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
-import { PagingDataDto } from 'src/domain/dto/paging.dto';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
@@ -30,32 +29,19 @@ export class ProjectRepository implements IProjectRepository {
         await this.repository.delete(id);
     }
 
-    async findAll(query: any): Promise<PagingDataDto> {
-        const realLimit = Math.min(20, query.limit);
-
-        let findOptionInitial: FindManyOptions = {
+    async findAll(query: any): Promise<ProjectEntity[]> {
+        let findOption: FindManyOptions = {
             relations: ['users', 'users.workloads', 'users.roles'],
             order: {
                 created_at: 'DESC',
             },
-            take: realLimit,
+            where: {
+                name: ILike(`%${query.project_name || ''}%`),
+                start_date: Between(new Date(query.start_date), new Date(query.end_date)),
+            },
         };
 
-        let findOption: FindManyOptions;
-        if (query.cursor) {
-            findOption = {
-                ...findOptionInitial,
-                where: {
-                    id: MoreThanOrEqual(query.cursor),
-                },
-            };
-        } else {
-            findOption = findOptionInitial;
-        }
         const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
-        const datas = projects.slice(0, realLimit);
-        const hasMore = projects.length === realLimit;
-        const res = new PagingDataDto(datas, hasMore);
-        return res;
+        return projects;
     }
 }

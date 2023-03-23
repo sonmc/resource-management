@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { CardBody, Col, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
@@ -11,16 +11,14 @@ import Flatpickr from 'react-flatpickr';
 import NoteControl from '../../Components/Common/Note';
 import { Update, AddMember } from '../../Services/project.service';
 import { useHistory } from 'react-router-dom';
-
+import { debounce } from 'lodash';
+import moment from 'moment';
 const weeks = ['w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4'];
 
 const Projects = () => {
-    const [paging, setPaging] = useState({
-        cursor: 0,
-        limit: 10,
-    });
     const [filter, setFilter] = useState({
-        start_date: new Date(),
+        start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
+        end_date: moment().format('YYYY-MM-DD'),
         project_name: '',
     });
 
@@ -79,12 +77,6 @@ const Projects = () => {
         setShowFormConfirmModal(false);
     };
 
-    const fetchProject = (filter) => {
-        FetchProject({ ...filter, ...paging }).then((res) => {
-            setProjects(res);
-        });
-    };
-
     const onChangeNote = (note, projectId) => {
         const project = projects.filter((x) => x.id === projectId);
         project.note = note;
@@ -92,11 +84,19 @@ const Projects = () => {
     };
 
     const handleChangeFilter = (key, value) => {
+        console.log(value);
         setFilter({ ...filter, [key]: value });
     };
-
+    const triggerSearch = useCallback(
+        debounce((filter) => {
+            FetchProject(filter).then((res) => {
+                setProjects(res);
+            });
+        }, 500),
+        []
+    );
     useEffect(() => {
-        fetchProject(filter);
+        triggerSearch(filter);
     }, [filter]);
 
     return (
@@ -126,14 +126,16 @@ const Projects = () => {
                                                 <Flatpickr
                                                     placeholder="Select start date"
                                                     className="form-control"
-                                                    onChange={([date]) => {
-                                                        handleChangeFilter('start_date', date);
+                                                    onChange={(data) => {
+                                                        let start_date = moment(data[0]).format('YYYY-MM-DD');
+                                                        let end_date = moment(data[1]).format('YYYY-MM-DD');
+                                                        setFilter({ ...filter, start_date, end_date });
                                                     }}
                                                     options={{
                                                         mode: 'range',
-                                                        dateFormat: 'd M, Y',
+                                                        dateFormat: 'Y-m-d',
+                                                        defaultDate: [filter.start_date, filter.end_date],
                                                     }}
-                                                    value={filter.start_date}
                                                 />
                                             </div>
                                             <div className="col-xxl-2 col-sm-6">

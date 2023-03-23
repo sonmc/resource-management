@@ -7,7 +7,7 @@ const VacationCalendar = () => {
     const [employee, setEmployee] = useState({});
 
     const changeField = (event) => {
-        let emp = { ...employee, [event.target.name]: event.target.name == 'status' ? +event.target.value : event.target.value };
+        let emp = { ...employee, [event.target.name]: event.target.name === 'status' ? +event.target.value : event.target.value };
         setEmployee(emp);
     };
     const sendRequestVacation = () => {};

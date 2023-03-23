@@ -8,9 +8,9 @@ import { IProjectRepository } from '../../domain/repositories/project-repository
 export class GetProjectsUseCases {
     constructor(private readonly projectRepository: IProjectRepository) {}
 
-    async execute(query: any): Promise<PagingDataDto> {
+    async execute(query: any): Promise<ProjectEntity[]> {
         const res = await this.projectRepository.findAll(query);
-        res.datas.forEach((project) => {
+        res.forEach((project) => {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
                     if (user.workloads.length == 0) {

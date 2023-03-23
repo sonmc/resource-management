@@ -8,12 +8,11 @@ import Flatpickr from 'react-flatpickr';
 const AddMemberModal = (props) => {
     const users = useRecoilValue(usersAtom);
     const { isShowFormAddMember, closeFormAddMember, addMember, project } = props;
-
+    console.log(project);
     let dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 7);
-
     const [objForm, setObjForm] = useState({
-        members: [],
+        members: project?.users?.filter((x) => x.id > 0) || [],
         start_date: new Date(),
         end_date: dateNow,
         workload: 100,
@@ -99,7 +98,13 @@ const AddMemberModal = (props) => {
                                 <label htmlFor="workload" className="form-label">
                                     Workload
                                 </label>
-                                <Input type="number" value={objForm.workload} className="form-control" name="workload" onChange={(x) => changeField(x)} />
+                                <Input
+                                    type="number"
+                                    value={objForm.workload}
+                                    className="form-control"
+                                    name="workload"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </>
                         </Col>
 
