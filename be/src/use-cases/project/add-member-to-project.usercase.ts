@@ -7,31 +7,41 @@ import { ILogger } from '../../domain/logger/logger.interface';
 import { UserProjectEntity } from 'src/domain/entities/user-project.entity';
 import { AddMemberEntity } from 'src/domain/entities/add-member.entity';
 import { UserWithoutPassword } from 'src/domain/entities/user.entity';
+import { FindOneOptions } from 'typeorm';
 
 export class AddMemberUseCases {
-    constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly userProjectRepository: IUserProjectRepository, private readonly workloadRepository: IWorkloadRepository) {}
+    constructor(
+        private readonly logger: ILogger,
+        private readonly userRepository: IUserRepository,
+        private readonly userProjectRepository: IUserProjectRepository,
+        private readonly workloadRepository: IWorkloadRepository
+    ) {}
 
     async execute(data: AddMemberEntity): Promise<UserWithoutPassword[]> {
         let listUserAdded = [];
-        data.members.forEach(async (user) => {
-            const userProject = plainToClass(UserProjectEntity, {
-                id: 0,
-                project_id: data.project_id,
-                user_id: user.id,
-                start_date: data.start_date,
-                end_date: data.end_date,
-            });
-            await this.userProjectRepository.create(userProject);
+        await Promise.all(
+            data.members.map(async (user) => {
+                const userProject = plainToClass(UserProjectEntity, {
+                    id: 0,
+                    project_id: data.project_id,
+                    user_id: user.id,
+                    start_date: data.start_date,
+                    end_date: data.end_date,
+                });
+                await this.userProjectRepository.create(userProject);
+                const workloads = generateWorkload(user.id, data.workload + '', data.project_id);
+                Promise.all(
+                    workloads.map(async (wl) => {
+                        await this.workloadRepository.create(wl);
+                    })
+                );
 
-            const workloads = generateWorkload(user.id, data.workload + '', data.project_id);
-            workloads.forEach(async (wl) => {
-                await this.workloadRepository.create(wl);
-            });
-            const userSchema = await this.userRepository.findOne(user.id);
-            userSchema.workloads = workloads;
-            this.logger.log('AddMemberUseCases execute', 'New member have been added');
-            listUserAdded.push(userSchema);
-        });
+                const userSchema = await this.userRepository.findOne(user.id);
+                userSchema.workloads = workloads;
+                this.logger.log('AddMemberUseCases execute', 'New member have been added');
+                listUserAdded.push(userSchema);
+            })
+        );
         return listUserAdded;
     }
 }

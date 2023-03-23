@@ -66,9 +66,9 @@ const Projects = () => {
 
     const addMember = (data) => {
         AddMember(data).then((res) => {
-            const project = projects.find((x) => x.id == data.project_id);
-            project.users.push(res);
-            setProjects(projects.map((p) => (p.id == project.id ? project : p)));
+            const project = projects.find((x) => x.id === data.project_id);
+            project.users = [...project.users, ...res];
+            setProjects(projects.map((p) => (p.id === project.id ? project : p)));
             setShowFormAddMember(false);
         });
     };
@@ -84,7 +84,6 @@ const Projects = () => {
     };
 
     const handleChangeFilter = (key, value) => {
-        console.log(value);
         setFilter({ ...filter, [key]: value });
     };
     const triggerSearch = useCallback(
