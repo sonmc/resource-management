@@ -1,28 +1,74 @@
 import axios from 'axios';
+let isRefreshing = false;
+let failedQueue = [];
+const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL + '/',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
-// content type
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+api.defaults.headers.post['Content-Type'] = 'application/json';
 
 // intercepting to capture errors
-axios.interceptors.request.use(function (req) {
+api.interceptors.request.use(function (req) {
     req.withCredentials = true;
     return req;
 });
-
-axios.interceptors.response.use(
-    function (response) {
-        return response.data ? response.data : response;
-    },
-    async (error) => {
-        if (error.response.status === 401) {
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            const url = `${process.env.REACT_APP_API_URL}/auth/refresh`;
-            let apiResponse = await axios.post(url, currentUser);
-            error.config.headers['Authorization'] = `bearer ${apiResponse}`;
-            return axios(error.config);
+const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
         } else {
-            return Promise.reject(error);
+            prom.resolve(token);
         }
+    });
+
+    failedQueue = [];
+};
+
+api.interceptors.response.use(
+    (res) => {
+        return res.data ? res.data : res;
+    },
+    (err) => {
+        const originalRequest = err.config;
+        if (originalRequest.url !== '/auth/login' && originalRequest.url !== '/auth/refresh' && err.response) {
+            if (err.response.status === 401 && !originalRequest._retry) {
+                if (isRefreshing) {
+                    return new Promise(function (resolve, reject) {
+                        failedQueue.push({ resolve, reject });
+                    })
+                        .then((token) => {
+                            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+                            return api(originalRequest);
+                        })
+                        .catch((err) => {
+                            return Promise.reject(err);
+                        });
+                }
+
+                originalRequest._retry = true;
+                isRefreshing = true;
+                const currentUser = JSON.parse(localStorage.getItem('user'));
+                return new Promise(function (resolve, reject) {
+                    api.post('auth/refresh', currentUser)
+                        .then((rs) => {
+                            originalRequest.headers['Authorization'] = `bearer ${rs}`;
+                            processQueue(null, rs);
+                            resolve(api(originalRequest));
+                        })
+                        .catch((err) => {
+                            processQueue(err, null);
+                            reject(err);
+                        })
+                        .then(() => {
+                            isRefreshing = false;
+                        });
+                });
+            }
+        }
+        return Promise.reject(err);
     }
 );
 
@@ -36,23 +82,23 @@ class APIClient {
                 return paramKeys;
             });
             const queryString = paramKeys && paramKeys.length ? paramKeys.join('&') : '';
-            response = axios.get(`${url}?${queryString}`, params);
+            response = api.get(`${url}?${queryString}`, params);
         } else {
-            response = axios.get(`${url}`, params);
+            response = api.get(`${url}`, params);
         }
         return response;
     };
 
     create = (url, data) => {
-        return axios.post(url, data);
+        return api.post(url, data);
     };
 
     update = (url, data) => {
-        return axios.put(url, data);
+        return api.put(url, data);
     };
 
     delete = (url, config) => {
-        return axios.delete(url, { ...config });
+        return api.delete(url, { ...config });
     };
 }
 

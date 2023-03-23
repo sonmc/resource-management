@@ -96,7 +96,7 @@ const Roles = () => {
                                     <div className="d-flex align-items-center">
                                         <h3 className="card-title mb-0 flex-grow-1">Roles</h3>
                                         <div className="flex-shrink-0">
-                                            <button className="btn btn-success add-btn" onClick={() => showFormUpdate()}>
+                                            <button className="btn btn-success" onClick={() => showFormUpdate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create New
                                             </button>
                                         </div>
@@ -122,10 +122,10 @@ const Roles = () => {
                                                             <td>{role.name}</td>
                                                             <td>{role.description}</td>
                                                             <td>
-                                                                <Button color="success btn-sm" onClick={() => showFormUpdate(role.id)}>
+                                                                <Button color="success btn-sm me-2" onClick={() => showFormUpdate(role.id)}>
                                                                     Update
                                                                 </Button>
-                                                                <Button color="danger btn-sm mx-3" onClick={() => showConfirmDelete(role.id)}>
+                                                                <Button color="danger btn-sm btn-action" onClick={() => showConfirmDelete(role.id)}>
                                                                     Delete
                                                                 </Button>
                                                             </td>
@@ -169,7 +169,7 @@ const Roles = () => {
                                             }}
                                         />
                                     </Col>
-                                    <button className="btn btn-success add-btn mt-3" onClick={() => savePermissions()}>
+                                    <button className="btn btn-success btn-action  mt-3" onClick={() => savePermissions()}>
                                         Save
                                     </button>
                                 </CardBody>

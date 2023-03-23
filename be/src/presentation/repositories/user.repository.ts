@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { ADMIN_ID, PASSWORD_DEFAULT } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Equal, Repository } from 'typeorm';
+import { Not, Equal, Repository, FindOneOptions } from 'typeorm';
 import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
@@ -18,7 +18,13 @@ export class UserRepository implements IUserRepository {
     ) {}
 
     async findOne(id: number): Promise<UserEntity> {
-        const user = await this.userRepository.findOne(id);
+        let findOption: FindOneOptions = {
+            relations: ['roles', 'workloads'],
+            where: {
+                id: id,
+            },
+        };
+        const user = await this.userRepository.findOne(findOption);
         const userE = plainToClass(UserEntity, user);
         return userE;
     }

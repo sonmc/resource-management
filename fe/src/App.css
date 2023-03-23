@@ -39,3 +39,6 @@
 .text-center {
     text-align: center;
 }
+.btn-action {
+    width: 55px;
+}
