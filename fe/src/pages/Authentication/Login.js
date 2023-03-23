@@ -14,8 +14,8 @@ const Login = () => {
     const validation = useFormik({
         enableReinitialize: true,
         initialValues: {
-            username: '',
-            password: '',
+            username: 'admin',
+            password: '123456',
         },
         validationSchema: Yup.object({
             username: Yup.string().required('Please Enter Your Account'),
@@ -75,7 +75,9 @@ const Login = () => {
                                                     value={validation.values.username || ''}
                                                     invalid={validation.touched.email && validation.errors.username ? true : false}
                                                 />
-                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
+                                                {validation.touched.username && validation.errors.username ? (
+                                                    <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                                                ) : null}
                                             </div>
 
                                             <div className="mb-3">
@@ -93,8 +95,14 @@ const Login = () => {
                                                         onBlur={validation.handleBlur}
                                                         invalid={validation.touched.password && validation.errors.password ? true : false}
                                                     />
-                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
-                                                    <button className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                                                    {validation.touched.password && validation.errors.password ? (
+                                                        <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                                                    ) : null}
+                                                    <button
+                                                        className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                        type="button"
+                                                        id="password-addon"
+                                                    >
                                                         <i className="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>

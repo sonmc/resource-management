@@ -1,8 +1,8 @@
-import { CacheInterceptor, CacheTTL, Controller, Get, Inject, Req } from '@nestjs/common';
+import { CacheInterceptor, CacheTTL, Controller, Inject } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
-import { Body, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
+import { Body, Get, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -14,7 +14,6 @@ import { UserPresenter } from './presenter/user-presenter';
 import { CreateProjectPresenter } from './presenter/create-project.presenter';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { generateWorkload } from 'src/actions/workload.action';
-import { PagingDataDto } from 'src/domain/dto/paging.dto';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
@@ -35,11 +34,10 @@ export class ProjectController {
 
     @CacheTTL(10)
     @Permissions(EndPoint.PROJECT_GET)
-    @Post()
-    async getAll(@Body() body): Promise<PagingDataDto> {
-        const { filter, paging } = body;
-        let response = await this.getProjectsUsecaseProxy.getInstance().execute(filter, paging);
-        response = response.datas.map((p) => plainToClass(ProjectPresenter, p));
+    @Get()
+    async getAll(@Query() query): Promise<ProjectEntity[]> {
+        let response = await this.getProjectsUsecaseProxy.getInstance().execute(query);
+        response = response.map((p) => plainToClass(ProjectPresenter, p));
         return response;
     }
 
@@ -48,7 +46,7 @@ export class ProjectController {
         const project = plainToClass(ProjectEntity, createProjectPresenter);
         const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
         const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
-        const workloads = generateWorkload(0, '', projectPresenter.id);
+        const workloads = generateWorkload(null, null, 0, '', projectPresenter.id);
         const user = plainToClass(UserEntity, { workloads: workloads });
         projectPresenter.users.push(user);
         return projectPresenter;
