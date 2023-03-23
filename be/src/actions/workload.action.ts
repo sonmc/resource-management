@@ -1,7 +1,7 @@
 import { WorkloadEntity } from 'src/domain/entities/workload.entity';
 import { calculatorWeekNumber, calculatorWeekNumberDate } from 'src/domain/helper/common';
 
-export function generateWorkload(start_date, end_date, user_id: number, value: string, projectId: number) {
+export function generateWorkload(start_date, end_date, user_id: number, value: string, projectId: number): any[] {
     const workloads = [];
     if (start_date && end_date) {
         const effortWeek = calculatorWeekNumber(start_date, end_date);

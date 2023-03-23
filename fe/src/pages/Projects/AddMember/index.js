@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
 import Select from 'react-select';
 import { usersAtom } from '../../../Recoil/states/users';
@@ -6,18 +6,26 @@ import { useRecoilValue } from 'recoil';
 import Flatpickr from 'react-flatpickr';
 
 const AddMemberModal = (props) => {
-    const users = useRecoilValue(usersAtom);
+    let _users = useRecoilValue(usersAtom);
+    const [users, setUsers] = useState(_users);
     const { isShowFormAddMember, closeFormAddMember, addMember, project } = props;
-    console.log(project);
     let dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 7);
     const [objForm, setObjForm] = useState({
-        members: project?.users?.filter((x) => x.id > 0) || [],
+        members: [],
         start_date: new Date(),
         end_date: dateNow,
         workload: 100,
     });
-
+    useEffect(() => {
+        setUsers(() => {
+            return (
+                _users?.filter((x) => {
+                    return !project?.users?.find((y) => y.id === x.id);
+                }) || []
+            );
+        });
+    }, [_users, project]);
     const changeField = (event) => {
         let emp = { ...objForm, [event.target.name]: event.target.value };
         setObjForm(emp);
@@ -29,6 +37,7 @@ const AddMemberModal = (props) => {
 
     const handleUserChanged = (users) => {
         let obj = { ...objForm, members: users };
+        console.log(obj);
         setObjForm(obj);
     };
 
