@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 //import images
-import logoDark from '../../assets/images/logo-dark.png';
+import logoDark from '../../assets/images/logo.png';
 
 //import Components
 import FullScreenDropdown from '../../Components/Common/FullScreenDropdown';
@@ -18,7 +18,7 @@ const Header = ({ headerClass }) => {
                             <div className="navbar-brand-box horizontal-logo">
                                 <Link to="/" className="logo logo-dark">
                                     <span className="logo-lg">
-                                        <img src={logoDark} alt="" height="17" />
+                                        <img src={logoDark} style={{ width: '70%', height: '50%' }} alt="" height="17" />
                                     </span>
                                 </Link>
                             </div>
