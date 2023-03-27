@@ -30,13 +30,24 @@ export class UserRepository implements IUserRepository {
     }
 
     async findAll(query: any): Promise<UserWithoutPassword[]> {
-        const users = await this.userRepository
-            .createQueryBuilder('user')
-            .leftJoinAndSelect('user.roles', 'roles')
-            .where('user.id != :id', { id: ADMIN_ID })
-            .andWhere('user.status = :status', { status: query.status })
-            .getMany()
-            .then((u) => u.map((x) => plainToClass(UserWithoutPassword, x)));
+        const querySelecter = this.userRepository.createQueryBuilder('user');
+        querySelecter.leftJoinAndSelect('user.roles', 'roles').where('user.id != :id', { id: ADMIN_ID });
+        let users = null;
+        try {
+            // const role_id = parseInt(query.roleId);
+            // if (role_id) {
+            //     querySelecter.andWhere('user.roles = :id', { id: role_id });
+            // }
+            if (query.status > 0) {
+                querySelecter.andWhere('user.status = :status', { status: query.status });
+            }
+            if (query.searchTerm) {
+                querySelecter.andWhere('user.username like :name', { name: `%${query.searchTerm}%` });
+            }
+            users = await querySelecter.getMany().then((u) => u.map((x) => plainToClass(UserWithoutPassword, x)));
+        } catch (error) {
+            console.log(error);
+        }
         return users;
     }
 

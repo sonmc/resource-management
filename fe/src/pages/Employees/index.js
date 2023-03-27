@@ -50,7 +50,7 @@ const Employees = () => {
     const changeFilter = (event) => {
         let value = event.target.value;
         if (event.target.name === 'status') {
-            value = value === 'Active' ? 1 : 2;
+            value = value === 'All' ? 0 : value === 'Active' ? 1 : 2;
         }
         setFilter({ ...filter, [event.target.name]: value });
     };
@@ -99,7 +99,7 @@ const Employees = () => {
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
                                                     <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
-                                                        <option defaultValue="all">Select status</option>
+                                                        <option value="All">Select status</option>
                                                         <option value="Active">Active</option>
                                                         <option value="Inactive">Inactive</option>
                                                     </select>
