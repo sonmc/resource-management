@@ -13,7 +13,9 @@ import { Update, AddMember } from '../../Services/project.service';
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
-const weeks = ['w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4', 'w1', 'w2', 'w3', 'w4'];
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const currentDate = new Date();
 
 const Projects = () => {
     const [filter, setFilter] = useState({
@@ -22,12 +24,30 @@ const Projects = () => {
         project_name: '',
     });
 
+    const currentYearMonth = currentDate.getFullYear() + ' ' + months[currentDate.getMonth()];
+    const [currentWorkloadDate, setCurrentWorkloadDate] = useState(currentYearMonth);
+    const [monthsWorkLoad, setMonthsWorkLoad] = useState([
+        {
+            month: '',
+            year: '',
+        },
+    ]);
+    const [workloadDates, setWorkloadDates] = useState([]);
+    const [workloadWeek, setWorkloadWeek] = useState({
+        0: [],
+        1: [],
+        2: [],
+    });
+    const [isFirstOfMonth, setIsFirstOfMonth] = useState(false);
+    const [isLastOfMonth, setIsLastOfMonth] = useState(false);
+
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
     const [isShowFormAddMember, setShowFormAddMember] = useState(false);
     const [isShowConfirmModal, setShowFormConfirmModal] = useState(false);
     const [projects, setProjects] = useState([]);
     const [project, setProject] = useState(0);
     let history = useHistory();
+
     const showFormAddMember = (project) => {
         setProject(project);
         setShowFormAddMember(!isShowFormAddMember);
@@ -86,6 +106,7 @@ const Projects = () => {
     const handleChangeFilter = (key, value) => {
         setFilter({ ...filter, [key]: value });
     };
+
     const triggerSearch = useCallback(
         debounce((filter) => {
             FetchProject(filter).then((res) => {
@@ -94,10 +115,106 @@ const Projects = () => {
         }, 500),
         []
     );
+
+    const onWorkloadDatePrev = () => {
+        const month = currentWorkloadDate.split(' ')[1];
+        const index = months.indexOf(month);
+        if (months[index - 1]) {
+            const cwd = currentDate.getFullYear() + ' ' + months[index - 1];
+            setCurrentWorkloadDate(cwd);
+            if (isLastOfMonth) setIsLastOfMonth(false);
+            if (isFirstOfMonth) setIsFirstOfMonth(false);
+            setMonthsWorkloadHeader(index - 1);
+            calculatorWorkloadWeek(index - 1);
+        } else {
+            setIsFirstOfMonth(true);
+        }
+    };
+    const onWorkloadDateNext = () => {
+        const month = currentWorkloadDate.split(' ')[1];
+        const index = months.indexOf(month) + 1;
+
+        if (months[index]) {
+            const cwd = currentDate.getFullYear() + ' ' + months[index];
+            setCurrentWorkloadDate(cwd);
+            if (isLastOfMonth) setIsLastOfMonth(false);
+            if (isFirstOfMonth) setIsFirstOfMonth(false);
+            setMonthsWorkloadHeader(index);
+            calculatorWorkloadWeek(index);
+        }
+        if (index === 9) {
+            setIsLastOfMonth(true);
+        }
+    };
+
+    const setMonthsWorkloadHeader = (monthIndex) => {
+        const monthWorkloads = [
+            {
+                month: months[monthIndex + 1] ? months[monthIndex] : months[monthIndex - 1],
+                year: currentDate.getFullYear(),
+            },
+            {
+                month: months[monthIndex + 1] ? months[monthIndex + 1] : months[monthIndex - 1],
+                year: currentDate.getFullYear(),
+            },
+            {
+                month: months[monthIndex + 2] ? months[monthIndex + 2] : months[monthIndex - 1],
+                year: currentDate.getFullYear(),
+            },
+        ];
+        setMonthsWorkLoad(monthWorkloads);
+    };
+
+    function getWeeksInMonth(year, month) {
+        const weeks = [],
+            firstDate = new Date(year, month, 1),
+            lastDate = new Date(year, month + 1, 0),
+            numDays = lastDate.getDate();
+
+        let dayOfWeekCounter = firstDate.getDay();
+
+        for (let date = 1; date <= numDays; date++) {
+            if (dayOfWeekCounter === 0 || weeks.length === 0) {
+                weeks.push([]);
+            }
+            weeks[weeks.length - 1].push(date);
+            dayOfWeekCounter = (dayOfWeekCounter + 1) % 7;
+        }
+
+        return weeks
+            .filter((w) => !!w.length)
+            .map((w) => ({
+                start: w[0] < 10 ? '0' + w[0] : w[0],
+                end: w[w.length - 1] < 10 ? '0' + w[w.length - 1] : w[w.length - 1],
+            }));
+    }
+
+    const calculatorWorkloadWeek = (month) => {
+        const weeks = getWeeksInMonth(currentDate.getFullYear(), month);
+        const weeks2 = getWeeksInMonth(currentDate.getFullYear(), month + 1);
+        const weeks3 = getWeeksInMonth(currentDate.getFullYear(), month + 2);
+
+        setWorkloadWeek({
+            0: weeks,
+            1: weeks2,
+            2: weeks3,
+        });
+    };
+
     useEffect(() => {
         triggerSearch(filter);
     }, [filter]);
 
+    useEffect(() => {
+        const currentYearMonths = [];
+        months.forEach((month) => {
+            currentYearMonths.push(currentDate.getFullYear() + ' ' + month);
+        });
+        setWorkloadDates(currentYearMonths);
+        const currentMonth = currentDate.getMonth();
+        setMonthsWorkloadHeader(currentMonth);
+        calculatorWorkloadWeek(currentMonth);
+    }, []);
     return (
         <React.Fragment>
             <div className="page-content">
@@ -146,8 +263,25 @@ const Projects = () => {
                                         </div>
                                     </form>
                                 </div>
-                                <CardBody>
-                                    <div className="table-responsive mt-3">
+                                <CardBody className="pt-0">
+                                    <div className="table-responsive">
+                                        <div className="d-flex flex-row-reverse">
+                                            <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
+                                                <span className="fa fa-chevron-left"></span>
+                                            </button>
+                                            <select value={currentWorkloadDate} className="form-control mb-1 col-md-2 rounded-0 w-25 text-center">
+                                                {workloadDates.map((d, key) => {
+                                                    return (
+                                                        <option key={key} value={d}>
+                                                            {d}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                            <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
+                                                <span className="fa fa-chevron-right"></span>
+                                            </button>
+                                        </div>
                                         <Table className="align-middle table-bordered">
                                             <thead>
                                                 <tr>
@@ -163,22 +297,34 @@ const Projects = () => {
                                                     <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
                                                         Role
                                                     </th>
-                                                    <th colSpan="4" style={{ textAlign: 'center' }}>
-                                                        Month 1
-                                                    </th>
-                                                    <th colSpan="4" style={{ textAlign: 'center' }}>
-                                                        Month 2
-                                                    </th>
-                                                    <th colSpan="4" style={{ textAlign: 'center' }}>
-                                                        Month 3
-                                                    </th>
+                                                    {monthsWorkLoad.map((item, key) => {
+                                                        return (
+                                                            <th key={key} colSpan={workloadWeek[key].length} style={{ textAlign: 'center' }}>
+                                                                {item.year + ' ' + item.month}
+                                                            </th>
+                                                        );
+                                                    })}
                                                 </tr>
 
                                                 <tr>
-                                                    {weeks.map((w, key) => {
+                                                    {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <th style={{ textAlign: 'center' }}>{w}</th>
+                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
+                                                            </React.Fragment>
+                                                        );
+                                                    })}
+                                                    {workloadWeek[1].map((w, key) => {
+                                                        return (
+                                                            <React.Fragment key={key}>
+                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
+                                                            </React.Fragment>
+                                                        );
+                                                    })}
+                                                    {workloadWeek[2].map((w, key) => {
+                                                        return (
+                                                            <React.Fragment key={key}>
+                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
                                                             </React.Fragment>
                                                         );
                                                     })}
