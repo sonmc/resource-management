@@ -21,6 +21,4 @@ export const LogoutApi = (url, data) => api.create(url, data);
 export const Register = (url, data) => api.create(url, data);
 export const Logout = () => {
     LogoutApi('auth/logout', {});
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
 };

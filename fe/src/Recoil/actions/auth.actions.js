@@ -11,8 +11,6 @@ export function authActions() {
 
     function login({ username, password }) {
         return Login(baseUrl + 'login', { username, password }).then((res) => {
-            localStorage.setItem('token', JSON.stringify(res.accessToken));
-            localStorage.setItem('user', JSON.stringify(res.currentUser));
             return res;
         });
     }

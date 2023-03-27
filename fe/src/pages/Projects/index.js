@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
 
+const header = [];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
 
@@ -310,21 +311,21 @@ const Projects = () => {
                                                     {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
+                                                                <th style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</th>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[1].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
+                                                                <th style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</th>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[2].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <th style={{ textAlign: 'center' }}>{w.start + '-' + w.end}</th>
+                                                                <th style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</th>
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -347,8 +348,8 @@ const Projects = () => {
                                                                         className="link-success fs-100"
                                                                         style={{
                                                                             position: 'absolute',
-                                                                            top: '-10px',
-                                                                            right: '0px',
+                                                                            top: '-14px',
+                                                                            right: '-4px',
                                                                         }}
                                                                     >
                                                                         <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
@@ -368,8 +369,8 @@ const Projects = () => {
                                                                             onClick={() => showConfirmDeleteModal()}
                                                                             style={{
                                                                                 position: 'absolute',
-                                                                                top: 0,
-                                                                                right: 0,
+                                                                                top: -6,
+                                                                                right: -3,
                                                                             }}
                                                                         >
                                                                             <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
@@ -407,8 +408,8 @@ const Projects = () => {
                                                                                 onClick={() => showConfirmDeleteModal()}
                                                                                 style={{
                                                                                     position: 'absolute',
-                                                                                    top: 0,
-                                                                                    right: 0,
+                                                                                    top: -6,
+                                                                                    right: -3,
                                                                                 }}
                                                                             >
                                                                                 <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
