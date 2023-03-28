@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import './assets/scss/themes.scss';
+import './App.scss';
 import Route from './Routes';
 
 function App() {
