@@ -14,12 +14,12 @@ export class GetProjectsUseCases {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
                     if (user.workloads.length == 0) {
-                        user.workloads = generateWorkload(null, null, user.id, '', project.id);
+                        user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, user.id, '', project.id);
                     }
                 });
             } else {
                 const user = new UserEntity(new User());
-                user.workloads = generateWorkload(null, null, 0, '', project.id);
+                user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, 0, '', project.id);
                 project.users.push(user);
             }
         });

@@ -4,5 +4,6 @@ export class AddMemberEntity {
     start_date: Date;
     end_date: Date;
     workload: number;
+    weekInCurrentMonth: number;
     members: UserEntity[];
 }

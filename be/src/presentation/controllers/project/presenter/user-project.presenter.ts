@@ -4,4 +4,5 @@ export class UserProjectPresenter {
     end_date: Date;
     workload: number;
     user_id: number;
+    weekInCurrentMonth: number;
 }

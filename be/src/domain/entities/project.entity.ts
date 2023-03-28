@@ -1,4 +1,3 @@
-import { Project } from 'src/infrastructure/schemas/project.schema';
 import { UserEntity } from './user.entity';
 
 export class ProjectEntity {

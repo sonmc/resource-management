@@ -46,7 +46,7 @@ export class ProjectController {
         const project = plainToClass(ProjectEntity, createProjectPresenter);
         const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
         const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
-        const workloads = generateWorkload(null, null, 0, '', projectPresenter.id);
+        const workloads = generateWorkload(createProjectPresenter.weekInCurrentMonth, null, null, 0, '', projectPresenter.id);
         const user = plainToClass(UserEntity, { workloads: workloads });
         projectPresenter.users.push(user);
         return projectPresenter;

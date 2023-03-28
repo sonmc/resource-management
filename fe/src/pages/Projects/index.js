@@ -13,12 +13,14 @@ import { Update, AddMember } from '../../Services/project.service';
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
+import { useSetRecoilState } from 'recoil';
+import { newWeekInMonthState } from '../../Recoil/states/common';
 
-const header = [];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
 
 const Projects = () => {
+    const addNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
         end_date: moment().format('YYYY-MM-DD'),
@@ -109,8 +111,8 @@ const Projects = () => {
     };
 
     const triggerSearch = useCallback(
-        debounce((filter) => {
-            FetchProject(filter).then((res) => {
+        debounce((params) => {
+            FetchProject(params).then((res) => {
                 setProjects(res);
             });
         }, 500),
@@ -131,6 +133,7 @@ const Projects = () => {
             setIsFirstOfMonth(true);
         }
     };
+
     const onWorkloadDateNext = () => {
         const month = currentWorkloadDate.split(' ')[1];
         const index = months.indexOf(month) + 1;
@@ -190,21 +193,39 @@ const Projects = () => {
             }));
     }
 
-    const calculatorWorkloadWeek = (month) => {
+    function getWeekListInMonth(month) {
         const weeks = getWeeksInMonth(currentDate.getFullYear(), month);
         const weeks2 = getWeeksInMonth(currentDate.getFullYear(), month + 1);
         const weeks3 = getWeeksInMonth(currentDate.getFullYear(), month + 2);
 
+        return [weeks, weeks2, weeks3];
+    }
+
+    const calculatorWorkloadWeek = (month) => {
+        const listWeeks = getWeekListInMonth(month);
         setWorkloadWeek({
-            0: weeks,
-            1: weeks2,
-            2: weeks3,
+            0: listWeeks[0],
+            1: listWeeks[1],
+            2: listWeeks[2],
         });
+        addNewWeekInMonth(listWeeks[0].length + listWeeks[0].length + listWeeks[0].length);
     };
 
+    function convertYearMonthToMonth(yearMonth) {
+        let month = '';
+        if (yearMonth) {
+            month = yearMonth.split(' ')[1];
+            month = months.indexOf(month) + 1;
+        }
+        return month;
+    }
+
     useEffect(() => {
-        triggerSearch(filter);
-    }, [filter]);
+        const month = convertYearMonthToMonth(currentWorkloadDate);
+        const listWeeks = getWeekListInMonth(month);
+        const params = { ...filter, weekInCurrentMonth: listWeeks[0].length + listWeeks[0].length + listWeeks[0].length };
+        triggerSearch(params);
+    }, [filter, currentWorkloadDate]);
 
     useEffect(() => {
         const currentYearMonths = [];
@@ -216,6 +237,7 @@ const Projects = () => {
         setMonthsWorkloadHeader(currentMonth);
         calculatorWorkloadWeek(currentMonth);
     }, []);
+
     return (
         <React.Fragment>
             <div className="page-content">

@@ -4,11 +4,9 @@ import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFe
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { authActions } from '../../Recoil/actions/auth.actions';
 import { useHistory } from 'react-router-dom';
-
-const Login = () => {
-    const authAction = authActions();
+import { Login as OnLogin } from '../../Services/auth.service';
+const LoginPage = () => {
     const history = useHistory();
 
     const validation = useFormik({
@@ -18,12 +16,13 @@ const Login = () => {
             password: '123456',
         },
         validationSchema: Yup.object({
-            username: Yup.string().required('Please Enter Your Account'),
-            password: Yup.string().required('Please Enter Your Password'),
+            username: Yup.string().required('Please enter your account'),
+            password: Yup.string().required('Please enter your password'),
         }),
         onSubmit: (values) => {
-            authAction.login(values).then((res) => {
+            OnLogin(values).then((res) => {
                 if (res) {
+                    localStorage.setItem('user', JSON.stringify(res.currentUser));
                     history.push('/');
                 }
             });
@@ -75,9 +74,7 @@ const Login = () => {
                                                     value={validation.values.username || ''}
                                                     invalid={validation.touched.email && validation.errors.username ? true : false}
                                                 />
-                                                {validation.touched.username && validation.errors.username ? (
-                                                    <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
-                                                ) : null}
+                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
                                             </div>
 
                                             <div className="mb-3">
@@ -95,14 +92,8 @@ const Login = () => {
                                                         onBlur={validation.handleBlur}
                                                         invalid={validation.touched.password && validation.errors.password ? true : false}
                                                     />
-                                                    {validation.touched.password && validation.errors.password ? (
-                                                        <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                                                    ) : null}
-                                                    <button
-                                                        className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                        type="button"
-                                                        id="password-addon"
-                                                    >
+                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
+                                                    <button className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
                                                         <i className="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>
@@ -125,4 +116,4 @@ const Login = () => {
     );
 };
 
-export default withRouter(Login);
+export default withRouter(LoginPage);

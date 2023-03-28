@@ -1,12 +1,12 @@
 import { WorkloadEntity } from 'src/domain/entities/workload.entity';
 import { calculatorWeekNumber, calculatorWeekNumberDate } from 'src/domain/helper/common';
 
-export function generateWorkload(start_date, end_date, user_id: number, value: string, projectId: number): any[] {
+export function generateWorkload(weekInCurrentMonth, start_date, end_date, user_id: number, value: string, projectId: number): any[] {
     const workloads = [];
     if (start_date && end_date) {
         const effortWeek = calculatorWeekNumber(start_date, end_date);
         const weekNumberDate = calculatorWeekNumberDate(effortWeek, start_date);
-        const weekNumber = effortWeek < 12 ? 12 : effortWeek;
+        const weekNumber = effortWeek < weekInCurrentMonth ? weekInCurrentMonth : effortWeek;
         for (let index = 0; index < weekNumber; index++) {
             let workload = new WorkloadEntity();
             workload.id = 0;
@@ -18,7 +18,7 @@ export function generateWorkload(start_date, end_date, user_id: number, value: s
             workloads.push(workload);
         }
     } else {
-        for (let index = 0; index < 12; index++) {
+        for (let index = 0; index < weekInCurrentMonth; index++) {
             let workload = new WorkloadEntity();
             workload.id = 0;
             workload.value = '';

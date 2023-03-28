@@ -23,7 +23,7 @@ export class AddMemberUseCases {
                     end_date: data.end_date,
                 });
                 await this.userProjectRepository.create(userProject);
-                const workloads = generateWorkload(data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
+                const workloads = generateWorkload(data.weekInCurrentMonth, data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
                 Promise.all(
                     workloads.map(async (wl) => {
                         wl.user = await this.userRepository.findOne(wl.user_id);
