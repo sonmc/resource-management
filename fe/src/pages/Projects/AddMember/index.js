@@ -4,19 +4,24 @@ import Select from 'react-select';
 import { usersAtom } from '../../../Recoil/states/users';
 import { useRecoilValue } from 'recoil';
 import Flatpickr from 'react-flatpickr';
+import { newWeekInMonthState } from '../../../Recoil/states/common';
 
 const AddMemberModal = (props) => {
+    const weekInMonthValue = useRecoilValue(newWeekInMonthState);
     let _users = useRecoilValue(usersAtom);
     const [users, setUsers] = useState(_users);
     const { isShowFormAddMember, closeFormAddMember, addMember, project } = props;
     let dateNow = new Date();
     dateNow.setDate(dateNow.getDate() + 7);
+
     const [objForm, setObjForm] = useState({
         members: [],
         start_date: new Date(),
         end_date: dateNow,
         workload: 100,
+        weekInCurrentMonth: '',
     });
+
     useEffect(() => {
         setUsers(() => {
             return (
@@ -26,18 +31,18 @@ const AddMemberModal = (props) => {
             );
         });
     }, [_users, project]);
+
     const changeField = (event) => {
         let emp = { ...objForm, [event.target.name]: event.target.value };
         setObjForm(emp);
     };
 
     const update = () => {
-        addMember({ ...objForm, project_id: +project.id });
+        addMember({ ...objForm, project_id: +project.id, weekInCurrentMonth: weekInMonthValue });
     };
 
     const handleUserChanged = (users) => {
         let obj = { ...objForm, members: users };
-        console.log(obj);
         setObjForm(obj);
     };
 
@@ -107,13 +112,7 @@ const AddMemberModal = (props) => {
                                 <label htmlFor="workload" className="form-label">
                                     Workload
                                 </label>
-                                <Input
-                                    type="number"
-                                    value={objForm.workload}
-                                    className="form-control"
-                                    name="workload"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input type="number" value={objForm.workload} className="form-control" name="workload" onChange={(x) => changeField(x)} />
                             </>
                         </Col>
 

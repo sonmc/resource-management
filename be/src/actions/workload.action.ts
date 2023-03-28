@@ -5,8 +5,9 @@ export function generateWorkload(weekInCurrentMonth, start_date, end_date, user_
     const workloads = [];
     if (start_date && end_date) {
         const effortWeek = calculatorWeekNumber(start_date, end_date);
-        const weekNumberDate = calculatorWeekNumberDate(effortWeek, start_date);
         const weekNumber = effortWeek < weekInCurrentMonth ? weekInCurrentMonth : effortWeek;
+        const weekNumberDate = calculatorWeekNumberDate(weekNumber, start_date);
+
         for (let index = 0; index < weekNumber; index++) {
             let workload = new WorkloadEntity();
             workload.id = 0;

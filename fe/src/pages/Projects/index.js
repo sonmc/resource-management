@@ -82,7 +82,7 @@ const Projects = () => {
 
     const save = (project) => {
         Create(project).then((res) => {
-            setProjects([...projects, res]);
+            setProjects([res, ...projects]);
             setShowFormUpdate(false);
         });
     };
@@ -208,7 +208,12 @@ const Projects = () => {
             1: listWeeks[1],
             2: listWeeks[2],
         });
-        addNewWeekInMonth(listWeeks[0].length + listWeeks[0].length + listWeeks[0].length);
+        addNewWeekInMonth(listWeeks[0].length + listWeeks[1].length + listWeeks[2].length);
+    };
+
+    const onChangeWorkloadMonth = (event) => {
+        const value = event.target.value;
+        setCurrentWorkloadDate(value);
     };
 
     function convertYearMonthToMonth(yearMonth) {
@@ -223,7 +228,7 @@ const Projects = () => {
     useEffect(() => {
         const month = convertYearMonthToMonth(currentWorkloadDate);
         const listWeeks = getWeekListInMonth(month);
-        const params = { ...filter, weekInCurrentMonth: listWeeks[0].length + listWeeks[0].length + listWeeks[0].length };
+        const params = { ...filter, weekInCurrentMonth: listWeeks[0].length + listWeeks[1].length + listWeeks[2].length };
         triggerSearch(params);
     }, [filter, currentWorkloadDate]);
 
@@ -292,7 +297,7 @@ const Projects = () => {
                                             <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
                                                 <span className="fa fa-chevron-left"></span>
                                             </button>
-                                            <select value={currentWorkloadDate} className="form-control mb-1 col-md-2 rounded-0 w-25 text-center">
+                                            <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 col-md-2 rounded-0 w-25 text-center">
                                                 {workloadDates.map((d, key) => {
                                                     return (
                                                         <option key={key} value={d}>
@@ -358,7 +363,7 @@ const Projects = () => {
                                                     <React.Fragment key={key}>
                                                         {key > 0 && (
                                                             <tr>
-                                                                <td colSpan={16}></td>
+                                                                <td colSpan={currentWorkloadDate + 4}></td>
                                                             </tr>
                                                         )}
                                                         {x.users.length > 0 && (

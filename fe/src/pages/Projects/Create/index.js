@@ -6,8 +6,8 @@ import { newWeekInMonthState } from '../../../Recoil/states/common';
 
 const CreateModal = (props) => {
     const weekInMonthValue = useRecoilValue(newWeekInMonthState);
-
     const { isShowFormUpdate, closeFormUpdate, save } = props;
+
     const [project, setProject] = useState({
         id: 0,
         name: '',

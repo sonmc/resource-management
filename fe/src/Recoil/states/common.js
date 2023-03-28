@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
 
 const weekInMonthState = atom({
-    key: 'currentWorkloadMonth',
+    key: 'weekInMonth',
     default: '',
 });
 
