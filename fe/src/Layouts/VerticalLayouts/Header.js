@@ -15,10 +15,10 @@ const Header = ({ headerClass }) => {
                 <div className="layout-width">
                     <div className="navbar-header">
                         <div className="d-flex">
-                            <div className="navbar-brand-box horizontal-logo">
+                            <div className="navbar-brand-box horizontal-logo" style={{ paddingLeft: '6px' }}>
                                 <Link to="/" className="logo logo-dark">
                                     <span className="logo-lg">
-                                        <img src={logoDark} style={{ width: '70%', height: '50%' }} alt="" height="17" />
+                                        <img src={logoDark} style={{ width: '100%', height: '50%' }} alt="" height="17" />
                                     </span>
                                 </Link>
                             </div>
