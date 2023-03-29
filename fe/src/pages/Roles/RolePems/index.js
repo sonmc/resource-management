@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, CardBody } from 'reactstrap';
 import DualListBox from 'react-dual-listbox';
 import { Get as GetPermission } from '../../../Services/permission.service';
-import { UpdateRolePems } from '../../../Services/role.service';
+import { UpdateRolePerms } from '../../../Services/role.service';
 
 const RolePerm = (props) => {
     const { roles } = props;
@@ -19,32 +19,43 @@ const RolePerm = (props) => {
             );
         });
     };
+
+    const onChange = (selected) => {
+        setPermissionSelected(selected);
+    };
+
+    const savePermissions = () => {
+        let model = {
+            role_id: role.id,
+            perm_ids: [],
+        };
+        permissionOfSelected.forEach((x) => {
+            model.perm_ids.push(x);
+        });
+        UpdateRolePerms(model);
+    };
+
+    const changeRole = (e) => {
+        let role = roles.find((x) => x.id == e.target.value);
+        setRole(role);
+    };
+
     useEffect(() => {
         fetchPermissions();
     }, []);
+
     useEffect(() => {
         if (roles.length > 0) {
             setRole(roles[0]);
         }
     }, [roles]);
+
     useEffect(() => {
         if (role?.id) {
             setPermissionSelected(role.permissions.map((x) => x.id));
         }
     }, [role]);
-    const onChange = (selected) => {
-        setPermissionSelected(selected);
-    };
-    const savePermissions = () => {
-        let model = permissionOfSelected.map((x) => {
-            return { role_id: role.id, permission_id: x };
-        });
-        UpdateRolePems(model);
-    };
-    const changeRole = (e) => {
-        let role = roles.find((x) => x.id == e.target.value);
-        setRole(role);
-    };
+
     return (
         <>
             <div className="card-header border-0">

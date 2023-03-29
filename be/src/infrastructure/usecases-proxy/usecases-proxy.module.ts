@@ -10,7 +10,7 @@ import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
 import { addMemberProvide, createProjectProvide, getProjectProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
 import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.provide';
-import { getPermissionsProvide } from './permission.provide';
+import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
@@ -35,6 +35,7 @@ export class UseCasesProxyModule {
     static CREATE_EMPLOYEES_USECASES_PROXY = 'CreateEmployeesUseCasesProxy';
     // Permission
     static GET_PERMISSIONS_USECASES_PROXY = 'GetPermissionsUseCasesProxy';
+    static ADD_PERM_TO_ROLE_USECASES_PROXY = 'AddPermissionsUseCasesProxy';
     // Vacation
     static GET_VACATIONS_USECASES_PROXY = 'GetVacationsUseCasesProxy';
     static CREATE_VACATIONS_USECASES_PROXY = 'CreateVacationUseCaseProxy';
@@ -60,6 +61,7 @@ export class UseCasesProxyModule {
                 createEmployeeProvide(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
                 // Permissions
                 getPermissionsProvide(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY),
+                addPermToRoleProvide(UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY),
                 // Vacations
                 getVacationsProvide(UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY),
                 createVacationProvide(UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY),
@@ -82,6 +84,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
                 // Permissions
                 UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY,
+                UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY,
                 // Vacations
                 UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY,

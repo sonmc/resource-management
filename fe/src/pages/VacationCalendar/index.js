@@ -82,8 +82,8 @@ const VacationCalendar = () => {
                                         <label className="form-label">Date time :</label>
                                     </Col>
                                     <Col xxl={9} className="d-flex">
-                                        <FormGroup className="me-2 d-flex align-items-center">
-                                            <Label for="examplePassword" className="me-3">
+                                        <FormGroup className="me-3 d-flex align-items-center">
+                                            <Label for="examplePassword" className="me-2">
                                                 From
                                             </Label>
                                             <Flatpickr
@@ -99,8 +99,8 @@ const VacationCalendar = () => {
                                                 placeholder="Select start date"
                                             />
                                         </FormGroup>
-                                        <FormGroup className="me-2 d-flex align-items-center">
-                                            <Label for="examplePassword" className="me-3">
+                                        <FormGroup className="d-flex align-items-center">
+                                            <Label for="examplePassword" className="me-2">
                                                 To
                                             </Label>
                                             <Flatpickr

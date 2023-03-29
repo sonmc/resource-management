@@ -10,16 +10,16 @@ import { GetPermissionsUseCases } from 'src/use-cases/permission/get-all.usecase
 @Controller('permissions')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class PermissionController {
-  constructor(
-    @Inject(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY)
-    private readonly getPermissionsUseCaseProxy: UseCaseProxy<GetPermissionsUseCases>
-  ) {}
+    constructor(
+        @Inject(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY)
+        private readonly getPermissionsUseCaseProxy: UseCaseProxy<GetPermissionsUseCases>
+    ) {}
 
-  @Get()
-  @Permissions(EndPoint.PERMISSION_GET)
-  async get() {
-    const permissionInstance = this.getPermissionsUseCaseProxy.getInstance();
-    const permissions = await permissionInstance.execute();
-    return permissions;
-  }
+    @Get()
+    @Permissions(EndPoint.PERMISSION_GET)
+    async get() {
+        const permissionInstance = this.getPermissionsUseCaseProxy.getInstance();
+        const permissions = await permissionInstance.execute();
+        return permissions;
+    }
 }

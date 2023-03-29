@@ -13,10 +13,11 @@ import { JwtStrategy } from 'src/infrastructure/common/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strategy';
 import { JwtRefreshTokenStrategy } from 'src/infrastructure/common/strategies/jwt-refresh.strategy';
 import { VacationController } from './vacation/vacation.controller';
+import { RolePermController } from './role-perm/role-perm.controller';
 
 @Module({
     imports: [UseCasesProxyModule.register()],
-    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController],
+    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController],
     providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
 })
 export class ControllersModule {}

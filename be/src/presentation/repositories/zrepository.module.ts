@@ -1,3 +1,4 @@
+import { RolePermRepository } from 'src/presentation/repositories/role-perm.repository';
 import { User } from '../../infrastructure/schemas/user.schema';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,10 +17,11 @@ import { Permission } from 'src/infrastructure/schemas/permission.schema';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 import { VacationRepository } from './vacation.repository';
 import { Vacation } from 'src/infrastructure/schemas/vacation.schema';
+import { RolePem } from 'src/infrastructure/schemas/role-pems.schema';
 
 @Module({
-    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation])],
-    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
-    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository],
+    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem])],
+    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository],
+    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository],
 })
 export class RepositoriesModule {}

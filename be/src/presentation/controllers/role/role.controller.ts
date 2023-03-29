@@ -11,8 +11,6 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { EndPoint } from 'src/domain/enums/endpoint.enum';
-import { RolePemsPresenter } from './presenter/role-pems.presenter';
-import { RolePemEntity } from 'src/domain/entities/role-pems.entity';
 @Controller('roles')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class RoleController {
