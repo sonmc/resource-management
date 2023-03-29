@@ -6,8 +6,11 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { Login as OnLogin } from '../../Services/auth.service';
+import { useRecoilState } from 'recoil';
+import { currentUserAtom } from '../../Recoil/states/users';
 const LoginPage = () => {
     const history = useHistory();
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     const validation = useFormik({
         enableReinitialize: true,
@@ -22,8 +25,8 @@ const LoginPage = () => {
         onSubmit: (values) => {
             OnLogin(values).then((res) => {
                 if (res) {
-                    localStorage.setItem('user', JSON.stringify(res.currentUser));
-                    history.push('/');
+                    setCurrentUser(res);
+                    history.push('/projects');
                 }
             });
         },
@@ -74,7 +77,9 @@ const LoginPage = () => {
                                                     value={validation.values.username || ''}
                                                     invalid={validation.touched.email && validation.errors.username ? true : false}
                                                 />
-                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
+                                                {validation.touched.username && validation.errors.username ? (
+                                                    <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                                                ) : null}
                                             </div>
 
                                             <div className="mb-3">
@@ -92,8 +97,14 @@ const LoginPage = () => {
                                                         onBlur={validation.handleBlur}
                                                         invalid={validation.touched.password && validation.errors.password ? true : false}
                                                     />
-                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
-                                                    <button className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                                                    {validation.touched.password && validation.errors.password ? (
+                                                        <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                                                    ) : null}
+                                                    <button
+                                                        className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                        type="button"
+                                                        id="password-addon"
+                                                    >
                                                         <i className="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>

@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 api.defaults.headers.post['Content-Type'] = 'application/json';
-
+let blackListUrl = ['auth/login', 'auth/refresh'];
 // intercepting to capture errors
 api.interceptors.request.use(function (req) {
     req.withCredentials = true;
@@ -32,8 +32,9 @@ api.interceptors.response.use(
         return res.data ? res.data : res;
     },
     (err) => {
+        // eslint-disable-next-line no-debugger
         const originalRequest = err.config;
-        if (originalRequest.url !== '/auth/login' && originalRequest.url !== '/auth/refresh' && err.response) {
+        if (!blackListUrl.includes(originalRequest.url) && err.response) {
             if (err.response.status === 401 && !originalRequest._retry) {
                 if (isRefreshing) {
                     return new Promise(function (resolve, reject) {
@@ -50,9 +51,8 @@ api.interceptors.response.use(
 
                 originalRequest._retry = true;
                 isRefreshing = true;
-                const currentUser = JSON.parse(localStorage.getItem('user'));
                 return new Promise(function (resolve, reject) {
-                    api.post('auth/refresh', currentUser)
+                    api.get('auth/refresh')
                         .then((rs) => {
                             originalRequest.headers['Authorization'] = `bearer ${rs}`;
                             processQueue(null, rs);
@@ -102,13 +102,4 @@ class APIClient {
     };
 }
 
-const getLoggedinUser = () => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-        return null;
-    } else {
-        return JSON.parse(user);
-    }
-};
-
-export { APIClient, getLoggedinUser };
+export { APIClient };
