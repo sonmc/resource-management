@@ -1,17 +1,35 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 const usersAtom = atom({
     key: 'users',
     default: null,
 });
 
-const userAtom = atom({
-    key: 'user',
-    default: null,
+export const usersState = selector({
+    key: 'usersState',
+    get: ({ get }) => {
+        const value = get(usersAtom);
+        return value;
+    },
+    set: ({ set }, newValue) => {
+        set(usersAtom, newValue);
+    },
 });
 
 const currentUserAtom = atom({
     key: 'currentUser',
     default: null,
 });
-export { usersAtom, userAtom, currentUserAtom };
+
+export const currentUserState = selector({
+    key: 'currentUserState',
+    get: ({ get }) => {
+        const value = get(currentUserAtom);
+        return value;
+    },
+    set: ({ set }, newValue) => {
+        set(currentUserAtom, newValue);
+    },
+});
+
+export { usersAtom, currentUserAtom };

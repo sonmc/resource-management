@@ -3,9 +3,9 @@ import { Col, CardBody } from 'reactstrap';
 import DualListBox from 'react-dual-listbox';
 import { Get as GetPermission } from '../../../Services/permission.service';
 import { UpdateRolePems } from '../../../Services/role.service';
-const Component = (props) => {
+
+const RolePerm = (props) => {
     const { roles } = props;
-    console.log(roles);
     const [permissions, setPermissions] = useState([]);
     const [role, setRole] = useState({});
     const [permissionOfSelected, setPermissionSelected] = useState([]);
@@ -47,7 +47,6 @@ const Component = (props) => {
     };
     return (
         <>
-            {' '}
             <div className="card-header border-0">
                 <div className="d-flex align-items-center">
                     <h3 className="card-title mb-0 flex-grow-1">Roles</h3>
@@ -83,7 +82,7 @@ const Component = (props) => {
                         }}
                     />
                 </Col>
-                <button className="btn btn-success btn-action  mt-3" onClick={() => savePermissions()}>
+                <button className="btn btn-success mt-3" onClick={() => savePermissions()}>
                     Save
                 </button>
             </CardBody>
@@ -91,4 +90,4 @@ const Component = (props) => {
     );
 };
 
-export default Component;
+export default RolePerm;

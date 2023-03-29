@@ -1,39 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MetaTags from 'react-meta-tags';
-import { Col, Row, Container, CardBody, Input, Label, Form, FormGroup } from 'reactstrap';
+import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
-import { currentUserAtom } from '../../Recoil/states/users';
+import { currentUserState } from '../../Recoil/states/users';
 import { useRecoilValue } from 'recoil';
 import { Create } from '../../Services/vacation';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import { TOAST_CONFIG } from '../../Constant';
+import 'react-toastify/dist/ReactToastify.css';
+
 const VacationCalendar = () => {
-    const currentUser = useRecoilValue(currentUserAtom);
+    const currentUser = useRecoilValue(currentUserState);
     const getVacationDefault = () => ({
         reason: '',
         start: '',
         end: '',
         type: 1,
-        user_id: currentUser.id,
+        user_id: currentUser.user_id,
     });
     const [vacation, setVacation] = useState(getVacationDefault());
     const changeField = (event) => {
         let emp = { ...vacation, [event.target.name]: event.target.value };
         emp.type = emp.type * 1;
-        console.log(emp);
         setVacation(emp);
     };
 
     const save = () => {
-        // eslint-disable-next-line no-debugger
         Create(vacation)
             .then((res) => {
-                console.log(res);
+                const vacation = getVacationDefault();
+                setVacation(vacation);
+                toast.success('successfully !', TOAST_CONFIG);
             })
             .catch((error) => {
-                console.log(error);
+                toast.error('Error !', error);
             });
     };
-    useEffect(() => {}, []);
+
     return (
         <React.Fragment>
             <div className="page-content">
@@ -62,27 +66,13 @@ const VacationCalendar = () => {
                                     </Col>
                                     <Col xxl={9}>
                                         <div className="form-check form-check-inline">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="type"
-                                                onChange={(x) => changeField(x)}
-                                                checked={vacation.type}
-                                                value={1}
-                                            />
+                                            <input className="form-check-input" type="radio" name="type" onChange={(x) => changeField(x)} checked={vacation.type} value={1} />
                                             <label className="form-check-label" htmlFor="inlineRadio1">
                                                 Remote
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
-                                            <input
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="type"
-                                                onChange={(x) => changeField(x)}
-                                                checked={!vacation.type}
-                                                value={0}
-                                            />
+                                            <input className="form-check-input" type="radio" name="type" onChange={(x) => changeField(x)} checked={!vacation.type} value={0} />
                                             <label className="form-check-label" htmlFor="inlineRadio2">
                                                 Vacation
                                             </label>
@@ -92,8 +82,10 @@ const VacationCalendar = () => {
                                         <label className="form-label">Date time :</label>
                                     </Col>
                                     <Col xxl={9} className="d-flex">
-                                        <FormGroup className="me-2">
-                                            <Label for="examplePassword">From</Label>
+                                        <FormGroup className="me-2 d-flex align-items-center">
+                                            <Label for="examplePassword" className="me-3">
+                                                From
+                                            </Label>
                                             <Flatpickr
                                                 className="form-control"
                                                 options={{
@@ -104,11 +96,13 @@ const VacationCalendar = () => {
                                                     changeField({ target: { name: 'start', value: moment(value).format('YYYY-MM-DD') } });
                                                 }}
                                                 value={vacation.start}
-                                                placeholder="Select Date"
+                                                placeholder="Select start date"
                                             />
                                         </FormGroup>
-                                        <FormGroup className="me-2">
-                                            <Label for="examplePassword">To</Label>
+                                        <FormGroup className="me-2 d-flex align-items-center">
+                                            <Label for="examplePassword" className="me-3">
+                                                To
+                                            </Label>
                                             <Flatpickr
                                                 className="form-control"
                                                 options={{
@@ -119,23 +113,17 @@ const VacationCalendar = () => {
                                                     changeField({ target: { name: 'end', value: moment(value).format('YYYY-MM-DD') } });
                                                 }}
                                                 value={vacation.end}
-                                                placeholder="Select Date"
+                                                placeholder="Select end date"
                                             />
                                         </FormGroup>
                                     </Col>
                                     <Col xxl={3}>
                                         <label className="form-label">Reason :</label>
                                     </Col>
-                                    <Col xxl={9}>
-                                        <textarea
-                                            type="email"
-                                            className="form-control"
-                                            name="reason"
-                                            onChange={(x) => changeField(x)}
-                                            value={vacation.reason}
-                                        ></textarea>
+                                    <Col xxl={6}>
+                                        <textarea type="email" className="form-control" name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
                                     </Col>
-                                    <Col xxl={12}>
+                                    <Col xxl={12} className="mt-2">
                                         <button className="btn btn-success" onClick={save} type="button">
                                             Submit
                                         </button>
@@ -146,6 +134,7 @@ const VacationCalendar = () => {
                     </div>
                 </Container>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };

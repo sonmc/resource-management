@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthPresenter {
     @ApiProperty()
+    user_id: string;
     username: string;
     avatar: string;
     id: number;

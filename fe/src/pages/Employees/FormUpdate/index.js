@@ -8,6 +8,8 @@ import { GENDER_MALE, GENDER_FEMALE, STATUS_INACTIVE, STATUS_ACTIVE } from '../.
 const EMPLOYEE_DEFAULT = {
     role_id: 0,
     dob: '2000-01-01',
+    first_name: '',
+    last_name: '',
     username: '',
     email: '',
     phone_number: '',
@@ -56,6 +58,7 @@ const ModalUpdate = (props) => {
     return (
         <Modal
             id="flipModal"
+            size="lg"
             modalClassName="flip"
             isOpen={isShowFormUpdate}
             toggle={() => {
@@ -75,6 +78,22 @@ const ModalUpdate = (props) => {
                                     UserName
                                 </label>
                                 <Input value={employee.username} type="text" className="form-control" name="username" placeholder="Enter employee username" onChange={(x) => changeField(x)} />
+                            </div>
+                        </Col>
+                        <Col xxl={3}>
+                            <div>
+                                <label htmlFor="name" className="form-label">
+                                    FirstName
+                                </label>
+                                <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
+                            </div>
+                        </Col>
+                        <Col xxl={3}>
+                            <div>
+                                <label htmlFor="name" className="form-label">
+                                    LastName
+                                </label>
+                                <Input value={employee.last_name} type="text" className="form-control" name="last_name" placeholder="Enter employee last name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
                         <Col xxl={6}>
@@ -105,42 +124,7 @@ const ModalUpdate = (props) => {
                                 placeholder="Select Date"
                             />
                         </Col>
-
                         <Col xxl={6}>
-                            <label className="form-label">Status</label>
-                            <div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_ACTIVE} value={STATUS_ACTIVE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio1">
-                                        Active
-                                    </label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_INACTIVE} value={STATUS_INACTIVE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio2">
-                                        Inactive
-                                    </label>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col xxl={6}>
-                            <label className="form-label">Gender</label>
-                            <div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={GENDER_MALE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio1">
-                                        Male
-                                    </label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={GENDER_FEMALE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio2">
-                                        Female
-                                    </label>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col xxl={12}>
                             <label htmlFor="dob" className="form-label">
                                 Role
                             </label>
@@ -159,6 +143,41 @@ const ModalUpdate = (props) => {
                                 options={roles}
                             />
                         </Col>
+                        <Col xxl={6} className="d-flex">
+                            <label className="form-label me-3">Status</label>
+                            <div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_ACTIVE} value={STATUS_ACTIVE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio1">
+                                        Active
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_INACTIVE} value={STATUS_INACTIVE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio2">
+                                        Inactive
+                                    </label>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col xxl={6} className="d-flex">
+                            <label className="form-label me-3">Gender</label>
+                            <div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={GENDER_MALE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio1">
+                                        Male
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={GENDER_FEMALE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio2">
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                        </Col>
+
                         <Col xxl={12}>
                             <div className="hstack gap-2 justify-content-end">
                                 <Button color="light" onClick={() => closeFormUpdate(false)}>

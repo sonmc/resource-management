@@ -23,8 +23,10 @@ export class UserWithoutPassword {
 
 export class UserEntity extends UserWithoutPassword {
     password: string;
+    full_name: string;
     constructor(u?: User) {
         super();
         this.password = u?.password;
+        this.full_name = u?.first_name + ' ' + u?.last_name;
     }
 }

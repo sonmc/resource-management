@@ -46,6 +46,7 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     async getCurrentUser(@Request() request: any) {
         const currentUser = new AuthPresenter();
+        currentUser.user_id = request.user.id;
         currentUser.username = request.user.username;
         currentUser.avatar = request.user.avatar;
         currentUser.first_name = request.user.first_name;

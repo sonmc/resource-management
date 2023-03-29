@@ -28,6 +28,7 @@ const currentDate = new Date();
 const Projects = () => {
     const [_, setRoles] = useRecoilState(roleAtom);
     const [__, setUsers] = useRecoilState(usersAtom);
+
     const addNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
@@ -98,7 +99,8 @@ const Projects = () => {
     const addMember = (data) => {
         AddMember(data).then((res) => {
             const project = projects.find((x) => x.id === data.project_id);
-            project.users = [...project.users, ...res];
+            const users = project.users.length === 1 && !project.users[0].id ? [...project.users] : [];
+            project.users = [users, ...res];
             setProjects(projects.map((p) => (p.id === project.id ? project : p)));
             setShowFormAddMember(false);
         });

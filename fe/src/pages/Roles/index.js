@@ -89,7 +89,7 @@ const Roles = () => {
 
                                 <CardBody>
                                     <div className="table-responsive mt-3 col-lg-6">
-                                        <Table className="table-bordered table-hover">
+                                        <Table className="table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
@@ -126,12 +126,7 @@ const Roles = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete
-                        deleteRole={deleteRole}
-                        isShowConfirmDelete={isShowConfirmDelete}
-                        closeConfirmDelete={closeConfirmDelete}
-                        roleId={roleId}
-                    />
+                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
                 </Container>
             </div>
         </React.Fragment>

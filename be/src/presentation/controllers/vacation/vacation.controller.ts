@@ -30,7 +30,8 @@ export class VacationController {
 
     @Post()
     async create(@Body() createVacationPresenter: CreateVacationPresenter) {
-        const roleEntity = plainToClass(VacationEntity, createVacationPresenter);
-        return await this.createVacationUseCases.getInstance().execute(roleEntity);
+        const vacationEntity = plainToClass(VacationEntity, createVacationPresenter);
+        const response = await this.createVacationUseCases.getInstance().execute(vacationEntity);
+        return response;
     }
 }
