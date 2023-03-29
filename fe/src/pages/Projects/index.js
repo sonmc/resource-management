@@ -15,11 +15,19 @@ import { debounce } from 'lodash';
 import moment from 'moment';
 import { useSetRecoilState } from 'recoil';
 import { newWeekInMonthState } from '../../Recoil/states/common';
+import { useRecoilState } from 'recoil';
+import { roleAtom } from '../../Recoil/states/roles';
+// Services
+import { Get as getRoles } from '../../Services/role.service';
+import { Get as getUsers } from '../../Services/user.service';
+import { usersAtom } from '../../Recoil/states/users';
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
 
 const Projects = () => {
+    const [_, setRoles] = useRecoilState(roleAtom);
+    const [__, setUsers] = useRecoilState(usersAtom);
     const addNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
@@ -242,7 +250,18 @@ const Projects = () => {
         setMonthsWorkloadHeader(currentMonth);
         calculatorWorkloadWeek(currentMonth);
     }, []);
-
+    useEffect(() => {
+        getRoles().then((res) => {
+            setRoles(res);
+        });
+        getUsers({
+            searchTerm: '',
+            roleId: 0,
+            status: 1,
+        }).then((res) => {
+            setUsers(res);
+        });
+    }, [setRoles, setUsers]);
     return (
         <React.Fragment>
             <div className="page-content">

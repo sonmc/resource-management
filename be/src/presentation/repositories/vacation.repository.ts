@@ -21,7 +21,7 @@ export class VacationRepository implements IVacationRepository {
         return plainToClass(VacationEntity, result);
     }
 
-    async findAll(filter: any = { limit: 10, cursor: 0 }, paging: any): Promise<any> {
+    async findAll(filter: any): Promise<any> {
         return [];
     }
 }

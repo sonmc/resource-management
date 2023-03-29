@@ -1,6 +1,6 @@
 import { plainToInstance } from 'class-transformer';
 import { convertPermissions, convertRoles } from 'src/actions/auth.action';
-import { Body, Controller, Get, Inject, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req, Res, Request, UseGuards } from '@nestjs/common';
 
 import { Headers } from '@nestjs/common';
 import { AuthLoginDto } from './presenter/auth-dto.class';
@@ -29,24 +29,32 @@ export class AuthController {
     async login(@Body() auth: AuthLoginDto, @Request() request: any) {
         const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(auth.username);
         const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(auth.username);
-        const currentUser = new AuthPresenter();
-        currentUser.username = request.user.username;
-        currentUser.permissions = convertPermissions(request.user.roles);
-        currentUser.roles = convertRoles(request.user.roles);
         request.res.cookie('access_token', accessToken, { httpOnly: true });
         request.res.cookie('refresh_token', refreshToken, { httpOnly: true });
-        return {
-            currentUser,
-        };
+        return;
     }
 
-    @Post('logout')
+    @Get('logout')
     @UseGuards(JwtAuthGuard)
-    async logout(@Request() request: any) {
-        request.res.clearCookie();
-        return 'Logout successful';
+    async logout(@Res() res: any) {
+        res.clearCookie('access_token');
+        res.clearCookie('refresh_token');
+        res.sendStatus(204);
     }
 
+    @Get('getCurrentUser')
+    @UseGuards(JwtAuthGuard)
+    async getCurrentUser(@Request() request: any) {
+        const currentUser = new AuthPresenter();
+        currentUser.username = request.user.username;
+        currentUser.avatar = request.user.avatar;
+        currentUser.first_name = request.user.first_name;
+        currentUser.last_name = request.user.last_name;
+        currentUser.full_name = request.user.first_name + ' ' + request.user.last_name;
+        currentUser.permissions = convertPermissions(request.user.roles);
+        currentUser.roles = convertRoles(request.user.roles);
+        return currentUser;
+    }
     @Get('is_authenticated')
     async isAuthenticated(@Headers() headers) {
         const user = await this.isAuthUsecaseProxy.getInstance().execute(headers.authentication);
@@ -54,13 +62,11 @@ export class AuthController {
         return response;
     }
 
-    @Post('refresh')
+    @Get('refresh')
     @UseGuards(JwtRefreshGuard)
-    async refresh(@Req() request: any) {
+    async refresh(@Request() request: any, @Res() res: any) {
         const accessToken = await this.loginUsecaseProxy.getInstance().getJwtToken(request.user.username);
-        const refreshToken = await this.loginUsecaseProxy.getInstance().getJwtRefreshToken(request.user.username);
         request.res.cookie('access_token', accessToken, { httpOnly: true });
-        request.res.cookie('refresh_token', refreshToken, { httpOnly: true });
-        return accessToken;
+        request.res.sendStatus(204);
     }
 }

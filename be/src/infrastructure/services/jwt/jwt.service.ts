@@ -17,4 +17,8 @@ export class JwtTokenService implements IJwtService {
             expiresIn: expiresIn,
         });
     }
+    getUserNameByToken(token: string): string {
+        const decoded: any = this.jwtService.decode(token);
+        return decoded.username;
+    }
 }

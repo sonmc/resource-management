@@ -10,84 +10,90 @@ import { Task } from './task.schema';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-  @Column()
-  @Index({ unique: true })
-  username: string;
+    @Column()
+    @Index({ unique: true })
+    username: string;
 
-  @Column()
-  email: string;
+    @Column()
+    email: string;
 
-  @Column()
-  phone_number: string;
+    @Column()
+    phone_number: string;
 
-  @Column()
-  password: string;
+    @Column()
+    first_name: string;
 
-  @Column()
-  status: number;
+    @Column()
+    last_name: string;
 
-  @Column()
-  gender: boolean;
+    @Column()
+    password: string;
 
-  @Column({ nullable: true })
-  avatar: string;
+    @Column()
+    status: number;
 
-  @Column()
-  dob: Date;
+    @Column()
+    gender: boolean;
 
-  @Column({ nullable: true })
-  last_login?: Date;
+    @Column({ nullable: true })
+    avatar: string;
 
-  @Column('varchar', { nullable: true })
-  hash_refresh_token: string;
+    @Column()
+    dob: Date;
 
-  @BeforeInsert()
-  async setPassword(password: string) {
-    this.password = await hash(password || this.password);
-  }
+    @Column({ nullable: true })
+    last_login?: Date;
 
-  @OneToMany(() => Workload, (workload) => workload.user, {
-    eager: true,
-  })
-  workloads: Workload[];
+    @Column('varchar', { nullable: true })
+    hash_refresh_token: string;
 
-  @ManyToMany(() => Role, (role) => role.users)
-  @JoinTable({
-    name: 'users_roles',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'role_id' },
-  })
-  roles: Role[];
+    @BeforeInsert()
+    async setPassword(password: string) {
+        this.password = await hash(password || this.password);
+    }
 
-  @ManyToMany(() => Project, (project) => project.users)
-  @JoinTable({
-    name: 'users_projects',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'project_id' },
-  })
-  projects: Project[];
+    @OneToMany(() => Workload, (workload) => workload.user, {
+        eager: true,
+    })
+    workloads: Workload[];
 
-  @ManyToMany(() => Vacation, (v) => v.users)
-  @JoinTable({
-    name: 'users_vacations',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'vacation_id' },
-  })
-  vacations: Vacation[];
+    @ManyToMany(() => Role, (role) => role.users)
+    @JoinTable({
+        name: 'users_roles',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'role_id' },
+    })
+    roles: Role[];
 
-  @ManyToMany(() => Task, (v) => v.users)
-  @JoinTable({
-    name: 'users_tasks',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'task_id' },
-  })
-  tasks: Task[];
+    @ManyToMany(() => Project, (project) => project.users)
+    @JoinTable({
+        name: 'users_projects',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'project_id' },
+    })
+    projects: Project[];
 
-  @ManyToMany(() => Kanban, (v) => v.users)
-  @JoinTable({
-    name: 'users_kanbans',
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'kanban_id' },
-  })
-  kanbans: Kanban[];
+    @ManyToMany(() => Vacation, (v) => v.users)
+    @JoinTable({
+        name: 'users_vacations',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'vacation_id' },
+    })
+    vacations: Vacation[];
+
+    @ManyToMany(() => Task, (v) => v.users)
+    @JoinTable({
+        name: 'users_tasks',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'task_id' },
+    })
+    tasks: Task[];
+
+    @ManyToMany(() => Kanban, (v) => v.users)
+    @JoinTable({
+        name: 'users_kanbans',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'kanban_id' },
+    })
+    kanbans: Kanban[];
 }
