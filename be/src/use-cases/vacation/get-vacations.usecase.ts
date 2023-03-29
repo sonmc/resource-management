@@ -3,8 +3,8 @@ import { IVacationRepository } from 'src/domain/repositories/vacation-repository
 export class GetVacationUseCases {
     constructor(private readonly vacationRepository: IVacationRepository) {}
 
-    async execute(filter: any, paging: any): Promise<any> {
-        const res = await this.vacationRepository.findAll(filter, paging);
+    async execute(query: any): Promise<any> {
+        const res = await this.vacationRepository.findAll(query);
         return res;
     }
 }

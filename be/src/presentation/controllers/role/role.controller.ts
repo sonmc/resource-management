@@ -11,33 +11,35 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { EndPoint } from 'src/domain/enums/endpoint.enum';
+import { RolePemsPresenter } from './presenter/role-pems.presenter';
+import { RolePemEntity } from 'src/domain/entities/role-pems.entity';
 @Controller('roles')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class RoleController {
-  constructor(
-    @Inject(UseCasesProxyModule.GET_ROLES_USECASES_PROXY)
-    private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
-    @Inject(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY)
-    private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
-    @Inject(UseCasesProxyModule.DELETE_ROLE_USECASES_PROXY)
-    private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
-  ) {}
+    constructor(
+        @Inject(UseCasesProxyModule.GET_ROLES_USECASES_PROXY)
+        private readonly getRolesUsecaseProxy: UseCaseProxy<GetRolesUseCases>,
+        @Inject(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY)
+        private readonly createRoleUsecaseProxy: UseCaseProxy<CreateRoleUseCases>,
+        @Inject(UseCasesProxyModule.DELETE_ROLE_USECASES_PROXY)
+        private readonly deleteRoleUsecaseProxy: UseCaseProxy<DeleteRoleUseCases>
+    ) {}
 
-  @Get()
-  @Permissions(EndPoint.ROLE_GET)
-  async get() {
-    const roles = await this.getRolesUsecaseProxy.getInstance().execute();
-    return roles;
-  }
+    @Get()
+    @Permissions(EndPoint.ROLE_GET)
+    async get() {
+        const roles = await this.getRolesUsecaseProxy.getInstance().execute();
+        return roles;
+    }
 
-  @Post()
-  async create(@Body() createRolePresenter: CreateRolePresenter) {
-    const roleEntity = plainToClass(RoleEntity, createRolePresenter);
-    return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
-  }
+    @Post()
+    async create(@Body() createRolePresenter: CreateRolePresenter) {
+        const roleEntity = plainToClass(RoleEntity, createRolePresenter);
+        return await this.createRoleUsecaseProxy.getInstance().execute(roleEntity);
+    }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.deleteRoleUsecaseProxy.getInstance().execute(+id);
-  }
+    @Delete(':id')
+    async remove(@Param('id') id: string) {
+        return await this.deleteRoleUsecaseProxy.getInstance().execute(+id);
+    }
 }

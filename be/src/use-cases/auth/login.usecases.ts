@@ -51,7 +51,8 @@ export class LoginUseCases {
         await this.userRepository.updateRefreshToken(username, currentHashedRefreshToken);
     }
 
-    async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
+    async getUserIfRefreshTokenMatches(refreshToken: string) {
+        const username = this.jwtTokenService.getUserNameByToken(refreshToken);
         const user = await this.userRepository.getUserByUsername(username);
         if (!user) {
             return null;

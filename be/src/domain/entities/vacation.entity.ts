@@ -3,4 +3,5 @@ export class VacationEntity {
     user_id: number;
     start_date: Date;
     end_date: Date;
+    type: number;
 }
