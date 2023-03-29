@@ -14,10 +14,10 @@ export class User extends BaseEntity {
     @Index({ unique: true })
     username: string;
 
-    @Column()
+    @Column({ nullable: true })
     email: string;
 
-    @Column()
+    @Column({ nullable: true })
     phone_number: string;
 
     @Column()
@@ -57,6 +57,11 @@ export class User extends BaseEntity {
     })
     workloads: Workload[];
 
+    @OneToMany(() => Vacation, (vacation) => vacation.user, {
+        eager: true,
+    })
+    vacations: Vacation[];
+
     @ManyToMany(() => Role, (role) => role.users)
     @JoinTable({
         name: 'users_roles',
@@ -72,14 +77,6 @@ export class User extends BaseEntity {
         inverseJoinColumn: { name: 'project_id' },
     })
     projects: Project[];
-
-    @ManyToMany(() => Vacation, (v) => v.users)
-    @JoinTable({
-        name: 'users_vacations',
-        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'vacation_id' },
-    })
-    vacations: Vacation[];
 
     @ManyToMany(() => Task, (v) => v.users)
     @JoinTable({

@@ -5,27 +5,27 @@ import { User } from './user.schema';
 
 @Entity({ name: 'roles' })
 export class Role extends BaseEntity {
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  description?: string;
+    @Column({ nullable: true })
+    description: string;
 
-  @ManyToMany(() => User, (users) => users.roles)
-  @JoinTable({
-    name: 'users_roles',
-    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'user_id' },
-  })
-  users: User[];
+    @ManyToMany(() => User, (users) => users.roles)
+    @JoinTable({
+        name: 'users_roles',
+        joinColumn: { name: 'role_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'user_id' },
+    })
+    users: User[];
 
-  @ManyToMany(() => Permission, (permission) => permission.roles, {
-    eager: true,
-  })
-  @JoinTable({
-    name: 'roles_pems',
-    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'permission_id' },
-  })
-  permissions: Permission[];
+    @ManyToMany(() => Permission, (permission) => permission.roles, {
+        eager: true,
+    })
+    @JoinTable({
+        name: 'roles_pems',
+        joinColumn: { name: 'role_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'permission_id' },
+    })
+    permissions: Permission[];
 }

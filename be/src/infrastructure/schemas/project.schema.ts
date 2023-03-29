@@ -7,8 +7,8 @@ export class Project extends BaseEntity {
     @Column()
     name: string;
 
-    @Column()
-    note?: string;
+    @Column({ nullable: true })
+    note: string;
 
     @Column()
     start_date: Date;
