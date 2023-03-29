@@ -251,187 +251,149 @@ const Projects = () => {
                 </MetaTags>
                 <Container fluid>
                     <div className="row">
-                        <div className="card p-0" id="tasksList">
-                            <div className="card-header border-0">
-                                <div className="d-flex align-items-center">
-                                    <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
-                                    <div className="flex-shrink-0">
-                                        <button className="btn btn-success" onClick={() => showFormCreate()}>
-                                            <i className="ri-add-line align-bottom me-1"></i> Create New
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card-body pt-0">
-                                <div className="row">
-                                    <div className="col-sm-3">
-                                        <Flatpickr
-                                            placeholder="Select start date"
-                                            className="form-control"
-                                            onChange={(data) => {
-                                                let start_date = moment(data[0]).format('YYYY-MM-DD');
-                                                let end_date = moment(data[1]).format('YYYY-MM-DD');
-                                                setFilter({ ...filter, start_date, end_date });
-                                            }}
-                                            options={{
-                                                mode: 'range',
-                                                dateFormat: 'Y-m-d',
-                                                defaultDate: [filter.start_date, filter.end_date],
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="col-sm-3">
-                                        <div className="search-box">
-                                            <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
-                                            <i className="ri-search-line search-icon"></i>
-                                        </div>
-                                    </div>
-                                    <div className="offset-md-3 col-sm-3">
-                                        <div className="d-flex flex-row-reverse">
-                                            <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
-                                                <span className="fa fa-chevron-left"></span>
-                                            </button>
-                                            <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 rounded-0 text-center">
-                                                {workloadDates.map((d, key) => {
-                                                    return (
-                                                        <option key={key} value={d}>
-                                                            {d}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                            <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
-                                                <span className="fa fa-chevron-right"></span>
+                        <div className="col-lg-12">
+                            <div className="card" id="tasksList">
+                                <div className="card-header border-0">
+                                    <div className="d-flex align-items-center">
+                                        <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
+                                        <div className="flex-shrink-0">
+                                            <button className="btn btn-success" onClick={() => showFormCreate()}>
+                                                <i className="ri-add-line align-bottom me-1"></i> Create New
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <CardBody className="pt-0">
-                                <div className="table-responsive">
-                                    <Table className="table align-middle table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                    Project name
-                                                </th>
-                                                <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                    Notes
-                                                </th>
-                                                <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                    Members
-                                                </th>
-                                                <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                    Role
-                                                </th>
-                                                {monthsWorkLoad.map((item, key) => {
-                                                    return (
-                                                        <th key={key} colSpan={workloadWeek[key].length} style={{ textAlign: 'center' }}>
-                                                            {item.year + ' ' + item.month}
-                                                        </th>
-                                                    );
-                                                })}
-                                            </tr>
+                                <div className="card-body pt-0">
+                                    <div className="row">
+                                        <div className="col-sm-3">
+                                            <Flatpickr
+                                                placeholder="Select start date"
+                                                className="form-control"
+                                                onChange={(data) => {
+                                                    let start_date = moment(data[0]).format('YYYY-MM-DD');
+                                                    let end_date = moment(data[1]).format('YYYY-MM-DD');
+                                                    setFilter({ ...filter, start_date, end_date });
+                                                }}
+                                                options={{
+                                                    mode: 'range',
+                                                    dateFormat: 'Y-m-d',
+                                                    defaultDate: [filter.start_date, filter.end_date],
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="col-sm-3">
+                                            <div className="search-box">
+                                                <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
+                                                <i className="ri-search-line search-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div className="offset-md-3 col-sm-3">
+                                            <div className="d-flex flex-row-reverse">
+                                                <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
+                                                    <span className="fa fa-chevron-left"></span>
+                                                </button>
+                                                <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 rounded-0 text-center">
+                                                    {workloadDates.map((d, key) => {
+                                                        return (
+                                                            <option key={key} value={d}>
+                                                                {d}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                                <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
+                                                    <span className="fa fa-chevron-right"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <CardBody className="pt-0">
+                                    <div className="table-responsive">
+                                        <Table className="table align-middle table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                        Project name
+                                                    </th>
+                                                    <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                        Notes
+                                                    </th>
+                                                    <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                        Members
+                                                    </th>
+                                                    <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
+                                                        Role
+                                                    </th>
+                                                    {monthsWorkLoad.map((item, key) => {
+                                                        return (
+                                                            <th key={key} colSpan={workloadWeek[key].length} style={{ textAlign: 'center' }}>
+                                                                {item.year + ' ' + item.month}
+                                                            </th>
+                                                        );
+                                                    })}
+                                                </tr>
 
-                                            <tr>
-                                                {workloadWeek[0].map((w, key) => {
-                                                    return (
-                                                        <React.Fragment key={key}>
-                                                            <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
-                                                        </React.Fragment>
-                                                    );
-                                                })}
-                                                {workloadWeek[1].map((w, key) => {
-                                                    return (
-                                                        <React.Fragment key={key}>
-                                                            <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
-                                                        </React.Fragment>
-                                                    );
-                                                })}
-                                                {workloadWeek[2].map((w, key) => {
-                                                    return (
-                                                        <React.Fragment key={key}>
-                                                            <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
-                                                        </React.Fragment>
-                                                    );
-                                                })}
-                                            </tr>
-                                        </thead>
-                                    </Table>
-                                </div>
-                                <div className="table-responsive" style={{ height: '700px', overflow: 'scroll' }}>
-                                    <Table className="table align-middle table-bordered">
-                                        <tbody>
-                                            {projects.map((x, key) => (
-                                                <React.Fragment key={key}>
-                                                    {key > 0 && (
-                                                        <tr>
-                                                            <td colSpan={currentWorkloadDate + 4}></td>
-                                                        </tr>
-                                                    )}
-                                                    {x.users.length > 0 && (
-                                                        <tr>
-                                                            <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
-                                                                <Link
-                                                                    to="#"
-                                                                    onClick={() => showFormAddMember(x)}
-                                                                    className="link-success fs-100"
-                                                                    style={{
-                                                                        position: 'absolute',
-                                                                        top: '-14px',
-                                                                        right: '-4px',
-                                                                    }}
-                                                                >
-                                                                    <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
-                                                                </Link>
-                                                                <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
-                                                                    {x.name}
-                                                                </Link>
-                                                            </td>
-                                                            <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
-                                                                <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
-                                                            </td>
-                                                            <td style={{ position: 'relative', width: '10%' }}>
-                                                                {x.users[0]?.username && (
+                                                <tr>
+                                                    {workloadWeek[0].map((w, key) => {
+                                                        return (
+                                                            <React.Fragment key={key}>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                            </React.Fragment>
+                                                        );
+                                                    })}
+                                                    {workloadWeek[1].map((w, key) => {
+                                                        return (
+                                                            <React.Fragment key={key}>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                            </React.Fragment>
+                                                        );
+                                                    })}
+                                                    {workloadWeek[2].map((w, key) => {
+                                                        return (
+                                                            <React.Fragment key={key}>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                            </React.Fragment>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            </thead>
+                                        </Table>
+                                    </div>
+                                    <div className="table-responsive" style={{ height: '700px', overflow: 'scroll' }}>
+                                        <Table className="table align-middle table-bordered">
+                                            <tbody>
+                                                {projects.map((x, key) => (
+                                                    <React.Fragment key={key}>
+                                                        {key > 0 && (
+                                                            <tr>
+                                                                <td colSpan={currentWorkloadDate + 4}></td>
+                                                            </tr>
+                                                        )}
+                                                        {x.users.length > 0 && (
+                                                            <tr>
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
                                                                     <Link
                                                                         to="#"
-                                                                        className="link-danger fs-15"
-                                                                        onClick={() => showConfirmDeleteModal()}
+                                                                        onClick={() => showFormAddMember(x)}
+                                                                        className="link-success fs-100"
                                                                         style={{
                                                                             position: 'absolute',
-                                                                            top: -6,
-                                                                            right: -3,
+                                                                            top: '-14px',
+                                                                            right: '-4px',
                                                                         }}
                                                                     >
-                                                                        <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                        <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
                                                                     </Link>
-                                                                )}
-                                                                {x.users[0]?.username}
-                                                            </td>
-                                                            <td style={{ textAlign: 'center', width: '10%' }}>
-                                                                {(x.users[0]?.roles &&
-                                                                    x.users[0].roles.length > 0 &&
-                                                                    x.users[0].roles
-                                                                        .map((r) => {
-                                                                            return r.name;
-                                                                        })
-                                                                        .join(', ')) ||
-                                                                    ''}
-                                                            </td>
-                                                            {x.users[0].workloads.map((z, key3) => {
-                                                                return (
-                                                                    <td style={{ textAlign: 'center' }} key={key3}>
-                                                                        {z.value} {z.value && <span>%</span>}
-                                                                    </td>
-                                                                );
-                                                            })}
-                                                        </tr>
-                                                    )}
-                                                    {x.users.map((y, key2) => {
-                                                        return (
-                                                            key2 > 0 && (
-                                                                <tr key={key2}>
-                                                                    <td style={{ position: 'relative' }}>
+                                                                    <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                                                        {x.name}
+                                                                    </Link>
+                                                                </td>
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
+                                                                    <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
+                                                                </td>
+                                                                <td style={{ position: 'relative', width: '10%' }}>
+                                                                    {x.users[0]?.username && (
                                                                         <Link
                                                                             to="#"
                                                                             className="link-danger fs-15"
@@ -444,32 +406,72 @@ const Projects = () => {
                                                                         >
                                                                             <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                         </Link>
-                                                                        {y.username}
-                                                                    </td>
-                                                                    <td style={{ textAlign: 'center' }}>
-                                                                        {y.roles
-                                                                            .map((role) => {
-                                                                                return role.name;
+                                                                    )}
+                                                                    {x.users[0]?.username}
+                                                                </td>
+                                                                <td style={{ textAlign: 'center', width: '10%' }}>
+                                                                    {(x.users[0]?.roles &&
+                                                                        x.users[0].roles.length > 0 &&
+                                                                        x.users[0].roles
+                                                                            .map((r) => {
+                                                                                return r.name;
                                                                             })
-                                                                            .join(', ')}
-                                                                    </td>
-                                                                    {y.workloads.map((z, key3) => {
-                                                                        return (
-                                                                            <td style={{ textAlign: 'center' }} key={key3}>
-                                                                                {z.value} {z.value && <span>%</span>}
-                                                                            </td>
-                                                                        );
-                                                                    })}
-                                                                </tr>
-                                                            )
-                                                        );
-                                                    })}
-                                                </React.Fragment>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </CardBody>
+                                                                            .join(', ')) ||
+                                                                        ''}
+                                                                </td>
+                                                                {x.users[0].workloads.map((z, key3) => {
+                                                                    return (
+                                                                        <td style={{ textAlign: 'center' }} key={key3}>
+                                                                            {z.value} {z.value && <span>%</span>}
+                                                                        </td>
+                                                                    );
+                                                                })}
+                                                            </tr>
+                                                        )}
+                                                        {x.users.map((y, key2) => {
+                                                            return (
+                                                                key2 > 0 && (
+                                                                    <tr key={key2}>
+                                                                        <td style={{ position: 'relative' }}>
+                                                                            <Link
+                                                                                to="#"
+                                                                                className="link-danger fs-15"
+                                                                                onClick={() => showConfirmDeleteModal()}
+                                                                                style={{
+                                                                                    position: 'absolute',
+                                                                                    top: -6,
+                                                                                    right: -3,
+                                                                                }}
+                                                                            >
+                                                                                <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                            </Link>
+                                                                            {y.username}
+                                                                        </td>
+                                                                        <td style={{ textAlign: 'center' }}>
+                                                                            {y.roles
+                                                                                .map((role) => {
+                                                                                    return role.name;
+                                                                                })
+                                                                                .join(', ')}
+                                                                        </td>
+                                                                        {y.workloads.map((z, key3) => {
+                                                                            return (
+                                                                                <td style={{ textAlign: 'center' }} key={key3}>
+                                                                                    {z.value} {z.value && <span>%</span>}
+                                                                                </td>
+                                                                            );
+                                                                        })}
+                                                                    </tr>
+                                                                )
+                                                            );
+                                                        })}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                </CardBody>
+                            </div>
                         </div>
                     </div>
                     <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} />
