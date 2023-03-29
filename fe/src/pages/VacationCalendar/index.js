@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { TOAST_CONFIG } from '../../Constant';
 import 'react-toastify/dist/ReactToastify.css';
 
-const VacationCalendar = () => {
+const VacationCalendarPage = () => {
     const currentUser = useRecoilValue(currentUserState);
     const getVacationDefault = () => ({
         reason: '',
@@ -121,7 +121,7 @@ const VacationCalendar = () => {
                                         <label className="form-label">Reason :</label>
                                     </Col>
                                     <Col xxl={6}>
-                                        <textarea type="email" className="form-control" name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
+                                        <textarea type="email" className="form-control" style={{ height: '150px' }} name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
                                     </Col>
                                     <Col xxl={12} className="mt-2">
                                         <button className="btn btn-success" onClick={save} type="button">
@@ -139,4 +139,4 @@ const VacationCalendar = () => {
     );
 };
 
-export default VacationCalendar;
+export default VacationCalendarPage;

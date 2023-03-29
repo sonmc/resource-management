@@ -26,8 +26,6 @@ const LoginPage = () => {
         onSubmit: (values) => {
             OnLogin(values).then((res) => {
                 if (res) {
-                    // eslint-disable-next-line no-debugger
-                    debugger;
                     setCurrentUser(res);
                     history.push('/projects');
                 }

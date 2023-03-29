@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom';
 import ModalUpdate from './FormUpdate';
 import { Get, Create } from '../../Services/user.service';
 import { useRecoilValue } from 'recoil';
-import { roleAtom } from '../../Recoil/states/roles';
+import { rolesState } from '../../Recoil/states/roles';
 import { STATUS_ACTIVE } from '../../Constant/index';
+import { usersState } from '../../Recoil/states/users';
+import { useSetRecoilState } from 'recoil';
 
-const Employees = () => {
-    let roles = useRecoilValue(roleAtom);
+const EmployeePage = () => {
+    const setUsersStore = useSetRecoilState(usersState);
+    let roles = useRecoilValue(rolesState);
+
     const [employeeId, setEmployeeId] = useState(0);
     const [employees, setEmployees] = useState([]);
     const [filter, setFilter] = useState({
@@ -22,6 +26,7 @@ const Employees = () => {
     const fetchEmployee = (filter) => {
         Get(filter).then((res) => {
             setEmployees(res);
+            setUsersStore(res);
         });
     };
 
@@ -39,8 +44,10 @@ const Employees = () => {
             .then((res) => {
                 if (employee?.id != 0) {
                     setEmployees([...employees.filter((x) => x.id !== res.id), res]);
+                    setUsersStore([...employees.filter((x) => x.id !== res.id), res]);
                 } else {
                     setEmployees([...employees, res]);
+                    setUsersStore([...employees, res]);
                 }
             })
             .catch((error) => {});
@@ -170,4 +177,4 @@ const Employees = () => {
     );
 };
 
-export default Employees;
+export default EmployeePage;

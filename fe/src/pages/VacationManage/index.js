@@ -2,7 +2,7 @@ import React from 'react';
 import MetaTags from 'react-meta-tags';
 import { CardBody, Table, Container } from 'reactstrap';
 
-const Vacations = () => {
+const VacationPage = () => {
     return (
         <React.Fragment>
             <div className="page-content">
@@ -107,4 +107,4 @@ const Vacations = () => {
     );
 };
 
-export default Vacations;
+export default VacationPage;

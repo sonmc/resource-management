@@ -4,17 +4,22 @@ import MetaTags from 'react-meta-tags';
 import ModalUpdate from './FormUpdate';
 import ConfirmDelete from './ConfirmDelete';
 import { Get as GetRole, Create, Update, Delete } from '../../Services/role.service';
-import 'react-dual-listbox/lib/react-dual-listbox.css';
 import RolePems from './RolePems';
-const Roles = () => {
+import { useSetRecoilState } from 'recoil';
+import { rolesState } from '../../Recoil/states/roles';
+import 'react-dual-listbox/lib/react-dual-listbox.css';
+
+const RolePage = () => {
+    const setRolesStore = useSetRecoilState(rolesState);
     const [roleId, setRoleId] = useState(0);
     const [roles, setRoles] = useState([]);
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
     const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
+
     const fetchRole = () => {
         GetRole({}).then((res) => {
-            // eslint-disable-next-line no-debugger
             setRoles(res);
+            setRolesStore(res);
         });
     };
 
@@ -31,21 +36,33 @@ const Roles = () => {
     const closeFormUpdate = () => {
         setShowFormUpdate(false);
     };
+
     const closeConfirmDelete = () => {
         setShowConfirmDelete(false);
     };
 
     const save = (role) => {
+        let newRoles = [];
         if (role?.id > 0) {
             Update(role)
                 .then((res) => {
+                    newRoles = roles.map((role) => {
+                        if (res.id === role.id) {
+                            role.name = res.name;
+                            role.description = res.description;
+                        }
+                        return role;
+                    });
+                    setRolesStore(newRoles);
                     setShowFormUpdate(false);
                 })
                 .catch((err) => {});
         } else {
             Create(role)
                 .then((res) => {
-                    setRoles([...roles, res]);
+                    newRoles = [{ ...res, permissions: [] }, ...roles];
+                    setRoles(newRoles);
+                    setRolesStore(newRoles);
                     setShowFormUpdate(false);
                 })
                 .catch((error) => {});
@@ -58,6 +75,7 @@ const Roles = () => {
                 const newRoles = roles.filter((role) => role.id !== res);
                 setRoles(newRoles);
                 setShowConfirmDelete(false);
+                setRolesStore(newRoles);
             })
             .catch((err) => {});
     };
@@ -133,4 +151,4 @@ const Roles = () => {
     );
 };
 
-export default Roles;
+export default RolePage;

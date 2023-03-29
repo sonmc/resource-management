@@ -11,7 +11,8 @@ export const newWeekInMonthState = selector({
         const value = get(weekInMonthState);
         return value;
     },
-    set: ({ set }, newValue) => {
-        set(weekInMonthState, newValue);
+    set: ({ get, set }, newValue) => {
+        const list = get(weekInMonthState);
+        set(weekInMonthState, [...list, newValue]);
     },
 });

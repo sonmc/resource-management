@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { CardBody, Col, Container, Table } from 'reactstrap';
+import { CardBody, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -13,23 +13,24 @@ import { Update, AddMember } from '../../Services/project.service';
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { useSetRecoilState } from 'recoil';
 import { newWeekInMonthState } from '../../Recoil/states/common';
-import { useRecoilState } from 'recoil';
-import { roleAtom } from '../../Recoil/states/roles';
-// Services
-import { Get as getRoles } from '../../Services/role.service';
-import { Get as getUsers } from '../../Services/user.service';
-import { usersAtom } from '../../Recoil/states/users';
+import { Get as GetEmployee } from '../../Services/user.service';
+import { Get as GetRole } from '../../Services/role.service';
+// Recoid
+import { useSetRecoilState } from 'recoil';
+import { rolesState } from '../../Recoil/states/roles';
+import { usersState } from '../../Recoil/states/users';
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
 
-const Projects = () => {
-    const [_, setRoles] = useRecoilState(roleAtom);
-    const [__, setUsers] = useRecoilState(usersAtom);
+const ProjectPage = () => {
+    let history = useHistory();
 
-    const addNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
+    const setUsersStore = useSetRecoilState(usersState);
+    const setRolesStore = useSetRecoilState(rolesState);
+
+    const setNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
         end_date: moment().format('YYYY-MM-DD'),
@@ -58,7 +59,6 @@ const Projects = () => {
     const [isShowConfirmModal, setShowFormConfirmModal] = useState(false);
     const [projects, setProjects] = useState([]);
     const [project, setProject] = useState(0);
-    let history = useHistory();
 
     const showFormAddMember = (project) => {
         setProject(project);
@@ -218,7 +218,7 @@ const Projects = () => {
             1: listWeeks[1],
             2: listWeeks[2],
         });
-        addNewWeekInMonth(listWeeks[0].length + listWeeks[1].length + listWeeks[2].length);
+        setNewWeekInMonth(listWeeks[0].length + listWeeks[1].length + listWeeks[2].length);
     };
 
     const onChangeWorkloadMonth = (event) => {
@@ -234,6 +234,23 @@ const Projects = () => {
         }
         return month;
     }
+
+    const fetchRoles = () => {
+        GetRole({}).then((res) => {
+            setRolesStore(res);
+        });
+    };
+
+    const fetchEmployees = () => {
+        const params = {
+            searchTerm: '',
+            roleId: 0,
+            status: 0,
+        };
+        GetEmployee(params).then((res) => {
+            setUsersStore(res);
+        });
+    };
 
     useEffect(() => {
         const month = convertYearMonthToMonth(currentWorkloadDate);
@@ -251,19 +268,10 @@ const Projects = () => {
         const currentMonth = currentDate.getMonth();
         setMonthsWorkloadHeader(currentMonth);
         calculatorWorkloadWeek(currentMonth);
+        fetchRoles();
+        fetchEmployees();
     }, []);
-    useEffect(() => {
-        getRoles().then((res) => {
-            setRoles(res);
-        });
-        getUsers({
-            searchTerm: '',
-            roleId: 0,
-            status: 1,
-        }).then((res) => {
-            setUsers(res);
-        });
-    }, [setRoles, setUsers]);
+
     return (
         <React.Fragment>
             <div className="page-content">
@@ -504,4 +512,4 @@ const Projects = () => {
     );
 };
 
-export default Projects;
+export default ProjectPage;

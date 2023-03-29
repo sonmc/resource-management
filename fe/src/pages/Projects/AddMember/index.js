@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
 import Select from 'react-select';
-import { usersAtom } from '../../../Recoil/states/users';
+import { usersState } from '../../../Recoil/states/users';
 import { useRecoilValue } from 'recoil';
 import Flatpickr from 'react-flatpickr';
 import { newWeekInMonthState } from '../../../Recoil/states/common';
 
 const AddMemberModal = (props) => {
     const weekInMonthValue = useRecoilValue(newWeekInMonthState);
-    let _users = useRecoilValue(usersAtom);
+    let _users = useRecoilValue(usersState);
+
     const [users, setUsers] = useState(_users);
     const { isShowFormAddMember, closeFormAddMember, addMember, project } = props;
     let dateNow = new Date();

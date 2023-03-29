@@ -32,7 +32,6 @@ api.interceptors.response.use(
         return res.data ? res.data : res;
     },
     (err) => {
-        // eslint-disable-next-line no-debugger
         const originalRequest = err.config;
         if (!blackListUrl.includes(originalRequest.url) && err.response) {
             if (err.response.status === 401 && !originalRequest._retry) {
@@ -97,8 +96,8 @@ class APIClient {
         return api.put(url, data);
     };
 
-    delete = (url, config) => {
-        return api.delete(url, { ...config });
+    delete = (url, id) => {
+        return api.delete(url + '/' + id);
     };
 }
 
