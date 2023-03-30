@@ -11,4 +11,5 @@ export class AuthPresenter {
     first_name: string;
     roles: string[];
     permissions: string[];
+    projects: string[];
 }

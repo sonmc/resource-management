@@ -1,14 +1,14 @@
-import React, { useEffect, useCallback } from 'react';
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import './assets/scss/themes.scss';
 import './App.scss';
 import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
-import { currentUserAtom } from './Recoil/states/users';
+import { usersState } from './Recoil/states/users';
 import { spinnerAtom } from './Recoil/states/spinner';
 function App() {
-    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+    const setCurrentUser = useRecoilState(usersState);
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const spinner = useRecoilValue(spinnerAtom);
 
@@ -23,7 +23,7 @@ function App() {
             }
             setSpinner(false);
         };
-        getUsers(); // run it, run it
+        getUsers();
         return () => {};
     }, []);
 

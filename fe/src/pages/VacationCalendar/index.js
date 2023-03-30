@@ -60,7 +60,7 @@ const VacationCalendarPage = () => {
                                     <Col xxl={3}>
                                         <label className="form-label">Projects :</label>
                                     </Col>
-                                    <Col xxl={9}></Col>
+                                    <Col xxl={9}>{currentUser.projects.join(', ')}</Col>
                                     <Col xxl={3}>
                                         <label className="form-label">Vacation type :</label>
                                     </Col>

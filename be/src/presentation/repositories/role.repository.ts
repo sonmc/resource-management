@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ADMIN_ID } from 'src/business-rules/role.rule';
-import { Repository, MoreThan, Not, Equal } from 'typeorm';
+import { Repository, Not, Equal } from 'typeorm';
 import { IRoleRepository } from '../../domain/repositories/role-repository.interface';
 import { Role } from '../../infrastructure/schemas/role.schema';
 import { RoleEntity } from 'src/domain/entities/role.entity';
