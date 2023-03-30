@@ -91,7 +91,7 @@ const ProjectPage = () => {
 
     const save = (project) => {
         Create(project).then((res) => {
-            setProjects([res, ...projects]);
+            fetchProject();
             setShowFormUpdate(false);
         });
     };
@@ -252,11 +252,15 @@ const ProjectPage = () => {
         });
     };
 
-    useEffect(() => {
+    function fetchProject() {
         const month = convertYearMonthToMonth(currentWorkloadDate);
         const listWeeks = getWeekListInMonth(month);
         const params = { ...filter, weekInCurrentMonth: listWeeks[0].length + listWeeks[1].length + listWeeks[2].length };
         triggerSearch(params);
+    }
+
+    useEffect(() => {
+        fetchProject();
     }, [filter, currentWorkloadDate]);
 
     useEffect(() => {
@@ -389,7 +393,7 @@ const ProjectPage = () => {
                                             </thead>
                                         </Table>
                                     </div>
-                                    <div className="table-responsive" style={{ height: '700px', overflow: 'scroll' }}>
+                                    <div className="table-responsive" style={{ maxHeight: '700px', overflow: 'scroll' }}>
                                         <Table className="table align-middle table-bordered">
                                             <tbody>
                                                 {projects.map((x, key) => (

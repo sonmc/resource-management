@@ -120,7 +120,7 @@ const VacationCalendarPage = () => {
                                     <Col xxl={3}>
                                         <label className="form-label">Reason :</label>
                                     </Col>
-                                    <Col xxl={6}>
+                                    <Col xxl={9}>
                                         <textarea type="email" className="form-control" style={{ height: '150px' }} name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
                                     </Col>
                                     <Col xxl={12} className="mt-2">
