@@ -86,7 +86,7 @@ const ProjectPage = () => {
     };
 
     const goProjectDetail = () => {
-        history.push('/project-detail');
+        history.push('/project-detail/2');
     };
 
     const save = (project) => {

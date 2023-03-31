@@ -48,6 +48,7 @@ export class UseCasesProxyModule {
                 getLoginProvide(UseCasesProxyModule.LOGIN_USECASES_PROXY),
                 isAuthenticatedProvide(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY),
                 // Projects
+                getProjectProvide(UseCasesProxyModule.GET_PROJECT_USECASES_PROXY),
                 getProjectProvide(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY),
                 createProjectProvide(UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY),
                 addMemberProvide(UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY),
@@ -71,6 +72,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.LOGIN_USECASES_PROXY,
                 UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
                 // Projects
+                UseCasesProxyModule.GET_PROJECT_USECASES_PROXY,
                 UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY,
                 UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY,
