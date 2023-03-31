@@ -1,110 +1,127 @@
-import React from 'react';
-import MetaTags from 'react-meta-tags';
-import { CardBody, Table, Container } from 'reactstrap';
-
-const VacationPage = () => {
-    return (
-        <React.Fragment>
-            <div className="page-content">
-                <MetaTags>
-                    <title>Resource management | Vacations</title>
-                </MetaTags>
-                <Container fluid>
-                    <div className="card" id="Vacation">
-                        <div className="card-header border-0">
-                            <div className="d-flex align-items-center">
-                                <h5 className="card-title mb-0 flex-grow-1">Vacations</h5>
-                            </div>
-                        </div>
-                        <div className="card-body pt-0 pb-0">
-                            <form>
-                                <div className="row">
-                                    <div className="col-xxl-2 col-sm-4">
-                                        <div className="input-light">
-                                            <select className="form-control" data-choices data-choices-search-false name="status" id="slIdStatus">
-                                                <option defaultValue="all">Select status</option>
-                                                <option value="Active">Active</option>
-                                                <option value="Inactive">Inactive</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <CardBody>
-                            <div className="table-responsive mt-3">
-                                <Table className="table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th style={{ width: '20%', textAlign: 'center' }}>Thứ 2</th>
-                                            <th style={{ width: '20%', textAlign: 'center' }}>Thứ 3</th>
-                                            <th style={{ width: '20%', textAlign: 'center' }}>Thứ 4</th>
-                                            <th style={{ width: '20%', textAlign: 'center' }}>Thứ 5</th>
-                                            <th style={{ width: '20%', textAlign: 'center' }}>Thứ 6</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <p className="text-center">Ngày 01</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 02</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 03</p>
-                                                <p>Remote: 3</p>{' '}
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 04</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 05</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p className="text-center">Ngày 08</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 09</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 10</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 11</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                            <td>
-                                                <p className="text-center">Ngày 12</p>
-                                                <p>Nghỉ: 2</p>
-                                                <p>Remote: 3</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </CardBody>
-                    </div>
-                </Container>
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import './index.scss';
+import moment from 'moment';
+import Toolbar from 'react-big-calendar/lib/Toolbar';
+import homeSvg from '../../assets/icons/home.svg';
+import profileSvg from '../../assets/icons/profile.svg';
+moment.locale('en', {
+    week: {
+        dow: 1,
+    },
+});
+const localizer = momentLocalizer(moment);
+let events = [
+    {
+        remote: '04',
+        off: '03',
+        event: '02',
+        start: moment().add(-3, 'day'),
+        end: moment().add(-3, 'day'),
+    },
+];
+const DAYOFWEEK = [
+    {
+        key: 2,
+        value: 'Thứ Hai',
+    },
+    {
+        key: 3,
+        value: 'Thứ Ba',
+    },
+    {
+        key: 4,
+        value: 'Thứ Tư',
+    },
+    {
+        key: 5,
+        value: 'Thứ Năm',
+    },
+    {
+        key: 6,
+        value: 'Thứ Sáu',
+    },
+    {
+        key: 7,
+        value: 'Thứ Bảy',
+    },
+    {
+        key: 8,
+        value: 'Chủ Nhật',
+    },
+];
+const MyCalendar = (props) => (
+    <>
+        <div className="page-content" style={{ paddingBottom: 0, background: '#fff' }}>
+            <Calendar
+                localizer={localizer}
+                className="custom-calendar"
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: `calc(100vh)`, background: '#fff' }}
+                views={{ month: true }}
+                events={events}
+                components={{
+                    toolbar: CustomToolbar,
+                    event: Event,
+                    month: {
+                        header: (e) => {
+                            let dayNumber = e.date.getDay();
+                            if (dayNumber === 0) dayNumber = 7;
+                            let day = DAYOFWEEK.find((x) => x.key == dayNumber + 1);
+                            return <span className="day-title">{day.value}</span>;
+                        },
+                        dateHeader: (e) => {
+                            return <span>{parseInt(e.label)}</span>;
+                        },
+                    },
+                }}
+            />
+        </div>
+    </>
+);
+class CustomToolbar extends Toolbar {
+    render() {
+        return (
+            <div className="rbc-toolbar">
+                <span className="rbc-btn-group">
+                    <button type="button" onClick={() => this.navigate('PREV')}>
+                        Tháng trước
+                    </button>
+                    <button type="button" onClick={() => this.navigate('NEXT')}>
+                        Tháng sau
+                    </button>
+                </span>
+                <span className="rbc-toolbar-label" style={{ position: 'absolute' }}>
+                    {moment(this.props.date).format('MM/yyyy')}
+                </span>
+                <span className="rbc-toolbar-label"></span>
             </div>
-        </React.Fragment>
-    );
-};
+        );
+    }
 
-export default VacationPage;
+    navigate = (action) => {
+        this.props.onNavigate(action);
+    };
+}
+function Event({ event }) {
+    return (
+        <div>
+            <div className="label-event">
+                <div>Event: {event.event}</div>
+            </div>
+            <div className="label-remote">
+                <div>
+                    <img src={homeSvg} alt="remote" />
+                    {event.remote}
+                </div>
+            </div>
+            <div className="label-off">
+                <div>
+                    <img src={profileSvg} alt="off" />
+                    {event.off}
+                </div>
+            </div>
+        </div>
+    );
+}
+export default MyCalendar;

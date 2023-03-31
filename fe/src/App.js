@@ -5,10 +5,11 @@ import './App.scss';
 import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
-import { usersState } from './Recoil/states/users';
+import { usersState, currentUserAtom } from './Recoil/states/users';
 import { spinnerAtom } from './Recoil/states/spinner';
 function App() {
-    const setCurrentUser = useRecoilState(usersState);
+    // const setCurrentUser = useRecoilState(usersState);
+    const [user, setCurrentUser] = useRecoilState(currentUserAtom);
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const spinner = useRecoilValue(spinnerAtom);
 
