@@ -4,21 +4,15 @@ import moment from 'moment';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
 import homeSvg from '../../assets/icons/home.svg';
 import profileSvg from '../../assets/icons/profile.svg';
+import { GetVacations } from '../../Services/vacation';
+import { useEffect, useState } from 'react';
 moment.locale('en', {
     week: {
         dow: 1,
     },
 });
 const localizer = momentLocalizer(moment);
-let events = [
-    {
-        remote: '04',
-        off: '03',
-        event: '02',
-        start: moment().add(-3, 'day'),
-        end: moment().add(-3, 'day'),
-    },
-];
+
 const DAYOFWEEK = [
     {
         key: 2,
@@ -49,36 +43,65 @@ const DAYOFWEEK = [
         value: 'Chủ Nhật',
     },
 ];
-const MyCalendar = (props) => (
-    <>
-        <div className="page-content" style={{ paddingBottom: 0, background: '#fff' }}>
-            <Calendar
-                localizer={localizer}
-                className="custom-calendar"
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: `calc(100vh)`, background: '#fff' }}
-                views={{ month: true }}
-                events={events}
-                components={{
-                    toolbar: CustomToolbar,
-                    event: Event,
-                    month: {
-                        header: (e) => {
-                            let dayNumber = e.date.getDay();
-                            if (dayNumber === 0) dayNumber = 7;
-                            let day = DAYOFWEEK.find((x) => x.key == dayNumber + 1);
-                            return <span className="day-title">{day.value}</span>;
+const MyCalendar = (props) => {
+    const getData = () => {
+        let fake = [
+            {
+                remote: '04',
+                off: '03',
+                event: '02',
+                start: moment(month),
+                end: moment(month),
+            },
+        ];
+        GetVacations()
+            .then((res) => {
+                setEvents(res);
+            })
+            .catch(() => {
+                setEvents(fake);
+            });
+    };
+    const [month, setMonth] = useState(moment()._d);
+    const [events, setEvents] = useState([]);
+    useEffect(() => {
+        getData();
+    }, [month]);
+    const onNavigate = (e) => {
+        setMonth(e);
+    };
+    return (
+        <>
+            <div className="page-content" style={{ paddingBottom: 0, background: '#fff' }}>
+                <Calendar
+                    localizer={localizer}
+                    className="custom-calendar"
+                    startAccessor="start"
+                    endAccessor="end"
+                    onNavigate={onNavigate}
+                    style={{ height: `calc(100vh)`, background: '#fff' }}
+                    views={{ month: true }}
+                    events={events}
+                    components={{
+                        toolbar: CustomToolbar,
+                        event: Event,
+                        month: {
+                            header: (e) => {
+                                let dayNumber = e.date.getDay();
+                                if (dayNumber === 0) dayNumber = 7;
+                                let day = DAYOFWEEK.find((x) => x.key == dayNumber + 1);
+                                return <span className="day-title">{day.value}</span>;
+                            },
+                            dateHeader: (e) => {
+                                return <span>{parseInt(e.label)}</span>;
+                            },
                         },
-                        dateHeader: (e) => {
-                            return <span>{parseInt(e.label)}</span>;
-                        },
-                    },
-                }}
-            />
-        </div>
-    </>
-);
+                    }}
+                />
+            </div>
+        </>
+    );
+};
 class CustomToolbar extends Toolbar {
     render() {
         return (
