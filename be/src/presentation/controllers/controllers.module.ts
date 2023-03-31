@@ -14,10 +14,15 @@ import { LocalStrategy } from 'src/infrastructure/common/strategies/local.strate
 import { JwtRefreshTokenStrategy } from 'src/infrastructure/common/strategies/jwt-refresh.strategy';
 import { VacationController } from './vacation/vacation.controller';
 import { RolePermController } from './role-perm/role-perm.controller';
-
+import { UserRepository } from '../repositories/user.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/infrastructure/schemas/user.schema';
+import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
+import { Project } from 'src/infrastructure/schemas/project.schema';
+import { ProjectRepository } from '../repositories/project.repository';
 @Module({
-    imports: [UseCasesProxyModule.register()],
+    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project])],
     controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController],
-    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService],
+    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository],
 })
 export class ControllersModule {}

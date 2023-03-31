@@ -48,23 +48,29 @@ const VacationCalendarPage = () => {
                     <div className="card" id="Vacation">
                         <CardBody>
                             <Col xxl={6}>
-                                <Row>
-                                    <Col xxl={3}>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Full name :</label>
                                     </Col>
-                                    <Col xxl={9}>{currentUser.full_name}</Col>
-                                    <Col xxl={3}>
+                                    <Col xxl={10}>{currentUser.full_name}</Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Resposibility :</label>
                                     </Col>
-                                    <Col xxl={9}>{currentUser.roles.join(', ')}</Col>
-                                    <Col xxl={3}>
+                                    <Col xxl={10}>{currentUser.roles.join(', ')}</Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Projects :</label>
                                     </Col>
-                                    <Col xxl={9}></Col>
-                                    <Col xxl={3}>
+                                    <Col xxl={10}>{currentUser.projects.join(', ')}</Col>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Vacation type :</label>
                                     </Col>
-                                    <Col xxl={9}>
+                                    <Col xxl={10}>
                                         <div className="form-check form-check-inline">
                                             <input className="form-check-input" type="radio" name="type" onChange={(x) => changeField(x)} checked={vacation.type} value={1} />
                                             <label className="form-check-label" htmlFor="inlineRadio1">
@@ -78,10 +84,12 @@ const VacationCalendarPage = () => {
                                             </label>
                                         </div>
                                     </Col>
-                                    <Col xxl={3}>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Date time :</label>
                                     </Col>
-                                    <Col xxl={9} className="d-flex">
+                                    <Col xxl={10} className="d-flex">
                                         <FormGroup className="me-3 d-flex align-items-center">
                                             <Label for="examplePassword" className="me-2">
                                                 From
@@ -117,12 +125,16 @@ const VacationCalendarPage = () => {
                                             />
                                         </FormGroup>
                                     </Col>
-                                    <Col xxl={3}>
+                                </Row>
+                                <Row className="mt-3">
+                                    <Col xxl={2}>
                                         <label className="form-label">Reason :</label>
                                     </Col>
-                                    <Col xxl={6}>
+                                    <Col xxl={10}>
                                         <textarea type="email" className="form-control" style={{ height: '150px' }} name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
                                     </Col>
+                                </Row>
+                                <Row className="mt-3">
                                     <Col xxl={12} className="mt-2">
                                         <button className="btn btn-success" onClick={save} type="button">
                                             Submit

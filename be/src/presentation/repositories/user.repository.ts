@@ -2,19 +2,22 @@ import { plainToClass } from 'class-transformer';
 import { ADMIN_ID, PASSWORD_DEFAULT } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Equal, Repository, FindOneOptions } from 'typeorm';
+import { Repository, FindOneOptions } from 'typeorm';
 import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
 import { hash } from 'src/infrastructure/services/bcrypt.service';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
+import { Project } from 'src/infrastructure/schemas/project.schema';
 @Injectable()
 export class UserRepository implements IUserRepository {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(UserRole)
-        private readonly userRoleRepository: Repository<UserRole>
+        private readonly userRoleRepository: Repository<UserRole>,
+        @InjectRepository(Project)
+        private readonly projectRepository: Repository<Project>
     ) {}
 
     async findOne(id: number): Promise<UserEntity> {
@@ -103,5 +106,14 @@ export class UserRepository implements IUserRepository {
             },
             { last_login: () => 'CURRENT_TIMESTAMP' }
         );
+    }
+
+    async getProjects(user_id: number): Promise<string[]> {
+        let projects = [];
+        if (user_id !== ADMIN_ID) {
+            projects = await this.projectRepository.createQueryBuilder('projects').select('projects.name', 'name').innerJoin('users_projects', 'up', 'up.project_id=projects.id').innerJoin('users', 'u', 'u.id=up.user_id').where('u.id= :user_id', { user_id: user_id }).printSql().getRawMany();
+        }
+        const projectNameList = projects.map((p) => p.name);
+        return projectNameList;
     }
 }

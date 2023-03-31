@@ -13,7 +13,7 @@ import TaskDetails from '../pages/Projects/ProjectManage/TaskDetails';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
-    { path: '/project-detail', component: ProjectDetail },
+    { path: '/project-detail/:id', component: ProjectDetail },
     { path: '/tasks-details', component: TaskDetails },
     { path: '/employees', component: Employees },
     { path: '/vacation-calendar', component: VacationCalendar },

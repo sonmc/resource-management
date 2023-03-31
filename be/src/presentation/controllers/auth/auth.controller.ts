@@ -14,6 +14,7 @@ import { UseCaseProxy } from '../../../infrastructure/usecases-proxy/usecases-pr
 import { UseCasesProxyModule } from '../../../infrastructure/usecases-proxy/usecases-proxy.module';
 import { LoginUseCases } from '../../../use-cases/auth/login.usecases';
 import { IsAuthenticatedUseCases } from '../../../use-cases/auth/isAuthenticated.usecases';
+import { UserRepository } from 'src/presentation/repositories/user.repository';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,8 @@ export class AuthController {
         @Inject(UseCasesProxyModule.LOGIN_USECASES_PROXY)
         private readonly loginUsecaseProxy: UseCaseProxy<LoginUseCases>,
         @Inject(UseCasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
-        private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>
+        private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
+        private readonly userRepository: UserRepository
     ) {}
 
     @Post('login')
@@ -54,8 +56,10 @@ export class AuthController {
         currentUser.full_name = request.user.first_name + ' ' + request.user.last_name;
         currentUser.permissions = convertPermissions(request.user.roles);
         currentUser.roles = convertRoles(request.user.roles);
+        currentUser.projects = await this.userRepository.getProjects(request.user.id);
         return currentUser;
     }
+
     @Get('is_authenticated')
     async isAuthenticated(@Headers() headers) {
         const user = await this.isAuthUsecaseProxy.getInstance().execute(headers.authentication);
