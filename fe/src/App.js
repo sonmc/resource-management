@@ -6,6 +6,7 @@ import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
 import { spinnerAtom } from './Recoil/states/spinner';
+
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const spinner = useRecoilValue(spinnerAtom);

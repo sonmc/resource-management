@@ -24,8 +24,6 @@ const LoginPage = () => {
             OnLogin(values).then((res) => {
                 if (res) {
                     GetCurrentUser().then((user) => {
-                        // eslint-disable-next-line no-debugger
-                        debugger;
                         localStorage.setItem('currentUser', JSON.stringify(user));
                         history.push('/projects');
                     });
