@@ -5,6 +5,8 @@ import { ProjectEntity } from 'src/domain/entities/project.entity';
 import { FindManyOptions, Repository, Between, ILike } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
+import { User } from 'src/infrastructure/schemas/user.schema';
+import { Role } from 'src/infrastructure/schemas/role.schema';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
@@ -30,18 +32,32 @@ export class ProjectRepository implements IProjectRepository {
     }
 
     async findAll(query: any): Promise<ProjectEntity[]> {
-        let findOption: FindManyOptions = {
-            relations: ['users', 'users.workloads', 'users.roles'],
-            order: {
-                created_at: 'DESC',
-            },
-            where: {
-                name: ILike(`%${query.project_name || ''}%`),
-                start_date: Between(new Date(query.start_date), new Date(query.end_date)),
-            },
-        };
-
-        const projects = await this.repository.find(findOption as FindManyOptions).then((p) => plainToInstance(ProjectEntity, p));
+        const data = await this.repository
+            .createQueryBuilder('project')
+            .where('project.name LIKE :name', { name: `%${query.project_name}%` })
+            .andWhere('project.start_date >= :startDate', { startDate: query.start_date })
+            .andWhere('project.start_date <= :endDate', { endDate: query.end_date })
+            .leftJoinAndSelect('project.users', 'user')
+            .leftJoinAndSelect('user.roles', 'role')
+            .leftJoinAndSelect('user.workloads', 'workload', 'workload.project_id = project.id')
+            .getMany();
+        let projects = await data.map((p) => plainToInstance(ProjectEntity, p));
         return projects;
     }
+
+    // async findAll(query: any): Promise<ProjectEntity[]> {
+    //     let findOption: FindManyOptions = {
+    //         relations: ['users', 'users.workloads', 'users.roles'],
+    //         order: {
+    //             created_at: 'DESC',
+    //         },
+    //         where: {
+    //             name: ILike(`%${query.project_name || ''}%`),
+    //             start_date: Between(new Date(query.start_date), new Date(query.end_date)),
+    //         },
+    //     };
+    //     let data = this.repository.find(findOption as FindManyOptions);
+    //     let projects = await data.then((p) => plainToInstance(ProjectEntity, p));
+    //     return projects;
+    // }
 }
