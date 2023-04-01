@@ -5,10 +5,9 @@ import './App.scss';
 import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
-import { usersState } from './Recoil/states/users';
 import { spinnerAtom } from './Recoil/states/spinner';
+
 function App() {
-    const setCurrentUser = useRecoilState(usersState);
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const spinner = useRecoilValue(spinnerAtom);
 
@@ -17,7 +16,7 @@ function App() {
         const getUsers = async () => {
             try {
                 const user = await GetCurrentUser();
-                setCurrentUser(user);
+                localStorage.setItem('currentUser', JSON.stringify(user));
             } catch (error) {
                 console.log(error);
             }

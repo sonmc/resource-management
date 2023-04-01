@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import avatar1 from '../../assets/images/users/avatar-1.jpg';
 import { Logout } from '../../Services/auth.service';
-import { useRecoilValue } from 'recoil';
-import { currentUserAtom } from '../../Recoil/states/users';
+
 const ProfileDropdown = () => {
     const history = useHistory();
-    const currentUser = useRecoilValue(currentUserAtom);
+    let currentUser = localStorage.getItem('currentUser');
+    currentUser = JSON.parse(currentUser);
     const [isProfileDropdown, setIsProfileDropdown] = useState(false);
     const [src, setSrc] = useState('');
     const toggleProfileDropdown = () => {
         setIsProfileDropdown(!isProfileDropdown);
     };
-    useEffect(() => {
-        setSrc(currentUser.avatar || avatar1);
-    }, [currentUser]);
+
     const logout = () => {
         Logout();
         history.push('/login');
     };
+    console.log(currentUser);
+
     return (
         <React.Fragment>
             <Dropdown isOpen={isProfileDropdown} toggle={toggleProfileDropdown} className="ms-sm-3 header-item topbar-user">
@@ -36,9 +36,7 @@ const ProfileDropdown = () => {
                         />
                         <span className="text-start ms-xl-2">
                             <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{currentUser.full_name}</span>
-                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
-                                {currentUser.roles.filter((x, i) => i === 0)}
-                            </span>
+                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{currentUser.roles.filter((x, i) => i === 0)}</span>
                         </span>
                     </span>
                 </DropdownToggle>

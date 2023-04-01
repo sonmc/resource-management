@@ -31,6 +31,7 @@ const ProjectPage = () => {
     const setRolesStore = useSetRecoilState(rolesState);
 
     const setNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
+
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
         end_date: moment().format('YYYY-MM-DD'),
@@ -276,6 +277,8 @@ const ProjectPage = () => {
         fetchEmployees();
     }, []);
 
+    console.log(workloadWeek);
+
     return (
         <React.Fragment>
             <div className="page-content">
@@ -342,7 +345,7 @@ const ProjectPage = () => {
                                     </div>
                                 </div>
                                 <CardBody className="pt-0">
-                                    <div className="table-responsive">
+                                    <div className="table-responsive" style={{ maxHeight: '700px', overflow: 'scroll' }}>
                                         <Table className="table align-middle table-bordered">
                                             <thead>
                                                 <tr>
@@ -391,21 +394,17 @@ const ProjectPage = () => {
                                                     })}
                                                 </tr>
                                             </thead>
-                                        </Table>
-                                    </div>
-                                    <div className="table-responsive" style={{ maxHeight: '700px', overflow: 'scroll' }}>
-                                        <Table className="table align-middle table-bordered">
                                             <tbody>
                                                 {projects.map((x, key) => (
                                                     <React.Fragment key={key}>
                                                         {key > 0 && (
                                                             <tr>
-                                                                <td colSpan={currentWorkloadDate + 4}></td>
+                                                                <td colSpan={workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4}></td>
                                                             </tr>
                                                         )}
                                                         {x.users.length > 0 && (
                                                             <tr>
-                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}>
                                                                     <Link
                                                                         to="#"
                                                                         onClick={() => showFormAddMember(x)}
@@ -422,27 +421,27 @@ const ProjectPage = () => {
                                                                         {x.name}
                                                                     </Link>
                                                                 </td>
-                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%' }}>
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
-                                                                <td style={{ position: 'relative', width: '10%' }}>
-                                                                    {x.users[0]?.username && (
+                                                                <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px' }}>
+                                                                    {x.users[0]?.full_name && (
                                                                         <Link
                                                                             to="#"
                                                                             className="link-danger fs-15"
                                                                             onClick={() => showConfirmDeleteModal()}
                                                                             style={{
                                                                                 position: 'absolute',
-                                                                                top: -6,
-                                                                                right: -3,
+                                                                                top: -5,
+                                                                                right: 0,
                                                                             }}
                                                                         >
                                                                             <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                         </Link>
                                                                     )}
-                                                                    {x.users[0]?.username}
+                                                                    {x.users[0]?.full_name}
                                                                 </td>
-                                                                <td style={{ textAlign: 'center', width: '10%' }}>
+                                                                <td style={{ textAlign: 'center', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     {(x.users[0]?.roles &&
                                                                         x.users[0].roles.length > 0 &&
                                                                         x.users[0].roles
@@ -454,7 +453,7 @@ const ProjectPage = () => {
                                                                 </td>
                                                                 {x.users[0].workloads.map((z, key3) => {
                                                                     return (
-                                                                        <td style={{ textAlign: 'center' }} key={key3}>
+                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0 }} key={key3}>
                                                                             {z.value} {z.value && <span>%</span>}
                                                                         </td>
                                                                     );
@@ -464,23 +463,23 @@ const ProjectPage = () => {
                                                         {x.users.map((y, key2) => {
                                                             return (
                                                                 key2 > 0 && (
-                                                                    <tr key={key2}>
-                                                                        <td style={{ position: 'relative' }}>
+                                                                    <tr key={key2} className="row-user-data">
+                                                                        <td style={{ position: 'relative', padding: '5px 20px 5px 5px' }}>
                                                                             <Link
                                                                                 to="#"
                                                                                 className="link-danger fs-15"
                                                                                 onClick={() => showConfirmDeleteModal()}
                                                                                 style={{
                                                                                     position: 'absolute',
-                                                                                    top: -6,
-                                                                                    right: -3,
+                                                                                    top: -5,
+                                                                                    right: 0,
                                                                                 }}
                                                                             >
                                                                                 <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                             </Link>
-                                                                            {y.username}
+                                                                            {y.full_name}
                                                                         </td>
-                                                                        <td style={{ textAlign: 'center' }}>
+                                                                        <td style={{ textAlign: 'center', padding: '5px 5px 5px 5px' }}>
                                                                             {y.roles
                                                                                 .map((role) => {
                                                                                     return role.name;
@@ -489,7 +488,7 @@ const ProjectPage = () => {
                                                                         </td>
                                                                         {y.workloads.map((z, key3) => {
                                                                             return (
-                                                                                <td style={{ textAlign: 'center' }} key={key3}>
+                                                                                <td style={{ textAlign: 'center', padding: 0 }} key={key3}>
                                                                                     {z.value} {z.value && <span>%</span>}
                                                                                 </td>
                                                                             );

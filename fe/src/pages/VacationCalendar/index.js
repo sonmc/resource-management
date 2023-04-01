@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
-import { currentUserState } from '../../Recoil/states/users';
-import { useRecoilValue } from 'recoil';
 import { Create } from '../../Services/vacation';
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,7 +9,7 @@ import { TOAST_CONFIG } from '../../Constant';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VacationCalendarPage = () => {
-    const currentUser = useRecoilValue(currentUserState);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const getVacationDefault = () => ({
         reason: '',
         start: '',

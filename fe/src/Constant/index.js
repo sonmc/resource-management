@@ -12,3 +12,33 @@ export const TOAST_CONFIG = {
     progress: undefined,
     theme: 'light',
 };
+export const DAY_OF_WEEK = [
+    {
+        key: 2,
+        value: 'Monday',
+    },
+    {
+        key: 3,
+        value: 'Tuesday',
+    },
+    {
+        key: 4,
+        value: 'Webnesday',
+    },
+    {
+        key: 5,
+        value: 'Thursday',
+    },
+    {
+        key: 6,
+        value: 'Friday',
+    },
+    {
+        key: 7,
+        value: 'Saturday',
+    },
+    {
+        key: 8,
+        value: 'Sunday',
+    },
+];

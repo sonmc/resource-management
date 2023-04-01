@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { currentUserAtom } from '../Recoil/states/users';
-import { useRecoilValue } from 'recoil';
 const AuthProtected = (props) => {
-    let currentUser = useRecoilValue(currentUserAtom);
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
         return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
     }

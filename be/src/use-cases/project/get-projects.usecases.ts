@@ -13,12 +13,17 @@ export class GetProjectsUseCases {
         res.forEach((project) => {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
+                    user.full_name = user.first_name + '' + user.last_name;
                     if (user.workloads.length == 0) {
                         user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, user.id, '', project.id);
+                    } else if (user.workloads.length < query.weekInCurrentMonth) {
+                        const workloads = generateWorkload(query.weekInCurrentMonth - user.workloads.length, null, null, user.id, '', project.id);
+                        user.workloads = [...user.workloads, ...workloads];
                     }
                 });
             } else {
                 const user = new UserEntity(new User());
+                user.full_name = '';
                 user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, 0, '', project.id);
                 project.users.push(user);
             }
