@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Project } from './project.schema';
 import { User } from './user.schema';
 
 @Entity({ name: 'workloads' })
@@ -23,4 +24,7 @@ export class Workload {
 
     @ManyToOne(() => User, (user) => user.workloads)
     user: User;
+
+    @ManyToOne(() => Project, (project) => project.workloads)
+    project: Project;
 }

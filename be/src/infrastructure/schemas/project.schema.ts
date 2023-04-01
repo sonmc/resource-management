@@ -2,6 +2,7 @@ import { Column, Entity, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 import { User } from './user.schema';
 import { BaseEntity } from './base.schema';
 import { Kanban } from './kanban.schema';
+import { Workload } from './workload.schema';
 @Entity({ name: 'projects' })
 export class Project extends BaseEntity {
     @Column()
@@ -17,6 +18,11 @@ export class Project extends BaseEntity {
         eager: true,
     })
     kanbans: Kanban[];
+
+    @OneToMany(() => Workload, (workload) => workload.project, {
+        eager: true,
+    })
+    workloads: Workload[];
 
     @ManyToMany(() => User, (user) => user.projects)
     @JoinTable({
