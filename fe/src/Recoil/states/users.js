@@ -16,20 +16,4 @@ export const usersState = selector({
     },
 });
 
-const currentUserAtom = atom({
-    key: 'currentUser',
-    default: null,
-});
-
-export const currentUserState = selector({
-    key: 'currentUserState',
-    get: ({ get }) => {
-        const value = get(currentUserAtom);
-        return value;
-    },
-    set: ({ set }, newValue) => {
-        set(currentUserAtom, newValue);
-    },
-});
-
-export { usersAtom, currentUserAtom };
+export { usersAtom };

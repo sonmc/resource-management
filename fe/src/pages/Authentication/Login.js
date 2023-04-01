@@ -5,13 +5,10 @@ import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { Login as OnLogin } from '../../Services/auth.service';
-import { useSetRecoilState } from 'recoil';
-import { currentUserState } from '../../Recoil/states/users';
+import { Login as OnLogin, GetCurrentUser } from '../../Services/auth.service';
 
 const LoginPage = () => {
     const history = useHistory();
-    const setCurrentUser = useSetRecoilState(currentUserState);
 
     const validation = useFormik({
         enableReinitialize: true,
@@ -26,8 +23,12 @@ const LoginPage = () => {
         onSubmit: (values) => {
             OnLogin(values).then((res) => {
                 if (res) {
-                    setCurrentUser(res);
-                    history.push('/projects');
+                    GetCurrentUser().then((user) => {
+                        // eslint-disable-next-line no-debugger
+                        debugger;
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        history.push('/projects');
+                    });
                 }
             });
         },
