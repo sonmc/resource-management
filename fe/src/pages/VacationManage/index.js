@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import MetaTags from 'react-meta-tags';
+import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import './index.scss';
 import moment from 'moment';
@@ -23,32 +26,43 @@ let events = [
 const dayOfWeek = DAY_OF_WEEK;
 const MyCalendar = (props) => (
     <>
-        <div className="page-content" style={{ paddingBottom: 0, background: '#fff' }}>
-            <Calendar
-                localizer={localizer}
-                className="custom-calendar"
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: `calc(100vh)`, background: '#fff' }}
-                views={{ month: true }}
-                events={events}
-                components={{
-                    toolbar: CustomToolbar,
-                    event: Event,
-                    month: {
-                        header: (e) => {
-                            let dayNumber = e.date.getDay();
-                            if (dayNumber === 0) dayNumber = 7;
-                            let day = dayOfWeek.find((x) => x.key == dayNumber + 1);
-                            return <span className="day-title">{day.value}</span>;
-                        },
-                        dateHeader: (e) => {
-                            return <span>{parseInt(e.label)}</span>;
-                        },
-                    },
-                }}
-            />
-        </div>
+        <React.Fragment>
+            <div className="page-content">
+                <MetaTags>
+                    <title>Resource management | Vacation Calendar</title>
+                </MetaTags>
+                <Container fluid>
+                    <div className="card" id="Vacation">
+                        <CardBody>
+                            <Calendar
+                                localizer={localizer}
+                                className="custom-calendar"
+                                startAccessor="start"
+                                endAccessor="end"
+                                style={{ height: `calc(100vh)`, background: '#fff' }}
+                                views={{ month: true }}
+                                events={events}
+                                components={{
+                                    toolbar: CustomToolbar,
+                                    event: Event,
+                                    month: {
+                                        header: (e) => {
+                                            let dayNumber = e.date.getDay();
+                                            if (dayNumber === 0) dayNumber = 7;
+                                            let day = dayOfWeek.find((x) => x.key == dayNumber + 1);
+                                            return <span className="day-title">{day.value}</span>;
+                                        },
+                                        dateHeader: (e) => {
+                                            return <span>{parseInt(e.label)}</span>;
+                                        },
+                                    },
+                                }}
+                            />
+                        </CardBody>
+                    </div>
+                </Container>
+            </div>
+        </React.Fragment>
     </>
 );
 class CustomToolbar extends Toolbar {
@@ -57,10 +71,10 @@ class CustomToolbar extends Toolbar {
             <div className="rbc-toolbar">
                 <span className="rbc-btn-group">
                     <button type="button" onClick={() => this.navigate('PREV')}>
-                        Tháng trước
+                        Last month
                     </button>
                     <button type="button" onClick={() => this.navigate('NEXT')}>
-                        Tháng sau
+                        Next month
                     </button>
                 </span>
                 <span className="rbc-toolbar-label" style={{ position: 'absolute' }}>

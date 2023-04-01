@@ -15,30 +15,30 @@ export const TOAST_CONFIG = {
 export const DAY_OF_WEEK = [
     {
         key: 2,
-        value: 'Thứ Hai',
+        value: 'Monday',
     },
     {
         key: 3,
-        value: 'Thứ Ba',
+        value: 'Tuesday',
     },
     {
         key: 4,
-        value: 'Thứ Tư',
+        value: 'Webnesday',
     },
     {
         key: 5,
-        value: 'Thứ Năm',
+        value: 'Thursday',
     },
     {
         key: 6,
-        value: 'Thứ Sáu',
+        value: 'Friday',
     },
     {
         key: 7,
-        value: 'Thứ Bảy',
+        value: 'Saturday',
     },
     {
         key: 8,
-        value: 'Chủ Nhật',
+        value: 'Sunday',
     },
 ];
