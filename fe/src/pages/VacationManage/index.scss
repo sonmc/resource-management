@@ -54,3 +54,14 @@
         color: #e92c2c;
     }
 }
+.custom-tooltip {
+    .tooltip-inner {
+        background-color: #fff;
+        color: #000;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .tooltip-arrow::before {
+        border-top-color: #fff !important;
+    }
+}
