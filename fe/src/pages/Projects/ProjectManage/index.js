@@ -11,6 +11,7 @@ import {
     UpdateIndexTask,
     DeleteKanbanColumn,
     DeleteTask,
+    UpdateIndexColumn,
 } from '../../../Services/kanban.service';
 const kanbanBoardData = [
     {
@@ -68,6 +69,9 @@ const ProjectDetail = () => {
     const deleteTask = (model) => {
         return DeleteTask(model);
     };
+    const updateIndexColumn = (model) => {
+        return UpdateIndexColumn(model);
+    };
 
     return (
         <React.Fragment>
@@ -81,6 +85,7 @@ const ProjectDetail = () => {
                         updateIndexTask={updateIndexTask}
                         deleteKanbanColumn={deleteKanbanColumn}
                         deleteTask={deleteTask}
+                        updateIndexColumn={updateIndexColumn}
                     />
                 </Container>
             </div>
