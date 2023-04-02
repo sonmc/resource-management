@@ -277,8 +277,6 @@ const ProjectPage = () => {
         fetchEmployees();
     }, []);
 
-    console.log(workloadWeek);
-
     return (
         <React.Fragment>
             <div className="page-content">
@@ -374,21 +372,21 @@ const ProjectPage = () => {
                                                     {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[1].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[2].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>{w.start + '-' + w.end}</td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -415,7 +413,7 @@ const ProjectPage = () => {
                                                                             right: '-4px',
                                                                         }}
                                                                     >
-                                                                        <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
+                                                                        <i className="ri-add-box-fill" style={{ fontSize: '35px' }} />
                                                                     </Link>
                                                                     <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
                                                                         {x.name}
