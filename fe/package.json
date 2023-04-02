@@ -1,105 +1,106 @@
 {
-  "name": "velzon-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@lourenci/react-kanban": "^2.1.0",
-    "axios": "^0.26.0",
-    "bootstrap": "^5.1.3",
-    "env-cmd": "^10.1.0",
-    "eslint": "^8.9.0",
-    "formik": "^2.2.9",
-    "gridjs": "^5.0.2",
-    "gridjs-react": "^5.0.2",
-    "moment": "^2.29.4",
-    "node-sass": "^7.0.1",
-    "prismjs": "^1.26.0",
-    "react": "^17.0.2",
-    "react-big-calendar": "^1.6.9",
-    "react-countup": "^6.1.1",
-    "react-dom": "^17.0.2",
-    "react-dual-listbox": "^2.2.0",
-    "react-flatpickr": "^3.10.13",
-    "react-meta-tags": "^1.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "5.0.0",
-    "react-select": "^5.7.0",
-    "react-table": "^7.7.0",
-    "react-toastify": "^9.1.2",
-    "react-tsparticles": "^1.40.0",
-    "reactstrap": "^9.0.1",
-    "recoil": "^0.7.6",
-    "simplebar-react": "^2.3.6",
-    "swiper": "^8.0.6",
-    "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
-  },
-  "scripts": {
-    "start": "env-cmd -f .env react-scripts start",
-    "build": "env-cmd -f .env react-scripts build --max_old_space_size=8000 build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\""
-  },
-  "babelOptions": {
-    "presets": [
-      "@babel/preset-react"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "react-app"
-    ],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false,
-      "ecmaVersion": 2020,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
+    "name": "velzon-react",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@asseinfo/react-kanban": "^2.2.0",
+        "axios": "^0.26.0",
+        "bootstrap": "^5.1.3",
+        "env-cmd": "^10.1.0",
+        "eslint": "^8.9.0",
+        "feather-icons-react": "^0.5.0",
+        "formik": "^2.2.9",
+        "gridjs": "^5.0.2",
+        "gridjs-react": "^5.0.2",
+        "moment": "^2.29.4",
+        "node-sass": "^7.0.1",
+        "prismjs": "^1.26.0",
+        "react": "^17.0.2",
+        "react-big-calendar": "^1.6.9",
+        "react-countup": "^6.1.1",
+        "react-dom": "^17.0.2",
+        "react-dual-listbox": "^2.2.0",
+        "react-flatpickr": "^3.10.13",
+        "react-meta-tags": "^1.0.1",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "5.0.0",
+        "react-select": "^5.7.0",
+        "react-table": "^7.7.0",
+        "react-toastify": "^9.1.2",
+        "react-tsparticles": "^1.40.0",
+        "reactstrap": "^9.0.1",
+        "recoil": "^0.7.6",
+        "simplebar-react": "^2.3.6",
+        "swiper": "^8.0.6",
+        "web-vitals": "^2.1.4",
+        "yup": "^0.32.11"
     },
-    "env": {
-      "browser": true,
-      "es6": true
+    "scripts": {
+        "start": "env-cmd -f .env react-scripts start",
+        "build": "env-cmd -f .env react-scripts build --max_old_space_size=8000 build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\""
     },
-    "globals": {
-      "$": true
+    "babelOptions": {
+        "presets": [
+            "@babel/preset-react"
+        ]
     },
-    "settings": {
-      "react": {
-        "version": "^17.0.1"
-      }
+    "eslintConfig": {
+        "extends": [
+            "eslint:recommended",
+            "plugin:react/recommended",
+            "react-app"
+        ],
+        "parser": "@babel/eslint-parser",
+        "parserOptions": {
+            "requireConfigFile": false,
+            "ecmaVersion": 2020,
+            "sourceType": "module",
+            "ecmaFeatures": {
+                "jsx": true
+            }
+        },
+        "env": {
+            "browser": true,
+            "es6": true
+        },
+        "globals": {
+            "$": true
+        },
+        "settings": {
+            "react": {
+                "version": "^17.0.1"
+            }
+        },
+        "rules": {
+            "semi": 0,
+            "react/no-unescaped-entities": 0,
+            "react/react-in-jsx-scope": "off",
+            "react/prop-types": "off",
+            "no-unused-vars": "off",
+            "no-extra-boolean-cast": 0
+        }
     },
-    "rules": {
-      "semi": 0,
-      "react/no-unescaped-entities": 0,
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-      "no-unused-vars": "off",
-      "no-extra-boolean-cast": 0
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "resolutions": {
+        "moment": "2.29.1"
+    },
+    "devDependencies": {
+        "babel-plugin-prismjs": "^2.1.0"
     }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "resolutions": {
-    "moment": "2.29.1"
-  },
-  "devDependencies": {
-    "babel-plugin-prismjs": "^2.1.0"
-  }
 }

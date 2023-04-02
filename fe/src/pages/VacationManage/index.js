@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
 import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -8,24 +8,43 @@ import Toolbar from 'react-big-calendar/lib/Toolbar';
 import homeSvg from '../../assets/icons/home.svg';
 import profileSvg from '../../assets/icons/profile.svg';
 import { DAY_OF_WEEK } from '../../Constant';
+import { GetVacations } from '../../Services/vacation';
 moment.locale('en', {
     week: {
         dow: 1,
     },
 });
 const localizer = momentLocalizer(moment);
-let events = [
-    {
-        remote: '04',
-        off: '03',
-        event: '02',
-        start: moment().add(-3, 'day'),
-        end: moment().add(-3, 'day'),
-    },
-];
+
 const dayOfWeek = DAY_OF_WEEK;
-const MyCalendar = (props) => (
-    <>
+const MyCalendar = (props) => {
+    const getData = () => {
+        let fake = [
+            {
+                remote: '04',
+                off: '03',
+                event: '02',
+                start: moment(month),
+                end: moment(month),
+            },
+        ];
+        GetVacations()
+            .then((res) => {
+                setEvents(res);
+            })
+            .catch(() => {
+                setEvents(fake);
+            });
+    };
+    const [month, setMonth] = useState(moment()._d);
+    const [events, setEvents] = useState([]);
+    useEffect(() => {
+        getData();
+    }, [month]);
+    const onNavigate = (e) => {
+        setMonth(e);
+    };
+    return (
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
@@ -63,8 +82,8 @@ const MyCalendar = (props) => (
                 </Container>
             </div>
         </React.Fragment>
-    </>
-);
+    );
+};
 class CustomToolbar extends Toolbar {
     render() {
         return (
