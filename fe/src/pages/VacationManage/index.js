@@ -9,7 +9,7 @@ import homeSvg from '../../assets/icons/home.svg';
 import profileSvg from '../../assets/icons/profile.svg';
 import { DAY_OF_WEEK } from '../../Constant';
 import { GetVacations } from '../../Services/vacation';
-import { Tooltip } from 'reactstrap';
+import Tooltip from '../../Components/Common/Tooltip';
 moment.locale('en', {
     week: {
         dow: 1,
@@ -113,39 +113,28 @@ class CustomToolbar extends Toolbar {
     };
 }
 function Event({ event }) {
-    const [tooltipOpen, setTooltipOpen] = useState(false);
     return (
-        <div id={'Tooltip-' + event.start}>
+        <div>
             <div className="label-event">
                 <div>Event: {event.events.length}</div>
             </div>
-            <div className="label-remote">
+            <div className="label-remote" id={'Tooltip-remote-' + event.start}>
                 <div>
                     <img src={homeSvg} alt="remote" />
                     {event.remotes.length}
                 </div>
             </div>
-            <div className="label-off">
+            <div className="label-off" id={'Tooltip-off-' + event.start}>
                 <div>
                     <img src={profileSvg} alt="off" />
                     {event.offs.length}
                 </div>
             </div>
-            <Tooltip
-                placement="top"
-                isOpen={tooltipOpen}
-                target={'Tooltip-' + event.start}
-                toggle={() => {
-                    setTooltipOpen((e) => {
-                        return !e;
-                    });
-                }}
-                className="custom-tooltip"
-            >
-                <div style={{ background: '#fff' }}>
-                    <div style={{ textAlign: 'start' }}>Off: {event.offs.map((x) => x.username).join(', ')}</div>
-                    <div style={{ textAlign: 'start' }}>Remote: {event.remotes.map((x) => x.username).join(', ')}</div>
-                </div>
+            <Tooltip placement="top" target={'Tooltip-remote-' + event.start}>
+                <div style={{ textAlign: 'start' }}>Remote: {event.remotes.map((x) => x.username).join(', ')}</div>
+            </Tooltip>
+            <Tooltip placement="top" target={'Tooltip-off-' + event.start}>
+                <div style={{ textAlign: 'start' }}>Off: {event.offs.map((x) => x.username).join(', ')}</div>
             </Tooltip>
         </div>
     );
