@@ -5,7 +5,7 @@ import Error500 from '../pages/Authentication/Errors/Error500';
 import Login from '../pages/Authentication/Login';
 import Employees from '../pages/Employees';
 import Projects from '../pages/Projects';
-import ProjectDetail from '../pages/Projects/ProjectManage/project-detail';
+import ProjectDetail from '../pages/Projects/ProjectManage';
 import Roles from '../pages/Roles';
 import VacationCalendar from '../pages/VacationCalendar';
 import Vacations from '../pages/VacationManage';

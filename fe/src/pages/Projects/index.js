@@ -86,8 +86,8 @@ const ProjectPage = () => {
         setShowFormConfirmModal(false);
     };
 
-    const goProjectDetail = () => {
-        history.push('/project-detail/2');
+    const goProjectDetail = (x) => {
+        history.push('/project-detail/' + x.id);
     };
 
     const save = (project) => {

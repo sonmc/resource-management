@@ -35,6 +35,7 @@ export class ProjectRepository implements IProjectRepository {
         const data = await this.repository
             .createQueryBuilder('project')
             .where('project.name LIKE :name', { name: `%${query.project_name}%` })
+            .orderBy('created_at DESC')
             .andWhere('project.start_date >= :startDate', { startDate: query.start_date })
             .andWhere('project.start_date <= :endDate', { endDate: query.end_date })
             .leftJoinAndSelect('project.users', 'user')
