@@ -7,7 +7,7 @@ import { JwtModule } from '../services/jwt/jwt.module';
 import { RepositoriesModule } from 'src/presentation/repositories/zrepository.module';
 
 import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
-import { addMemberProvide, createProjectProvide, getProjectProvide } from './project.provide';
+import { addMemberProvide, createProjectProvide, getProjectProvide, removeMemberProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
 import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
@@ -24,6 +24,7 @@ export class UseCasesProxyModule {
     static GET_PROJECTS_USECASES_PROXY = 'GetProjectsUseCasesProxy';
     static CREATE_PROJECT_USECASES_PROXY = 'PostProjectUseCasesProxy';
     static ADD_MEMBER_USECASES_PROXY = 'AddMemberUseCasesProxy';
+    static REMOVE_MEMBER_USECASES_PROXY = 'RemoveMemberUseCasesProxy';
     // Role
     static GET_ROLES_USECASES_PROXY = 'GetRolesUseCasesProxy';
     static CREATE_ROLE_USECASES_PROXY = 'CreateRoleUseCasesProxy';
@@ -52,6 +53,7 @@ export class UseCasesProxyModule {
                 getProjectProvide(UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY),
                 createProjectProvide(UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY),
                 addMemberProvide(UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY),
+                removeMemberProvide(UseCasesProxyModule.REMOVE_MEMBER_USECASES_PROXY),
                 // Roles
                 getRoleProvide(UseCasesProxyModule.GET_ROLES_USECASES_PROXY),
                 createRoleProvide(UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY),
@@ -76,6 +78,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.GET_PROJECTS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_PROJECT_USECASES_PROXY,
                 UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY,
+                UseCasesProxyModule.REMOVE_MEMBER_USECASES_PROXY,
                 // Roles
                 UseCasesProxyModule.GET_ROLES_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_ROLE_USECASES_PROXY,

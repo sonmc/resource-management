@@ -7,6 +7,15 @@ const Navdata = () => {
             isHeader: true,
         },
         {
+            id: 'home',
+            label: 'Home',
+            icon: 'ri-honour-line',
+            link: '/home',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
             id: 'projects',
             label: 'Projects',
             icon: 'ri-honour-line',
@@ -38,6 +47,15 @@ const Navdata = () => {
             label: 'Vacations',
             icon: 'ri-honour-line',
             link: '/vacations',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
+            id: 'lunch',
+            label: 'Lunch order',
+            icon: 'ri-honour-line',
+            link: '/lunch',
             click: function (e) {
                 e.preventDefault();
             },

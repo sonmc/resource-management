@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 // Import Data
-import navdata from '../VerticalLayouts/LayoutMenuData';
+import navdata from '../LayoutMenuData';
 
 const HorizontalLayout = (props) => {
     const navData = navdata().props.children;
@@ -49,7 +49,6 @@ const HorizontalLayout = (props) => {
         let parentCollapseDiv = item.closest('.collapse.menu-dropdown');
 
         if (parentCollapseDiv) {
-            // to set aria expand true remaining
             parentCollapseDiv.classList.add('show');
             parentCollapseDiv.parentElement.children[0].classList.add('active');
             parentCollapseDiv.parentElement.children[0].setAttribute('aria-expanded', 'true');

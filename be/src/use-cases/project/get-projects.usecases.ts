@@ -1,4 +1,4 @@
-import { generateWorkload } from 'src/actions/workload.action';
+import { generateWorkload, generateWorkloadEmpty } from 'src/actions/workload.action';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { User } from 'src/infrastructure/schemas/user.schema';
 import { ProjectFilterPresenter } from 'src/presentation/controllers/project/presenter/project-filter.presenter';
@@ -13,18 +13,19 @@ export class GetProjectsUseCases {
         res.forEach((project) => {
             if (project.users.length > 0) {
                 project.users.forEach((user) => {
-                    user.full_name = user.first_name + '' + user.last_name;
+                    user.full_name = user.first_name + ' ' + user.last_name;
                     if (user.workloads.length == 0) {
-                        user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, user.id, '', project.id);
+                        user.workloads = generateWorkloadEmpty(user.workloads, query.wl_start_date, query.weekInCurrentMonth, user.id, project.id);
                     } else if (user.workloads.length < query.weekInCurrentMonth) {
-                        const workloads = generateWorkload(query.weekInCurrentMonth - user.workloads.length, null, null, user.id, '', project.id);
-                        user.workloads = [...user.workloads, ...workloads];
+                        const workloadsEmpty = generateWorkloadEmpty(user.workloads, query.wl_start_date, query.weekInCurrentMonth - user.workloads.length, user.id, project.id);
+                        const workloads = user.workloads.length > 0 ? [...user.workloads, ...workloadsEmpty] : user.workloads;
+                        user.workloads = workloads.sort((objA, objB) => Number(objA.start_date) - Number(objB.start_date));
                     }
                 });
             } else {
                 const user = new UserEntity(new User());
                 user.full_name = '';
-                user.workloads = generateWorkload(query.weekInCurrentMonth, null, null, 0, '', project.id);
+                user.workloads = generateWorkloadEmpty([], query.wl_start_date, query.weekInCurrentMonth, 0, project.id);
                 project.users.push(user);
             }
         });

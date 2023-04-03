@@ -91,6 +91,14 @@ const AddMemberModal = (props) => {
                                 options={{
                                     dateFormat: 'd M, Y',
                                 }}
+                                onChange={(x) =>
+                                    changeField({
+                                        target: {
+                                            value: x[0],
+                                            name: 'start_date',
+                                        },
+                                    })
+                                }
                                 value={objForm.start_date}
                                 placeholder="Select start date"
                             />
@@ -104,6 +112,15 @@ const AddMemberModal = (props) => {
                                 options={{
                                     dateFormat: 'd M, Y',
                                 }}
+                                name="end_date"
+                                onChange={(x) =>
+                                    changeField({
+                                        target: {
+                                            value: x[0],
+                                            name: 'end_date',
+                                        },
+                                    })
+                                }
                                 placeholder="Select end date"
                                 value={objForm.end_date}
                             />

@@ -5,6 +5,6 @@ export interface IUserRepository {
     updateLastLogin(username: string): Promise<void>;
     updateRefreshToken(username: string, refreshToken: string): Promise<void>;
     findAll(query: any): Promise<UserWithoutPassword[]>;
-    findOne(id: number): Promise<UserWithoutPassword>;
+    findOne(id: number): Promise<UserEntity>;
     createOrUpdate(user: UserWithoutPassword): Promise<UserWithoutPassword>;
 }

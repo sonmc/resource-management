@@ -9,11 +9,12 @@ import AddMemberModal from './AddMember';
 import ConfirmDeleteModal from './ConfirmDelete';
 import Flatpickr from 'react-flatpickr';
 import NoteControl from '../../Components/Common/Note';
-import { Update, AddMember } from '../../Services/project.service';
+
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { newWeekInMonthState } from '../../Recoil/states/common';
+import { Update, AddMember, RemoveMember } from '../../Services/project.service';
 import { Get as GetEmployee } from '../../Services/user.service';
 import { Get as GetRole } from '../../Services/role.service';
 // Recoid
@@ -35,9 +36,12 @@ const ProjectPage = () => {
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
         end_date: moment().format('YYYY-MM-DD'),
+        wl_start_date: '',
+        wl_end_date: '',
         project_name: '',
     });
 
+    const [memberRemove, setMemberRemove] = useState({});
     const currentYearMonth = currentDate.getFullYear() + ' ' + months[currentDate.getMonth()];
     const [currentWorkloadDate, setCurrentWorkloadDate] = useState(currentYearMonth);
     const [monthsWorkLoad, setMonthsWorkLoad] = useState([
@@ -78,7 +82,8 @@ const ProjectPage = () => {
         setShowFormUpdate(false);
     };
 
-    const showConfirmDeleteModal = () => {
+    const showConfirmDeleteModal = (project_id, user_id) => {
+        setMemberRemove({ project_id, user_id });
         setShowFormConfirmModal(!isShowConfirmModal);
     };
 
@@ -100,15 +105,44 @@ const ProjectPage = () => {
     const addMember = (data) => {
         AddMember(data).then((res) => {
             const project = projects.find((x) => x.id === data.project_id);
-            const users = project.users.length === 1 && !project.users[0].id ? [...project.users] : [];
-            project.users = [users, ...res];
+            const users = project.users.length === 1 && !project.users[0].id ? [] : project.users;
+            project.users = users.length > 0 ? [...users, ...res] : res;
             setProjects(projects.map((p) => (p.id === project.id ? project : p)));
             setShowFormAddMember(false);
         });
     };
 
     const remove = () => {
-        setShowFormConfirmModal(false);
+        RemoveMember(memberRemove).then((res) => {
+            if (res) {
+                const newProjects = projects.map((project) => {
+                    if (project.id === memberRemove.project_id) {
+                        const users = project.users.filter((x) => x.id !== memberRemove.user_id);
+                        if (users.length > 0) {
+                            project.users = users;
+                        } else {
+                            const userDefault = {
+                                full_name: '',
+                                roles: [{ id: 0, name: '' }],
+                                workloads: [],
+                            };
+                            const totalWeekNumber = workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length;
+                            let workloadsDefault = [];
+                            for (let index = 0; index < totalWeekNumber; index++) {
+                                workloadsDefault.push({ value: '', id: 0 });
+                            }
+                            userDefault.workloads = workloadsDefault;
+                            project.users = [userDefault];
+                        }
+
+                        return project;
+                    }
+                    return project;
+                });
+                setProjects(newProjects);
+                setShowFormConfirmModal(false);
+            }
+        });
     };
 
     const onChangeNote = (note, projectId) => {
@@ -121,8 +155,20 @@ const ProjectPage = () => {
         setFilter({ ...filter, [key]: value });
     };
 
+    function getFirstDayOfMonth(year, month) {
+        return new Date(year, month, 1);
+    }
+
+    function getLastDayOfMonth(year, month) {
+        return new Date(year, month + 1, 0);
+    }
+
     const triggerSearch = useCallback(
         debounce((params) => {
+            const firstDay = getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth());
+            const lastDayCurrentMonth = getLastDayOfMonth(currentDate.getFullYear(), currentDate.getMonth());
+            params.wl_start_date = firstDay;
+            params.wl_end_date = lastDayCurrentMonth;
             FetchProject(params).then((res) => {
                 setProjects(res);
             });
@@ -271,8 +317,8 @@ const ProjectPage = () => {
         });
         setWorkloadDates(currentYearMonths);
         const currentMonth = currentDate.getMonth();
-        setMonthsWorkloadHeader(currentMonth);
         calculatorWorkloadWeek(currentMonth);
+        setMonthsWorkloadHeader(currentMonth);
         fetchRoles();
         fetchEmployees();
     }, []);
@@ -427,7 +473,7 @@ const ProjectPage = () => {
                                                                         <Link
                                                                             to="#"
                                                                             className="link-danger fs-15"
-                                                                            onClick={() => showConfirmDeleteModal()}
+                                                                            onClick={() => showConfirmDeleteModal(x.id, x.users[0].id)}
                                                                             style={{
                                                                                 position: 'absolute',
                                                                                 top: -5,
@@ -466,7 +512,7 @@ const ProjectPage = () => {
                                                                             <Link
                                                                                 to="#"
                                                                                 className="link-danger fs-15"
-                                                                                onClick={() => showConfirmDeleteModal()}
+                                                                                onClick={() => showConfirmDeleteModal(x.id, y.id)}
                                                                                 style={{
                                                                                     position: 'absolute',
                                                                                     top: -5,

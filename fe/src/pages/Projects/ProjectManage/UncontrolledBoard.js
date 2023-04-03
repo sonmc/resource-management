@@ -10,10 +10,12 @@ const convertTasksToCards = (x) => {
     return { ...other, cards: tasks };
 };
 const setIndexAfterDrag = (arr) => {
-    for (let i = 0; i < arr.length; i++) {
-        let documentActivity = arr[i];
-        documentActivity.index = i;
-    }
+    arr.forEach((c, i1) => {
+        c.index = i1;
+        c.cards.forEach((t, i2) => {
+            t.index = i2;
+        });
+    });
     return arr;
 };
 const convertDataSetIndex = (column) => {
@@ -22,7 +24,7 @@ const convertDataSetIndex = (column) => {
     return { columnId: column.id, tasks: tasks };
 };
 const UncontrolledBoard = (props) => {
-    const { board, updateColumnName, createColumn, createTask, updateIndexTask, deleteKanbanColumn, deleteTask } = props;
+    const { board, updateColumnName, createColumn, createTask, updateIndexTask, deleteKanbanColumn, deleteTask, updateIndexColumn } = props;
     const [data, setData] = useState(
         board.map((x) => {
             return convertTasksToCards(x);
@@ -42,10 +44,7 @@ const UncontrolledBoard = (props) => {
                 return model;
             }}
             onCardDragEnd={(board, column, from, to) => {
-                let columns = board.columns.map((c) => {
-                    c.cards = setIndexAfterDrag(c.cards);
-                    return c;
-                });
+                let columns = setIndexAfterDrag(board.columns);
                 setData(columns);
                 let fromColumn = columns.find((x) => x.id === from.fromColumnId);
                 let toColumn = columns.find((x) => x.id === to.toColumnId);
@@ -53,16 +52,19 @@ const UncontrolledBoard = (props) => {
                 if (from.fromColumnId === to.toColumnId) dataSetIndex = dataSetIndex.splice(0, 1);
                 updateIndexTask(dataSetIndex);
             }}
+            onColumnDragEnd={(board, column, from, to) => {
+                let columns = setIndexAfterDrag(board.columns);
+                setData(columns);
+                let model = columns.map((x) => ({ columnId: x.id, index: x.index }));
+                updateIndexColumn(model);
+            }}
             onCardNew={(e, r) => {
                 let index = r.cards.length - 1;
                 let task = r.cards[index];
                 createTask(task)
                     .then((res) => {
                         r.cards[index] = res;
-                        let columns = e.columns.map((c) => {
-                            c.cards = setIndexAfterDrag(c.cards);
-                            return c;
-                        });
+                        let columns = setIndexAfterDrag(e.columns);
                         setData(columns);
                         let column = columns.find((x) => x.id === r.id);
                         let dataSetIndex = [convertDataSetIndex(column)];

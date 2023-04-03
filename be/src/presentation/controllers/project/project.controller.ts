@@ -2,7 +2,7 @@ import { CacheInterceptor, CacheTTL, Controller, Inject } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
-import { Body, Get, Post, Param, Query, UseGuards, UseInterceptors } from '@nestjs/common/decorators';
+import { Body, Get, Post, Param, Query, UseGuards, UseInterceptors, Delete } from '@nestjs/common/decorators';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -19,6 +19,7 @@ import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.gu
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { ProjectRepository } from 'src/presentation/repositories/project.repository';
+import { RemoveMemberUseCases } from 'src/use-cases/project/remove-member-to-project.usercase';
 
 @UseInterceptors(CacheInterceptor)
 @Controller('projects')
@@ -31,6 +32,8 @@ export class ProjectController {
         private readonly createProjectsUsecaseProxy: UseCaseProxy<CreateProjectUseCases>,
         @Inject(UseCasesProxyModule.ADD_MEMBER_USECASES_PROXY)
         private readonly addMemberUsecaseProxy: UseCaseProxy<AddMemberUseCases>,
+        @Inject(UseCasesProxyModule.REMOVE_MEMBER_USECASES_PROXY)
+        private readonly removeUserUsecaseProxy: UseCaseProxy<RemoveMemberUseCases>,
         private readonly projectRepository: ProjectRepository
     ) {}
 
@@ -56,7 +59,7 @@ export class ProjectController {
         const project = plainToClass(ProjectEntity, createProjectPresenter);
         const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
         const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
-        const workloads = generateWorkload(createProjectPresenter.weekInCurrentMonth, null, null, 0, '', projectPresenter.id);
+        const workloads = generateWorkload(null, null, 0, '', projectPresenter.id);
         const user = plainToClass(UserEntity, { workloads: workloads });
         projectPresenter.users.push(user);
         return projectPresenter;
@@ -65,8 +68,14 @@ export class ProjectController {
     @Post('add-member')
     async addMember(@Body() userProjectPresenter: UserProjectPresenter): Promise<UserPresenter[]> {
         const addMemberEntity = plainToClass(AddMemberEntity, userProjectPresenter);
-        const useEntity = await this.addMemberUsecaseProxy.getInstance().execute(addMemberEntity);
-        const response = plainToClass(UserPresenter, useEntity);
+        const users = await this.addMemberUsecaseProxy.getInstance().execute(addMemberEntity);
+        const response = users.map((u) => plainToClass(UserPresenter, u));
         return response;
+    }
+
+    @Get('remove-member/:project_id/:user_id')
+    async remove(@Param('project_id') project_id: string, @Param('user_id') user_id: string) {
+        const user = await this.removeUserUsecaseProxy.getInstance().execute(project_id, user_id);
+        return user;
     }
 }

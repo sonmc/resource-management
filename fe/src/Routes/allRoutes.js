@@ -10,6 +10,8 @@ import Roles from '../pages/Roles';
 import VacationCalendar from '../pages/VacationCalendar';
 import Vacations from '../pages/VacationManage';
 import TaskDetails from '../pages/Projects/ProjectManage/TaskDetails';
+import Home from '../pages/Home';
+import Lunch from '../pages/Lunch';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
@@ -19,10 +21,12 @@ const authProtectedRoutes = [
     { path: '/vacation-calendar', component: VacationCalendar },
     { path: '/vacations', component: Vacations },
     { path: '/roles', component: Roles },
+    { path: '/home', component: Home },
+    { path: '/lunch-order', component: Lunch },
     {
         path: '/',
         exact: true,
-        component: () => <Redirect to="/projects" />,
+        component: () => <Redirect to="/home" />,
     },
 ];
 
