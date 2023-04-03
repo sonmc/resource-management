@@ -7,9 +7,10 @@ import { ILogger } from '../../domain/logger/logger.interface';
 import { UserProjectEntity } from 'src/domain/entities/user-project.entity';
 import { AddMemberEntity } from 'src/domain/entities/add-member.entity';
 import { UserWithoutPassword } from 'src/domain/entities/user.entity';
+import { ProjectRepository } from 'src/presentation/repositories/project.repository';
 
 export class AddMemberUseCases {
-    constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly userProjectRepository: IUserProjectRepository, private readonly workloadRepository: IWorkloadRepository) {}
+    constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly userProjectRepository: IUserProjectRepository, private readonly workloadRepository: IWorkloadRepository, private readonly projectRepository: ProjectRepository) {}
 
     async execute(data: AddMemberEntity): Promise<UserWithoutPassword[]> {
         let listUserAdded = [];
@@ -23,15 +24,17 @@ export class AddMemberUseCases {
                     end_date: data.end_date,
                 });
                 await this.userProjectRepository.create(userProject);
-                const workloads = generateWorkload(data.weekInCurrentMonth, data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
+                const workloads = generateWorkload(data.start_date, data.end_date, user.id, data.workload + '', data.project_id);
                 Promise.all(
                     workloads.map(async (wl) => {
                         wl.user = await this.userRepository.findOne(wl.user_id);
+                        wl.project = await this.projectRepository.findById(wl.project_id);
                         await this.workloadRepository.create(wl);
                     })
                 );
                 const userSchema = await this.userRepository.findOne(user.id);
                 userSchema.workloads = workloads;
+                userSchema.full_name = user.first_name + ' ' + user.last_name;
                 this.logger.log('AddMemberUseCases execute', 'New member have been added');
                 listUserAdded.push(userSchema);
             })

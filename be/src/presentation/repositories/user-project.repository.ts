@@ -13,9 +13,17 @@ export class UserProjectRepository implements IUserProjectRepository {
         private readonly repository: Repository<UserProject>
     ) {}
 
-    async findAll(): Promise<UserProjectEntity[]> {
-        throw new Error('Method not implemented.');
+    async remove(project_id: any, user_id: any): Promise<UserProject> {
+        const userProjectSchema = await this.repository.findOne({
+            where: {
+                user_id: user_id,
+                project_id: project_id,
+            },
+        });
+        await this.repository.remove(userProjectSchema);
+        return userProjectSchema;
     }
+
     async create(userProject: UserProjectEntity): Promise<UserProjectEntity> {
         const userProjectSchema = plainToClass(UserProject, userProject);
         const result = await this.repository.create(userProjectSchema);

@@ -9,11 +9,12 @@ import AddMemberModal from './AddMember';
 import ConfirmDeleteModal from './ConfirmDelete';
 import Flatpickr from 'react-flatpickr';
 import NoteControl from '../../Components/Common/Note';
-import { Update, AddMember } from '../../Services/project.service';
+
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { newWeekInMonthState } from '../../Recoil/states/common';
+import { Update, AddMember, RemoveMember } from '../../Services/project.service';
 import { Get as GetEmployee } from '../../Services/user.service';
 import { Get as GetRole } from '../../Services/role.service';
 // Recoid
@@ -35,9 +36,12 @@ const ProjectPage = () => {
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
         end_date: moment().format('YYYY-MM-DD'),
+        wl_start_date: '',
+        wl_end_date: '',
         project_name: '',
     });
 
+    const [memberRemove, setMemberRemove] = useState({});
     const currentYearMonth = currentDate.getFullYear() + ' ' + months[currentDate.getMonth()];
     const [currentWorkloadDate, setCurrentWorkloadDate] = useState(currentYearMonth);
     const [monthsWorkLoad, setMonthsWorkLoad] = useState([
@@ -78,7 +82,8 @@ const ProjectPage = () => {
         setShowFormUpdate(false);
     };
 
-    const showConfirmDeleteModal = () => {
+    const showConfirmDeleteModal = (project_id, user_id) => {
+        setMemberRemove({ project_id, user_id });
         setShowFormConfirmModal(!isShowConfirmModal);
     };
 
@@ -100,15 +105,44 @@ const ProjectPage = () => {
     const addMember = (data) => {
         AddMember(data).then((res) => {
             const project = projects.find((x) => x.id === data.project_id);
-            const users = project.users.length === 1 && !project.users[0].id ? [...project.users] : [];
-            project.users = [users, ...res];
+            const users = project.users.length === 1 && !project.users[0].id ? [] : project.users;
+            project.users = users.length > 0 ? [...users, ...res] : res;
             setProjects(projects.map((p) => (p.id === project.id ? project : p)));
             setShowFormAddMember(false);
         });
     };
 
     const remove = () => {
-        setShowFormConfirmModal(false);
+        RemoveMember(memberRemove).then((res) => {
+            if (res) {
+                const newProjects = projects.map((project) => {
+                    if (project.id === memberRemove.project_id) {
+                        const users = project.users.filter((x) => x.id !== memberRemove.user_id);
+                        if (users.length > 0) {
+                            project.users = users;
+                        } else {
+                            const userDefault = {
+                                full_name: '',
+                                roles: [{ id: 0, name: '' }],
+                                workloads: [],
+                            };
+                            const totalWeekNumber = workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length;
+                            let workloadsDefault = [];
+                            for (let index = 0; index < totalWeekNumber; index++) {
+                                workloadsDefault.push({ value: '', id: 0 });
+                            }
+                            userDefault.workloads = workloadsDefault;
+                            project.users = [userDefault];
+                        }
+
+                        return project;
+                    }
+                    return project;
+                });
+                setProjects(newProjects);
+                setShowFormConfirmModal(false);
+            }
+        });
     };
 
     const onChangeNote = (note, projectId) => {
@@ -121,8 +155,20 @@ const ProjectPage = () => {
         setFilter({ ...filter, [key]: value });
     };
 
+    function getFirstDayOfMonth(year, month) {
+        return new Date(year, month, 1);
+    }
+
+    function getLastDayOfMonth(year, month) {
+        return new Date(year, month + 1, 0);
+    }
+
     const triggerSearch = useCallback(
         debounce((params) => {
+            const firstDay = getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth());
+            const lastDayCurrentMonth = getLastDayOfMonth(currentDate.getFullYear(), currentDate.getMonth());
+            params.wl_start_date = firstDay;
+            params.wl_end_date = lastDayCurrentMonth;
             FetchProject(params).then((res) => {
                 setProjects(res);
             });
@@ -271,8 +317,8 @@ const ProjectPage = () => {
         });
         setWorkloadDates(currentYearMonths);
         const currentMonth = currentDate.getMonth();
-        setMonthsWorkloadHeader(currentMonth);
         calculatorWorkloadWeek(currentMonth);
+        setMonthsWorkloadHeader(currentMonth);
         fetchRoles();
         fetchEmployees();
     }, []);
@@ -317,32 +363,16 @@ const ProjectPage = () => {
                                         </div>
                                         <div className="col-sm-3">
                                             <div className="search-box">
-                                                <input
-                                                    type="text"
-                                                    onChange={(x) => handleChangeFilter('project_name', x.target.value)}
-                                                    className="form-control search"
-                                                    placeholder="Search by name"
-                                                />
+                                                <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
                                         <div className="offset-md-3 col-sm-3">
                                             <div className="d-flex flex-row-reverse">
-                                                <button
-                                                    type="button"
-                                                    disabled={isLastOfMonth}
-                                                    title="Next month"
-                                                    onClick={() => onWorkloadDateNext()}
-                                                    aria-pressed="false"
-                                                    className="fc-next-button btn btn-secondary rounded-0"
-                                                >
+                                                <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
                                                     <span className="fa fa-chevron-left"></span>
                                                 </button>
-                                                <select
-                                                    onChange={(value) => onChangeWorkloadMonth(value)}
-                                                    value={currentWorkloadDate}
-                                                    className="form-control mb-1 rounded-0 text-center"
-                                                >
+                                                <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 rounded-0 text-center">
                                                     {workloadDates.map((d, key) => {
                                                         return (
                                                             <option key={key} value={d}>
@@ -351,14 +381,7 @@ const ProjectPage = () => {
                                                         );
                                                     })}
                                                 </select>
-                                                <button
-                                                    type="button"
-                                                    title="Previous month"
-                                                    disabled={isFirstOfMonth}
-                                                    onClick={() => onWorkloadDatePrev()}
-                                                    aria-pressed="false"
-                                                    className="btn btn-secondary fc-prev-button rounded-0"
-                                                >
+                                                <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
                                                     <span className="fa fa-chevron-right"></span>
                                                 </button>
                                             </div>
@@ -395,27 +418,21 @@ const ProjectPage = () => {
                                                     {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>
-                                                                    {w.start + '-' + w.end}
-                                                                </td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[1].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>
-                                                                    {w.start + '-' + w.end}
-                                                                </td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[2].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px' }}>
-                                                                    {w.start + '-' + w.end}
-                                                                </td>
+                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -426,19 +443,12 @@ const ProjectPage = () => {
                                                     <React.Fragment key={key}>
                                                         {key > 0 && (
                                                             <tr>
-                                                                <td
-                                                                    colSpan={
-                                                                        workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4
-                                                                    }
-                                                                ></td>
+                                                                <td colSpan={workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4}></td>
                                                             </tr>
                                                         )}
                                                         {x.users.length > 0 && (
                                                             <tr>
-                                                                <td
-                                                                    rowSpan={x.users.length}
-                                                                    style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}
-                                                                >
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}>
                                                                     <Link
                                                                         to="#"
                                                                         onClick={() => showFormAddMember(x)}
@@ -449,21 +459,13 @@ const ProjectPage = () => {
                                                                             right: '-4px',
                                                                         }}
                                                                     >
-                                                                        <i className="ri-add-box-fill" style={{ fontSize: '40px' }} />
+                                                                        <i className="ri-add-box-fill" style={{ fontSize: '35px' }} />
                                                                     </Link>
-                                                                    <Link
-                                                                        to="#"
-                                                                        onClick={() => goProjectDetail(x)}
-                                                                        className="fs-100"
-                                                                        style={{ fontSize: '15px' }}
-                                                                    >
+                                                                    <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
                                                                         {x.name}
                                                                     </Link>
                                                                 </td>
-                                                                <td
-                                                                    rowSpan={x.users.length}
-                                                                    style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}
-                                                                >
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
                                                                 <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px' }}>
@@ -471,17 +473,14 @@ const ProjectPage = () => {
                                                                         <Link
                                                                             to="#"
                                                                             className="link-danger fs-15"
-                                                                            onClick={() => showConfirmDeleteModal()}
+                                                                            onClick={() => showConfirmDeleteModal(x.id, x.users[0].id)}
                                                                             style={{
                                                                                 position: 'absolute',
                                                                                 top: -5,
                                                                                 right: 0,
                                                                             }}
                                                                         >
-                                                                            <i
-                                                                                className="ri-indeterminate-circle-line"
-                                                                                style={{ fontSize: '20px' }}
-                                                                            />
+                                                                            <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                         </Link>
                                                                     )}
                                                                     {x.users[0]?.full_name}
@@ -498,11 +497,7 @@ const ProjectPage = () => {
                                                                 </td>
                                                                 {x.users[0].workloads.map((z, key3) => {
                                                                     return (
-                                                                        <td
-                                                                            className="row-workload-first"
-                                                                            style={{ textAlign: 'center', padding: 0 }}
-                                                                            key={key3}
-                                                                        >
+                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0 }} key={key3}>
                                                                             {z.value} {z.value && <span>%</span>}
                                                                         </td>
                                                                     );
@@ -517,17 +512,14 @@ const ProjectPage = () => {
                                                                             <Link
                                                                                 to="#"
                                                                                 className="link-danger fs-15"
-                                                                                onClick={() => showConfirmDeleteModal()}
+                                                                                onClick={() => showConfirmDeleteModal(x.id, y.id)}
                                                                                 style={{
                                                                                     position: 'absolute',
                                                                                     top: -5,
                                                                                     right: 0,
                                                                                 }}
                                                                             >
-                                                                                <i
-                                                                                    className="ri-indeterminate-circle-line"
-                                                                                    style={{ fontSize: '20px' }}
-                                                                                />
+                                                                                <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                             </Link>
                                                                             {y.full_name}
                                                                         </td>
@@ -559,12 +551,7 @@ const ProjectPage = () => {
                         </div>
                     </div>
                     <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} />
-                    <AddMemberModal
-                        addMember={addMember}
-                        isShowFormAddMember={isShowFormAddMember}
-                        closeFormAddMember={closeFormAddMember}
-                        project={project}
-                    />
+                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} />
                     <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
                 </Container>
             </div>

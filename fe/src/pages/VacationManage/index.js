@@ -18,6 +18,7 @@ moment.locale('en', {
 const localizer = momentLocalizer(moment);
 
 const dayOfWeek = DAY_OF_WEEK;
+
 const MyCalendar = (props) => {
     const getData = () => {
         let fake = [
@@ -42,12 +43,15 @@ const MyCalendar = (props) => {
     };
     const [month, setMonth] = useState(moment()._d);
     const [events, setEvents] = useState([]);
-    useEffect(() => {
-        getData();
-    }, [month]);
+
     const onNavigate = (e) => {
         setMonth(e);
     };
+
+    useEffect(() => {
+        getData();
+    }, [month]);
+
     return (
         <React.Fragment>
             <div className="page-content">

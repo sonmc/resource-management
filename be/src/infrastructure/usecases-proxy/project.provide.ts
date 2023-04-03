@@ -7,6 +7,7 @@ import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usec
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
 import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
+import { RemoveMemberUseCases } from 'src/use-cases/project/remove-member-to-project.usercase';
 
 export function getProjectProvide(provide) {
     return {
@@ -24,8 +25,16 @@ export function createProjectProvide(provide) {
 }
 export function addMemberProvide(provide) {
     return {
-        inject: [LoggerService, UserRepository, UserProjectRepository, WorkloadRepository],
+        inject: [LoggerService, UserRepository, UserProjectRepository, WorkloadRepository, ProjectRepository],
         provide,
-        useFactory: (logger: LoggerService, userRepository: UserRepository, userProjectRepository: UserProjectRepository, workloadRepository: WorkloadRepository) => new UseCaseProxy(new AddMemberUseCases(logger, userRepository, userProjectRepository, workloadRepository)),
+        useFactory: (logger: LoggerService, userRepository: UserRepository, userProjectRepository: UserProjectRepository, workloadRepository: WorkloadRepository, projectRepository: ProjectRepository) =>
+            new UseCaseProxy(new AddMemberUseCases(logger, userRepository, userProjectRepository, workloadRepository, projectRepository)),
+    };
+}
+export function removeMemberProvide(provide) {
+    return {
+        inject: [LoggerService, UserProjectRepository, WorkloadRepository],
+        provide,
+        useFactory: (logger: LoggerService, userProjectRepository: UserProjectRepository, workloadRepository: WorkloadRepository) => new UseCaseProxy(new RemoveMemberUseCases(logger, userProjectRepository, workloadRepository)),
     };
 }
