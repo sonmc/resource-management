@@ -27,7 +27,10 @@ const MyCalendar = (props) => {
                     { id: 2, username: '123' },
                     { id: 2, username: '346' },
                 ],
-                offs: [{ id: 1, username: 'abc' }],
+                offs: [
+                    { id: 1, username: 'Lê Quang Đạt' },
+                    { id: 1, username: 'Trần Thanh TÙng' },
+                ],
                 events: [{}, {}],
                 start: moment(month),
                 end: moment(month),
@@ -135,10 +138,22 @@ function Event({ event }) {
                 </div>
             </div>
             <Tooltip placement="top" target={'Tooltip-remote-' + event.start}>
-                <div style={{ textAlign: 'start' }}>Remote: {event.remotes.map((x) => x.username).join(', ')}</div>
+                {event.remotes.map((user, key) => {
+                    return (
+                        <div key={key} style={{ textAlign: 'start' }}>
+                            {user.username}
+                        </div>
+                    );
+                })}
             </Tooltip>
             <Tooltip placement="top" target={'Tooltip-off-' + event.start}>
-                <div style={{ textAlign: 'start' }}>Off: {event.offs.map((x) => x.username).join(', ')}</div>
+                {event.offs.map((user, key) => {
+                    return (
+                        <div key={key} style={{ textAlign: 'start' }}>
+                            {user.username}
+                        </div>
+                    );
+                })}
             </Tooltip>
         </div>
     );
