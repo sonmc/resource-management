@@ -20,6 +20,9 @@ const TakeALeave = (props) => {
         setVacation(emp);
     };
 
+    const submit = () => {
+        createVacation(vacation);
+    };
     return (
         <Modal
             id="flipModal"
@@ -51,7 +54,7 @@ const TakeALeave = (props) => {
                             <Col xxl={3}>
                                 <label className="form-label">Projects :</label>
                             </Col>
-                            <Col xxl={9}>{currentUser.projects.join(', ')}</Col>
+                            <Col xxl={9}>{currentUser.projects.join(', ') || 'N/A'}</Col>
                         </Row>
                         <Row className="mt-3">
                             <Col xxl={3}>
@@ -127,7 +130,7 @@ const TakeALeave = (props) => {
                                 <Button color="light" onClick={() => closeFormCreate(false)}>
                                     Close
                                 </Button>
-                                <Button color="success" onClick={() => createVacation()}>
+                                <Button color="success" onClick={() => submit()}>
                                     Submit
                                 </Button>
                             </div>

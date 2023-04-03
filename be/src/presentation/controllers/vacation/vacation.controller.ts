@@ -24,8 +24,8 @@ export class VacationController {
     @Get()
     @Permissions(EndPoint.VACATION_GET)
     async get(@Query() query) {
-        const roles = await this.getVacationUseCases.getInstance().execute(query);
-        return roles;
+        const vacations = await this.getVacationUseCases.getInstance().execute(query);
+        return vacations;
     }
 
     @Post()

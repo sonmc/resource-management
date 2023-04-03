@@ -58,7 +58,7 @@ export class UserRepository implements IUserRepository {
         const userSchema = plainToClass(User, user);
         let userUpdated = new User();
         if (user.id != 0) {
-            userSchema.password = await hash(PASSWORD_DEFAULT);
+            userSchema.password = PASSWORD_DEFAULT;
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
             if (userUpdated) {

@@ -1,7 +1,7 @@
-import { plainToClass } from 'class-transformer';
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 
 import { IVacationRepository } from 'src/domain/repositories/vacation-repository.interface';
 import { VacationEntity } from 'src/domain/entities/vacation.entity';
@@ -26,6 +26,8 @@ export class VacationRepository implements IVacationRepository {
     }
 
     async findAll(filter: any): Promise<any> {
-        return [];
+        const data = await this.repository.createQueryBuilder('vacation').leftJoinAndSelect('vacation.user', 'user').getMany();
+        let vacations = await data.map((v) => plainToInstance(VacationEntity, v));
+        return vacations;
     }
 }

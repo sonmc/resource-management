@@ -104,10 +104,11 @@ const ProjectPage = () => {
 
     const addMember = (data) => {
         AddMember(data).then((res) => {
-            const project = projects.find((x) => x.id === data.project_id);
-            const users = project.users.length === 1 && !project.users[0].id ? [] : project.users;
-            project.users = users.length > 0 ? [...users, ...res] : res;
-            setProjects(projects.map((p) => (p.id === project.id ? project : p)));
+            // const project = projects.find((x) => x.id === data.project_id);
+            // const users = project.users.length === 1 && !project.users[0].id ? [] : project.users;
+            // project.users = users.length > 0 ? [...users, ...res] : res;
+            // setProjects(projects.map((p) => (p.id === project.id ? project : p)));
+            fetchProject();
             setShowFormAddMember(false);
         });
     };

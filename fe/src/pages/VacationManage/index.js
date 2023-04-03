@@ -10,7 +10,7 @@ import { DAY_OF_WEEK } from '../../Constant';
 import { GetVacations, Create } from '../../Services/vacation';
 import Tooltip from '../../Components/Common/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
-import { TOAST_CONFIG } from '../../Constant';
+import { TOAST_CONFIG, VACATION_REMOTE, VACATION_OFF } from '../../Constant';
 import TakeALeave from './TakeALeave';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,11 +23,9 @@ moment.locale('en', {
 });
 const localizer = momentLocalizer(moment);
 
-const dayOfWeek = DAY_OF_WEEK;
-
 const WorkSchedulePage = (props) => {
     const getData = () => {
-        let fake = [
+        let dataInit = [
             {
                 remotes: [
                     { id: 2, username: '123' },
@@ -44,11 +42,11 @@ const WorkSchedulePage = (props) => {
         ];
         GetVacations()
             .then((res) => {
-                setEvents(res);
+                const remotes = res.filter((x) => (x.type = VACATION_REMOTE));
+                const offs = res.filter((x) => (x.type = VACATION_OFF));
+                setEvents(dataInit);
             })
-            .catch(() => {
-                setEvents(fake);
-            });
+            .catch(() => {});
     };
     const [isShowVacation, setShowVacation] = useState(false);
     const [month, setMonth] = useState(moment()._d);
@@ -62,6 +60,7 @@ const WorkSchedulePage = (props) => {
         Create(vacation)
             .then((res) => {
                 toast.success('successfully !', TOAST_CONFIG);
+                setShowVacation(false);
             })
             .catch((error) => {
                 toast.error('Error !', error);
@@ -115,7 +114,7 @@ const WorkSchedulePage = (props) => {
                                             header: (e) => {
                                                 let dayNumber = e.date.getDay();
                                                 if (dayNumber === 0) dayNumber = 7;
-                                                let day = dayOfWeek.find((x) => x.key == dayNumber + 1);
+                                                let day = DAY_OF_WEEK.find((x) => x.key == dayNumber + 1);
                                                 return <span className="day-title">{day.value}</span>;
                                             },
                                             dateHeader: (e) => {
