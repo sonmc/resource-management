@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
 import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import './index.scss';
 import moment from 'moment';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
 import homeSvg from '../../assets/icons/home.svg';
 import profileSvg from '../../assets/icons/profile.svg';
 import { DAY_OF_WEEK } from '../../Constant';
-import { GetVacations } from '../../Services/vacation';
+import { GetVacations, Create } from '../../Services/vacation';
 import Tooltip from '../../Components/Common/Tooltip';
+import { ToastContainer, toast } from 'react-toastify';
+import { TOAST_CONFIG } from '../../Constant';
+import TakeALeave from './TakeALeave';
+
+import 'react-toastify/dist/ReactToastify.css';
+import './index.scss';
+
 moment.locale('en', {
     week: {
         dow: 1,
@@ -19,7 +25,7 @@ const localizer = momentLocalizer(moment);
 
 const dayOfWeek = DAY_OF_WEEK;
 
-const MyCalendar = (props) => {
+const WorkSchedulePage = (props) => {
     const getData = () => {
         let fake = [
             {
@@ -44,11 +50,30 @@ const MyCalendar = (props) => {
                 setEvents(fake);
             });
     };
+    const [isShowVacation, setShowVacation] = useState(false);
     const [month, setMonth] = useState(moment()._d);
     const [events, setEvents] = useState([]);
 
     const onNavigate = (e) => {
         setMonth(e);
+    };
+
+    const createVacation = (vacation) => {
+        Create(vacation)
+            .then((res) => {
+                toast.success('successfully !', TOAST_CONFIG);
+            })
+            .catch((error) => {
+                toast.error('Error !', error);
+            });
+    };
+
+    const showFormCreate = () => {
+        setShowVacation(!isShowVacation);
+    };
+
+    const closeFormCreate = () => {
+        setShowVacation(false);
     };
 
     useEffect(() => {
@@ -63,35 +88,49 @@ const MyCalendar = (props) => {
                 </MetaTags>
                 <Container fluid>
                     <div className="card" id="Vacation">
+                        <div className="card-header border-0">
+                            <div className="d-flex align-items-center">
+                                <h5 className="card-title mb-0 flex-grow-1">Work schedule</h5>
+                                <div className="flex-shrink-0">
+                                    <button type="button" onClick={() => showFormCreate()} className="btn btn-success">
+                                        Take a leave
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <CardBody>
-                            <Calendar
-                                localizer={localizer}
-                                className="custom-calendar"
-                                startAccessor="start"
-                                endAccessor="end"
-                                style={{ height: `calc(100vh)`, background: '#fff' }}
-                                views={{ month: true }}
-                                events={events}
-                                components={{
-                                    toolbar: CustomToolbar,
-                                    event: Event,
-                                    month: {
-                                        header: (e) => {
-                                            let dayNumber = e.date.getDay();
-                                            if (dayNumber === 0) dayNumber = 7;
-                                            let day = dayOfWeek.find((x) => x.key == dayNumber + 1);
-                                            return <span className="day-title">{day.value}</span>;
+                            <Row>
+                                <Calendar
+                                    localizer={localizer}
+                                    className="custom-calendar"
+                                    startAccessor="start"
+                                    endAccessor="end"
+                                    style={{ height: `calc(100vh)`, background: '#fff' }}
+                                    views={{ month: true }}
+                                    events={events}
+                                    components={{
+                                        toolbar: CustomToolbar,
+                                        event: Event,
+                                        month: {
+                                            header: (e) => {
+                                                let dayNumber = e.date.getDay();
+                                                if (dayNumber === 0) dayNumber = 7;
+                                                let day = dayOfWeek.find((x) => x.key == dayNumber + 1);
+                                                return <span className="day-title">{day.value}</span>;
+                                            },
+                                            dateHeader: (e) => {
+                                                return <span>{parseInt(e.label)}</span>;
+                                            },
                                         },
-                                        dateHeader: (e) => {
-                                            return <span>{parseInt(e.label)}</span>;
-                                        },
-                                    },
-                                }}
-                            />
+                                    }}
+                                />
+                            </Row>
                         </CardBody>
                     </div>
+                    <TakeALeave createVacation={createVacation} showFormCreate={isShowVacation} closeFormCreate={closeFormCreate} />
                 </Container>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };
@@ -158,4 +197,4 @@ function Event({ event }) {
         </div>
     );
 }
-export default MyCalendar;
+export default WorkSchedulePage;

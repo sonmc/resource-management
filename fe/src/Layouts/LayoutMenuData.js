@@ -17,7 +17,7 @@ const Navdata = () => {
         },
         {
             id: 'projects',
-            label: 'Projects',
+            label: 'Project management',
             icon: 'ri-honour-line',
             link: '/projects',
             click: function (e) {
@@ -26,7 +26,7 @@ const Navdata = () => {
         },
         {
             id: 'employees',
-            label: 'Employees',
+            label: 'Employee management',
             icon: 'ri-honour-line',
             link: '/employees',
             click: function (e) {
@@ -34,17 +34,8 @@ const Navdata = () => {
             },
         },
         {
-            id: 'vacation-calendar',
-            label: 'Vacation Calendar',
-            icon: 'ri-honour-line',
-            link: '/vacation-calendar',
-            click: function (e) {
-                e.preventDefault();
-            },
-        },
-        {
             id: 'vacations',
-            label: 'Vacations',
+            label: 'Work schedule',
             icon: 'ri-honour-line',
             link: '/vacations',
             click: function (e) {
@@ -52,10 +43,10 @@ const Navdata = () => {
             },
         },
         {
-            id: 'lunch',
+            id: 'lunch-order',
             label: 'Lunch order',
             icon: 'ri-honour-line',
-            link: '/lunch',
+            link: '/lunch-order',
             click: function (e) {
                 e.preventDefault();
             },

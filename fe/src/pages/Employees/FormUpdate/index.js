@@ -66,9 +66,7 @@ const ModalUpdate = (props) => {
             }}
             centered
         >
-            <ModalHeader>
-                <Label className="modal-title">{title}</Label>
-            </ModalHeader>
+            <ModalHeader className="p-3 bg-soft-info">{title}</ModalHeader>
             <ModalBody>
                 <form action="#">
                     <div className="row g-4">
