@@ -2,8 +2,11 @@ export const GENDER_MALE = 1;
 export const GENDER_FEMALE = 2;
 export const STATUS_ACTIVE = 1;
 export const STATUS_INACTIVE = 2;
-export const VACATION_OFF = 2;
-export const VACATION_REMOTE = 1;
+export const VACATION_TYPE = {
+    OFF: 0,
+    REMOTE: 1,
+};
+
 export const TOAST_CONFIG = {
     position: 'top-right',
     autoClose: 2000,

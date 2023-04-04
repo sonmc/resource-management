@@ -18,6 +18,7 @@ function App() {
                 const user = await GetCurrentUser();
                 localStorage.setItem('currentUser', JSON.stringify(user));
             } catch (error) {
+                localStorage.removeItem('currentUser');
                 console.log(error);
             }
             setSpinner(false);
