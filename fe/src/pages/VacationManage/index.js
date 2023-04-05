@@ -42,7 +42,7 @@ const WorkSchedulePage = (props) => {
                 if (index >= 0) {
                     d = data[index];
                 } else {
-                    d = { start: day, end: day, events: [], remotes: [], offs: [] };
+                    d = { start: day, end: day, events: [{}, {}], remotes: [], offs: [] };
                     data.push(d);
                 }
                 if (r.type === VACATION_TYPE.REMOTE) {
@@ -164,21 +164,24 @@ class CustomToolbar extends Toolbar {
     };
 }
 function Event({ event }) {
+    function pad(d) {
+        return d < 10 ? '0' + d.toString() : d.toString();
+    }
     return (
         <div>
             {event.events.length > 0 ? (
                 <div className="label-event">
-                    <div>Event: {event.events.length}</div>
+                    <div>Event: {pad(event.events.length)}</div>
                 </div>
             ) : (
                 ''
             )}
             {event.remotes.length > 0 ? (
                 <>
-                    <div className="label-remote" id={'Tooltip-remote-' + event.start}>
+                    <div className="label-remote">
                         <div>
-                            <img src={homeSvg} alt="remote" />
-                            {event.remotes.length}
+                            <img src={homeSvg} alt="remote" id={'Tooltip-remote-' + event.start} />
+                            {pad(event.remotes.length)}
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-remote-' + event.start}>
@@ -196,10 +199,10 @@ function Event({ event }) {
             )}
             {event.offs.length > 0 ? (
                 <>
-                    <div className="label-off" id={'Tooltip-off-' + event.start}>
+                    <div className="label-off">
                         <div>
-                            <img src={profileSvg} alt="off" />
-                            {event.offs.length}
+                            <img src={profileSvg} alt="off" id={'Tooltip-off-' + event.start} />
+                            {pad(event.offs.length)}
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-off-' + event.start}>
