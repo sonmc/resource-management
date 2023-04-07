@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import './assets/scss/themes.scss';
-import './App.scss';
 import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
 import { spinnerAtom } from './Recoil/states/spinner';
+import './assets/scss/themes.scss';
+import './App.scss';
 
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
