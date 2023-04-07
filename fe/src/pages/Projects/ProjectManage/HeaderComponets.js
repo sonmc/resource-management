@@ -1,54 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import FeatherIcon from 'feather-icons-react';
 
 const RenderCardTitle = (props) => {
-    const { kanban_column, updateColumnName, removeColumn } = props;
-    const [isUpdate, setIsUpdate] = useState(false);
-    const [name, setName] = useState(kanban_column.name);
     return (
         <React.Fragment>
-            <div className="d-flex mb-3">
+            <div className="d-flex mb-3 me-4">
                 <div className="flex-grow-1">
-                    {isUpdate ? (
-                        <input
-                            type="text"
-                            value={name}
-                            onBlur={(e) => {
-                                setIsUpdate(false);
-                                updateColumnName(kanban_column)
-                                    .then((res) => {
-                                        kanban_column.name = res.name;
-                                    })
-                                    .catch(() => {
-                                        //mock api
-                                        kanban_column.name = name;
-                                        // setName(kanban_column.name);
-                                    });
-                            }}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                            }}
-                            className="form-control"
-                        />
-                    ) : (
-                        <h6
-                            className="fs-14 text-uppercase fw-semibold mb-0"
-                            onClick={() => {
-                                setIsUpdate(true);
-                            }}
-                        >
-                            {name}
-                        </h6>
-                    )}
+                    <h6 className="fs-14 text-uppercase fw-semibold mb-0">
+                        {' '}
+                        {props.name} <small className={'badge align-bottom ms-1 bg-' + props.badgeClass}>{props.badge}</small>
+                    </h6>
                 </div>
                 <div className="flex-shrink-0">
                     <UncontrolledDropdown className="card-header-dropdown" direction="start">
-                        <DropdownToggle tag="a" id="dropdownMenuLink1" role="button">
-                            <FeatherIcon icon="more-vertical" className="icon-sm" />
+                        <DropdownToggle tag="a" role="button">
+                            <span className="fw-medium text-muted fs-12">
+                                Priority
+                                <i className="mdi mdi-chevron-down ms-1" />
+                            </span>
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-end">
-                            <DropdownItem onClick={removeColumn}>Delete</DropdownItem>
+                            <DropdownItem>Priority</DropdownItem>
+                            <DropdownItem>Date Added</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                 </div>

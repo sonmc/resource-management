@@ -109,7 +109,7 @@ const LunchPage = () => {
                                                 <th colSpan="2">Total</th>
                                                 {dataLunch.map((x) => {
                                                     return (
-                                                        <th scope="col" key={x.timestamp}>
+                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
                                                             {x.data.filter((d) => d.lunch_type !== 0).length}
                                                         </th>
                                                     );
@@ -121,7 +121,7 @@ const LunchPage = () => {
                                                         <th colSpan="2">{l.name}</th>
                                                         {dataLunch.map((x) => {
                                                             return (
-                                                                <th scope="col" key={x.timestamp}>
+                                                                <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
                                                                     {x.data.filter((d) => d.lunch_type === l.value).length}
                                                                 </th>
                                                             );
@@ -129,13 +129,15 @@ const LunchPage = () => {
                                                     </tr>
                                                 );
                                             })}
-
+                                            <tr>
+                                                <th style={{ border: 'none' }}></th>
+                                            </tr>
                                             <tr>
                                                 <th scope="col">No.</th>
                                                 <th scope="col">Full name</th>
                                                 {dataLunch.map((x) => {
                                                     return (
-                                                        <th scope="col" key={x.timestamp}>
+                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
                                                             {x.title}
                                                         </th>
                                                     );
@@ -152,7 +154,7 @@ const LunchPage = () => {
                                                         {dataLunch.map((d) => {
                                                             let lunch = d.data.find((x) => x.user_id === employee.id && moment(d.value).isSame(x.date));
                                                             return (
-                                                                <td key={d.timestamp}>
+                                                                <td key={d.timestamp} style={{ textAlign: 'center' }}>
                                                                     <select
                                                                         id="inputState"
                                                                         className="form-select"
