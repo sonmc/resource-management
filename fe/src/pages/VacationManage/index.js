@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
-import { Col, Row, Container, CardBody, Label, FormGroup } from 'reactstrap';
+import { Col, Row, Container, CardBody } from 'reactstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Toolbar from 'react-big-calendar/lib/Toolbar';

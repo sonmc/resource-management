@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //import images
-import logoSm from '../../assets/images/logo.png';
-
+import logoSm from '../../assets/icons/logo.png';
+import logoLight from '../../assets/images/logo.png';
 //import Components
 import FullScreenDropdown from '../../Components/Common/FullScreenDropdown';
 import NotificationDropdown from '../../Components/Common/NotificationDropdown';
@@ -62,19 +62,19 @@ const Header = ({ headerClass }) => {
                             <div className="navbar-brand-box horizontal-logo">
                                 <Link to="/" className="logo logo-dark">
                                     <span className="logo-sm">
-                                        <img src={logoSm} alt="" height="22" style={{ width: '100%', height: '50%' }} />
+                                        <img src={logoSm} alt="logo" style={{ width: '50%', height: '50%' }} />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={logoSm} alt="" height="17" style={{ width: '100%', height: '50%' }} />
+                                        <img src={logoLight} alt="logo" style={{ width: '100%', height: '50%' }} />
                                     </span>
                                 </Link>
 
                                 <Link to="/" className="logo logo-light">
                                     <span className="logo-sm">
-                                        <img src={logoSm} alt="" height="22" style={{ width: '100%', height: '50%' }} />
+                                        <img src={logoSm} alt="logo" style={{ width: '50%', height: '50%' }} />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={logoSm} alt="" height="17" style={{ width: '100%', height: '50%' }} />
+                                        <img src={logoLight} alt="logo" style={{ width: '100%', height: '50%' }} />
                                     </span>
                                 </Link>
                             </div>

@@ -4,11 +4,9 @@ import SimpleBar from 'simplebar-react';
 //import logo
 import logoSm from '../../assets/icons/logo.png';
 import logoLight from '../../assets/images/logo.png';
-import logoDark from '../../assets/images/logo.png';
 
 //Import Components
 import SidebarContent from './SidebarContent';
-import TwoColumnLayout from '../TwoColumnLayout';
 import { Container } from 'reactstrap';
 import HorizontalLayout from '../HorizontalLayout';
 
@@ -39,19 +37,19 @@ const Sidebar = ({ layoutType }) => {
                 <div className="navbar-brand-box">
                     <Link to="/" className="logo logo-dark">
                         <span className="logo-sm">
-                            <img src={logoSm} alt="" style={{ width: '100%', height: '50%' }} />
+                            <img src={logoSm} alt="logo" style={{ width: '50%', height: '50%' }} />
                         </span>
                         <span className="logo-lg">
-                            <img src={logoSm} alt="" style={{ width: '100%', height: '50%' }} />
+                            <img src={logoLight} alt="logo" style={{ width: '100%', height: '50%' }} />
                         </span>
                     </Link>
 
                     <Link to="/" className="logo logo-light">
                         <span className="logo-sm">
-                            <img src={logoDark} alt="" style={{ width: '100%', height: '50%' }} />
+                            <img src={logoSm} alt="logo" style={{ width: '50%', height: '50%' }} />
                         </span>
                         <span className="logo-lg">
-                            <img src={logoDark} alt="" style={{ width: '100%', height: '50%' }} s />
+                            <img src={logoLight} alt="logo" style={{ width: '100%', height: '50%' }} />
                         </span>
                     </Link>
                     <button onClick={addEventListenerOnSmHoverMenu} type="button" className="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -67,8 +65,6 @@ const Sidebar = ({ layoutType }) => {
                             </ul>
                         </Container>
                     </div>
-                ) : layoutType === 'twocolumn' ? (
-                    <TwoColumnLayout />
                 ) : (
                     <SimpleBar id="scrollbar" className="h-100">
                         <Container fluid>
