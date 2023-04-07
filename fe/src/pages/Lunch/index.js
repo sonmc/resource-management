@@ -6,6 +6,7 @@ import Flatpickr from 'react-flatpickr';
 import { Get as GetEmployees, GetLunch } from '../../Services/user.service';
 import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
+
 function getDaysArrayByMonth(month) {
     let _month = month.clone();
     var daysInMonth = _month.daysInMonth();
@@ -102,7 +103,7 @@ const LunchPage = () => {
                         <CardBody className="">
                             <div className="row">
                                 <div className="table-responsive" style={{ paddingBottom: '1rem' }}>
-                                    <Table className="table-bordered border-secondary table-nowrap align-middle mb-0">
+                                    <Table className="table-bordered table-nowrap align-middle mb-0">
                                         <thead>
                                             <tr>
                                                 <th colSpan="2">Total</th>
@@ -149,9 +150,7 @@ const LunchPage = () => {
                                                         <td className="fw-medium">{i + 1}</td>
                                                         <td>{fullname}</td>
                                                         {dataLunch.map((d) => {
-                                                            let lunch = d.data.find(
-                                                                (x) => x.user_id === employee.id && moment(d.value).isSame(x.date)
-                                                            );
+                                                            let lunch = d.data.find((x) => x.user_id === employee.id && moment(d.value).isSame(x.date));
                                                             return (
                                                                 <td key={d.timestamp}>
                                                                     <select

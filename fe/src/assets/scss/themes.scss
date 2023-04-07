@@ -46,7 +46,182 @@ body {
   text-align: center;
 }
 
- 
+// #sidebar-menu {
+//   ul {
+//     li {
+//       a {
+//         i {
+//           min-width: 2rem;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .leaflet-pane {
+//   z-index: 1;
+// }
+// svg > rect:first-child {
+//   fill-opacity: 0 !important;
+// }
+// .dataTables_filter,
+// .dataTables_paginate {
+//   float: right;
+// }
+// .rdw-editor-main {
+//   border: 1px solid $gray-300;
+//   height: 239px;
+//   padding-left: 15px;
+// }
+// .dz-message {
+//   text-align: center;
+//   padding: 30px;
+// }
+// // kanban board
+// .react-kanban-column {
+//   height: 100%;
+//   min-height: 28px;
+//   display: inline-block;
+//   padding: 15px;
+//   border-radius: 2px;
+//   background-color: rgb(238, 238, 238);
+//   margin: 5px;
+//   vertical-align: top;
+// }
+// .fcYNFc,
+// .sc-AxmLO.gmtmqV {
+//   background-color: $card-bg !important;
+//   margin: 0 20px 0 0 !important;
+// }
+// .task-box {
+//   border: 1px solid $border-color;
+// }
+// .react-datepicker-wrapper {
+//   width: 100% !important;
+// }
+// .ReactModal__Overlay {
+//   z-index: 1001 !important;
+// }
+// .external-event {
+//   &:hover {
+//     cursor: pointer;
+//   }
+// }
+// a:hover {
+//   cursor: pointer;
+// }
+// .rating-container {
+//   background-color: transparent !important;
+// }
+// .input-group-append {
+//   z-index: 0;
+// }
+// .input-color {
+//   color: $input-color !important;
+// }
+// .sketch-picker {
+//   position: absolute;
+//   z-index: 1;
+// }
+// .rangeslider__fill {
+//   background-color: $primary !important;
+// }
+
+// .dropdown-menu-end {
+//   left: auto !important;
+//   right: 0 !important;
+// }
+
+// .bs-select select {
+//   width: auto !important;
+// }
+
+// //File-manager
+// .file-manager {
+//   .table td {
+//     padding: 0.35rem;
+//   }
+// }
+
+// //Authenication carousel
+// .slider_css {
+//   .slide {
+//     background: none !important;
+//   }
+
+//   .carousel-status,
+//   .control-next,
+//   .control-prev {
+//     display: none !important;
+//   }
+// }
+// .carousel {
+//   .control-dots {
+//     margin: -5px 0px;
+//   }
+//   .dot {
+//     background: #556ee6 !important;
+//     width: 9px !important;
+//     height: 9px !important;
+//   }
+// }
+
+// //Two verification Page
+// .verification {
+//   input {
+//     &:focus {
+//       border: none;
+//       outline: none !important;
+//     }
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .verification {
+//     input {
+//       width: 40px !important;
+//     }
+//   }
+// }
+
+// @media (max-width: 320px) {
+//   .verification {
+//     input {
+//       width: 30px !important;
+//       height: 30px !important;
+//       font-size: 15px !important;
+//     }
+//   }
+// }
+
+// //Two verification Page - 2
+// .verification-2 {
+//   input {
+//     &:focus {
+//       border: none;
+//       outline: none !important;
+//     }
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .verification-2 {
+//     input {
+//       width: 40px !important;
+//       font-size: 14px;
+//     }
+//   }
+// }
+
+// @media (max-width: 320px) {
+//   .verification-2 {
+//     input {
+//       width: 30px !important;
+//       height: 35px !important;
+//       font-size: 15px !important;
+//     }
+//   }
+// }
 
 // //Calendar
 .fc-direction-ltr .fc-daygrid-event.fc-event-end,

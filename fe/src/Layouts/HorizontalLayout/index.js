@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 // Import Data
-import navdata from '../LayoutMenuData';
+import navdata from '../VerticalLayouts/LayoutMenuData';
+//i18n
+import { withTranslation } from 'react-i18next';
 
 const HorizontalLayout = (props) => {
+    const [isMoreMenu, setIsMoreMenu] = useState(false);
     const navData = navdata().props.children;
     let menuItems = [];
     let splitMenuItems = [];
     let menuSplitContainer = 5;
-
     navData.forEach(function (value, key) {
         if (value['isHeader']) {
             menuSplitContainer++;
@@ -24,6 +26,18 @@ const HorizontalLayout = (props) => {
         } else {
             menuItems.push(value);
         }
+    });
+    menuItems.push({
+        id: 'more',
+        label: 'More',
+        icon: 'ri-briefcase-2-line',
+        link: '/#',
+        stateVariables: isMoreMenu,
+        subItems: splitMenuItems,
+        click: function (e) {
+            e.preventDefault();
+            setIsMoreMenu(!isMoreMenu);
+        },
     });
 
     useEffect(() => {
@@ -49,6 +63,7 @@ const HorizontalLayout = (props) => {
         let parentCollapseDiv = item.closest('.collapse.menu-dropdown');
 
         if (parentCollapseDiv) {
+            // to set aria expand true remaining
             parentCollapseDiv.classList.add('show');
             parentCollapseDiv.parentElement.children[0].classList.add('active');
             parentCollapseDiv.parentElement.children[0].setAttribute('aria-expanded', 'true');
@@ -98,7 +113,7 @@ const HorizontalLayout = (props) => {
                             item.subItems ? (
                                 <li className="nav-item">
                                     <Link onClick={item.click} className="nav-link menu-link" to={item.link ? item.link : '/#'} data-bs-toggle="collapse">
-                                        <i className={item.icon}></i> <span data-key="t-apps">{item.label}</span>
+                                        <i className={item.icon}></i> <span data-key="t-apps">{props.t(item.label)}</span>
                                     </Link>
                                     <Collapse className="menu-dropdown" isOpen={item.stateVariables} id="sidebarApps">
                                         <ul className="nav nav-sm flex-column test">
@@ -109,14 +124,14 @@ const HorizontalLayout = (props) => {
                                                         {!subItem.isChildItem ? (
                                                             <li className="nav-item">
                                                                 <Link to={subItem.link ? subItem.link : '/#'} className="nav-link">
-                                                                    {subItem.label}
+                                                                    {props.t(subItem.label)}
                                                                 </Link>
                                                             </li>
                                                         ) : (
                                                             <li className="nav-item">
                                                                 <Link onClick={subItem.click} className="nav-link" to="/#" data-bs-toggle="collapse">
                                                                     {' '}
-                                                                    {subItem.label}
+                                                                    {props.t(subItem.label)}
                                                                 </Link>
                                                                 <Collapse className="menu-dropdown" isOpen={subItem.stateVariables} id="sidebarEcommerce">
                                                                     <ul className="nav nav-sm flex-column">
@@ -127,14 +142,14 @@ const HorizontalLayout = (props) => {
                                                                                     {!subChildItem.isChildItem ? (
                                                                                         <li className="nav-item">
                                                                                             <Link to={subChildItem.link ? subChildItem.link : '/#'} className="nav-link">
-                                                                                                {subChildItem.label}
+                                                                                                {props.t(subChildItem.label)}
                                                                                             </Link>
                                                                                         </li>
                                                                                     ) : (
                                                                                         <li className="nav-item">
                                                                                             <Link onClick={subChildItem.click} className="nav-link" to="/#" data-bs-toggle="collapse">
                                                                                                 {' '}
-                                                                                                {subChildItem.label}
+                                                                                                {props.t(subChildItem.label)}
                                                                                             </Link>
                                                                                             <Collapse className="menu-dropdown" isOpen={subChildItem.stateVariables} id="sidebarEcommerce">
                                                                                                 <ul className="nav nav-sm flex-column">
@@ -143,7 +158,7 @@ const HorizontalLayout = (props) => {
                                                                                                         (subChildItem.childItems || []).map((subSubChildItem, key) => (
                                                                                                             <li className="nav-item apex" key={key}>
                                                                                                                 <Link to={subSubChildItem.link ? subSubChildItem.link : '/#'} className="nav-link">
-                                                                                                                    {subSubChildItem.label}
+                                                                                                                    {props.t(subSubChildItem.label)}
                                                                                                                 </Link>
                                                                                                             </li>
                                                                                                         ))}
@@ -165,13 +180,13 @@ const HorizontalLayout = (props) => {
                             ) : (
                                 <li className="nav-item">
                                     <Link className="nav-link menu-link" to={item.link ? item.link : '/#'}>
-                                        <i className={item.icon}></i> <span>{item.label}</span>
+                                        <i className={item.icon}></i> <span>{props.t(item.label)}</span>
                                     </Link>
                                 </li>
                             )
                         ) : (
                             <li className="menu-title">
-                                <span data-key="t-menu">{item.label}</span>
+                                <span data-key="t-menu">{props.t(item.label)}</span>
                             </li>
                         )}
                     </React.Fragment>
@@ -187,4 +202,4 @@ HorizontalLayout.propTypes = {
     t: PropTypes.any,
 };
 
-export default withRouter(HorizontalLayout);
+export default withRouter(withTranslation()(HorizontalLayout));

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { getLoggedinUser } from '../../helpers/api_helper';
 
 const useProfile = () => {
-    const userProfileSession = getLoggedinUser();
+    const userProfileSession = localStorage.getItem('currentUser');
     const [loading] = useState(userProfileSession ? false : true);
     const [userProfile] = useState(userProfileSession ? userProfileSession : null);
 

@@ -8,7 +8,7 @@ const Navdata = () => {
         },
         {
             id: 'home',
-            label: 'Home',
+            label: 'Dashboard',
             icon: 'ri-honour-line',
             link: '/home',
             click: function (e) {

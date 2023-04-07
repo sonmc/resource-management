@@ -33,12 +33,6 @@
         padding: 0 calc(#{$grid-gutter-width} / 2) 0 calc(#{$grid-gutter-width} / 2);
     }
 
-    .topbar-head-dropdown {
-        .dropdown-menu.show {
-            top: 13px !important;
-        }
-    }
-
     .btn-topbar {
         height: 42px;
         width: 42px;
@@ -136,7 +130,7 @@
 
 .topbar-user {
     @media (min-width: 768px) {
-        // background-color: $topbar-user-bg;
+        background-color: $topbar-user-bg;
     }
 
     .dropdown-menu {
@@ -217,7 +211,7 @@
 
     .topbar-user {
         @media (min-width: 767.99px) {
-            // background-color: $topbar-user-bg-dark;
+            background-color: $topbar-user-bg-dark;
         }
 
         .user-name-text {

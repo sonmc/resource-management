@@ -7,8 +7,9 @@ const Footer = () => {
             <footer className="footer">
                 <Container fluid>
                     <Row>
+                        <Col sm={6}>{new Date().getFullYear()} © Zen8labs Tool.</Col>
                         <Col sm={6}>
-                            <div className="text-sm-end d-none d-sm-block"> design by sonmc </div>
+                            <div className="text-sm-end d-none d-sm-block">Design & Develop by Kidsmini Team</div>
                         </Col>
                     </Row>
                 </Container>
