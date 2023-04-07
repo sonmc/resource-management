@@ -1,8 +1,8 @@
-import { CacheInterceptor, CacheTTL, Controller, Inject } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetProjectsUseCases } from 'src/use-cases/project/get-projects.usecases';
-import { Body, Get, Post, Param, Query, UseGuards, UseInterceptors, Delete } from '@nestjs/common/decorators';
+import { Body, Get, Post, Param, Query, UseGuards } from '@nestjs/common/decorators';
 import { ProjectPresenter } from './presenter/project.presenter';
 import { CreateProjectUseCases } from 'src/use-cases/project/create-project.usecases';
 import { ProjectEntity } from 'src/domain/entities/project.entity';
@@ -21,7 +21,6 @@ import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { ProjectRepository } from 'src/presentation/repositories/project.repository';
 import { RemoveMemberUseCases } from 'src/use-cases/project/remove-member-to-project.usercase';
 
-@UseInterceptors(CacheInterceptor)
 @Controller('projects')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class ProjectController {
@@ -37,7 +36,6 @@ export class ProjectController {
         private readonly projectRepository: ProjectRepository
     ) {}
 
-    @CacheTTL(10)
     @Permissions(EndPoint.PROJECT_GET)
     @Get()
     async getAll(@Query() query): Promise<ProjectEntity[]> {
