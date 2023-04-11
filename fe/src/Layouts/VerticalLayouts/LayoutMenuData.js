@@ -60,6 +60,15 @@ const Navdata = () => {
                 e.preventDefault();
             },
         },
+        {
+            id: 'new-management',
+            label: 'New Management',
+            icon: 'ri-honour-line',
+            link: '/new-management',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
     ];
     return <React.Fragment>{menuItems}</React.Fragment>;
 };

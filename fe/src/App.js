@@ -12,7 +12,6 @@ function App() {
     const spinner = useRecoilValue(spinnerAtom);
 
     useEffect(() => {
-        if (document.documentElement) document.documentElement.setAttribute('data-layout', 'horizontal');
         const getUsers = async () => {
             try {
                 const user = await GetCurrentUser();

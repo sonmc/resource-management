@@ -11,6 +11,8 @@ import Vacations from '../pages/VacationManage';
 import TaskDetails from '../pages/Projects/ProjectManage/TaskDetails';
 import Home from '../pages/Home';
 import Lunch from '../pages/Lunch';
+import NewManagement from '../pages/NewManagement';
+import CreateNewManagement from '../pages/NewManagement/Create';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
@@ -21,6 +23,9 @@ const authProtectedRoutes = [
     { path: '/roles', component: Roles },
     { path: '/home', component: Home },
     { path: '/lunch-order', component: Lunch },
+    { path: '/new-management', component: NewManagement },
+    { path: '/new-management/add', component: CreateNewManagement },
+    { path: '/new-management/edit/:id', component: CreateNewManagement },
     {
         path: '/',
         exact: true,
