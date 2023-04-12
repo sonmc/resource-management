@@ -1,27 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Permission } from 'src/infrastructure/schemas/permission.schema';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { INewRepository } from 'src/domain/repositories/new-repository.interface';
 import { New } from 'src/infrastructure/schemas/new.schema';
 import { NewEntity } from 'src/domain/entities/new.entity';
+import { User } from 'src/infrastructure/schemas/user.schema';
 
 @Injectable()
 export class NewRepository implements INewRepository {
     constructor(
         @InjectRepository(New)
-        private readonly repository: Repository<Permission>
+        private readonly repository: Repository<New>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>
     ) {}
 
     async create(newE: NewEntity): Promise<NewEntity> {
-        const response = await this.repository.create(newE);
+        const newSchema = plainToClass(New, newE);
+        const response = await this.repository.create(newSchema);
         return plainToClass(NewEntity, response);
     }
 
     async findAll(): Promise<NewEntity[]> {
-        const datas = await this.repository.find();
-        const news = await datas.map((r) => plainToClass(NewEntity, r));
-        return news;
+        let findOption: FindManyOptions = {
+            relations: ['users'],
+            order: {
+                created_at: 'DESC',
+            },
+        };
+        let news = await this.repository.find(findOption as FindManyOptions);
+        return news.map((n) => plainToClass(NewEntity, n));
     }
 }

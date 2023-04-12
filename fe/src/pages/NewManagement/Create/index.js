@@ -10,7 +10,7 @@ import UploadImage from '../../../Components/Common/UploadImage.js';
 const InitialState = {
     id: 0,
     title: '',
-    image: 'https://cdn.kidsenglish.vn/staging/test/image/d6ad3d66-0e01-480f-aafc-2594ac3bc829.jpg',
+    image: '',
     content: '',
 };
 const Component = (props) => {
@@ -20,6 +20,7 @@ const Component = (props) => {
 
     const { params } = props.match;
     const [formNew, setForm] = useState(InitialState);
+
     useEffect(() => {
         setIsEdit(!!params.id);
         if (params.id) {
@@ -30,6 +31,7 @@ const Component = (props) => {
                 .catch(() => {});
         }
     }, [params]);
+
     const handleSubmit = (formNew) => {
         if (formNew.id) {
             return Update(formNew);
@@ -37,6 +39,7 @@ const Component = (props) => {
             return Create(formNew);
         }
     };
+
     const submit = (formNew) => {
         setSubmitted(true);
         handleSubmit(formNew)
@@ -48,6 +51,7 @@ const Component = (props) => {
                 setSubmitted(false);
             });
     };
+
     return (
         <React.Fragment>
             <div className="page-content">
@@ -74,7 +78,7 @@ const Component = (props) => {
                                                 <Input
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="Enter your firstname"
+                                                    placeholder="Enter new title"
                                                     id="firstNameinput"
                                                     onChange={(event) => {
                                                         setForm((x) => {
@@ -88,12 +92,11 @@ const Component = (props) => {
                                         <Col md={6}>
                                             <div className="mb-3">
                                                 <Label for="firstNameinput" className="form-label">
-                                                    Ảnh
+                                                    Image
                                                 </Label>
                                                 <UploadImage
                                                     type="thumbnail"
                                                     setImage={(path) => {
-                                                        console.log(path);
                                                         setForm((x) => {
                                                             x.image = path;
                                                             return { ...x };

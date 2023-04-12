@@ -6,17 +6,19 @@ import './index.scss';
 const Component = (props) => {
     const { type, setImage, currentUrl } = props;
     const [src, setSrc] = useState('');
+
     useEffect(() => {
         console.log(currentUrl);
         setSrc(currentUrl);
     }, [currentUrl]);
+
     const uploadImage = () => {
         let inputTag = document.createElement('input');
         inputTag.type = 'file';
         inputTag.accept = 'image/png, image/jpeg';
         inputTag.onchange = (_this) => {
             let files = _this.target.files;
-            Upload(files, 'test', 'image')
+            Upload(files)
                 .then((res) => {
                     setImage(res.data.path);
                 })
@@ -24,6 +26,7 @@ const Component = (props) => {
         };
         inputTag.click();
     };
+
     return (
         <div className={'box-img ' + type}>
             <div className="img">

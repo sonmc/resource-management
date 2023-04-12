@@ -7,10 +7,18 @@ import { User } from './user.schema';
 export class New extends BaseEntity {
     @Column()
     content: string;
+
     @Column()
     title: string;
-    @Column()
+
+    @Column({
+        nullable: true,
+    })
     image: string;
-    @ManyToOne(() => User, (user) => user.workloads)
+
+    @Column()
+    user_id: number;
+
+    @ManyToOne(() => User, (user) => user.news)
     user: User;
 }

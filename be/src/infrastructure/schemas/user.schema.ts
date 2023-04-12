@@ -7,6 +7,7 @@ import { Workload } from './workload.schema';
 import { Vacation } from './vacation.schema';
 import { Kanban } from './kanban.schema';
 import { Task } from './task.schema';
+import { New } from './new.schema';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -56,6 +57,11 @@ export class User extends BaseEntity {
         eager: true,
     })
     workloads: Workload[];
+
+    @OneToMany(() => New, (n) => n.user, {
+        eager: true,
+    })
+    news: New[];
 
     @OneToMany(() => Vacation, (vacation) => vacation.user, {
         eager: true,
