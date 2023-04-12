@@ -33,7 +33,8 @@ api.interceptors.response.use(
     },
     (err) => {
         const originalRequest = err.config;
-        if (!blackListUrl.includes(originalRequest.url) && err.response) {
+        const isblacklist = originalRequest ? blackListUrl.includes(originalRequest.url) : true;
+        if (!isblacklist && err.response) {
             if (err.response.status === 401 && !originalRequest._retry) {
                 if (isRefreshing) {
                     return new Promise(function (resolve, reject) {
