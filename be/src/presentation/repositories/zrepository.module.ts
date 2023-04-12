@@ -18,10 +18,12 @@ import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 import { VacationRepository } from './vacation.repository';
 import { Vacation } from 'src/infrastructure/schemas/vacation.schema';
 import { RolePem } from 'src/infrastructure/schemas/role-pems.schema';
+import { NewRepository } from './new.repository';
+import { New } from 'src/infrastructure/schemas/new.schema';
 
 @Module({
-    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem])],
-    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository],
-    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository],
+    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem, New])],
+    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository],
+    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository],
 })
 export class RepositoriesModule {}

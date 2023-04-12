@@ -20,9 +20,13 @@ import { User } from 'src/infrastructure/schemas/user.schema';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 import { Project } from 'src/infrastructure/schemas/project.schema';
 import { ProjectRepository } from '../repositories/project.repository';
+import { New } from 'src/infrastructure/schemas/new.schema';
+import { NewRepository } from '../repositories/new.repository';
+import { NewController } from './new/new.controller';
+import { FileController } from './file/file.controller';
 @Module({
-    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project])],
-    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController],
-    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository],
+    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New])],
+    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController],
+    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository],
 })
 export class ControllersModule {}
