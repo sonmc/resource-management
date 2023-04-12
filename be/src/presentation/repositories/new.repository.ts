@@ -24,7 +24,7 @@ export class NewRepository implements INewRepository {
 
     async findAll(): Promise<NewEntity[]> {
         let findOption: FindManyOptions = {
-            relations: ['users'],
+            relations: ['user'],
             order: {
                 created_at: 'DESC',
             },
