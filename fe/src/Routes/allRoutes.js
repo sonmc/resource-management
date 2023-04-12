@@ -13,6 +13,7 @@ import Home from '../pages/Home';
 import Lunch from '../pages/Lunch';
 import NewManagement from '../pages/NewManagement';
 import CreateNewManagement from '../pages/NewManagement/Create';
+import HandBook from '../pages/HandBook';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
@@ -26,6 +27,8 @@ const authProtectedRoutes = [
     { path: '/new-management', component: NewManagement },
     { path: '/new-management/add', component: CreateNewManagement },
     { path: '/new-management/edit/:id', component: CreateNewManagement },
+    { path: '/hand-book', component: HandBook },
+
     {
         path: '/',
         exact: true,

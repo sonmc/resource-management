@@ -69,6 +69,15 @@ const Navdata = () => {
                 e.preventDefault();
             },
         },
+        {
+            id: 'hand-book',
+            label: 'Hand Book',
+            icon: 'ri-honour-line',
+            link: '/hand-book',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
     ];
     return <React.Fragment>{menuItems}</React.Fragment>;
 };

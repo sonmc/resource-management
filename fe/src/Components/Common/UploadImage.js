@@ -20,7 +20,7 @@ const Component = (props) => {
             let files = _this.target.files;
             Upload(files)
                 .then((res) => {
-                    setImage(res.data.path);
+                    setImage(process.env.REACT_APP_API_URL + '/' + res.imagePath);
                 })
                 .catch((err) => {});
         };

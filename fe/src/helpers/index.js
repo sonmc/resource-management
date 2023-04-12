@@ -24,7 +24,7 @@ export class MyUploadAdapter {
     }
     _initRequest() {
         const xhr = (this.xhr = new XMLHttpRequest());
-        xhr.open('POST', 'https://stg.api.kidsenglish.vn/api/files', true); // TODO change the URL
+        xhr.open('POST', process.env.REACT_APP_API_URL + '/files/upload', true); // TODO change the URL
         xhr.responseType = 'json';
         xhr.setRequestHeader('Accept', 'application/json');
     }
@@ -40,7 +40,7 @@ export class MyUploadAdapter {
                 return reject(response && response.error ? response.error.message : genericErrorText);
             }
             resolve({
-                default: response.path,
+                default: process.env.REACT_APP_API_URL + '/' + response.imagePath,
             });
         });
         if (xhr.upload) {
