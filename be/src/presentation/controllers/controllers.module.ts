@@ -24,20 +24,8 @@ import { New } from 'src/infrastructure/schemas/new.schema';
 import { NewRepository } from '../repositories/new.repository';
 import { NewController } from './new/new.controller';
 import { FileController } from './file/file.controller';
-import { MulterModule } from '@nestjs/platform-express';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 @Module({
-    imports: [
-        UseCasesProxyModule.register(),
-        TypeOrmModule.forFeature([User, UserRole, Project, New]),
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'public'),
-        }),
-        MulterModule.register({
-            dest: './uploads',
-        }),
-    ],
+    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New])],
     controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController],
     providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository],
 })

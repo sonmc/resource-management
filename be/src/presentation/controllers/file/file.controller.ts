@@ -24,6 +24,7 @@ export class FileController {
         })
     )
     uploadFile(@UploadedFile() file: Express.Multer.File) {
+        console.log(file.path);
         const dataResponse = { originalname: file.originalname, imagePath: file.path.replace('dist/public/', '') };
         return of(dataResponse);
     }
