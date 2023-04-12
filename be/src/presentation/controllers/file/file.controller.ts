@@ -14,7 +14,7 @@ export class FileController {
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: './uploads',
+                destination: './dist/public/uploads',
                 filename: (req, file, cb) => {
                     const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
                     const extension: string = path.parse(file.originalname).ext;
@@ -24,6 +24,7 @@ export class FileController {
         })
     )
     uploadFile(@UploadedFile() file: Express.Multer.File) {
-        return of({ imagePath: file.path });
+        const dataResponse = { originalname: file.originalname, imagePath: file.path.replace('dist/public/', '') };
+        return of(dataResponse);
     }
 }
