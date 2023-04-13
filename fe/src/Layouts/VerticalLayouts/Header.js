@@ -95,8 +95,8 @@ const Header = ({ headerClass }) => {
                             </button>
 
                             <FullScreenDropdown />
-                            {/*
-                            <NotificationDropdown /> */}
+
+                            <NotificationDropdown />
 
                             <ProfileDropdown />
                         </div>
