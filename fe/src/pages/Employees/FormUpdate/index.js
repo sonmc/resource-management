@@ -15,9 +15,9 @@ const EMPLOYEE_DEFAULT = {
     email: '',
     phone_number: '',
     status: 1,
-    levelStatus: 1,
-    chapterHead: 0,
-    onboard_day: 0,
+    status_level: 1,
+    chapter_head: null,
+    onboard_day: '2000-01-01',
     avatar: '',
     gender: 1,
 };
@@ -63,8 +63,8 @@ const ModalUpdate = (props) => {
         setRoles(selectedRoles);
     };
 
-    const handleChapterHead = (chapterHeadSelected) => {
-        setSelectedChapterHead(chapterHeadSelected);
+    const handleChapterHead = (chapterHead) => {
+        setSelectedChapterHead(chapterHead);
     };
     const fetchEmployee = (filter) => {
         GetEmployee(filter).then((res) => {
@@ -76,9 +76,9 @@ const ModalUpdate = (props) => {
         setSelectedStatus(st);
     };
     useEffect(() => {
-        let emp = { ...employee, roles: selectedRoles };
+        let emp = { ...employee, roles: selectedRoles, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
         setEmployee(emp);
-    }, [selectedRoles]);
+    }, [selectedRoles, selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
         if (employeeId) {
