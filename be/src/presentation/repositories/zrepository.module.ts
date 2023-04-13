@@ -20,10 +20,12 @@ import { Vacation } from 'src/infrastructure/schemas/vacation.schema';
 import { RolePem } from 'src/infrastructure/schemas/role-pems.schema';
 import { NewRepository } from './new.repository';
 import { New } from 'src/infrastructure/schemas/new.schema';
+import { LunchOrderRepository } from './lunch-order.repository';
+import { LunchOrder } from 'src/infrastructure/schemas/lunch_order.schema';
 
 @Module({
-    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem, New])],
-    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository],
-    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository],
+    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem, New, LunchOrder])],
+    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository, LunchOrderRepository],
+    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository, LunchOrderRepository],
 })
 export class RepositoriesModule {}

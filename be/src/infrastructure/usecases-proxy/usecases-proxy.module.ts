@@ -13,6 +13,7 @@ import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
+import { addLunchOrderProvide, getLunchOrderProvide } from './lunch-order.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
 })
@@ -44,6 +45,9 @@ export class UseCasesProxyModule {
     // New
     static GET_NEWS_USECASES_PROXY = 'GetNewsUseCasesProxy';
     static CREATE_NEW_USECASES_PROXY = 'CreateNewsUseCaseProxy';
+    // Lunch order
+    static ADD_LUNCH_ORDER_USECASES_PROXY = 'AddLunchUseCaseProxy';
+    static GET_LUNCH_ORDER_USECASES_PROXY = 'GetLunchUseCaseProxy';
 
     static register(): DynamicModule {
         return {
@@ -75,6 +79,9 @@ export class UseCasesProxyModule {
                 // News
                 getNewsProvide(UseCasesProxyModule.GET_NEWS_USECASES_PROXY),
                 createNewProvide(UseCasesProxyModule.CREATE_NEW_USECASES_PROXY),
+                // lunch order
+                addLunchOrderProvide(UseCasesProxyModule.ADD_LUNCH_ORDER_USECASES_PROXY),
+                getLunchOrderProvide(UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY),
             ],
             exports: [
                 // Auths
@@ -103,6 +110,9 @@ export class UseCasesProxyModule {
                 // News
                 UseCasesProxyModule.GET_NEWS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_NEW_USECASES_PROXY,
+                // Lunch order
+                UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY,
+                UseCasesProxyModule.ADD_LUNCH_ORDER_USECASES_PROXY,
             ],
         };
     }

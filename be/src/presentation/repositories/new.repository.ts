@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { INewRepository } from 'src/domain/repositories/new-repository.interface';
 import { New } from 'src/infrastructure/schemas/new.schema';
@@ -18,7 +18,9 @@ export class NewRepository implements INewRepository {
 
     async create(newE: NewEntity): Promise<NewEntity> {
         const newSchema = plainToClass(New, newE);
+        newSchema.user = await this.userRepository.findOne(newE.user_id);
         const response = await this.repository.create(newSchema);
+        await this.repository.save(response);
         return plainToClass(NewEntity, response);
     }
 

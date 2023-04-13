@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Body, Query, Inject, UseInterceptors } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Query, Inject } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
@@ -12,6 +12,7 @@ import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
+import { AddLunchOrderUseCases } from 'src/use-cases/lunch-order/add-lunch-order.usecase';
 
 @Controller('employees')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -22,7 +23,9 @@ export class UserController {
         @Inject(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
         private readonly getOneUseCaseProxy: UseCaseProxy<GetOneUseCases>,
         @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
-        private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>
+        private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
+        @Inject(UseCasesProxyModule.ADD_LUNCH_ORDER_USECASES_PROXY)
+        private readonly addLunchOrderUseCaseProxy: UseCaseProxy<AddLunchOrderUseCases>
     ) {}
 
     @Get()
@@ -39,6 +42,8 @@ export class UserController {
     @Permissions(EndPoint.EMPLOYEE_CREATE)
     async create(@Body() employeePresenter: CreateEmployeePresenter) {
         const userEntity = plainToClass(UserEntity, employeePresenter);
-        return await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
+        const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
+        await this.addLunchOrderUseCaseProxy.getInstance().execute(userCreated.id);
+        return userCreated;
     }
 }

@@ -3,12 +3,12 @@ import avatar from '../../assets/images/default-avatar.png';
 import thumbnail from '../../assets/images/default.png';
 import { Upload } from '../../Services/share.service';
 import './index.scss';
+
 const Component = (props) => {
     const { type, setImage, currentUrl } = props;
     const [src, setSrc] = useState('');
 
     useEffect(() => {
-        console.log(currentUrl);
         setSrc(currentUrl);
     }, [currentUrl]);
 
