@@ -49,43 +49,6 @@ body {
     width: 55px;
 }
 
-// table {
-//     width: 100%;
-// }
-
-// table,
-// td {
-//     border-collapse: collapse;
-//     border: 1px solid #000;
-// }
-
-// thead {
-//     display: table; /* to take the same width as tr */
-//     width: 100%; /* - 17px because of the scrollbar width */
-// }
-
-// tbody {
-//     display: block; /* to enable vertical scrolling */
-//     max-height: 500px; /* e.g. */
-//     overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
-// }
-
-// thead tr,
-// th {
-//     padding: 5px;
-//     word-break: break-all; /* 4. */
-// }
-
-// tbody tr td {
-//     display: table; /* display purpose; th's border */
-//     width: 100%;
-//     box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
-// }
-
-// tbody tr td {
-//     text-align: center;
-//     border: none;
-// }
 .custom-tooltip {
     .tooltip-inner {
         background-color: #fff;
@@ -101,4 +64,8 @@ body {
     p {
         margin-bottom: 0;
     }
+}
+
+.card {
+    box-shadow: 0 1px 10px rgba(56, 65, 74, 0.15);
 }
