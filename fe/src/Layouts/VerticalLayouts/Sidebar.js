@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 //import logo
 import logoSm from '../../assets/icons/logo.png';
-import logoLight from '../../assets/images/logo.png';
+import logoLight from '../../assets/images/logo-light.png';
 
 //Import Components
 import SidebarContent from './SidebarContent';

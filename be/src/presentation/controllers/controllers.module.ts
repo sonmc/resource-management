@@ -24,9 +24,10 @@ import { New } from 'src/infrastructure/schemas/new.schema';
 import { NewRepository } from '../repositories/new.repository';
 import { NewController } from './new/new.controller';
 import { FileController } from './file/file.controller';
+import { LunchOrderController } from './lunch-order/lunch-order.controller';
 @Module({
     imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New])],
-    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController],
-    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository],
+    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController, LunchOrderController],
+    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository, LunchOrderController],
 })
 export class ControllersModule {}

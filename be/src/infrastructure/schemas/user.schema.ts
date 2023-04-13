@@ -8,6 +8,7 @@ import { Vacation } from './vacation.schema';
 import { Kanban } from './kanban.schema';
 import { Task } from './task.schema';
 import { New } from './new.schema';
+import { LunchOrder } from './lunch_order.schema';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -57,6 +58,11 @@ export class User extends BaseEntity {
         eager: true,
     })
     workloads: Workload[];
+
+    @OneToMany(() => LunchOrder, (lo) => lo.user, {
+        eager: true,
+    })
+    lunch_orders: LunchOrder[];
 
     @OneToMany(() => New, (n) => n.user, {
         eager: true,

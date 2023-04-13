@@ -3,12 +3,8 @@ import React from 'react';
 const Navdata = () => {
     const menuItems = [
         {
-            label: 'Menu',
-            isHeader: true,
-        },
-        {
             id: 'home',
-            label: 'Dashboard',
+            label: 'Home',
             icon: 'ri-honour-line',
             link: '/home',
             click: function (e) {

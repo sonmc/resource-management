@@ -3,7 +3,8 @@ import { Container, Table, CardBody, Card, CardHeader, Row, Col } from 'reactstr
 import MetaTags from 'react-meta-tags';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
-import { Get as GetEmployees, GetLunch } from '../../Services/user.service';
+import { Get as GetEmployees } from '../../Services/user.service';
+import { Get as GetLunch } from '../../Services/lunch-order.service';
 import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
 
@@ -45,6 +46,7 @@ const LunchPage = () => {
     const [days, setDays] = useState([]);
     const [dataLunch, setDataLunchs] = useState([]);
     const [month, setMonth] = useState(moment().startOf('day').startOf('month'));
+
     const fetchEmployee = () => {
         GetEmployees({
             status: 1,
@@ -56,12 +58,14 @@ const LunchPage = () => {
     useEffect(() => {
         fetchEmployee();
     }, []);
+
     useEffect(() => {
         setDays(getDaysArrayByMonth(month));
     }, [month]);
+
     useEffect(() => {
         if (days.length === 0) return;
-        GetLunch({})
+        GetLunch()
             .then((res) => {
                 // setDays(res);
             })
@@ -74,6 +78,7 @@ const LunchPage = () => {
                 setDataLunchs(d);
             });
     }, [days, employees]);
+
     return (
         <React.Fragment>
             <div className="page-content">
