@@ -9,7 +9,7 @@ import { RepositoriesModule } from 'src/presentation/repositories/zrepository.mo
 import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
 import { addMemberProvide, createProjectProvide, getProjectProvide, removeMemberProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
-import { getOneProvide, getAllProvide, createEmployeeProvide } from './employee.provide';
+import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
@@ -36,6 +36,7 @@ export class UseCasesProxyModule {
     static GET_EMPLOYEES_USECASES_PROXY = 'GetEmployeesUseCasesProxy';
     static GET_EMPLOYEE_USECASES_PROXY = 'GetEmployeeUseCasesProxy';
     static CREATE_EMPLOYEES_USECASES_PROXY = 'CreateEmployeesUseCasesProxy';
+    static DELETE_EMPLOYEE_USECASES_PROXY = 'DeleteEmployeesUseCaseProxy';
     // Permission
     static GET_PERMISSIONS_USECASES_PROXY = 'GetPermissionsUseCasesProxy';
     static ADD_PERM_TO_ROLE_USECASES_PROXY = 'AddPermissionsUseCasesProxy';
@@ -70,6 +71,7 @@ export class UseCasesProxyModule {
                 getAllProvide(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
                 getOneProvide(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
                 createEmployeeProvide(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
+                deleteEmployeeProvide(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY),
                 // Permissions
                 getPermissionsProvide(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY),
                 addPermToRoleProvide(UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY),
@@ -101,6 +103,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY,
                 UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
+                UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY,
                 // Permissions
                 UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY,
                 UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY,

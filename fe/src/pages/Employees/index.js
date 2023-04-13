@@ -3,19 +3,20 @@ import { CardBody, Col, Container, Table, Button } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import ModalUpdate from './FormUpdate';
-import { Get, Create } from '../../Services/user.service';
-import { useRecoilValue } from 'recoil';
-import { rolesState } from '../../Recoil/states/roles';
+import ConfirmDelete from './ConfirmDelete';
+import { Get as GetEmployee, Create, Delete } from '../../Services/user.service';
+import { Get as GetRole } from '../../Services/role.service';
 import { STATUS_ACTIVE } from '../../Constant/index';
 import { usersState } from '../../Recoil/states/users';
 import { useSetRecoilState } from 'recoil';
 
 const EmployeePage = () => {
     const setUsersStore = useSetRecoilState(usersState);
-    let roles = useRecoilValue(rolesState);
-
+    const [roles, setRoles] = useState([]);
     const [employeeId, setEmployeeId] = useState(0);
     const [employees, setEmployees] = useState([]);
+    const [employeeDelete, setEmployeeDelete] = useState({ id: 0, full_name: '' });
+    const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
     const [filter, setFilter] = useState({
         searchTerm: '',
         roleId: 0,
@@ -24,15 +25,27 @@ const EmployeePage = () => {
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
 
     const fetchEmployee = (filter) => {
-        Get(filter).then((res) => {
+        GetEmployee(filter).then((res) => {
             setEmployees(res);
             setUsersStore(res);
+        });
+    };
+
+    const fetchRole = (filter) => {
+        GetRole(filter).then((res) => {
+            setRoles(res);
         });
     };
 
     const showFormUpdate = (employeeId) => {
         setEmployeeId(employeeId);
         setShowFormUpdate(!isShowFormUpdate);
+    };
+
+    const confirmDelete = (employeeId) => {
+        const empDelete = employees.find((e) => e.id === employeeId);
+        setEmployeeDelete(empDelete);
+        setShowConfirmDelete(true);
     };
 
     const closeFormUpdate = () => {
@@ -62,9 +75,27 @@ const EmployeePage = () => {
         setFilter({ ...filter, [event.target.name]: value });
     };
 
+    const closeConfirmDelete = () => {
+        setShowConfirmDelete(false);
+    };
+
+    const deleteEmployee = (employeeId) => {
+        Delete(employeeId)
+            .then((res) => {
+                const newList = employees.filter((e) => e.id !== res);
+                setEmployees(newList);
+                setShowConfirmDelete(false);
+            })
+            .catch((err) => {});
+    };
+
     useEffect(() => {
         fetchEmployee(filter);
     }, [filter]);
+
+    useEffect(() => {
+        fetchRole();
+    }, []);
 
     return (
         <React.Fragment>
@@ -131,7 +162,7 @@ const EmployeePage = () => {
                                                     <th>Email</th>
                                                     <th>Role</th>
                                                     <th style={{ width: '10%', textAlign: 'center' }}>Status</th>
-                                                    <th style={{ width: '10%', textAlign: 'center' }}></th>
+                                                    <th style={{ width: '20%', textAlign: 'center' }}></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -156,8 +187,11 @@ const EmployeePage = () => {
                                                                 <span className={'badge ' + (emp.status == STATUS_ACTIVE ? 'bg-success' : 'bg-danger')}>{emp.status == STATUS_ACTIVE ? 'Active' : 'Inactive'}</span>
                                                             </td>
                                                             <td style={{ textAlign: 'center' }}>
-                                                                <Button color="success btn-sm" onClick={() => showFormUpdate(emp.id)}>
+                                                                <Button color="success btn-sm me-2" onClick={() => showFormUpdate(emp.id)}>
                                                                     Update
+                                                                </Button>
+                                                                <Button color="danger btn-sm" onClick={() => confirmDelete(emp.id)}>
+                                                                    Delete
                                                                 </Button>
                                                             </td>
                                                         </tr>
@@ -171,6 +205,7 @@ const EmployeePage = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} employeeId={employeeId} roles={roles} />
+                    <ConfirmDelete deleteEmployee={deleteEmployee} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} employee={employeeDelete} />
                 </Container>
             </div>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Body, Query, Inject } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Query, Inject, Delete, Param } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
@@ -13,6 +13,7 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { AddLunchOrderUseCases } from 'src/use-cases/lunch-order/add-lunch-order.usecase';
+import { DeleteEmployeeUseCases } from 'src/use-cases/employee/delete-employee.usecase';
 
 @Controller('employees')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -24,6 +25,8 @@ export class UserController {
         private readonly getOneUseCaseProxy: UseCaseProxy<GetOneUseCases>,
         @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
+        @Inject(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY)
+        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>,
         @Inject(UseCasesProxyModule.ADD_LUNCH_ORDER_USECASES_PROXY)
         private readonly addLunchOrderUseCaseProxy: UseCaseProxy<AddLunchOrderUseCases>
     ) {}
@@ -45,5 +48,11 @@ export class UserController {
         const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
         await this.addLunchOrderUseCaseProxy.getInstance().execute(userCreated.id);
         return userCreated;
+    }
+
+    @Delete(':id')
+    @Permissions(EndPoint.EMPLOYEE_DELETE)
+    async delete(@Param('id') id: string) {
+        return await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
     }
 }

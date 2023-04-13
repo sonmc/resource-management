@@ -3,7 +3,8 @@ import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reacts
 import { Get } from '../../../Services/user.service';
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
-import { GENDER_MALE, GENDER_FEMALE, STATUS_INACTIVE, STATUS_ACTIVE } from '../../../Constant/index';
+import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
+import { Get as GetEmployee } from '../../../Services/user.service';
 
 const EMPLOYEE_DEFAULT = {
     role_id: 0,
@@ -14,15 +15,39 @@ const EMPLOYEE_DEFAULT = {
     email: '',
     phone_number: '',
     status: 1,
+    levelStatus: 1,
+    chapterHead: 0,
+    onboard_day: 0,
     avatar: '',
     gender: 1,
 };
+const levelStatus = [
+    {
+        id: 1,
+        title: 'intern',
+    },
+    {
+        id: 2,
+        title: 'probation',
+    },
+    {
+        id: 3,
+        title: 'partime',
+    },
+    {
+        id: 4,
+        title: 'fulltime',
+    },
+];
 
 const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
+    const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
+    const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
     const [title, setTitle] = useState('Create employee');
     const [selectedRoles, setRoles] = useState(null);
+    const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
     const changeField = (event) => {
         let emp = { ...employee, [event.target.name]: event.target.name == 'status' ? +event.target.value : event.target.value };
@@ -38,6 +63,18 @@ const ModalUpdate = (props) => {
         setRoles(selectedRoles);
     };
 
+    const handleChapterHead = (chapterHeadSelected) => {
+        setSelectedChapterHead(chapterHeadSelected);
+    };
+    const fetchEmployee = (filter) => {
+        GetEmployee(filter).then((res) => {
+            setEmployees(res);
+        });
+    };
+
+    const handleLevelStatus = (st) => {
+        setSelectedStatus(st);
+    };
     useEffect(() => {
         let emp = { ...employee, roles: selectedRoles };
         setEmployee(emp);
@@ -54,6 +91,14 @@ const ModalUpdate = (props) => {
             setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
         }
     }, [employeeId]);
+
+    useEffect(() => {
+        fetchEmployee({
+            searchTerm: '',
+            roleId: 0,
+            status: 0,
+        });
+    }, []);
 
     return (
         <Modal
@@ -100,13 +145,13 @@ const ModalUpdate = (props) => {
                             </label>
                             <Input value={employee.email} type="email" className="form-control" name="email" placeholder="Enter employee email" onChange={(x) => changeField(x)} />
                         </Col>
-                        <Col xxl={6}>
+                        <Col xxl={3}>
                             <label htmlFor="phoneNumber" className="form-label">
                                 Phone number
                             </label>
                             <Input value={employee.phone_number} type="number" className="form-control" name="phone_number" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
                         </Col>
-                        <Col xxl={6}>
+                        <Col xxl={3}>
                             <Label for="start-field" className="form-label">
                                 Date of birth
                             </Label>
@@ -141,23 +186,61 @@ const ModalUpdate = (props) => {
                                 options={roles}
                             />
                         </Col>
-                        <Col xxl={6} className="d-flex">
-                            <label className="form-label me-3">Status</label>
-                            <div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_ACTIVE} value={STATUS_ACTIVE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio1">
-                                        Active
-                                    </label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="status" checked={employee.status == STATUS_INACTIVE} value={STATUS_INACTIVE} onChange={(x) => changeField(x)} />
-                                    <label className="form-check-label" htmlFor="inlineRadio2">
-                                        Inactive
-                                    </label>
-                                </div>
-                            </div>
+                        <Col xxl={6}>
+                            <label htmlFor="dob" className="form-label">
+                                Chapter Head
+                            </label>
+                            <Select
+                                value={selectedChapterHead}
+                                getOptionLabel={(option) => {
+                                    return option.username + ' ( ' + option.first_name + ' ' + option.last_name + ' )';
+                                }}
+                                getOptionValue={(option) => {
+                                    return option.id;
+                                }}
+                                isMulti={false}
+                                onChange={(x) => {
+                                    handleChapterHead(x);
+                                }}
+                                options={employees}
+                            />
                         </Col>
+                        <Col xxl={6}>
+                            <Label for="start-field" className="form-label">
+                                Onboard day
+                            </Label>
+                            <Flatpickr
+                                className="form-control"
+                                options={{
+                                    dateFormat: 'Y-m-d',
+                                }}
+                                onChange={([value]) => {
+                                    changeField({ target: { name: 'dob', value } });
+                                }}
+                                value={employee.dob}
+                                placeholder="Select Date"
+                            />
+                        </Col>
+                        <Col xxl={6}>
+                            <Label for="start-field" className="form-label">
+                                Status
+                            </Label>
+                            <Select
+                                value={selectedStatus}
+                                getOptionLabel={(option) => {
+                                    return option.title;
+                                }}
+                                getOptionValue={(option) => {
+                                    return option.id;
+                                }}
+                                isMulti={false}
+                                onChange={(x) => {
+                                    handleLevelStatus(x);
+                                }}
+                                options={levelStatus}
+                            />
+                        </Col>
+
                         <Col xxl={6} className="d-flex">
                             <label className="form-label me-3">Gender</label>
                             <div>

@@ -7,4 +7,5 @@ export interface IUserRepository {
     findAll(query: any): Promise<UserWithoutPassword[]>;
     findOne(id: number): Promise<UserEntity>;
     createOrUpdate(user: UserWithoutPassword): Promise<UserWithoutPassword>;
+    deleteById(id: number): Promise<void>;
 }

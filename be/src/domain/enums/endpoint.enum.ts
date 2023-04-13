@@ -1,6 +1,7 @@
 export enum EndPoint {
     EMPLOYEE_GET = 'employee_get',
     EMPLOYEE_CREATE = 'employee_create',
+    EMPLOYEE_DELETE = 'employee_delete',
 
     PROJECT_GET = 'project_get',
 

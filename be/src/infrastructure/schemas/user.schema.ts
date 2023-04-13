@@ -25,7 +25,7 @@ export class User extends BaseEntity {
     @Column()
     first_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     last_name: string;
 
     @Column()
@@ -33,6 +33,9 @@ export class User extends BaseEntity {
 
     @Column()
     status: number;
+
+    @Column()
+    status_level: string;
 
     @Column()
     gender: boolean;
@@ -46,8 +49,11 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     last_login?: Date;
 
-    @Column('varchar', { nullable: true })
+    @Column({ nullable: true })
     hash_refresh_token: string;
+
+    @Column({ nullable: true })
+    chapterHead: number;
 
     @BeforeInsert()
     async setPassword(password: string) {

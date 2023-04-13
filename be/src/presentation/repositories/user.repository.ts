@@ -6,9 +6,9 @@ import { Repository, FindOneOptions } from 'typeorm';
 import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
-import { hash } from 'src/infrastructure/services/bcrypt.service';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 import { Project } from 'src/infrastructure/schemas/project.schema';
+
 @Injectable()
 export class UserRepository implements IUserRepository {
     constructor(
@@ -19,6 +19,10 @@ export class UserRepository implements IUserRepository {
         @InjectRepository(Project)
         private readonly projectRepository: Repository<Project>
     ) {}
+
+    async deleteById(id: number): Promise<void> {
+        await this.userRepository.delete(id);
+    }
 
     async findOne(id: number): Promise<UserEntity> {
         let findOption: FindOneOptions = {
