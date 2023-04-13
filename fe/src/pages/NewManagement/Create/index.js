@@ -1,5 +1,5 @@
 import { Table, Container, Col, CardBody, Row, Label, Input, Button, Spinner } from 'reactstrap';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MetaTags from 'react-meta-tags';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -16,23 +16,19 @@ const InitialState = {
     user_id: '',
 };
 const Component = (props) => {
+    const { state } = props.location;
     const [isEdit, setIsEdit] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const history = useHistory();
-
     const { params } = props.match;
     const [formNew, setForm] = useState(InitialState);
 
     useEffect(() => {
         setIsEdit(!!params.id);
         if (params.id) {
-            GetById(params.id)
-                .then((res) => {
-                    setForm(res);
-                })
-                .catch(() => {});
+            setForm(state.new);
         }
-    }, [params]);
+    }, [state, params]);
 
     const handleSubmit = (formNew) => {
         if (formNew.id) {
@@ -56,7 +52,6 @@ const Component = (props) => {
                 setSubmitted(false);
             });
     };
-
     return (
         <React.Fragment>
             <div className="page-content">
@@ -70,6 +65,16 @@ const Component = (props) => {
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
                                         <h5 className="card-title mb-0 flex-grow-1">{isEdit ? 'Edit' : 'Create'} New</h5>
+                                        <div className="flex-shrink-0">
+                                            <button
+                                                className="btn btn-soft-dark"
+                                                onClick={() => {
+                                                    history.push('/new-management');
+                                                }}
+                                            >
+                                                <i className="ri-arrow-left-s-line align-bottom me-1"></i> Back
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -85,10 +90,11 @@ const Component = (props) => {
                                                     className="form-control"
                                                     placeholder="Enter new title"
                                                     id="firstNameinput"
+                                                    value={formNew.title}
                                                     onChange={(event) => {
                                                         setForm((x) => {
                                                             x.title = event.target.value;
-                                                            return x;
+                                                            return { ...x };
                                                         });
                                                     }}
                                                 />
@@ -119,7 +125,9 @@ const Component = (props) => {
                                                 </Label>
                                                 <CKEditor
                                                     editor={ClassicEditor}
+                                                    data={formNew.content}
                                                     onReady={(editor) => {
+                                                        editor.setData(state?.new?.content || '');
                                                         editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
                                                             return new MyUploadAdapter(loader, 'news');
                                                         };
@@ -127,7 +135,7 @@ const Component = (props) => {
                                                     onChange={(event, editor) => {
                                                         setForm((x) => {
                                                             x.content = editor.getData();
-                                                            return x;
+                                                            return { ...x };
                                                         });
                                                     }}
                                                 />

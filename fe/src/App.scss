@@ -61,6 +61,7 @@ body {
     }
 }
 .text-content {
+    grid-template-columns: 200px 1fr max-content;
     p {
         margin-bottom: 0;
     }
