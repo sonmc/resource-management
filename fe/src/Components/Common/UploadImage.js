@@ -3,12 +3,13 @@ import avatar from '../../assets/images/default-avatar.png';
 import thumbnail from '../../assets/images/default.png';
 import { Upload } from '../../Services/share.service';
 import './index.scss';
+
+const api_url = process.env.REACT_APP_API_URL;
 const Component = (props) => {
     const { type, setImage, currentUrl } = props;
     const [src, setSrc] = useState('');
 
     useEffect(() => {
-        console.log(currentUrl);
         setSrc(currentUrl);
     }, [currentUrl]);
 
@@ -20,7 +21,7 @@ const Component = (props) => {
             let files = _this.target.files;
             Upload(files)
                 .then((res) => {
-                    setImage(res.data.path);
+                    setImage(api_url + '/' + res.imagePath);
                 })
                 .catch((err) => {});
         };

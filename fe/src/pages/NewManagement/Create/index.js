@@ -7,11 +7,13 @@ import { GetById, Update, Create } from '../../../Services/new.service';
 import { useHistory } from 'react-router-dom';
 import { MyUploadAdapter } from '../../../helpers';
 import UploadImage from '../../../Components/Common/UploadImage.js';
+
 const InitialState = {
     id: 0,
     title: '',
     image: '',
     content: '',
+    user_id: '',
 };
 const Component = (props) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -42,7 +44,10 @@ const Component = (props) => {
 
     const submit = (formNew) => {
         setSubmitted(true);
-        handleSubmit(formNew)
+        let current_user = localStorage.getItem('currentUser');
+        current_user = JSON.parse(current_user);
+        const param = { ...formNew, user_id: current_user.user_id };
+        handleSubmit(param)
             .then(() => {
                 history.push('/new-management');
             })
@@ -118,7 +123,6 @@ const Component = (props) => {
                                                         editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
                                                             return new MyUploadAdapter(loader, 'news');
                                                         };
-                                                        // You can store the "editor" and use when it is needed.
                                                     }}
                                                     onChange={(event, editor) => {
                                                         setForm((x) => {
