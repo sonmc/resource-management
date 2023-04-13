@@ -169,13 +169,13 @@ function Event({ event }) {
     }
     return (
         <div>
-            {event.events.length > 0 ? (
+            {/* {event.events.length > 0 ? (
                 <div className="label-event">
                     <div>Event: {pad(event.events.length)}</div>
                 </div>
             ) : (
                 ''
-            )}
+            )} */}
             {event.remotes.length > 0 ? (
                 <>
                     <div className="label-remote">

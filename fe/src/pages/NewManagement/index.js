@@ -52,8 +52,8 @@ const Component = () => {
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
                                                     <th>Title</th>
-                                                    <th>Created by</th>
-                                                    <th>Created at</th>
+                                                    <th>Updated by</th>
+                                                    <th>Updated at</th>
 
                                                     <th style={{ width: '10%', textAlign: 'center' }}>Action</th>
                                                 </tr>
@@ -67,12 +67,15 @@ const Component = () => {
                                                             <td>
                                                                 {n.user.first_name} {n.user.last_name}
                                                             </td>
-                                                            <td>{moment(n.created_at * 1000).format('DD/MM/YYYY hh:mm:ss')}</td>
+                                                            <td>{moment(n.created_at).format('DD/MM/YYYY hh:mm:ss')}</td>
                                                             <td style={{ textAlign: 'center' }}>
                                                                 <Button
                                                                     color="success btn-sm"
                                                                     onClick={() => {
-                                                                        history.push('/new-management/edit/' + n.id);
+                                                                        history.push({
+                                                                            pathname: '/new-management/edit/' + n.id,
+                                                                            state: { new: n },
+                                                                        });
                                                                     }}
                                                                 >
                                                                     Update
