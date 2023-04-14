@@ -13,6 +13,11 @@ export class LunchOrderRepository implements ILunchOrderRepository {
         private readonly repository: Repository<LunchOrder>
     ) {}
 
+    async deleteByUserId(user_id: number): Promise<void> {
+        const lunchOrder = await this.repository.createQueryBuilder('lunchOrder').where('lunchOrder.userId = :user_id', { user_id: user_id }).getOne();
+        await this.repository.delete(lunchOrder.id);
+    }
+
     async createOrUpdate(lunchOrderEntity: LunchOrderEntity): Promise<LunchOrderEntity> {
         const lunchOrder = plainToClass(LunchOrder, lunchOrderEntity);
         const response = await this.repository.create(lunchOrder);

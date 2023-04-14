@@ -1,5 +1,5 @@
 import { hash } from 'src/infrastructure/services/bcrypt.service';
-import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index, OneToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from './base.schema';
 import { Project } from './project.schema';
 import { Role } from './role.schema';
@@ -67,11 +67,6 @@ export class User extends BaseEntity {
         eager: true,
     })
     workloads: Workload[];
-
-    @OneToMany(() => LunchOrder, (lo) => lo.user, {
-        eager: true,
-    })
-    lunch_orders: LunchOrder[];
 
     @OneToMany(() => New, (n) => n.user, {
         eager: true,

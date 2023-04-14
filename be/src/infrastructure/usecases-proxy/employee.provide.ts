@@ -30,8 +30,8 @@ export function createEmployeeProvide(provide) {
 }
 export function deleteEmployeeProvide(provide) {
     return {
-        inject: [LoggerService, UserRepository],
+        inject: [LoggerService, UserRepository, LunchOrderRepository],
         provide,
-        useFactory: (logger: LoggerService, userRepository: UserRepository) => new UseCaseProxy(new DeleteEmployeeUseCases(logger, userRepository)),
+        useFactory: (logger: LoggerService, userRepository: UserRepository, lunchOrderRepository: LunchOrderRepository) => new UseCaseProxy(new DeleteEmployeeUseCases(logger, userRepository, lunchOrderRepository)),
     };
 }

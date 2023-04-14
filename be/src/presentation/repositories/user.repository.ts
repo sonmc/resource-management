@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import { ADMIN_ID, PASSWORD_DEFAULT } from '../../business-rules/employee.rule';
+import { ADMIN_ID, PASSWORD_DEFAULT, STATUS_INACTIVE } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, MoreThan } from 'typeorm';
@@ -21,7 +21,10 @@ export class UserRepository implements IUserRepository {
     ) {}
 
     async deleteById(id: number): Promise<void> {
-        await this.userRepository.delete(id);
+        const userSchema = await this.userRepository.findOne(id);
+        userSchema.status = STATUS_INACTIVE;
+        const userCreated = await this.userRepository.create(userSchema);
+        await this.userRepository.save(userCreated);
     }
 
     async findOne(id: number): Promise<UserEntity> {
@@ -38,7 +41,7 @@ export class UserRepository implements IUserRepository {
 
     async findAll(query: any): Promise<UserWithoutPassword[]> {
         const querySelecter = this.userRepository.createQueryBuilder('u');
-        querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID });
+        querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID }).andWhere('u.status != :status', { status: STATUS_INACTIVE });
         let users = null;
         try {
             const role_id = parseInt(query.roleId);
@@ -72,7 +75,7 @@ export class UserRepository implements IUserRepository {
             userUpdated = await this.userRepository.save(userCreated);
             if (userUpdated) {
                 user.roles.forEach(async (role) => {
-                    const userRole = new UserRole(+role.id, role.id);
+                    const userRole = new UserRole(+role.id, userUpdated.id);
                     const userRoleCreated = await this.userRoleRepository.create(userRole);
                     await this.userRoleRepository.save(userRoleCreated);
                 });

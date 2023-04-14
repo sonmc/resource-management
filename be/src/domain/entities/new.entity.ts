@@ -5,5 +5,5 @@ export class NewEntity {
     content: string;
     title: string;
     image: string;
-    user: UserEntity;
+    user_id: number;
 }
