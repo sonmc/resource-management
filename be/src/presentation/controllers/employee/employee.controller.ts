@@ -12,7 +12,6 @@ import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
-import { AddLunchOrderUseCases } from 'src/use-cases/lunch-order/add-lunch-order.usecase';
 import { DeleteEmployeeUseCases } from 'src/use-cases/employee/delete-employee.usecase';
 
 @Controller('employees')
@@ -26,9 +25,7 @@ export class UserController {
         @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
         @Inject(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY)
-        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>,
-        @Inject(UseCasesProxyModule.ADD_LUNCH_ORDER_USECASES_PROXY)
-        private readonly addLunchOrderUseCaseProxy: UseCaseProxy<AddLunchOrderUseCases>
+        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>
     ) {}
 
     @Get()
@@ -46,7 +43,6 @@ export class UserController {
     async create(@Body() employeePresenter: CreateEmployeePresenter) {
         const userEntity = plainToClass(UserEntity, employeePresenter);
         const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
-        await this.addLunchOrderUseCaseProxy.getInstance().execute(userCreated.id);
         return userCreated;
     }
 

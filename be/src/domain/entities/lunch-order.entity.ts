@@ -1,7 +1,6 @@
-import { UserEntity } from './user.entity';
+import { UserWithoutPassword } from './user.entity';
 
 export class LunchOrderEntity {
-    user_id: number;
     lunch_calendars: string;
-    user: UserEntity;
+    user: UserWithoutPassword;
 }

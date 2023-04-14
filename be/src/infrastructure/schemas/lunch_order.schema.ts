@@ -3,10 +3,7 @@ import { BaseEntity } from './base.schema';
 import { User } from './user.schema';
 
 @Entity({ name: 'lunch_orders' })
-export class LunchOrder extends BaseEntity {
-    @Column()
-    user_id: number;
-
+export class LunchOrder extends BaseEntity { 
     @Column({
         type: 'json',
         nullable: true,

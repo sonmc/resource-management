@@ -14,10 +14,7 @@ export class New extends BaseEntity {
     @Column({
         nullable: true,
     })
-    image: string;
-
-    @Column()
-    user_id: number;
+    image: string; 
 
     @ManyToOne(() => User, (user) => user.news)
     user: User;

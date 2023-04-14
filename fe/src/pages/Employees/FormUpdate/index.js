@@ -5,6 +5,7 @@ import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
 import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
 import { Get as GetEmployee } from '../../../Services/user.service';
+import { LEVEL_STATUS } from '../../../Constant';
 
 const EMPLOYEE_DEFAULT = {
     role_id: 0,
@@ -17,28 +18,11 @@ const EMPLOYEE_DEFAULT = {
     status: 1,
     status_level: 1,
     chapter_head: null,
-    onboard_day: '2000-01-01',
+    onboarding: new Date(),
     avatar: '',
     gender: 1,
 };
-const levelStatus = [
-    {
-        id: 1,
-        title: 'intern',
-    },
-    {
-        id: 2,
-        title: 'probation',
-    },
-    {
-        id: 3,
-        title: 'partime',
-    },
-    {
-        id: 4,
-        title: 'fulltime',
-    },
-];
+const levelStatus = LEVEL_STATUS;
 
 const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
@@ -217,7 +201,7 @@ const ModalUpdate = (props) => {
                                 onChange={([value]) => {
                                     changeField({ target: { name: 'dob', value } });
                                 }}
-                                value={employee.dob}
+                                value={employee.onboarding}
                                 placeholder="Select Date"
                             />
                         </Col>

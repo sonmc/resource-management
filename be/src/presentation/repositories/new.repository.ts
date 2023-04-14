@@ -18,7 +18,7 @@ export class NewRepository implements INewRepository {
 
     async create(newE: NewEntity): Promise<NewEntity> {
         const newSchema = plainToClass(New, newE);
-        newSchema.user = await this.userRepository.findOne(newE.user_id);
+        newSchema.user = await this.userRepository.findOne(newE.user.id);
         const response = await this.repository.create(newSchema);
         await this.repository.save(response);
         return plainToClass(NewEntity, response);

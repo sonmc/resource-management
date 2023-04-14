@@ -68,6 +68,14 @@ const LunchPage = () => {
         GetLunch()
             .then((res) => {
                 // setDays(res);
+                //fake
+                if (employees.length === 0) return;
+                let d = days.map((x) => {
+                    x.data = generateDataFake(employees, x.value);
+                    return x;
+                });
+                setDataLunchs(d);
+                // fake
             })
             .catch(() => {
                 if (employees.length === 0) return;
