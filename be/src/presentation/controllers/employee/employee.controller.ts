@@ -49,6 +49,7 @@ export class UserController {
     @Delete(':id')
     @Permissions(EndPoint.EMPLOYEE_DELETE)
     async delete(@Param('id') id: string) {
-        return await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
+        const idDeleted = await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
+        return idDeleted;
     }
 }

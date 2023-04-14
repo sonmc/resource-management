@@ -7,7 +7,7 @@ const ConfirmDelete = (props) => {
     const remote = () => {
         deleteEmployee(employee.id);
     };
-
+    console.log(employee);
     return (
         <Modal
             id="flipModal"
@@ -25,7 +25,9 @@ const ConfirmDelete = (props) => {
                 <form action="#">
                     <div className="row g-3">
                         <Col xxl={12}>
-                            <h5>Are you sure you want to delete "{employee.full_name}" ?</h5>
+                            <h5>
+                                Are you sure you want to delete "{employee.first_name} {employee.last_name}" ?
+                            </h5>
                         </Col>
 
                         <div className="col-lg-12">
