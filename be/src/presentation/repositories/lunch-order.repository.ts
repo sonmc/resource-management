@@ -5,25 +5,18 @@ import { plainToClass } from 'class-transformer';
 import { LunchOrder } from 'src/infrastructure/schemas/lunch_order.schema';
 import { LunchOrderEntity } from 'src/domain/entities/lunch-order.entity';
 import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository';
-import { User } from 'src/infrastructure/schemas/user.schema';
- 
 
 @Injectable()
 export class LunchOrderRepository implements ILunchOrderRepository {
     constructor(
         @InjectRepository(LunchOrder)
-        private readonly repository: Repository<LunchOrder>,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly repository: Repository<LunchOrder>
     ) {}
 
-    async createOrUpdate(user_id: number): Promise<LunchOrderEntity> {
-        const lunchOrder = new LunchOrder();
-        lunchOrder.user_id = user_id;
-        const user = await this.userRepository.findOne(user_id);
-        lunchOrder.user = user;
-        lunchOrder.lunch_calendars = "";
+    async createOrUpdate(lunchOrderEntity: LunchOrderEntity): Promise<LunchOrderEntity> {
+        const lunchOrder = plainToClass(LunchOrder, lunchOrderEntity);
         const response = await this.repository.create(lunchOrder);
+        await this.repository.save(response);
         return plainToClass(LunchOrderEntity, response);
     }
 

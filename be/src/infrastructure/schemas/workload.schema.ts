@@ -8,10 +8,7 @@ export class Workload {
     id: string;
 
     @Column()
-    value: string;
-
-    @Column()
-    user_id: number;
+    value: string; 
 
     @Column()
     project_id: number;

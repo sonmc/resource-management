@@ -1,7 +1,7 @@
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { IVacationRepository } from 'src/domain/repositories/vacation-repository.interface';
 import { VacationEntity } from 'src/domain/entities/vacation.entity';
@@ -19,7 +19,7 @@ export class VacationRepository implements IVacationRepository {
 
     async create(vacationE: VacationEntity): Promise<VacationEntity> {
         const vacation = plainToClass(Vacation, vacationE);
-        vacation.user = await this.userRepository.findOne(vacationE.user_id);
+        vacation.user = await this.userRepository.findOne(vacationE.user.id);
         const result = await this.repository.create(vacation);
         await this.repository.save(result);
         return plainToClass(VacationEntity, result);

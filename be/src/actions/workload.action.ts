@@ -12,7 +12,6 @@ export function generateWorkload(start_date, end_date, user_id: number, value: s
             let workload = new WorkloadEntity();
             workload.value = value;
             workload.id = 0;
-            workload.user_id = user_id;
             workload.start_date = weekNumberDate[index].start_date;
             workload.end_date = weekNumberDate[index].end_date;
             workload.project_id = projectId;
@@ -30,7 +29,6 @@ export function generateWorkloadEmpty(user_workloads, start_date, numberWorkload
         let workload = new WorkloadEntity();
         workload.value = '';
         workload.id = 0;
-        workload.user_id = user_id;
         workload.start_date = weekNumberDate[index].start_date;
         workload.end_date = weekNumberDate[index].end_date;
         workload.project_id = projectId;

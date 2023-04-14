@@ -35,9 +35,6 @@ export class User extends BaseEntity {
     status: number;
 
     @Column()
-    status_level: string;
-
-    @Column()
     gender: boolean;
 
     @Column({ nullable: true })
@@ -51,6 +48,12 @@ export class User extends BaseEntity {
 
     @Column({ nullable: true })
     hash_refresh_token: string;
+
+    @Column()
+    onboarding: Date;
+
+    @Column()
+    status_level: string;
 
     @Column({ nullable: true })
     chapterHead: number;

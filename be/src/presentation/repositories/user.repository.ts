@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { ADMIN_ID, PASSWORD_DEFAULT } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository, FindOneOptions, MoreThan } from 'typeorm';
 import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
@@ -37,21 +37,26 @@ export class UserRepository implements IUserRepository {
     }
 
     async findAll(query: any): Promise<UserWithoutPassword[]> {
-        const querySelecter = this.userRepository.createQueryBuilder('user');
-        querySelecter.leftJoinAndSelect('user.roles', 'roles').where('user.id != :id', { id: ADMIN_ID });
+        const querySelecter = this.userRepository.createQueryBuilder('u');
+        querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID });
         let users = null;
         try {
-            // const role_id = parseInt(query.roleId);
-            // if (role_id) {
-            //     querySelecter.andWhere('user.roles = :id', { id: role_id });
-            // }
+            const role_id = parseInt(query.roleId);
+            if (role_id) {
+                querySelecter.andWhere('r.id = :id', { id: role_id });
+            }
             if (query.status > 0) {
-                querySelecter.andWhere('user.status = :status', { status: query.status });
+                querySelecter.andWhere('u.status_level = :status', { status: query.status });
             }
             if (query.searchTerm) {
-                querySelecter.andWhere('user.username like :name', { name: `%${query.searchTerm}%` });
+                querySelecter.andWhere('u.username like :name', { name: `%${query.searchTerm}%` });
             }
-            users = await querySelecter.getMany().then((u) => u.map((x) => plainToClass(UserWithoutPassword, x)));
+            users = await querySelecter.getMany().then((u) =>
+                u.map((x) => {
+                    delete x.password;
+                    return plainToClass(UserWithoutPassword, x);
+                })
+            );
         } catch (error) {
             console.log(error);
         }

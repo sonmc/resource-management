@@ -14,6 +14,9 @@ export class UserWithoutPassword {
     last_name: string;
     first_name: string;
     dob: Date;
+    status_level: string;
+    chapterHead: number;
+    onboarding: Date;
     roles: RoleEntity[];
     hash_refresh_token: string;
     workloads: WorkloadEntity[];
