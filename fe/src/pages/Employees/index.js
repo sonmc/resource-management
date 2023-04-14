@@ -6,10 +6,11 @@ import ModalUpdate from './FormUpdate';
 import ConfirmDelete from './ConfirmDelete';
 import { Get as GetEmployee, Create, Delete } from '../../Services/user.service';
 import { Get as GetRole } from '../../Services/role.service';
-import { STATUS_ACTIVE } from '../../Constant/index';
 import { usersState } from '../../Recoil/states/users';
 import { useSetRecoilState } from 'recoil';
+import { LEVEL_STATUS } from '../../Constant';
 
+const levelStatus = LEVEL_STATUS;
 const EmployeePage = () => {
     const setUsersStore = useSetRecoilState(usersState);
     const [roles, setRoles] = useState([]);
@@ -70,7 +71,7 @@ const EmployeePage = () => {
     const changeFilter = (event) => {
         let value = event.target.value;
         if (event.target.name === 'status') {
-            value = value === 'All' ? 0 : value === 'Active' ? 1 : 2;
+            value = value === 'all' ? 0 : value;
         }
         setFilter({ ...filter, [event.target.name]: value });
     };
@@ -137,9 +138,14 @@ const EmployeePage = () => {
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
                                                     <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
-                                                        <option value="All">Select status</option>
-                                                        <option value="Active">Active</option>
-                                                        <option value="Inactive">Inactive</option>
+                                                        <option value="all">Select status</option>
+                                                        {levelStatus.map((item, key) => {
+                                                            return (
+                                                                <option key={key} value={item.id}>
+                                                                    {item.title}
+                                                                </option>
+                                                            );
+                                                        })}
                                                     </select>
                                                 </div>
                                             </div>
@@ -183,9 +189,7 @@ const EmployeePage = () => {
                                                                     })
                                                                     .join(', ')}
                                                             </td>
-                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>
-                                                                <span className={'badge ' + (emp.status == STATUS_ACTIVE ? 'bg-success' : 'bg-danger')}>{emp.status == STATUS_ACTIVE ? 'Active' : 'Inactive'}</span>
-                                                            </td>
+                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
                                                             <td style={{ textAlign: 'center' }}>
                                                                 <Button color="success btn-sm me-2" onClick={() => showFormUpdate(emp.id)}>
                                                                     Update

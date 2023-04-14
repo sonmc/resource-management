@@ -7,6 +7,25 @@ export const VACATION_TYPE = {
     REMOTE: 1,
 };
 
+export const LEVEL_STATUS = [
+    {
+        id: 1,
+        title: 'Intern',
+    },
+    {
+        id: 2,
+        title: 'Probation',
+    },
+    {
+        id: 3,
+        title: 'Partime',
+    },
+    {
+        id: 4,
+        title: 'Fulltime',
+    },
+];
+
 export const TOAST_CONFIG = {
     position: 'top-right',
     autoClose: 2000,
