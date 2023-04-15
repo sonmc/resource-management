@@ -328,7 +328,7 @@ const ProjectPage = () => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | Projects</title>
+                    <title>Zen8labs - Tools | Projects</title>
                 </MetaTags>
                 <Container fluid>
                     <div className="row">
