@@ -7,7 +7,6 @@ const RenderCardTitle = (props) => {
             <div className="d-flex mb-3 me-4">
                 <div className="flex-grow-1">
                     <h6 className="fs-14 text-uppercase fw-semibold mb-0">
-                        {' '}
                         {props.name} <small className={'badge align-bottom ms-1 bg-' + props.badgeClass}>{props.badge}</small>
                     </h6>
                 </div>

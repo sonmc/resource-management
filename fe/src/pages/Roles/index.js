@@ -88,7 +88,7 @@ const RolePage = () => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | Roles</title>
+                    <title>Zen8labs - Tools | Roles</title>
                 </MetaTags>
                 <Container fluid>
                     <div className="row">

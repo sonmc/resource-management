@@ -91,7 +91,7 @@ const LunchPage = () => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | Lunch Order</title>
+                    <title>Zen8labs - Tools | Lunch Order</title>
                 </MetaTags>
                 <Container fluid>
                     <Card>
