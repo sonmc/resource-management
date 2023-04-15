@@ -56,7 +56,7 @@ const Component = (props) => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | New management</title>
+                    <title>Zen8labs - Tools | New management</title>
                 </MetaTags>
                 <Container fluid>
                     <div className="row">

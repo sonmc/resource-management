@@ -102,7 +102,7 @@ const EmployeePage = () => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | Employees</title>
+                    <title>Zen8labs - Tools | Employees</title>
                 </MetaTags>
                 <Container fluid>
                     <div className="row">

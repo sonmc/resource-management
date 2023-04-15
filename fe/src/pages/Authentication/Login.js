@@ -35,7 +35,7 @@ const LoginPage = () => {
         <React.Fragment>
             <div className="auth-page-content">
                 <MetaTags>
-                    <title>Resource Management | Login</title>
+                    <title>Zen8labs - Tools | Login</title>
                 </MetaTags>
                 <Container>
                     <Row>

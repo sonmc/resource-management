@@ -89,7 +89,7 @@ const WorkSchedulePage = (props) => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Resource management | Vacation Calendar</title>
+                    <title>Zen8labs - Tools | Vacation Calendar</title>
                 </MetaTags>
                 <Container fluid>
                     <div className="card" id="Vacation">
