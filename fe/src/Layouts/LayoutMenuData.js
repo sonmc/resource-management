@@ -30,6 +30,15 @@ const Navdata = () => {
             },
         },
         {
+            id: 'cvs',
+            label: 'Curriculum Vitae',
+            icon: 'ri-honour-line',
+            link: '/cvs',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
             id: 'vacations',
             label: 'Work schedule',
             icon: 'ri-honour-line',

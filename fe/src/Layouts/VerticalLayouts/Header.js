@@ -66,7 +66,7 @@ const Header = ({ headerClass }) => {
                                         <img src={logoSm} alt="logo" style={{ width: '50%', height: '50%' }} />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={logoDark} alt="logo" style={{ width: '100%', height: '50%' }} />
+                                        <img src={logoDark} alt="logo" style={{ width: '105%' }} />
                                     </span>
                                 </Link>
 
@@ -90,7 +90,7 @@ const Header = ({ headerClass }) => {
                         </div>
 
                         <div className="d-flex align-items-center">
-                            <button onClick={() => changeLayoutType()} className="btn btn-success">
+                            <button onClick={() => changeLayoutType()} className="btn btn-ghost-primary">
                                 {layoutType === 'Vertical' ? 'Horizontal' : 'Vertical'}
                             </button>
 

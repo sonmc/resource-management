@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 // Import Data
-import navdata from '../VerticalLayouts/LayoutMenuData';
+import navdata from '../LayoutMenuData';
 //i18n
 import { withTranslation } from 'react-i18next';
 

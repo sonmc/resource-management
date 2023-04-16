@@ -1,4 +1,4 @@
-import { Table, Container, Col, CardBody, Button } from 'reactstrap';
+import { Table, Container, Row, Col, CardBody, Button } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { GetAll } from '../../Services/new.service';
@@ -26,7 +26,7 @@ const Component = () => {
                     <title>Zen8labs - Tools | New management</title>
                 </MetaTags>
                 <Container fluid>
-                    <div className="row">
+                    <Row>
                         <Col lg={12}>
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
@@ -90,7 +90,7 @@ const Component = () => {
                                 </CardBody>
                             </div>
                         </Col>
-                    </div>
+                    </Row>
                 </Container>
             </div>
         </React.Fragment>

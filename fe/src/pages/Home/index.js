@@ -21,41 +21,43 @@ const HomePage = () => {
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Zen8labs - Tools | Lunch Order</title>
+                    <title>Zen8labs - Tools | Home Page</title>
                 </MetaTags>
                 <Container fluid>
                     <Row>
-                        <Card>
-                            <CardHeader className="align-items-center d-flex">
-                                <h4 className="card-title mb-0 flex-grow-1">News</h4>
-                            </CardHeader>
+                        <Col lg={12}>
+                            <Card>
+                                <CardHeader className="align-items-center d-flex">
+                                    <h4 className="card-title mb-0 flex-grow-1">News</h4>
+                                </CardHeader>
 
-                            <CardBody>
-                                <News news={news} />
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardHeader className="align-items-center d-flex">
-                                <h4 className="card-title mb-0 flex-grow-1">Handbook</h4>
-                            </CardHeader>
+                                <CardBody>
+                                    <News news={news} />
+                                </CardBody>
+                            </Card>
+                            <Card>
+                                <CardHeader className="align-items-center d-flex">
+                                    <h4 className="card-title mb-0 flex-grow-1">Handbook</h4>
+                                </CardHeader>
 
-                            <CardBody>
-                                <Row>
-                                    <Handbook />
-                                </Row>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardHeader className="align-items-center d-flex">
-                                <h4 className="card-title mb-0 flex-grow-1">Company and member introduction</h4>
-                            </CardHeader>
+                                <CardBody>
+                                    <Row>
+                                        <Handbook />
+                                    </Row>
+                                </CardBody>
+                            </Card>
+                            <Card>
+                                <CardHeader className="align-items-center d-flex">
+                                    <h4 className="card-title mb-0 flex-grow-1">Company and member introduction</h4>
+                                </CardHeader>
 
-                            <CardBody>
-                                <Row>
-                                    <CompanyMemberIntroduction />
-                                </Row>
-                            </CardBody>
-                        </Card>
+                                <CardBody>
+                                    <Row>
+                                        <CompanyMemberIntroduction />
+                                    </Row>
+                                </CardBody>
+                            </Card>
+                        </Col>
                     </Row>
                 </Container>
             </div>
