@@ -35,26 +35,15 @@ const HomePage = () => {
                                     <News news={news} />
                                 </CardBody>
                             </Card>
-                            <Card>
-                                <CardHeader className="align-items-center d-flex">
-                                    <h4 className="card-title mb-0 flex-grow-1">Handbook</h4>
-                                </CardHeader>
+                            <Handbook />
 
-                                <CardBody>
-                                    <Row>
-                                        <Handbook />
-                                    </Row>
-                                </CardBody>
-                            </Card>
                             <Card>
                                 <CardHeader className="align-items-center d-flex">
                                     <h4 className="card-title mb-0 flex-grow-1">Company and member introduction</h4>
                                 </CardHeader>
 
                                 <CardBody>
-                                    <Row>
-                                        <CompanyMemberIntroduction />
-                                    </Row>
+                                    <CompanyMemberIntroduction />
                                 </CardBody>
                             </Card>
                         </Col>

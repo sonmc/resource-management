@@ -29,7 +29,7 @@ const CreateModal = (props) => {
     return (
         <Modal
             id="flipModal"
-            modalClassName="flip"
+            modalclassname="flip"
             isOpen={isShowFormUpdate}
             toggle={() => {
                 closeFormUpdate(false);
@@ -44,7 +44,13 @@ const CreateModal = (props) => {
                             <label htmlFor="userName" className="form-label">
                                 Project name
                             </label>
-                            <Input type="text" className="form-control" name="name" placeholder="Enter project name" onChange={(x) => changeField(x)} />
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="name"
+                                placeholder="Enter project name"
+                                onChange={(x) => changeField(x)}
+                            />
                         </Col>
                         <Col lg={12}>
                             <Label for="start-field" className="form-label">

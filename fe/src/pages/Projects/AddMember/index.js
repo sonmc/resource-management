@@ -50,7 +50,7 @@ const AddMemberModal = (props) => {
     return (
         <Modal
             id="flipModal"
-            modalClassName="flip"
+            modalclassname="flip"
             isOpen={isShowFormAddMember}
             toggle={() => {
                 closeFormAddMember(false);
@@ -130,7 +130,13 @@ const AddMemberModal = (props) => {
                                 <label htmlFor="workload" className="form-label">
                                     Workload
                                 </label>
-                                <Input type="number" value={objForm.workload} className="form-control" name="workload" onChange={(x) => changeField(x)} />
+                                <Input
+                                    type="number"
+                                    value={objForm.workload}
+                                    className="form-control"
+                                    name="workload"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </>
                         </Col>
 

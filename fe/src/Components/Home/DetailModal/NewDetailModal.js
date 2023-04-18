@@ -17,7 +17,7 @@ const NewDetailModal = ({ objectNewDetail, onCloseClick }) => {
             <ModalHeader
                 className="modal-title"
                 id="flipModal"
-                modalClassName="zoomIn"
+                modalclassname="zoomIn"
                 toggle={() => {
                     onCloseClick();
                 }}
