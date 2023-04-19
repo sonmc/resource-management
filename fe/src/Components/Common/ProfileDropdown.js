@@ -33,7 +33,7 @@ const ProfileDropdown = () => {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
                     <h6 className="dropdown-header">Welcome Anna!</h6>
-                    <DropdownItem href="/pages-profile">
+                    <DropdownItem>
                         <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                         <span className="align-middle">Profile</span>
                     </DropdownItem>

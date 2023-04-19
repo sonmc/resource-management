@@ -7,7 +7,7 @@ const ConfirmDeleteModal = (props) => {
     return (
         <Modal
             id="flipModal"
-            modalClassName="flip"
+            modalclassname="flip"
             isOpen={isShowConfirmModal}
             toggle={() => {
                 closeConfirmDelete(false);

@@ -61,7 +61,11 @@ const CardTaskBox = (props) => {
                                         </h6>
                                     )}
 
-                                    {data.bgImage ? <div className="tasks-img rounded" style={{ background: `url(${data.bgImage})` }}></div> : <p className="text-muted">{data.desc}</p>}
+                                    {data.bgImage ? (
+                                        <div className="tasks-img rounded" style={{ background: `url(${data.bgImage})` }}></div>
+                                    ) : (
+                                        <p className="text-muted">{data.desc}</p>
+                                    )}
 
                                     {data.isTaskId && (
                                         <div className="mb-3">
@@ -76,7 +80,14 @@ const CardTaskBox = (props) => {
                                                 </div>
                                             </div>
                                             <div className="progress rounded-3 progress-sm">
-                                                <div className={'progress-bar bg-' + data.progressBarColor} role="progressbar" style={{ width: data.progressBar }} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div
+                                                    className={'progress-bar bg-' + data.progressBarColor}
+                                                    role="progressbar"
+                                                    style={{ width: data.progressBar }}
+                                                    aria-valuenow="15"
+                                                    aria-valuemin="0"
+                                                    aria-valuemax="100"
+                                                ></div>
                                             </div>
                                         </div>
                                     )}
@@ -133,7 +144,14 @@ const CardTaskBox = (props) => {
                                 </div>
                                 {data.isProgessBarFooter && (
                                     <div className="progress progress-sm">
-                                        <div className={'progress-bar bg-' + data.progressBarColor} role="progressbar" style={{ width: data.progressBar }} aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div
+                                            className={'progress-bar bg-' + data.progressBarColor}
+                                            role="progressbar"
+                                            style={{ width: data.progressBar }}
+                                            aria-valuenow="55"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        ></div>
                                     </div>
                                 )}
                             </Card>
@@ -152,7 +170,7 @@ const CardTaskBox = (props) => {
                     tog_delete();
                 }}
                 centered
-                modalClassName="zoomIn"
+                modalclassname="zoomIn"
                 id="deleteRecordModal"
             >
                 <div className="modal-header">
@@ -167,7 +185,12 @@ const CardTaskBox = (props) => {
                 </div>
                 <div className="modal-body">
                     <div className="mt-2 text-center">
-                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style={{ width: '100px', height: '100px' }}></lord-icon>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/gsqxdxog.json"
+                            trigger="loop"
+                            colors="primary:#f7b84b,secondary:#f06548"
+                            style={{ width: '100px', height: '100px' }}
+                        ></lord-icon>
                         <div className="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                             <h4>Are you sure ?</h4>
                             <p className="text-muted mx-4 mb-0">Are you sure you want to remove this tasks ?</p>

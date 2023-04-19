@@ -36,7 +36,7 @@ const ModalUpdate = (props) => {
     return (
         <Modal
             id="flipModal"
-            modalClassName="flip"
+            modalclassname="flip"
             isOpen={isShowFormUpdate}
             toggle={() => {
                 closeFormUpdate(false);
@@ -54,7 +54,14 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     Name
                                 </label>
-                                <Input value={role.name} type="text" className="form-control" name="name" placeholder="Enter role username" onChange={(x) => changeField(x)} />
+                                <Input
+                                    value={role.name}
+                                    type="text"
+                                    className="form-control"
+                                    name="name"
+                                    placeholder="Enter role username"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </div>
                         </Col>
                         <Col xxl={12}>
@@ -62,7 +69,14 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     Description
                                 </label>
-                                <textarea value={role.description} type="text" className="form-control" name="description" placeholder="Some note" onChange={(x) => changeField(x)} />
+                                <textarea
+                                    value={role.description}
+                                    type="text"
+                                    className="form-control"
+                                    name="description"
+                                    placeholder="Some note"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </div>
                         </Col>
                         <Col xxl={12}>

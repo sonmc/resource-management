@@ -7,6 +7,7 @@ export class AddRolePermUseCases {
     constructor(private readonly logger: ILogger, private readonly rolePermRepository: IRolePermRepository) {}
 
     async execute(rolePerm: RolePermissionPresenter): Promise<any> {
+        const rolePerms = await this.rolePermRepository.findByRoleId(rolePerm.role_id);
         if (rolePerm.perm_ids.length > 0) {
             Promise.all(
                 rolePerm.perm_ids.map(async (id) => {
@@ -16,10 +17,11 @@ export class AddRolePermUseCases {
                     await this.rolePermRepository.create(rp);
                 })
             );
-        } else {
-            const rolePerms = await this.rolePermRepository.findByRoleId(rolePerm.role_id);
-            await this.rolePermRepository.removeAll(rolePerms);
         }
+        let deleteRolePerms = rolePerms.filter((x) => {
+            return !rolePerm.perm_ids.find((id) => id == x.permission_id);
+        });
+        await this.rolePermRepository.removeAll(deleteRolePerms);
         return null;
     }
 }
