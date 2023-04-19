@@ -6,6 +6,8 @@ export class CreateProjectPresenter {
     @ApiProperty()
     name: string;
     @ApiProperty()
+    project_leader: number;
+    @ApiProperty()
     note: string;
     @ApiProperty()
     weekInCurrentMonth: number;
