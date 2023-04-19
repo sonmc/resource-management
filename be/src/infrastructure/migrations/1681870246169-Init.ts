@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Init1681467857020 implements MigrationInterface {
-    name = 'Init1681467857020'
+export class Init1681870246169 implements MigrationInterface {
+    name = 'Init1681870246169'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`permissions\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`label\` varchar(255) NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
@@ -14,22 +14,22 @@ export class Init1681467857020 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE \`projects\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`note\` varchar(255) NULL, \`start_date\` datetime NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`kanbans\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`projectId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`kanban_columns\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`name\` varchar(255) NOT NULL, \`index\` int NOT NULL, \`kanbanId\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`roles_pems\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`lunch_orders\` (\`id\` int NOT NULL AUTO_INCREMENT, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`lunch_calendars\` json NULL, \`userId\` int NULL, UNIQUE INDEX \`REL_a50a4d795de73bc2f4a8392ced\` (\`userId\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
+        await queryRunner.query(`CREATE TABLE \`users_projects\` (\`project_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`project_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_kanbans\` (\`kanban_id\` int NOT NULL, \`user_id\` int NOT NULL, \`joined_date\` datetime NOT NULL, \`user_shared\` int NOT NULL, PRIMARY KEY (\`kanban_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_roles\` (\`role_id\` int NOT NULL, \`user_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`user_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`users_projects\` (\`project_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`project_id\`, \`user_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`users_tasks\` (\`task_id\` int NOT NULL, \`user_id\` int NOT NULL, \`start_date\` datetime NOT NULL, \`end_date\` datetime NOT NULL, PRIMARY KEY (\`task_id\`, \`user_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`CREATE TABLE \`roles_pems\` (\`role_id\` int NOT NULL, \`permission_id\` int NOT NULL, PRIMARY KEY (\`role_id\`, \`permission_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`start_date\``);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`end_date\``);
         await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`start_date\``);
         await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`end_date\``);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` DROP COLUMN \`joined_date\``);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` DROP COLUMN \`user_shared\``);
-        await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`joined_date\` datetime NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`user_shared\` int NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_projects\` ADD \`start_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_projects\` ADD \`end_date\` datetime NOT NULL`);
+        await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`joined_date\` datetime NOT NULL`);
+        await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`user_shared\` int NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` ADD \`start_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` ADD \`end_date\` datetime NOT NULL`);
         await queryRunner.query(`CREATE INDEX \`IDX_ca161395d6a7e2f10590d9eea4\` ON \`roles_pems\` (\`permission_id\`)`);
@@ -93,23 +93,23 @@ export class Init1681467857020 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX \`IDX_ca161395d6a7e2f10590d9eea4\` ON \`roles_pems\``);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`end_date\``);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` DROP COLUMN \`start_date\``);
-        await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`end_date\``);
-        await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`start_date\``);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` DROP COLUMN \`user_shared\``);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` DROP COLUMN \`joined_date\``);
+        await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`end_date\``);
+        await queryRunner.query(`ALTER TABLE \`users_projects\` DROP COLUMN \`start_date\``);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`user_shared\` int NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_kanbans\` ADD \`joined_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_projects\` ADD \`end_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_projects\` ADD \`start_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` ADD \`end_date\` datetime NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`users_tasks\` ADD \`start_date\` datetime NOT NULL`);
-        await queryRunner.query(`DROP TABLE \`roles_pems\``);
         await queryRunner.query(`DROP TABLE \`users_tasks\``);
-        await queryRunner.query(`DROP TABLE \`users_projects\``);
         await queryRunner.query(`DROP TABLE \`users_roles\``);
         await queryRunner.query(`DROP TABLE \`users_kanbans\``);
+        await queryRunner.query(`DROP TABLE \`users_projects\``);
         await queryRunner.query(`DROP INDEX \`REL_a50a4d795de73bc2f4a8392ced\` ON \`lunch_orders\``);
         await queryRunner.query(`DROP TABLE \`lunch_orders\``);
+        await queryRunner.query(`DROP TABLE \`roles_pems\``);
         await queryRunner.query(`DROP TABLE \`kanban_columns\``);
         await queryRunner.query(`DROP TABLE \`kanbans\``);
         await queryRunner.query(`DROP TABLE \`projects\``);
