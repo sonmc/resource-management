@@ -4,7 +4,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 import { LunchOrder } from 'src/infrastructure/schemas/lunch_order.schema';
 import { LunchOrderEntity } from 'src/domain/entities/lunch-order.entity';
-import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository';
+import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository.interface';
 
 @Injectable()
 export class LunchOrderRepository implements ILunchOrderRepository {

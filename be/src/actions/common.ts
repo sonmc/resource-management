@@ -50,3 +50,11 @@ export function GetLastDayOfMonth(date: Date): any {
     var d = new Date(year, month, 0);
     return { day: d.getDate(), date: d };
 }
+
+export function GetFileExtension(filename) {
+    if (filename.length == 0) return '';
+    var dot = filename.lastIndexOf('.');
+    if (dot == -1) return '';
+    var extension = filename.substr(dot, filename.length);
+    return extension;
+}

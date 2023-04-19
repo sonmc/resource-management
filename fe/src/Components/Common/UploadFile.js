@@ -12,7 +12,7 @@ const Component = (props) => {
         setSrc(currentUrl);
     }, [currentUrl]);
 
-    const uploadImage = () => {
+    const uploadFile = () => {
         let inputTag = document.createElement('input');
         inputTag.type = 'file';
         inputTag.accept = 'image/png, image/jpeg';
@@ -50,7 +50,7 @@ const Component = (props) => {
             <div
                 className="caption"
                 onClick={() => {
-                    uploadImage();
+                    uploadFile();
                 }}
             >
                 <div className="file-input-wrapper">

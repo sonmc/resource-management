@@ -25,9 +25,11 @@ import { NewRepository } from '../repositories/new.repository';
 import { NewController } from './new/new.controller';
 import { FileController } from './file/file.controller';
 import { LunchOrderController } from './lunch-order/lunch-order.controller';
+import { Candidate } from 'src/infrastructure/schemas/candidate.schema';
+import { CandidateController } from './candidate/candidate.controller';
 @Module({
-    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New])],
-    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController, LunchOrderController],
-    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository, LunchOrderController],
+    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New, Candidate])],
+    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController, LunchOrderController, CandidateController],
+    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository, LunchOrderController, CandidateController],
 })
 export class ControllersModule {}

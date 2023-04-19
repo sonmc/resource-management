@@ -30,10 +30,10 @@ const Navdata = () => {
             },
         },
         {
-            id: 'cvs',
-            label: 'Curriculum Vitae',
+            id: 'candidates',
+            label: 'Candidate',
             icon: 'ri-honour-line',
-            link: '/cvs',
+            link: '/candidates',
             click: function (e) {
                 e.preventDefault();
             },

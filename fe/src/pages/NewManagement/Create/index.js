@@ -6,7 +6,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { GetById, Update, Create } from '../../../Services/new.service';
 import { useHistory } from 'react-router-dom';
 import { MyUploadAdapter } from '../../../helpers';
-import UploadImage from '../../../Components/Common/UploadImage.js';
+import UploadFile from '../../../Components/Common/UploadFile.js';
 
 const InitialState = {
     id: 0,
@@ -105,7 +105,7 @@ const Component = (props) => {
                                                 <Label for="firstNameinput" className="form-label">
                                                     Image
                                                 </Label>
-                                                <UploadImage
+                                                <UploadFile
                                                     type="thumbnail"
                                                     setImage={(path) => {
                                                         setForm((x) => {

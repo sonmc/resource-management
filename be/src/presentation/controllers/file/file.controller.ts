@@ -2,14 +2,11 @@ import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nes
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { of } from 'rxjs';
-import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
 @Controller('files')
 // @UseGuards(JwtAuthGuard)
 export class FileController {
-    constructor() {}
-
     @Post('upload')
     @UseInterceptors(
         FileInterceptor('file', {

@@ -14,6 +14,7 @@ import { addPermToRoleProvide, getPermissionsProvide } from './permission.provid
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
 import { getLunchOrderProvide } from './lunch-order.provide';
+import { createCandidateProvide, getCandidateProvide, getCandidatesProvide } from './candidate.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
 })
@@ -48,6 +49,10 @@ export class UseCasesProxyModule {
     static CREATE_NEW_USECASES_PROXY = 'CreateNewsUseCaseProxy';
     // Lunch order
     static GET_LUNCH_ORDER_USECASES_PROXY = 'GetLunchUseCaseProxy';
+    // Candidate
+    static CREATE_CANDIDATE_USECASES_PROXY = 'CreateCandidateUseProxy';
+    static GET_CANDIDATE_USECASES_PROXY = 'GetCandidateUseCaseProxy';
+    static GET_CANDIDATES_USECASES_PROXY = 'GetCandidatesUseCaseProxy';
 
     static register(): DynamicModule {
         return {
@@ -82,6 +87,10 @@ export class UseCasesProxyModule {
                 createNewProvide(UseCasesProxyModule.CREATE_NEW_USECASES_PROXY),
                 // lunch order
                 getLunchOrderProvide(UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY),
+                // Candidate
+                createCandidateProvide(UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY),
+                getCandidateProvide(UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY),
+                getCandidatesProvide(UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY),
             ],
             exports: [
                 // Auths
@@ -113,6 +122,10 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.CREATE_NEW_USECASES_PROXY,
                 // Lunch order
                 UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY,
+                // Candidates
+                UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY,
+                UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY,
+                UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY,
             ],
         };
     }
