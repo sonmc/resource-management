@@ -17,7 +17,7 @@ import CvManagementPage from '../pages/Cv';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
-    { path: '/project-detail/:id', component: ProjectDetail },
+    { path: '/projects/:id', component: ProjectDetail },
     { path: '/tasks-details', component: TaskDetails },
     { path: '/employees', component: Employees },
     { path: '/vacations', component: Vacations },

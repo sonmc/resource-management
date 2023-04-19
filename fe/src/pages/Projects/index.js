@@ -20,18 +20,18 @@ import { Get as GetRole } from '../../Services/role.service';
 // Recoid
 import { useSetRecoilState } from 'recoil';
 import { rolesState } from '../../Recoil/states/roles';
-import { usersState } from '../../Recoil/states/users';
+import { calculatorWorkloadStatus } from '../../helpers/common';
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
 
 const ProjectPage = () => {
     let history = useHistory();
-
-    const setUsersStore = useSetRecoilState(usersState);
     const setRolesStore = useSetRecoilState(rolesState);
 
     const setNewWeekInMonth = useSetRecoilState(newWeekInMonthState);
+
+    const [employees, setEmployees] = useState([]);
 
     const [filter, setFilter] = useState({
         start_date: moment().add(-1, 'year').format('YYYY-MM-DD'),
@@ -39,6 +39,7 @@ const ProjectPage = () => {
         wl_start_date: '',
         wl_end_date: '',
         project_name: '',
+        weekInCurrentMonth: 0,
     });
 
     const [memberRemove, setMemberRemove] = useState({});
@@ -92,7 +93,7 @@ const ProjectPage = () => {
     };
 
     const goProjectDetail = (x) => {
-        history.push('/project-detail/' + x.id);
+        history.push('/projects/' + x.id);
     };
 
     const save = (project) => {
@@ -228,10 +229,10 @@ const ProjectPage = () => {
     };
 
     function getWeeksInMonth(year, month) {
-        const weeks = [],
-            firstDate = new Date(year, month, 1),
-            lastDate = new Date(year, month + 1, 0),
-            numDays = lastDate.getDate();
+        let weeks = [];
+        const firstDate = new Date(year, month, 1);
+        const lastDate = new Date(year, month + 1, 0);
+        const numDays = lastDate.getDate();
 
         let dayOfWeekCounter = firstDate.getDay();
 
@@ -243,12 +244,28 @@ const ProjectPage = () => {
             dayOfWeekCounter = (dayOfWeekCounter + 1) % 7;
         }
 
-        return weeks
-            .filter((w) => !!w.length)
-            .map((w) => ({
-                start: w[0] < 10 ? '0' + w[0] : w[0],
-                end: w[w.length - 1] < 10 ? '0' + w[w.length - 1] : w[w.length - 1],
-            }));
+        const newWeek = [];
+
+        weeks = weeks.filter((w) => !!w.length);
+        weeks.forEach((w) => {
+            const isWeekIsOneDay = checkWeekIsOneDay(w[0], w[w.length - 1]);
+            if (!isWeekIsOneDay) {
+                const data = {
+                    start: w[0] < 10 ? '0' + w[0] : w[0],
+                    end: w[w.length - 1] < 10 ? '0' + w[w.length - 1] : w[w.length - 1],
+                };
+                newWeek.push(data);
+            }
+        });
+        return newWeek;
+    }
+
+    function checkWeekIsOneDay(start, end) {
+        if (end - start == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function getWeekListInMonth(month) {
@@ -296,7 +313,7 @@ const ProjectPage = () => {
             status: 0,
         };
         GetEmployee(params).then((res) => {
-            setUsersStore(res);
+            setEmployees(res);
         });
     };
 
@@ -469,7 +486,7 @@ const ProjectPage = () => {
                                                                 <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
-                                                                <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px' }}>
+                                                                <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px', backgroundColor: x.project_leader === x.users[0].id ? '#c8ffc4' : '' }}>
                                                                     {x.users[0]?.full_name && (
                                                                         <Link
                                                                             to="#"
@@ -497,8 +514,9 @@ const ProjectPage = () => {
                                                                         ''}
                                                                 </td>
                                                                 {x.users[0].workloads.map((z, key3) => {
+                                                                    const colorStatus = calculatorWorkloadStatus(z.value);
                                                                     return (
-                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0 }} key={key3}>
+                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
                                                                             {z.value} {z.value && <span>%</span>}
                                                                         </td>
                                                                     );
@@ -532,8 +550,9 @@ const ProjectPage = () => {
                                                                                 .join(', ')}
                                                                         </td>
                                                                         {y.workloads.map((z, key3) => {
+                                                                            const colorStatus = calculatorWorkloadStatus(z.value);
                                                                             return (
-                                                                                <td style={{ textAlign: 'center', padding: 0 }} key={key3}>
+                                                                                <td style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
                                                                                     {z.value} {z.value && <span>%</span>}
                                                                                 </td>
                                                                             );
@@ -551,8 +570,8 @@ const ProjectPage = () => {
                             </div>
                         </div>
                     </div>
-                    <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} />
-                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} />
+                    <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} employees={employees} />
+                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} users={employees} />
                     <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
                 </Container>
             </div>

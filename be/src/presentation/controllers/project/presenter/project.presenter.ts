@@ -9,5 +9,6 @@ export class ProjectPresenter {
     @ApiProperty()
     note: string;
     @ApiProperty()
+    project_leader: number;
     users: UserEntity[] = [];
 }
