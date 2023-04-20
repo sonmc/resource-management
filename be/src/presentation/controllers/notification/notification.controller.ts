@@ -1,24 +1,28 @@
-import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
-import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
-import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
-import { EndPoint } from 'src/domain/enums/endpoint.enum';
-import { GetPermissionsUseCases } from 'src/use-cases/permission/get-all.usecases';
 
-@Controller('permissions')
-@UseGuards(JwtAuthGuard, PermissionsGuard)
-export class PermissionController {
+@Controller('notifications')
+@UseGuards(JwtAuthGuard)
+export class NotificationController {
     constructor(
-        @Inject(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY)
-        private readonly getPermissionsUseCaseProxy: UseCaseProxy<GetPermissionsUseCases>
+        @Inject(UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY)
+        private readonly getNotificationsUseCaseProxy: UseCaseProxy<GetNotificationUseCases>,
+        @Inject(UseCasesProxyModule.CREATE_NOTIFICATION_USECASES_PROXY)
+        private readonly createNotificationUseCaseProxy: UseCaseProxy<CreateNotificationUseCases>
     ) {}
 
     @Get()
-    @Permissions(EndPoint.PERMISSION_GET)
     async get() {
-        const permissionInstance = this.getPermissionsUseCaseProxy.getInstance();
+        const permissionInstance = this.getNotificationsUseCaseProxy.getInstance();
+        const permissions = await permissionInstance.execute();
+        return permissions;
+    }
+
+    @Post()
+    async create() {
+        const permissionInstance = this.createNotificationUseCaseProxy.getInstance();
         const permissions = await permissionInstance.execute();
         return permissions;
     }
