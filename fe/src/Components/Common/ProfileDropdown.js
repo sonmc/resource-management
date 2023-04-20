@@ -27,13 +27,19 @@ const ProfileDropdown = () => {
                         <img className="rounded-circle header-profile-user" src={avatar1} alt="Header Avatar" />
                         <span className="text-start ms-xl-2">
                             <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{currentUser.full_name}</span>
-                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{currentUser.roles.filter((x, i) => i === 0)}</span>
+                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
+                                {currentUser.roles.filter((x, i) => i === 0)}
+                            </span>
                         </span>
                     </span>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
                     <h6 className="dropdown-header">Welcome Anna!</h6>
-                    <DropdownItem>
+                    <DropdownItem
+                        onClick={() => {
+                            history.push('/profile');
+                        }}
+                    >
                         <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                         <span className="align-middle">Profile</span>
                     </DropdownItem>
