@@ -2,7 +2,7 @@ import { Column, Entity } from 'typeorm';
 import { BaseEntity } from './base.schema';
 
 @Entity({ name: 'notifications' })
-export class Notifications extends BaseEntity {
+export class Notification extends BaseEntity {
     @Column({ nullable: true })
     title: string;
 

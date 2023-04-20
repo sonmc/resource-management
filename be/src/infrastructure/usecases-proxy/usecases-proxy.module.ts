@@ -15,6 +15,7 @@ import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
 import { getLunchOrderProvide } from './lunch-order.provide';
 import { createCandidateProvide, getCandidateProvide, getCandidatesProvide } from './candidate.provide';
+import { createNotificationProvide, getNotificationsProvide } from './notification.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
 })
@@ -98,7 +99,7 @@ export class UseCasesProxyModule {
                 getCandidatesProvide(UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY),
                 // Notification
                 createNotificationProvide(UseCasesProxyModule.CREATE_NOTIFICATION_USECASES_PROXY),
-                getNotificationProvide(UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY),
+                getNotificationsProvide(UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY),
             ],
             exports: [
                 // Auths

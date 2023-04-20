@@ -1,19 +1,20 @@
-import { LunchOrderRepository } from 'src/presentation/repositories/lunch-order.repository';
 import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
-import { GetLunchOrderUseCases } from 'src/use-cases/lunch-order/get-lunch-order.usecase';
+import { CreateUseCases } from 'src/use-cases/notification/create.usecase';
+import { NotificationRepository } from 'src/presentation/repositories/notification.repository';
+import { GetUseCases } from 'src/use-cases/notification/get.usecase';
 
-export function addLunchOrderProvide(provide) {
+export function createNotificationProvide(provide) {
     return {
-        inject: [LoggerService, LunchOrderRepository],
+        inject: [LoggerService, NotificationRepository],
         provide,
-        useFactory: (logger: LoggerService, lunchOrderRepository: LunchOrderRepository) => new UseCaseProxy(new AddLunchOrderUseCases(logger, lunchOrderRepository)),
+        useFactory: (logger: LoggerService, notificationRepository: NotificationRepository) => new UseCaseProxy(new CreateUseCases(logger, notificationRepository)),
     };
 }
-export function getLunchOrderProvide(provide) {
+export function getNotificationsProvide(provide) {
     return {
-        inject: [LoggerService, LunchOrderRepository],
+        inject: [NotificationRepository],
         provide,
-        useFactory: (logger: LoggerService, lunchOrderRepository: LunchOrderRepository) => new UseCaseProxy(new GetLunchOrderUseCases(logger, lunchOrderRepository)),
+        useFactory: (notificationRepository: NotificationRepository) => new UseCaseProxy(new GetUseCases(notificationRepository)),
     };
 }

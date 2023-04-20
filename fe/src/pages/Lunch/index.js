@@ -165,9 +165,7 @@ const LunchPage = () => {
                                                         <td className="fw-medium">{i + 1}</td>
                                                         <td>{fullname}</td>
                                                         {dataLunch.map((d) => {
-                                                            let lunch = d.data.find(
-                                                                (x) => x.user_id === employee.id && moment(d.value).isSame(x.date)
-                                                            );
+                                                            let lunch = d.data.find((x) => x.user_id === employee.id && moment(d.value).isSame(x.date));
                                                             return (
                                                                 <td key={d.timestamp} style={{ textAlign: 'center' }}>
                                                                     <select

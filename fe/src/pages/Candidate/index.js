@@ -51,6 +51,11 @@ const CandidatePage = () => {
     };
     const updateStatus = (id, isInterview) => {};
 
+    const showFormUpdate = (id) => {
+        setCandidateId(id);
+        setShowFormUpdate(!isShowFormUpdate);
+    };
+
     useEffect(() => {
         fetchCandidate(filter);
     }, [filter]);
@@ -69,7 +74,7 @@ const CandidatePage = () => {
                                     <div className="d-flex align-items-center">
                                         <h5 className="card-title mb-0 flex-grow-1">Candidates</h5>
                                         <div className="flex-shrink-0">
-                                            <button className="btn btn-success" onClick={() => uploadCv()}>
+                                            <button className="btn btn-success" onClick={() => showFormUpdate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create
                                             </button>
                                         </div>
@@ -79,25 +84,13 @@ const CandidatePage = () => {
                                     <div className="row">
                                         <div className="col-xxl-3 col-sm-4">
                                             <div className="search-box">
-                                                <input
-                                                    type="text"
-                                                    name="searchTerm"
-                                                    onChange={(x) => changeFilter(x)}
-                                                    className="form-control search"
-                                                    placeholder="Search by name, email, phone"
-                                                />
+                                                <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name, email, phone" />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
                                         <div className="col-xxl-2 col-sm-4">
                                             <div className="search-box">
-                                                <input
-                                                    type="text"
-                                                    name="searchTerm"
-                                                    onChange={(x) => changeFilter(x)}
-                                                    className="form-control search"
-                                                    placeholder="Search by skill"
-                                                />
+                                                <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by skill" />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
@@ -109,7 +102,7 @@ const CandidatePage = () => {
                                             </select>
                                         </div>
                                         <div className="col-xxl-2 col-sm-4">
-                                            <button type="button" className="btn btn-success btn-label waves-effect waves-light">
+                                            <button type="button" onClick={() => uploadCv()} className="btn btn-success btn-label waves-effect waves-light">
                                                 <i className="ri-upload-line label-icon align-middle fs-16 me-2"></i> Upload
                                             </button>
                                         </div>
@@ -126,7 +119,7 @@ const CandidatePage = () => {
                                     </div>
                                     <div className="row mt-3">
                                         <div className="table-responsive">
-                                            <Table className="table-bordered table-hover">
+                                            <Table className="table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th style={{ width: 5 }}>
@@ -162,18 +155,8 @@ const CandidatePage = () => {
                                                                     <a href="#">{can.cv_file_name}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <div
-                                                                        style={{ textAlign: 'center' }}
-                                                                        className="form-check form-switch form-switch-success form-switch-md"
-                                                                    >
-                                                                        <input
-                                                                            className="form-check-input"
-                                                                            onChange={() => updateStatus(can.id, can.isInterview)}
-                                                                            type="checkbox"
-                                                                            role="switch"
-                                                                            id="SwitchCheck3"
-                                                                            checked={can.isInterview}
-                                                                        />
+                                                                    <div style={{ textAlign: 'center' }} className="form-check form-switch form-switch-success form-switch-md">
+                                                                        <input className="form-check-input" onChange={() => updateStatus(can.id, can.isInterview)} type="checkbox" role="switch" id="SwitchCheck3" checked={can.isInterview} />
                                                                     </div>
                                                                 </td>
                                                                 <td style={{ textAlign: 'center' }}>
@@ -185,11 +168,7 @@ const CandidatePage = () => {
                                                                     >
                                                                         <i className="ri-download-line"></i>
                                                                     </Button>
-                                                                    <Button
-                                                                        type="button"
-                                                                        title="Update profile"
-                                                                        className="btn btn-sm btn-primary btn-icon waves-effect waves-light "
-                                                                    >
+                                                                    <Button type="button" title="Update profile" className="btn btn-sm btn-primary btn-icon waves-effect waves-light ">
                                                                         <i className="ri-edit-2-fill"></i>
                                                                     </Button>
                                                                 </td>
