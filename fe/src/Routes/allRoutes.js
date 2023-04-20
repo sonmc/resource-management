@@ -16,7 +16,7 @@ import CreateNewManagement from '../pages/NewManagement/Create';
 import CandidatePage from '../pages/Candidate';
 import Profile from '../pages/Profile';
 import Settings from '../pages/Profile/Setting';
-
+import CompanyIntroduction from '../pages/CompanyIntroduction';
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
     { path: '/projects/:id', component: ProjectDetail },
@@ -25,6 +25,7 @@ const authProtectedRoutes = [
     { path: '/vacations', component: Vacations },
     { path: '/roles', component: Roles },
     { path: '/home', component: Home },
+    { path: '/company-introduction', component: CompanyIntroduction },
     { path: '/lunch-order', component: Lunch },
     { path: '/new-management', component: NewManagement },
     { path: '/new-management/add', component: CreateNewManagement },

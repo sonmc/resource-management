@@ -12,8 +12,17 @@ const Navdata = () => {
             },
         },
         {
+            id: 'company',
+            label: 'Company Introduction',
+            icon: 'ri-honour-line',
+            link: '/company-introduction',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
             id: 'projects',
-            label: 'Project management',
+            label: 'Projects',
             icon: 'ri-honour-line',
             link: '/projects',
             click: function (e) {
@@ -22,7 +31,7 @@ const Navdata = () => {
         },
         {
             id: 'employees',
-            label: 'Employee management',
+            label: 'Employees',
             icon: 'ri-honour-line',
             link: '/employees',
             click: function (e) {
@@ -31,7 +40,7 @@ const Navdata = () => {
         },
         {
             id: 'candidates',
-            label: 'Candidate',
+            label: 'Candidates',
             icon: 'ri-honour-line',
             link: '/candidates',
             click: function (e) {
@@ -67,7 +76,7 @@ const Navdata = () => {
         },
         {
             id: 'new-management',
-            label: 'New Management',
+            label: 'News',
             icon: 'ri-honour-line',
             link: '/new-management',
             click: function (e) {

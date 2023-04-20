@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, CardBody, Card, CardHeader, Row, Col, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Container, CardBody, Card, CardHeader, Row, Col } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import News from '../../Components/Home/New';
-import CompanyMemberIntroduction from '../../Components/Home/CompanyMemberIntroduction';
 import Handbook from '../../Components/Home/Handbook';
 import { GetAll } from '../../Services/new.service';
 
@@ -36,16 +35,6 @@ const HomePage = () => {
                                 </CardBody>
                             </Card>
                             <Handbook />
-
-                            <Card>
-                                <CardHeader className="align-items-center d-flex">
-                                    <h4 className="card-title mb-0 flex-grow-1">Company and member introduction</h4>
-                                </CardHeader>
-
-                                <CardBody>
-                                    <CompanyMemberIntroduction />
-                                </CardBody>
-                            </Card>
                         </Col>
                     </Row>
                 </Container>
