@@ -1,4 +1,4 @@
-export const datas = [
+const co_founders = [
     {
         avatar: 'https://www.zen8labs.com/wp-content/uploads/2022/05/team-1.png',
         name: 'Billy Pham',
@@ -23,3 +23,5 @@ export const datas = [
         description: `Developer and tech entrepreneur Dave earned his Master’s degree from Swinburne University of Technology in Australia. During his time there, he was a senior developer for digital experience agency – Isobar. In his 15 years in the industry, became the director of VnDirect Securities and Technology Creativity Division of Vinmec International Healthcare System. <br><br>He also co-founded medical equipment company ViCare and presentation software company AhaSlides.`,
     },
 ];
+
+export { co_founders };

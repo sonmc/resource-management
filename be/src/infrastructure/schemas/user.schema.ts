@@ -7,7 +7,7 @@ import { Workload } from './workload.schema';
 import { Vacation } from './vacation.schema';
 import { Kanban } from './kanban.schema';
 import { Task } from './task.schema';
-import { New } from './new.schema'; 
+import { New } from './new.schema';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -16,16 +16,19 @@ export class User extends BaseEntity {
     username: string;
 
     @Column({ nullable: true })
-    email: string;
-
-    @Column({ nullable: true })
-    phone_number: string;
-
-    @Column()
     first_name: string;
 
     @Column({ nullable: true })
     last_name: string;
+
+    @Column({ nullable: true })
+    nick_name: string;
+
+    @Column({ nullable: true })
+    email: string;
+
+    @Column({ nullable: true })
+    phone_number: string;
 
     @Column()
     password: string;
@@ -41,9 +44,12 @@ export class User extends BaseEntity {
 
     @Column()
     dob: Date;
-    
+
     @Column()
-    address:string;
+    address: string;
+
+    @Column({ nullable: true })
+    introduce: string;
 
     @Column({ nullable: true })
     last_login?: Date;
