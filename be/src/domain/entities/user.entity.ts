@@ -10,7 +10,6 @@ export class UserWithoutPassword {
     phone_number: string;
     first_name: string;
     last_name: string;
-    password: string;
     status: number;
     gender: boolean;
     avatar: string;

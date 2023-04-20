@@ -1,4 +1,4 @@
-import { UserWithoutPassword } from 'src/domain/entities/user.entity';
+import { UserEntity } from 'src/domain/entities/user.entity';
 import { IUserRepository } from 'src/domain/repositories/user-repository.interface';
 import { ILogger } from '../../domain/logger/logger.interface';
 import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository.interface';
@@ -8,7 +8,7 @@ import { GenerateLunchCalendars } from 'src/business-rules/lunch-order.rule';
 export class CreateEmployeeUseCases {
     constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly lunchOrderRepository: ILunchOrderRepository) {}
 
-    async execute(userE: UserWithoutPassword): Promise<UserWithoutPassword> {
+    async execute(userE: UserEntity): Promise<UserEntity> {
         const user = await this.userRepository.createOrUpdate(userE);
         const lunchOrder = new LunchOrderEntity();
         lunchOrder.user = user;

@@ -9,7 +9,7 @@ import { RepositoriesModule } from 'src/presentation/repositories/zrepository.mo
 import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
 import { addMemberProvide, createProjectProvide, getProjectProvide, removeMemberProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
-import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide } from './employee.provide';
+import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide, updateEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
