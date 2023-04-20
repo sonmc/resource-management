@@ -1,5 +1,5 @@
 import { hash } from 'src/infrastructure/services/bcrypt.service';
-import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index, OneToOne, JoinColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index } from 'typeorm';
 import { BaseEntity } from './base.schema';
 import { Project } from './project.schema';
 import { Role } from './role.schema';
@@ -7,8 +7,7 @@ import { Workload } from './workload.schema';
 import { Vacation } from './vacation.schema';
 import { Kanban } from './kanban.schema';
 import { Task } from './task.schema';
-import { New } from './new.schema';
-import { LunchOrder } from './lunch_order.schema';
+import { New } from './new.schema'; 
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -42,6 +41,9 @@ export class User extends BaseEntity {
 
     @Column()
     dob: Date;
+    
+    @Column()
+    address:string;
 
     @Column({ nullable: true })
     last_login?: Date;

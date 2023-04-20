@@ -72,7 +72,7 @@ const ModalUpdate = (props) => {
             });
             setTitle('Update employee');
         } else {
-            setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
+            // setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
         }
     }, [candidateId]);
 

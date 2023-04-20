@@ -6,6 +6,7 @@ import { LoggerService } from '../logger/logger.service';
 import { UseCaseProxy } from './usecases-proxy';
 import { DeleteEmployeeUseCases } from 'src/use-cases/employee/delete-employee.usecase';
 import { LunchOrderRepository } from 'src/presentation/repositories/lunch-order.repository';
+import { UpdateEmployeeUseCases } from 'src/use-cases/employee/update-employee.usecase';
 
 export function getOneProvide(provide) {
     return {
@@ -28,6 +29,14 @@ export function createEmployeeProvide(provide) {
         useFactory: (logger: LoggerService, userRepository: UserRepository, lunchOrderRepository: LunchOrderRepository) => new UseCaseProxy(new CreateEmployeeUseCases(logger, userRepository, lunchOrderRepository)),
     };
 }
+export function updateEmployeeProvide(provide) {
+    return {
+        inject: [LoggerService, UserRepository],
+        provide,
+        useFactory: (logger: LoggerService, userRepository: UserRepository) => new UseCaseProxy(new UpdateEmployeeUseCases(logger, userRepository)),
+    };
+}
+
 export function deleteEmployeeProvide(provide) {
     return {
         inject: [LoggerService, UserRepository, LunchOrderRepository],

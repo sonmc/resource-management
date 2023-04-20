@@ -49,6 +49,7 @@ const CandidatePage = () => {
     const closeFormUpdate = () => {
         setShowFormUpdate(false);
     };
+    const updateStatus = (id, isInterview) => {};
 
     useEffect(() => {
         fetchCandidate(filter);
@@ -145,14 +146,12 @@ const CandidatePage = () => {
                                                                 <td>{can.email}</td>
                                                                 <td>{can.skill}</td>
                                                                 <td>{can.phone_number}</td>
-                                                                <td>
-                                                                    <a href="javascript:;" onClick={() => openFile(can.cv_file_path)} title="click for more detail" className="fw-medium">
-                                                                        {can.cv_file_name}
-                                                                    </a>
+                                                                <td onClick={() => openFile(can.cv_file_path)}>
+                                                                    <a href="#">{can.cv_file_name}</a>
                                                                 </td>
                                                                 <td>
                                                                     <div style={{ textAlign: 'center' }} className="form-check form-switch form-switch-success form-switch-md">
-                                                                        <input className="form-check-input" type="checkbox" role="switch" id="SwitchCheck3" checked={can.isInterview} />
+                                                                        <input className="form-check-input" onChange={() => updateStatus(can.id, can.isInterview)} type="checkbox" role="switch" id="SwitchCheck3" checked={can.isInterview} />
                                                                     </div>
                                                                 </td>
                                                                 <td style={{ textAlign: 'center' }}>

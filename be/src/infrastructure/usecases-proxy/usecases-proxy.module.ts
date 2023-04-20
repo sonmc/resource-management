@@ -38,6 +38,7 @@ export class UseCasesProxyModule {
     static GET_EMPLOYEE_USECASES_PROXY = 'GetEmployeeUseCasesProxy';
     static CREATE_EMPLOYEES_USECASES_PROXY = 'CreateEmployeesUseCasesProxy';
     static DELETE_EMPLOYEE_USECASES_PROXY = 'DeleteEmployeesUseCaseProxy';
+    static UPDATE_EMPLOYEE_USECASES_PROXY = 'UpdateEmployeesUseCaseProxy';
     // Permission
     static GET_PERMISSIONS_USECASES_PROXY = 'GetPermissionsUseCasesProxy';
     static ADD_PERM_TO_ROLE_USECASES_PROXY = 'AddPermissionsUseCasesProxy';
@@ -75,6 +76,7 @@ export class UseCasesProxyModule {
                 getAllProvide(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
                 getOneProvide(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
                 createEmployeeProvide(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
+                updateEmployeeProvide(UseCasesProxyModule.UPDATE_EMPLOYEE_USECASES_PROXY),
                 deleteEmployeeProvide(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY),
                 // Permissions
                 getPermissionsProvide(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY),
@@ -111,6 +113,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
                 UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY,
+                UseCasesProxyModule.UPDATE_EMPLOYEE_USECASES_PROXY,
                 // Permissions
                 UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY,
                 UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY,

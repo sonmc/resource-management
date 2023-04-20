@@ -25,4 +25,6 @@ export class Candidate extends BaseEntity {
     cv_file_name: string;
     @Column({ nullable: true })
     notes: string;
+    @Column()
+    address:string;
 }

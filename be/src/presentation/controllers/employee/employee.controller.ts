@@ -1,8 +1,7 @@
-import { Controller, UseGuards, Get, Post, Body, Query, Inject, Delete, Param } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Query, Inject, Delete, Param, Patch } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
-import { CreateEmployeePresenter } from './presenter/create-employee.presenter';
 import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.usecase';
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
@@ -13,6 +12,8 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { DeleteEmployeeUseCases } from 'src/use-cases/employee/delete-employee.usecase';
+import { UpdateEmployeeUseCases } from 'src/use-cases/employee/update-employee.usecase';
+import { EmployeePresenter } from './presenter/employee.presenter';
 
 @Controller('employees')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -25,7 +26,9 @@ export class UserController {
         @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
         @Inject(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY)
-        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>
+        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>,
+        @Inject(UseCasesProxyModule.UPDATE_EMPLOYEE_USECASES_PROXY)
+        private readonly updateEmployeeUseCaseProxy: UseCaseProxy<UpdateEmployeeUseCases>
     ) {}
 
     @Get()
@@ -40,7 +43,7 @@ export class UserController {
 
     @Post()
     @Permissions(EndPoint.EMPLOYEE_CREATE)
-    async create(@Body() employeePresenter: CreateEmployeePresenter) {
+    async create(@Body() employeePresenter: EmployeePresenter) {
         const userEntity = plainToClass(UserEntity, employeePresenter);
         const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
         return userCreated;
@@ -51,5 +54,11 @@ export class UserController {
     async delete(@Param('id') id: string) {
         const idDeleted = await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
         return idDeleted;
+    }
+
+    @Patch(':id')
+    async update(@Param('id') id: string, @Body() employeePresenter: EmployeePresenter) {
+        const userUpdated = await this.updateEmployeeUseCaseProxy.getInstance().execute(employeePresenter);
+        return userUpdated;
     }
 }
