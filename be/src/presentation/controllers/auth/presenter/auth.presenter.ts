@@ -9,6 +9,9 @@ export class AuthPresenter {
     full_name: string;
     last_name: string;
     first_name: string;
+    phone_number: string;
+    email: string;
+    onboarding: string;
     roles: string[];
     permissions: string[];
     projects: string[];

@@ -1,26 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardHeader, Col, Container, Form, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 import MetaTags from 'react-meta-tags';
 import Flatpickr from 'react-flatpickr';
-
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { currentUserAtom } from '../../Recoil/states/users';
 //import images
 import progileBg from '../../assets/images/profile-bg.jpg';
 import avatar1 from '../../assets/images/users/avatar-1.jpg';
+import { Upload } from '../../Services/share.service';
+import { UpdateInfo, UpdatePassword } from '../../Services/user.service';
 
 const Settings = () => {
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
+
+    const [avatar, setAvatar] = useState(avatar1);
+    const [form, setForm] = useState(currentUser);
+    const [formPassword, setFormPassword] = useState({});
+    useEffect(() => {
+        setAvatar(currentUser.avatar);
+    }, [currentUser]);
     const [activeTab, setActiveTab] = useState('1');
 
     const tabChange = (tab) => {
         if (activeTab !== tab) setActiveTab(tab);
     };
+    const changeInput = (e) => {
+        setForm((x) => {
+            return { ...x, [e.target.name]: e.target.value };
+        });
+    };
+    const changePassword = (e) => {
+        setFormPassword((x) => {
+            return { ...x, [e.target.name]: e.target.value };
+        });
+    };
 
+    const updateInfo = () => {
+        UpdateInfo(form)
+            .then((res) => {
+                setCurrentUser(res);
+            })
+            .catch();
+    };
+    const updatePassword = () => {
+        UpdatePassword(formPassword)
+            .then((res) => {})
+            .catch();
+    };
+    const UploadImage = (e) => {
+        let files = e.target.files;
+        Upload(files)
+            .then((res) => {
+                let url = process.env.REACT_APP_API_URL + '/' + res.imagePath;
+                setAvatar(url);
+                setForm((x) => {
+                    return { ...x, avatar: url };
+                });
+            })
+            .catch((err) => {});
+    };
     return (
         <React.Fragment>
             <div className="page-content">
                 <MetaTags>
-                    <title>Profile Settings | Velzon - React Admin & Dashboard Template</title>
+                    <title>Profile Settings </title>
                 </MetaTags>
                 <Container fluid>
                     <div className="position-relative mx-n4 mt-n4">
@@ -45,12 +90,20 @@ const Settings = () => {
                                     <div className="text-center">
                                         <div className="profile-user position-relative d-inline-block mx-auto  mb-4">
                                             <img
-                                                src={avatar1}
                                                 className="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                                 alt="user-profile"
+                                                src={avatar}
+                                                onError={() => {
+                                                    setAvatar(avatar1);
+                                                }}
                                             />
                                             <div className="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                <Input id="profile-img-file-input" type="file" className="profile-img-file-input" />
+                                                <Input
+                                                    id="profile-img-file-input"
+                                                    type="file"
+                                                    className="profile-img-file-input"
+                                                    onChange={UploadImage}
+                                                />
                                                 <Label htmlFor="profile-img-file-input" className="profile-photo-edit avatar-xs">
                                                     <span className="avatar-title rounded-circle bg-light text-body">
                                                         <i className="ri-camera-fill"></i>
@@ -58,13 +111,12 @@ const Settings = () => {
                                                 </Label>
                                             </div>
                                         </div>
-                                        <h5 className="fs-16 mb-1">Anna Adame</h5>
-                                        <p className="text-muted mb-0">Lead Designer / Developer</p>
+                                        <h5 className="fs-16 mb-1">{currentUser.full_name}</h5>
+                                        <p className="text-muted mb-0">{currentUser.roles}</p>
                                     </div>
                                 </CardBody>
                             </Card>
                         </Col>
-
                         <Col xxl={9}>
                             <Card className="mt-xxl-n5">
                                 <CardHeader>
@@ -110,7 +162,9 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="firstnameInput"
                                                                 placeholder="Enter your firstname"
-                                                                defaultValue="Dave"
+                                                                value={form.first_name}
+                                                                name="first_name"
+                                                                onChange={changeInput}
                                                             />
                                                         </div>
                                                     </Col>
@@ -124,7 +178,9 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="lastnameInput"
                                                                 placeholder="Enter your lastname"
-                                                                defaultValue="Adame"
+                                                                value={form.last_name}
+                                                                name="last_name"
+                                                                onChange={changeInput}
                                                             />
                                                         </div>
                                                     </Col>
@@ -138,7 +194,9 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="phonenumberInput"
                                                                 placeholder="Enter your phone number"
-                                                                defaultValue="+(1) 987 6543"
+                                                                value={form.phone_number}
+                                                                name="phone_number"
+                                                                onChange={changeInput}
                                                             />
                                                         </div>
                                                     </Col>
@@ -152,11 +210,13 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="emailInput"
                                                                 placeholder="Enter your email"
-                                                                defaultValue="daveadame@velzon.com"
+                                                                value={form.email}
+                                                                name="email"
+                                                                onChange={changeInput}
                                                             />
                                                         </div>
                                                     </Col>
-                                                    <Col lg={12}>
+                                                    <Col lg={6}>
                                                         <div className="mb-3">
                                                             <Label htmlFor="JoiningdatInput" className="form-label">
                                                                 Joining Date
@@ -164,114 +224,34 @@ const Settings = () => {
                                                             <Flatpickr
                                                                 className="form-control"
                                                                 options={{
-                                                                    dateFormat: 'd M, Y',
+                                                                    dateFormat: 'Y-m-d',
                                                                 }}
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={12}>
-                                                        <div className="mb-3">
-                                                            <Label htmlFor="skillsInput" className="form-label">
-                                                                Skills
-                                                            </Label>
-                                                            <select className="form-select mb-3">
-                                                                <option>Select your Skill </option>
-                                                                <option value="Choices1">CSS</option>
-                                                                <option value="Choices2">HTML</option>
-                                                                <option value="Choices3">PYTHON</option>
-                                                                <option value="Choices4">JAVA</option>
-                                                                <option value="Choices5">ASP.NET</option>
-                                                            </select>
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={6}>
-                                                        <div className="mb-3">
-                                                            <Label htmlFor="designationInput" className="form-label">
-                                                                Designation
-                                                            </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="designationInput"
-                                                                placeholder="Designation"
-                                                                defaultValue="Lead Designer / Developer"
+                                                                onChange={([value]) => {
+                                                                    changeInput({ target: { name: 'onboarding', value } });
+                                                                }}
+                                                                value={form.onboarding}
                                                             />
                                                         </div>
                                                     </Col>
                                                     <Col lg={6}>
                                                         <div className="mb-3">
-                                                            <Label htmlFor="websiteInput1" className="form-label">
-                                                                Website
+                                                            <Label htmlFor="JoiningdatInput" className="form-label">
+                                                                Address
                                                             </Label>
                                                             <Input
                                                                 type="text"
                                                                 className="form-control"
-                                                                id="websiteInput1"
-                                                                placeholder="www.example.com"
-                                                                defaultValue="www.velzon.com"
+                                                                id="addressInput"
+                                                                placeholder="Enter your address"
+                                                                value={form.address}
+                                                                name="address"
+                                                                onChange={changeInput}
                                                             />
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={4}>
-                                                        <div className="mb-3">
-                                                            <Label htmlFor="cityInput" className="form-label">
-                                                                City
-                                                            </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="cityInput"
-                                                                placeholder="City"
-                                                                defaultValue="California"
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={4}>
-                                                        <div className="mb-3">
-                                                            <Label htmlFor="countryInput" className="form-label">
-                                                                Country
-                                                            </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="countryInput"
-                                                                placeholder="Country"
-                                                                defaultValue="United States"
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={4}>
-                                                        <div className="mb-3">
-                                                            <Label htmlFor="zipcodeInput" className="form-label">
-                                                                Zip Code
-                                                            </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                minLength="5"
-                                                                maxLength="6"
-                                                                id="zipcodeInput"
-                                                                placeholder="Enter zipcode"
-                                                                defaultValue="90011"
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    <Col lg={12}>
-                                                        <div className="mb-3 pb-2">
-                                                            <Label htmlFor="exampleFormControlTextarea" className="form-label">
-                                                                Description
-                                                            </Label>
-                                                            <textarea
-                                                                className="form-control"
-                                                                id="exampleFormControlTextarea"
-                                                                rows="3"
-                                                                defaultValue="Hi I'm Anna Adame, It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same family."
-                                                            ></textarea>
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
                                                         <div className="hstack gap-2 justify-content-end">
-                                                            <button type="button" className="btn btn-primary">
+                                                            <button type="button" className="btn btn-primary" onClick={updateInfo}>
                                                                 Updates
                                                             </button>
                                                             <button type="button" className="btn btn-soft-success">
@@ -296,6 +276,9 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="oldpasswordInput"
                                                                 placeholder="Enter current password"
+                                                                value={formPassword.old_password}
+                                                                onChange={changePassword}
+                                                                name="old_password"
                                                             />
                                                         </div>
                                                     </Col>
@@ -310,6 +293,9 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="newpasswordInput"
                                                                 placeholder="Enter new password"
+                                                                value={formPassword.new_password}
+                                                                name="new_password"
+                                                                onChange={changePassword}
                                                             />
                                                         </div>
                                                     </Col>
@@ -324,91 +310,21 @@ const Settings = () => {
                                                                 className="form-control"
                                                                 id="confirmpasswordInput"
                                                                 placeholder="Confirm password"
+                                                                value={formPassword.confirm_password}
+                                                                name="confirm_password"
+                                                                onChange={changePassword}
                                                             />
                                                         </div>
                                                     </Col>
-
-                                                    <Col lg={12}>
-                                                        <div className="mb-3">
-                                                            <Link to="#" className="link-primary text-decoration-underline">
-                                                                Forgot Password ?
-                                                            </Link>
-                                                        </div>
-                                                    </Col>
-
                                                     <Col lg={12}>
                                                         <div className="text-end">
-                                                            <button type="button" className="btn btn-success">
+                                                            <button type="button" className="btn btn-success" onClick={updatePassword}>
                                                                 Change Password
                                                             </button>
                                                         </div>
                                                     </Col>
                                                 </Row>
                                             </Form>
-                                            <div className="mt-4 mb-3 border-bottom pb-2">
-                                                <div className="float-end">
-                                                    <Link to="#" className="link-primary">
-                                                        All Logout
-                                                    </Link>
-                                                </div>
-                                                <h5 className="card-title">Login History</h5>
-                                            </div>
-                                            <div className="d-flex align-items-center mb-3">
-                                                <div className="flex-shrink-0 avatar-sm">
-                                                    <div className="avatar-title bg-light text-primary rounded-3 fs-18">
-                                                        <i className="ri-smartphone-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-grow-1 ms-3">
-                                                    <h6>iPhone 12 Pro</h6>
-                                                    <p className="text-muted mb-0">Los Angeles, United States - March 16 at 2:47PM</p>
-                                                </div>
-                                                <div>
-                                                    <Link to="#">Logout</Link>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex align-items-center mb-3">
-                                                <div className="flex-shrink-0 avatar-sm">
-                                                    <div className="avatar-title bg-light text-primary rounded-3 fs-18">
-                                                        <i className="ri-tablet-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-grow-1 ms-3">
-                                                    <h6>Apple iPad Pro</h6>
-                                                    <p className="text-muted mb-0">Washington, United States - November 06 at 10:43AM</p>
-                                                </div>
-                                                <div>
-                                                    <Link to="#">Logout</Link>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex align-items-center mb-3">
-                                                <div className="flex-shrink-0 avatar-sm">
-                                                    <div className="avatar-title bg-light text-primary rounded-3 fs-18">
-                                                        <i className="ri-smartphone-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-grow-1 ms-3">
-                                                    <h6>Galaxy S21 Ultra 5G</h6>
-                                                    <p className="text-muted mb-0">Conneticut, United States - June 12 at 3:24PM</p>
-                                                </div>
-                                                <div>
-                                                    <Link to="#">Logout</Link>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex align-items-center">
-                                                <div className="flex-shrink-0 avatar-sm">
-                                                    <div className="avatar-title bg-light text-primary rounded-3 fs-18">
-                                                        <i className="ri-macbook-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-grow-1 ms-3">
-                                                    <h6>Dell Inspiron 14</h6>
-                                                    <p className="text-muted mb-0">Phoenix, United States - July 26 at 8:10AM</p>
-                                                </div>
-                                                <div>
-                                                    <Link to="#">Logout</Link>
-                                                </div>
-                                            </div>
                                         </TabPane>
                                     </TabContent>
                                 </CardBody>

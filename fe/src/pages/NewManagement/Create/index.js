@@ -7,7 +7,8 @@ import { GetById, Update, Create } from '../../../Services/new.service';
 import { useHistory } from 'react-router-dom';
 import { MyUploadAdapter } from '../../../helpers';
 import UploadImage from '../../../Components/Common/UploadImage.js';
-
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from '../../../Recoil/states/users';
 const InitialState = {
     id: 0,
     title: '',
@@ -16,6 +17,8 @@ const InitialState = {
     user_id: '',
 };
 const Component = (props) => {
+    const currentUser = useRecoilValue(currentUserAtom);
+
     const { state } = props.location;
     const [isEdit, setIsEdit] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -40,9 +43,7 @@ const Component = (props) => {
 
     const submit = (formNew) => {
         setSubmitted(true);
-        let current_user = localStorage.getItem('currentUser');
-        current_user = JSON.parse(current_user);
-        const param = { ...formNew, user_id: current_user.user_id };
+        const param = { ...formNew, user_id: currentUser.user_id };
         handleSubmit(param)
             .then(() => {
                 history.push('/new-management');

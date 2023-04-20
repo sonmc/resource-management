@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Card, CardBody, Col, Container, Row, Table } from 'reactstrap';
 import SwiperCore, { Autoplay } from 'swiper';
 import MetaTags from 'react-meta-tags';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from '../../Recoil/states/users';
 
 //Images
 import profileBg from '../../assets/images/profile-bg.jpg';
@@ -10,13 +12,11 @@ import avatar1 from '../../assets/images/users/avatar-1.jpg';
 
 const SimplePage = () => {
     SwiperCore.use([Autoplay]);
-    const [currentUser, setCurrentUser] = useState({});
-    console.log(currentUser);
+    const currentUser = useRecoilValue(currentUserAtom);
+    const [avatar, setAvatar] = useState(avatar1);
     useEffect(() => {
-        let currentUser = localStorage.getItem('currentUser');
-        currentUser = JSON.parse(currentUser);
-        setCurrentUser(currentUser);
-    }, []);
+        setAvatar(currentUser.avatar);
+    }, [currentUser]);
     return (
         <React.Fragment>
             <div className="page-content">
@@ -33,14 +33,21 @@ const SimplePage = () => {
                         <Row className="g-4">
                             <div className="col-auto">
                                 <div className="avatar-lg">
-                                    <img src={avatar1} alt="user-img" className="img-thumbnail rounded-circle" />
+                                    <img
+                                        src={avatar}
+                                        alt="user-img"
+                                        className="img-thumbnail rounded-circle"
+                                        onError={() => {
+                                            setAvatar(avatar1);
+                                        }}
+                                    />
                                 </div>
                             </div>
 
                             <Col>
                                 <div className="p-2">
                                     <h3 className="text-white mb-1">{currentUser.full_name}</h3>
-                                    <p className="text-white-75">{currentUser.roles.filter((x, i) => i === 0)}</p>
+                                    <p className="text-white-75">{currentUser.roles}</p>
                                 </div>
                             </Col>
 
