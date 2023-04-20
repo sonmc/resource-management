@@ -17,6 +17,8 @@ const SimplePage = () => {
     useEffect(() => {
         setAvatar(currentUser.avatar);
     }, [currentUser]);
+
+    console.log(currentUser);
     return (
         <React.Fragment>
             <div className="page-content">
@@ -60,7 +62,7 @@ const SimplePage = () => {
                     </div>
 
                     <Row>
-                        <Col xxl={3}>
+                        <Col xxl={4}>
                             <Card>
                                 <CardBody>
                                     <h5 className="card-title mb-3">Info</h5>
@@ -87,7 +89,7 @@ const SimplePage = () => {
                                                 </tr>
                                                 <tr>
                                                     <th className="ps-0" scope="row">
-                                                        Joining Date
+                                                        Joining Date:
                                                     </th>
                                                     <td className="text-muted">{currentUser.onboarding}</td>
                                                 </tr>
@@ -97,49 +99,30 @@ const SimplePage = () => {
                                 </CardBody>
                             </Card>
                         </Col>
-                        <Col xxl={9}>
+                        <Col xxl={8}>
                             <Card>
                                 <CardBody>
-                                    <h5 className="card-title mb-3">About</h5>
+                                    <h5 className="card-title mb-3">Introduce</h5>
                                     <p>
-                                        Hi I'm Anna Adame, It will be as simple as Occidental; in fact, it will be Occidental. To an English person,
-                                        it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is
-                                        European languages are members of the same family.
+                                        Hi I'm Anna Adame, It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same
+                                        family.
                                     </p>
                                     <p>
-                                        You always want to make sure that your fonts work well together and try to limit the number of fonts you use
-                                        to three or less. Experiment and play around with the fonts that you already have in the software you’re
-                                        working with reputable font websites. This may be the most commonly encountered tip I received from the
-                                        designers I spoke with. They highly encourage that you use different fonts in one design, but do not
-                                        over-exaggerate and go overboard.
+                                        You always want to make sure that your fonts work well together and try to limit the number of fonts you use to three or less. Experiment and play around with the fonts that you already have in the software you’re working with reputable font websites. This may
+                                        be the most commonly encountered tip I received from the designers I spoke with. They highly encourage that you use different fonts in one design, but do not over-exaggerate and go overboard.
                                     </p>
                                     <Row>
                                         <Col xs={6} md={4}>
-                                            <div className="d-flex mt-4">
+                                            <div className="d-flex mt-3 align-items-center">
                                                 <div className="flex-shrink-0 avatar-xs align-self-center me-3">
                                                     <div className="avatar-title bg-light rounded-circle fs-16 text-primary">
                                                         <i className="ri-user-2-fill"></i>
                                                     </div>
                                                 </div>
                                                 <div className="flex-grow-1 overflow-hidden">
-                                                    <p className="mb-1">Designation :</p>
-                                                    <h6 className="text-truncate mb-0">Lead Designer / Developer</h6>
-                                                </div>
-                                            </div>
-                                        </Col>
-
-                                        <Col xs={6} md={4}>
-                                            <div className="d-flex mt-4">
-                                                <div className="flex-shrink-0 avatar-xs align-self-center me-3">
-                                                    <div className="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                                        <i className="ri-global-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-grow-1 overflow-hidden">
-                                                    <p className="mb-1">Website :</p>
-                                                    <Link to="#" className="fw-semibold">
-                                                        www.velzon.com
-                                                    </Link>
+                                                    <p className="mb-1">
+                                                        Designation : <span className="text-truncate mb-0">{currentUser.roles.map((r) => r)}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </Col>

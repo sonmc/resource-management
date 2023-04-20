@@ -12,10 +12,10 @@ const Navdata = () => {
             },
         },
         {
-            id: 'company',
-            label: 'Company Introduction',
+            id: 'introduction',
+            label: 'Introduction',
             icon: 'ri-honour-line',
-            link: '/company-introduction',
+            link: '/introduction',
             click: function (e) {
                 e.preventDefault();
             },
