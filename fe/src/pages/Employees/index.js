@@ -180,7 +180,7 @@ const EmployeePage = () => {
                                 </div>
                                 <CardBody>
                                     <div className="table-responsive mt-3">
-                                        <Table className="table-bordered table-hover">
+                                        <Table className="table-hover">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>

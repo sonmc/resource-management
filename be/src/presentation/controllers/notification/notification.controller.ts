@@ -1,25 +1,32 @@
-import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
-import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
-import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
-import { EndPoint } from 'src/domain/enums/endpoint.enum';
-import { GetPermissionsUseCases } from 'src/use-cases/permission/get-all.usecases';
+import { CreateUseCases } from 'src/use-cases/notification/create.usecase';
+import { GetUseCases } from 'src/use-cases/notification/get.usecase';
+import { plainToClass } from 'class-transformer';
+import { NotificationPresenter } from './presenter/notification.presenter';
+import { NotificationEntity } from 'src/domain/entities/notification.entity';
 
-@Controller('permissions')
-@UseGuards(JwtAuthGuard, PermissionsGuard)
-export class PermissionController {
+@Controller('notifications')
+@UseGuards(JwtAuthGuard)
+export class NotificationController {
     constructor(
-        @Inject(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY)
-        private readonly getPermissionsUseCaseProxy: UseCaseProxy<GetPermissionsUseCases>
+        @Inject(UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY)
+        private readonly getNotificationsUseCaseProxy: UseCaseProxy<GetUseCases>,
+        @Inject(UseCasesProxyModule.CREATE_NOTIFICATION_USECASES_PROXY)
+        private readonly createNotificationUseCaseProxy: UseCaseProxy<CreateUseCases>
     ) {}
 
     @Get()
-    @Permissions(EndPoint.PERMISSION_GET)
     async get() {
-        const permissionInstance = this.getPermissionsUseCaseProxy.getInstance();
-        const permissions = await permissionInstance.execute();
-        return permissions;
+        const notifications = await this.getNotificationsUseCaseProxy.getInstance().execute();
+        return notifications;
+    }
+
+    @Post()
+    async create(@Body() notificationPresenter: NotificationPresenter) {
+        const notificationE = plainToClass(NotificationEntity, notificationPresenter);
+        return await this.createNotificationUseCaseProxy.getInstance().execute(notificationE);
     }
 }
