@@ -6,6 +6,8 @@ $ yarn
 
 ## install NODEV_ENV
 
+<!-- for windows -->
+
 npm install -g win-node-env
 
 ## Running the app
