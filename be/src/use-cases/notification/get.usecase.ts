@@ -4,8 +4,9 @@ import { INotificationRepository } from 'src/domain/repositories/notification.re
 export class GetUseCases {
     constructor(private readonly notificationRepository: INotificationRepository) {}
 
-    async execute(): Promise<NotificationEntity[]> {
-        const notifs = await this.notificationRepository.findAll();
+    async execute(query): Promise<NotificationEntity[]> {
+        let user_id = query.user_id;
+        const notifs = await this.notificationRepository.findByUserId(user_id);
         return notifs;
     }
 }

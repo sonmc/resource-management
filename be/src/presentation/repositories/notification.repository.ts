@@ -1,3 +1,4 @@
+import { Notification } from './../../infrastructure/schemas/notification.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,7 +11,7 @@ import { INotificationRepository } from 'src/domain/repositories/notification.re
 @Injectable()
 export class NotificationRepository implements INotificationRepository {
     constructor(
-        @InjectRepository(New)
+        @InjectRepository(Notification)
         private readonly repository: Repository<Notification>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>
@@ -25,6 +26,14 @@ export class NotificationRepository implements INotificationRepository {
 
     async findAll(): Promise<NotificationEntity[]> {
         let notifs = await this.repository.find();
+        return notifs.map((n) => plainToClass(NotificationEntity, n));
+    }
+    async findByUserId(user_id): Promise<NotificationEntity[]> {
+        let notifs = await this.repository.find({
+            where: {
+                to: user_id,
+            },
+        });
         return notifs.map((n) => plainToClass(NotificationEntity, n));
     }
 }

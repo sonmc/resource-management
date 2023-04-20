@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 import { useRecoilValue } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
+import { GetAll } from 'src/Services/notification.service';
 
 const Layout = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -105,11 +106,13 @@ const Layout = (props) => {
             setHeaderClass('');
         }
     }
+
     useEffect(() => {
         const socket = io('http://localhost:5000', {
             query: { user_id: currentUser.user_id },
         });
         socket.on('notification', (notification) => {
+            GetAll({ user_id: currentUser.user_id });
             console.log(notification);
         });
         socket.on('connect', function () {

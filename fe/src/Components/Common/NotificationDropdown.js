@@ -8,9 +8,14 @@ import avatar3 from 'src/assets/images/users/avatar-3.jpg';
 
 //SimpleBar
 import SimpleBar from 'simplebar-react';
+import { notificationAtom } from 'src/Recoil/states/notification';
+import { useRecoilValue } from 'recoil';
 
 const NotificationDropdown = () => {
     //Dropdown Toggle
+
+    const notifications = useRecoilValue(notificationAtom);
+
     const [isNotificationDropdown, setIsNotificationDropdown] = useState(false);
     const [isVacationDetail, setIsVacationDetail] = useState(false);
     const toggleNotificationDropdown = () => {
@@ -93,7 +98,8 @@ const NotificationDropdown = () => {
                                         <div className="flex-1">
                                             <Link to="#" className="stretched-link">
                                                 <h6 className="mt-0 mb-2 lh-base">
-                                                    Your <b>Elite</b> author Graphic Optimization <span className="text-secondary">reward</span> is ready!
+                                                    Your <b>Elite</b> author Graphic Optimization <span className="text-secondary">reward</span> is
+                                                    ready!
                                                 </h6>
                                             </Link>
                                             <p className="mb-0 fs-11 fw-medium text-muted">

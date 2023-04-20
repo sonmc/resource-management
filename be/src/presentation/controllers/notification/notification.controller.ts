@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, UseGuards } from '@nestjs/common';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
@@ -19,8 +19,8 @@ export class NotificationController {
     ) {}
 
     @Get()
-    async get() {
-        const notifications = await this.getNotificationsUseCaseProxy.getInstance().execute();
+    async get(@Query() query) {
+        const notifications = await this.getNotificationsUseCaseProxy.getInstance().execute(query);
         return notifications;
     }
 
