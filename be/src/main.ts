@@ -12,7 +12,7 @@ async function bootstrap() {
     });
     app.useStaticAssets(join(__dirname, '../dist/public'));
     app.use(cookieParser());
-    await app.listen(5000);
+    await app.listen(5000, '0.0.0.0');
     console.log('server is running on port: 5000');
 }
 bootstrap();
