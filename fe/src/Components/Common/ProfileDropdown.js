@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import avatar1 from '../../assets/images/users/avatar-1.jpg';
+import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 import { useRecoilValue } from 'recoil';
-import { Logout } from '../../Services/auth.service';
-import { currentUserAtom } from '../../Recoil/states/users';
+import { Logout } from 'src/Services/auth.service';
+import { currentUserAtom } from 'src/Recoil/states/users';
 const ProfileDropdown = () => {
     const history = useHistory();
     const currentUser = useRecoilValue(currentUserAtom);
@@ -38,9 +38,7 @@ const ProfileDropdown = () => {
                         />
                         <span className="text-start ms-xl-2">
                             <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{currentUser.full_name}</span>
-                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
-                                {currentUser.roles.filter((x, i) => i === 0)}
-                            </span>
+                            <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{currentUser.roles}</span>
                         </span>
                     </span>
                 </DropdownToggle>

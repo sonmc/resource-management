@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import illustarator from '../../assets/images/user-illustarator-2.png';
 import NewDetailModal from './DetailModal/NewDetailModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import moment from 'moment';
+import { Pagination, Navigation, Scrollbar, EffectFade, EffectCreative, Mousewheel, EffectFlip, EffectCoverflow, Autoplay } from 'swiper';
+import 'swiper/css';
 const News = (props) => {
     const { news } = props;
     const [objectNewDetail, setObjectNewDetail] = useState({
@@ -17,40 +19,60 @@ const News = (props) => {
     };
     return (
         <React.Fragment>
-            <Row>
-                {news.map((item, key) => (
-                    <Col xl={6} md={6} key={key} onClick={() => showNewDetail(item)}>
-                        <Card className="card-animate">
-                            <CardBody className="p-2">
-                                <div className="d-flex align-middle">
-                                    {item.image && (
-                                        <div style={{ width: '200px' }} className="me-3">
-                                            <div className="box-img thumbnail">
-                                                <div className="img">
-                                                    <img src={item.image} className="rounded img-fluid" alt=""></img>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div style={{ width: `calc(100% - 200px)` }}>
-                                        <h6 className="text-uppercase fw-medium text-muted text-truncate mb-3">{item.title}</h6>
-                                        <p
-                                            style={{ height: 60, overflow: 'hidden' }}
-                                            className="mb-1 text-content"
-                                            dangerouslySetInnerHTML={{ __html: item.content }}
-                                        ></p>
-                                        <p className="text-muted fs-12 mb-0">
-                                            Posted at {moment().format('MMM DD, YYYY hh:mm A')} by {item.user.username}
-                                        </p>
+            <Swiper
+                slidesPerView={1}
+                spaceBetween={10}
+                pagination={{
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }}
+                breakpoints={{
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 50,
+                    },
+                }}
+                modules={[Pagination]}
+                className="mySwiper swiper responsive-swiper rounded gallery-light pb-4"
+            >
+                <div className="swiper-wrapper">
+                    {news.map((item, key) => (
+                        <SwiperSlide key={key}>
+                            <div className="gallery-box card">
+                                <div className="gallery-container">
+                                    <img className="gallery-img img-fluid mx-auto" src={item.image} alt="" />
+                                    <div className="gallery-overlay">
+                                        <h5 className="overlay-caption">Project discussion with team</h5>
                                     </div>
                                 </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-
+                                <div className="box-content">
+                                    <div className="d-flex align-items-center mt-1">
+                                        <div className="flex-grow-1 text-muted">by Erica Kernan</div>
+                                        <div className="flex-shrink-0">
+                                            <div className="d-flex gap-3">
+                                                <button type="button" className="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
+                                                    <i className="ri-thumb-up-fill text-muted align-bottom me-1"></i> 3.4K
+                                                </button>
+                                                <button type="button" className="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
+                                                    <i className="ri-question-answer-fill text-muted align-bottom me-1"></i> 1.3k
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </div>
+            </Swiper>
             <NewDetailModal objectNewDetail={objectNewDetail} onCloseClick={onCloseClick} />
         </React.Fragment>
     );

@@ -5,9 +5,9 @@ import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { Login as OnLogin, GetCurrentUser } from '../../Services/auth.service';
+import { Login as OnLogin, GetCurrentUser } from 'src/Services/auth.service';
 import { useRecoilState } from 'recoil';
-import { currentUserAtom } from '../../Recoil/states/users';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const LoginPage = () => {
     const history = useHistory();

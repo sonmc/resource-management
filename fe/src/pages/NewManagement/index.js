@@ -1,7 +1,7 @@
 import { Table, Container, Row, Col, CardBody, Button } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
-import { GetAll } from '../../Services/new.service';
+import { GetAll } from 'src/Services/new.service';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 

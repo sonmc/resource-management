@@ -3,7 +3,7 @@ import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reacts
 import Flatpickr from 'react-flatpickr';
 import { useRecoilValue } from 'recoil';
 import Select from 'react-select';
-import { newWeekInMonthState } from '../../../Recoil/states/common';
+import { newWeekInMonthState } from 'src/Recoil/states/common';
 
 const CreateModal = (props) => {
     const weekInMonthValue = useRecoilValue(newWeekInMonthState);
@@ -81,7 +81,13 @@ const CreateModal = (props) => {
                             <label htmlFor="userName" className="form-label">
                                 Project name
                             </label>
-                            <Input type="text" className="form-control" name="name" placeholder="Enter project name" onChange={(x) => changeField(x)} />
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="name"
+                                placeholder="Enter project name"
+                                onChange={(x) => changeField(x)}
+                            />
                         </Col>
                         <Col lg={12}>
                             <Label for="start-field" className="form-label">

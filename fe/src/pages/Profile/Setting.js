@@ -5,12 +5,12 @@ import classnames from 'classnames';
 import MetaTags from 'react-meta-tags';
 import Flatpickr from 'react-flatpickr';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { currentUserAtom } from '../../Recoil/states/users';
+import { currentUserAtom } from 'src/Recoil/states/users';
 //import images
-import progileBg from '../../assets/images/profile-bg.jpg';
-import avatar1 from '../../assets/images/users/avatar-1.jpg';
-import { Upload } from '../../Services/share.service';
-import { UpdateInfo, UpdatePassword } from '../../Services/user.service';
+import progileBg from 'src/assets/images/profile-bg.jpg';
+import avatar1 from 'src/assets/images/users/avatar-1.jpg';
+import { Upload } from 'src/Services/share.service';
+import { UpdateInfo, UpdatePassword } from 'src/Services/user.service';
 
 const Settings = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);

@@ -3,7 +3,7 @@ import { CardBody, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { FetchProject, Create } from '../../Services/project.service';
+import { FetchProject, Create } from 'src/Services/project.service';
 import CreateModal from './Create';
 import AddMemberModal from './AddMember';
 import ConfirmDeleteModal from './ConfirmDelete';
@@ -13,13 +13,13 @@ import NoteControl from '../../Components/Common/Note';
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { newWeekInMonthState } from '../../Recoil/states/common';
-import { Update, AddMember, RemoveMember } from '../../Services/project.service';
-import { Get as GetEmployee } from '../../Services/user.service';
-import { Get as GetRole } from '../../Services/role.service';
+import { newWeekInMonthState } from 'src/Recoil/states/common';
+import { Update, AddMember, RemoveMember } from 'src/Services/project.service';
+import { Get as GetEmployee } from 'src/Services/user.service';
+import { Get as GetRole } from 'src/Services/role.service';
 // Recoid
 import { useSetRecoilState } from 'recoil';
-import { rolesState } from '../../Recoil/states/roles';
+import { rolesState } from 'src/Recoil/states/roles';
 import { calculatorWorkloadStatus } from '../../helpers/common';
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -381,16 +381,32 @@ const ProjectPage = () => {
                                         </div>
                                         <div className="col-sm-3">
                                             <div className="search-box">
-                                                <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
+                                                <input
+                                                    type="text"
+                                                    onChange={(x) => handleChangeFilter('project_name', x.target.value)}
+                                                    className="form-control search"
+                                                    placeholder="Search by name"
+                                                />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
                                         <div className="offset-md-3 col-sm-3">
                                             <div className="d-flex flex-row-reverse">
-                                                <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
+                                                <button
+                                                    type="button"
+                                                    disabled={isLastOfMonth}
+                                                    title="Next month"
+                                                    onClick={() => onWorkloadDateNext()}
+                                                    aria-pressed="false"
+                                                    className="fc-next-button btn btn-secondary rounded-0"
+                                                >
                                                     <span className="fa fa-chevron-left"></span>
                                                 </button>
-                                                <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 rounded-0 text-center">
+                                                <select
+                                                    onChange={(value) => onChangeWorkloadMonth(value)}
+                                                    value={currentWorkloadDate}
+                                                    className="form-control mb-1 rounded-0 text-center"
+                                                >
                                                     {workloadDates.map((d, key) => {
                                                         return (
                                                             <option key={key} value={d}>
@@ -399,7 +415,14 @@ const ProjectPage = () => {
                                                         );
                                                     })}
                                                 </select>
-                                                <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
+                                                <button
+                                                    type="button"
+                                                    title="Previous month"
+                                                    disabled={isFirstOfMonth}
+                                                    onClick={() => onWorkloadDatePrev()}
+                                                    aria-pressed="false"
+                                                    className="btn btn-secondary fc-prev-button rounded-0"
+                                                >
                                                     <span className="fa fa-chevron-right"></span>
                                                 </button>
                                             </div>
@@ -436,21 +459,48 @@ const ProjectPage = () => {
                                                     {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[1].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[2].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -461,12 +511,19 @@ const ProjectPage = () => {
                                                     <React.Fragment key={key}>
                                                         {key > 0 && (
                                                             <tr>
-                                                                <td colSpan={workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4}></td>
+                                                                <td
+                                                                    colSpan={
+                                                                        workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4
+                                                                    }
+                                                                ></td>
                                                             </tr>
                                                         )}
                                                         {x.users.length > 0 && (
                                                             <tr>
-                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}>
+                                                                <td
+                                                                    rowSpan={x.users.length}
+                                                                    style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}
+                                                                >
                                                                     <Link
                                                                         to="#"
                                                                         onClick={() => showFormAddMember(x)}
@@ -479,14 +536,29 @@ const ProjectPage = () => {
                                                                     >
                                                                         <i className="ri-add-box-fill" style={{ fontSize: '35px' }} />
                                                                     </Link>
-                                                                    <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
+                                                                    <Link
+                                                                        to="#"
+                                                                        onClick={() => goProjectDetail(x)}
+                                                                        className="fs-100"
+                                                                        style={{ fontSize: '15px' }}
+                                                                    >
                                                                         {x.name}
                                                                     </Link>
                                                                 </td>
-                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
+                                                                <td
+                                                                    rowSpan={x.users.length}
+                                                                    style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}
+                                                                >
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
-                                                                <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px', backgroundColor: x.project_leader === x.users[0].id ? '#c8ffc4' : '' }}>
+                                                                <td
+                                                                    style={{
+                                                                        position: 'relative',
+                                                                        width: '10%',
+                                                                        padding: '5px 20px 5px 5px',
+                                                                        backgroundColor: x.project_leader === x.users[0].id ? '#c8ffc4' : '',
+                                                                    }}
+                                                                >
                                                                     {x.users[0]?.full_name && (
                                                                         <Link
                                                                             to="#"
@@ -498,7 +570,10 @@ const ProjectPage = () => {
                                                                                 right: 0,
                                                                             }}
                                                                         >
-                                                                            <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                            <i
+                                                                                className="ri-indeterminate-circle-line"
+                                                                                style={{ fontSize: '20px' }}
+                                                                            />
                                                                         </Link>
                                                                     )}
                                                                     {x.users[0]?.full_name}
@@ -516,7 +591,11 @@ const ProjectPage = () => {
                                                                 {x.users[0].workloads.map((z, key3) => {
                                                                     const colorStatus = calculatorWorkloadStatus(z.value);
                                                                     return (
-                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
+                                                                        <td
+                                                                            className="row-workload-first"
+                                                                            style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }}
+                                                                            key={key3}
+                                                                        >
                                                                             {z.value} {z.value && <span>%</span>}
                                                                         </td>
                                                                     );
@@ -538,7 +617,10 @@ const ProjectPage = () => {
                                                                                     right: 0,
                                                                                 }}
                                                                             >
-                                                                                <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
+                                                                                <i
+                                                                                    className="ri-indeterminate-circle-line"
+                                                                                    style={{ fontSize: '20px' }}
+                                                                                />
                                                                             </Link>
                                                                             {y.full_name}
                                                                         </td>
@@ -552,7 +634,14 @@ const ProjectPage = () => {
                                                                         {y.workloads.map((z, key3) => {
                                                                             const colorStatus = calculatorWorkloadStatus(z.value);
                                                                             return (
-                                                                                <td style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
+                                                                                <td
+                                                                                    style={{
+                                                                                        textAlign: 'center',
+                                                                                        padding: 0,
+                                                                                        backgroundColor: colorStatus,
+                                                                                    }}
+                                                                                    key={key3}
+                                                                                >
                                                                                     {z.value} {z.value && <span>%</span>}
                                                                                 </td>
                                                                             );
@@ -571,7 +660,13 @@ const ProjectPage = () => {
                         </div>
                     </div>
                     <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} employees={employees} />
-                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} users={employees} />
+                    <AddMemberModal
+                        addMember={addMember}
+                        isShowFormAddMember={isShowFormAddMember}
+                        closeFormAddMember={closeFormAddMember}
+                        project={project}
+                        users={employees}
+                    />
                     <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
                 </Container>
             </div>

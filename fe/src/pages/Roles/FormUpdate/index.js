@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
-import { Get } from '../../../Services/user.service';
+import { Get } from 'src/Services/user.service';
 
 const ROLE_DEFAULT = {
     name: '',

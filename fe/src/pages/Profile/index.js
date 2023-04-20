@@ -4,11 +4,11 @@ import { Card, CardBody, Col, Container, Row, Table } from 'reactstrap';
 import SwiperCore, { Autoplay } from 'swiper';
 import MetaTags from 'react-meta-tags';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom } from '../../Recoil/states/users';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 //Images
-import profileBg from '../../assets/images/profile-bg.jpg';
-import avatar1 from '../../assets/images/users/avatar-1.jpg';
+import profileBg from 'src/assets/images/profile-bg.jpg';
+import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 
 const SimplePage = () => {
     SwiperCore.use([Autoplay]);
