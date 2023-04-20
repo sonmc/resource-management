@@ -30,7 +30,7 @@ const HomePage = () => {
                                     <h4 className="card-title mb-0 flex-grow-1">News</h4>
                                 </CardHeader>
 
-                                <CardBody>
+                                <CardBody className="px-4">
                                     <News news={news} />
                                 </CardBody>
                             </Card>
