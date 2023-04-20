@@ -19,7 +19,7 @@ export class VacationRepository implements IVacationRepository {
 
     async create(vacationE: VacationEntity): Promise<VacationEntity> {
         const vacation = plainToClass(Vacation, vacationE);
-        vacation.user = await this.userRepository.findOne(vacationE.user.id);
+        vacation.user = await this.userRepository.findOne(vacationE.user_id);
         const result = await this.repository.create(vacation);
         await this.repository.save(result);
         return plainToClass(VacationEntity, result);

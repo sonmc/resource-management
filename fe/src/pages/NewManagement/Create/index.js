@@ -35,11 +35,7 @@ const Component = (props) => {
     }, [state, params]);
 
     const handleSubmit = (formNew) => {
-        if (formNew.id) {
-            return Update(formNew);
-        } else {
-            return Create(formNew);
-        }
+        return Create(formNew);
     };
 
     const submit = (formNew) => {

@@ -7,15 +7,38 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 //import actions
-import { changeLayout, changeSidebarTheme, changeLayoutMode, changeLayoutWidth, changeLayoutPosition, changeTopbarTheme, changeLeftsidebarSizeType, changeLeftsidebarViewType } from '../../store/actions';
+import {
+    changeLayout,
+    changeSidebarTheme,
+    changeLayoutMode,
+    changeLayoutWidth,
+    changeLayoutPosition,
+    changeTopbarTheme,
+    changeLeftsidebarSizeType,
+    changeLeftsidebarViewType,
+} from '../../store/actions';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
+import io from 'socket.io-client';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const Layout = (props) => {
+    const currentUser = useRecoilValue(currentUserAtom);
+
     const [headerClass, setHeaderClass] = useState('');
     const dispatch = useDispatch();
-    const { layoutType, leftSidebarType, layoutModeType, layoutWidthType, layoutPositionType, topbarThemeType, leftsidbarSizeType, leftSidebarViewType } = useSelector((state) => ({
+    const {
+        layoutType,
+        leftSidebarType,
+        layoutModeType,
+        layoutWidthType,
+        layoutPositionType,
+        topbarThemeType,
+        leftsidbarSizeType,
+        leftSidebarViewType,
+    } = useSelector((state) => ({
         layoutType: state.Layout.layoutType,
         leftSidebarType: state.Layout.leftSidebarType,
         layoutModeType: state.Layout.layoutModeType,
@@ -30,7 +53,16 @@ const Layout = (props) => {
     layout settings
     */
     useEffect(() => {
-        if (layoutType || leftSidebarType || layoutModeType || layoutWidthType || layoutPositionType || topbarThemeType || leftsidbarSizeType || leftSidebarViewType) {
+        if (
+            layoutType ||
+            leftSidebarType ||
+            layoutModeType ||
+            layoutWidthType ||
+            layoutPositionType ||
+            topbarThemeType ||
+            leftsidbarSizeType ||
+            leftSidebarViewType
+        ) {
             dispatch(changeLeftsidebarViewType(leftSidebarViewType));
             dispatch(changeLeftsidebarSizeType(leftsidbarSizeType));
             dispatch(changeSidebarTheme(leftSidebarType));
@@ -40,7 +72,17 @@ const Layout = (props) => {
             dispatch(changeTopbarTheme(topbarThemeType));
             dispatch(changeLayout(layoutType));
         }
-    }, [layoutType, leftSidebarType, layoutModeType, layoutWidthType, layoutPositionType, topbarThemeType, leftsidbarSizeType, leftSidebarViewType, dispatch]);
+    }, [
+        layoutType,
+        leftSidebarType,
+        layoutModeType,
+        layoutWidthType,
+        layoutPositionType,
+        topbarThemeType,
+        leftsidbarSizeType,
+        leftSidebarViewType,
+        dispatch,
+    ]);
     /*
     call dark/light mode
     */
@@ -63,7 +105,26 @@ const Layout = (props) => {
             setHeaderClass('');
         }
     }
-
+    useEffect(() => {
+        const socket = io('http://localhost:5000', {
+            query: { user_id: currentUser.user_id },
+        });
+        socket.on('notification', (notification) => {
+            console.log(notification);
+        });
+        socket.on('connect', function () {
+            console.log('Connected');
+        });
+        socket.on('exception', function (data) {
+            console.log('event', data);
+        });
+        socket.on('disconnect', function () {
+            console.log('Disconnected');
+        });
+        return () => {
+            if (socket.connected) socket.disconnected();
+        };
+    }, []);
     return (
         <React.Fragment>
             <div id="layout-wrapper">

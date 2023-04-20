@@ -13,6 +13,7 @@ import { ApiTokenMiddleware } from './presentation/middleware/api-token.middlewa
 import { PDFModule } from '@t00nday/nestjs-pdf';
 import { jwtOptions } from './infrastructure/config/jwt.config';
 import { PdfConfigService } from './infrastructure/config/pdf.config';
+import { EventsModule } from './events/events.module';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -27,6 +28,7 @@ import { PdfConfigService } from './infrastructure/config/pdf.config';
         PDFModule.registerAsync({
             useClass: PdfConfigService,
         }),
+        EventsModule,
     ],
 })
 export class AppModule implements NestModule {

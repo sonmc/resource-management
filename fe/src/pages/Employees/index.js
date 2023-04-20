@@ -236,6 +236,9 @@ const EmployeePage = () => {
                         closeFormUpdate={closeFormUpdate}
                         employeeId={employeeId}
                         roles={roles}
+                        employees={employees.filter((x) => {
+                            return x.id !== employeeId;
+                        })}
                     />
                     <ConfirmDelete
                         deleteEmployee={deleteEmployee}

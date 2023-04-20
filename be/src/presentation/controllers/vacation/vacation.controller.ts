@@ -10,6 +10,7 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { EndPoint } from 'src/domain/enums/endpoint.enum';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Controller('vacations')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -18,7 +19,9 @@ export class VacationController {
         @Inject(UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY)
         private readonly getVacationUseCases: UseCaseProxy<GetVacationUseCases>,
         @Inject(UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY)
-        private readonly createVacationUseCases: UseCaseProxy<CreateVacationUseCases>
+        private readonly createVacationUseCases: UseCaseProxy<CreateVacationUseCases>,
+        @Inject(EventsGateway)
+        private readonly eventsGateway: EventsGateway
     ) {}
 
     @Get()
@@ -32,6 +35,7 @@ export class VacationController {
     async create(@Body() createVacationPresenter: CreateVacationPresenter) {
         const vacationEntity = plainToClass(VacationEntity, createVacationPresenter);
         const response = await this.createVacationUseCases.getInstance().execute(vacationEntity);
+        this.eventsGateway.sendToClient(response.user.chapterHead, 'alo');
         return response;
     }
 }

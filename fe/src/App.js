@@ -26,7 +26,7 @@ function App() {
         };
         getUsers();
         return () => {};
-    }, []);
+    }, [setCurrentUser, setSpinner]);
 
     return (
         <React.Fragment>

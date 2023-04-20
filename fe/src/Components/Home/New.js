@@ -54,7 +54,6 @@ const News = (props) => {
             >
                 <div className="swiper-wrapper">
                     {news.map((item, key) => {
-                        let content = item.content.replace(/<[^>]+>/g, '');
                         return (
                             <SwiperSlide
                                 key={key}
