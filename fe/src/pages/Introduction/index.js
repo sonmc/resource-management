@@ -3,45 +3,25 @@ import { Container, CardBody, Card, CardHeader, Row, Col } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { co_founders } from './data';
 import { Get as GetEmployee } from '../../Services/user.service';
+import company_structure_img from '../../assets/images/company-structure.png';
 
 const Introduction = () => {
-    const [employees, setEmployees] = useState([
-        {
-            fist_name: 'Sơn',
-            last_name: 'Trần',
-            dob: '10/02/1990',
-            nick_name: 'John',
-            introduce: 'Passionate in software architecture practices.Love history and lossless music also. ',
-            roles: 'Developer',
-            phone_number: '0900888999',
-            avatar: 'https://img.freepik.com/free-photo/handsome-man-white-shirt-posing-attractive-guy-with-fashion-hairstyle-confident-man-with-short-beard-adult-boy-with-brown-hair-closeup-portrait_186202-8538.jpg',
-        },
-        {
-            fist_name: 'Sơn',
-            last_name: 'Trần',
-            dob: '10/02/1990',
-            nick_name: 'John',
-            introduce: 'Passionate in software architecture practices.Love history and lossless music also. ',
-            roles: 'Developer',
-            phone_number: '0900888999',
-            avatar: 'https://img.freepik.com/free-photo/handsome-man-white-shirt-posing-attractive-guy-with-fashion-hairstyle-confident-man-with-short-beard-adult-boy-with-brown-hair-closeup-portrait_186202-8538.jpg',
-        },
-    ]);
+    const [employees, setEmployees] = useState([]);
 
-    // const fetchEmployees = () => {
-    //     const filter = {
-    //         searchTerm: '',
-    //         roleId: 0,
-    //         status: 0,
-    //     };
-    //     GetEmployee(filter).then((res) => {
-    //         setEmployees(res);
-    //     });
-    // };
+    const fetchEmployees = () => {
+        const filter = {
+            searchTerm: '',
+            roleId: 0,
+            status: 0,
+        };
+        GetEmployee(filter).then((res) => {
+            setEmployees(res);
+        });
+    };
 
-    // useEffect(() => {
-    //     fetchEmployees();
-    // }, []);
+    useEffect(() => {
+        fetchEmployees();
+    }, []);
 
     return (
         <React.Fragment>
@@ -52,6 +32,19 @@ const Introduction = () => {
                 <Container fluid>
                     <Row>
                         <Col lg={12}>
+                            <Card>
+                                <CardHeader className="align-items-center d-flex">
+                                    <h4 className="card-title mb-0 flex-grow-1">Company structure</h4>
+                                </CardHeader>
+
+                                <CardBody>
+                                    <Row>
+                                        <div className="col-lg-6">
+                                            <img src={company_structure_img} alt="company structure" className="w-100" />
+                                        </div>
+                                    </Row>
+                                </CardBody>
+                            </Card>
                             <Card>
                                 <CardHeader className="align-items-center d-flex">
                                     <h4 className="card-title mb-0 flex-grow-1">Co-Founders introduction</h4>
@@ -91,7 +84,7 @@ const Introduction = () => {
                                                                 <h6 className="fw-medium text-truncate mb-3">YoB: {x.dob}</h6>
                                                                 <h6 className="fw-medium text-truncate mb-3">Phone: {x.phone_number}</h6>
                                                                 <p dangerouslySetInnerHTML={{ __html: x.introduce }}></p>
-                                                                <h6>Position: {x.roles}</h6>
+                                                                <h6>Position: {x.roles.map((r) => r.name).join(', ')}</h6>
                                                             </div>
                                                             {x.avatar && (
                                                                 <div style={{ width: '200px' }}>

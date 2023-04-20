@@ -12,11 +12,7 @@ INSERT  INTO employee_management2.permissions VALUES (10,"2020/02/05","2020/02/0
 
 INSERT  INTO employee_management2.roles VALUES (1, "2020/02/05","2020/02/05","admin","")
 
-INSERT INTO employee_management2.users VALUES (1,"2020/02/02","2020/02/02","admin","admin@gmail.com","0900123123","admin","","$2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2",1,1,"","2020/02/09","Hn","2020/02/09",null,"2020/02/02",4,2)
-
+INSERT INTO employee_management2.users VALUES (1,"2020/02/02","2020/02/02","admin","admin@gmail.com","0900123123","admin","","$2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2",1,1,"","2020/02/09","Hn","2020/02/09",null,"2020/02/02",4,2,"","")
+ 
 INSERT INTO employee_management2.users_roles VALUES (1,1)
- 
- 
-  
- 
   
