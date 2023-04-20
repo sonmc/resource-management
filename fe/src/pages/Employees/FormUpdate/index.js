@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
-import { Get } from '../../../Services/user.service';
+import { Get } from 'src/Services/user.service';
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
 import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
-import { Get as GetEmployee } from '../../../Services/user.service';
+import { Get as GetEmployee } from 'src/Services/user.service';
 import { LEVEL_STATUS } from '../../../Constant';
 
 const EMPLOYEE_DEFAULT = {

@@ -3,7 +3,7 @@ import { Col, Button, Modal, ModalHeader, ModalBody, Row, Label, FormGroup } fro
 import Flatpickr from 'react-flatpickr';
 import moment from 'moment';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom } from '../../../Recoil/states/users';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const TakeALeave = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);

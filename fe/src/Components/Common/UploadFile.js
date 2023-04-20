@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import avatar from '../../assets/images/default-avatar.png';
-import thumbnail from '../../assets/images/default.png';
-import { Upload } from '../../Services/share.service';
+import avatar from 'src/assets/images/default-avatar.png';
+import thumbnail from 'src/assets/images/default.png';
+import { Upload } from 'src/Services/share.service';
 import './index.scss';
 
 const Component = (props) => {

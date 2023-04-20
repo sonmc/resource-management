@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 
 // Import Images
-import error400cover from "../../../assets/images/error400-cover.png";
+import error400cover from 'src/assets/images/error400-cover.png';
 
 const Cover404 = () => {
     return (
@@ -23,7 +23,9 @@ const Cover404 = () => {
                                         <div className="mt-3">
                                             <h3 className="text-uppercase">Sorry, Page not Found 😭</h3>
                                             <p className="text-muted mb-4">The page you are looking for not available!</p>
-                                            <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Back to home</Link>
+                                            <Link to="/dashboard" className="btn btn-success">
+                                                <i className="mdi mdi-home me-1"></i>Back to home
+                                            </Link>
                                         </div>
                                     </div>
                                 </Col>

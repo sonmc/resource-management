@@ -3,7 +3,7 @@ import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reacts
 import Select from 'react-select';
 import { useRecoilValue } from 'recoil';
 import Flatpickr from 'react-flatpickr';
-import { newWeekInMonthState } from '../../../Recoil/states/common';
+import { newWeekInMonthState } from 'src/Recoil/states/common';
 
 const AddMemberModal = (props) => {
     const weekInMonthValue = useRecoilValue(newWeekInMonthState);
@@ -116,7 +116,13 @@ const AddMemberModal = (props) => {
                                 <label htmlFor="workload" className="form-label">
                                     Workload
                                 </label>
-                                <Input type="number" value={objForm.workload} className="form-control" name="workload" onChange={(x) => changeField(x)} />
+                                <Input
+                                    type="number"
+                                    value={objForm.workload}
+                                    className="form-control"
+                                    name="workload"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </>
                         </Col>
 

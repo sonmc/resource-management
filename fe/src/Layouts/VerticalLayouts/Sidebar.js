@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 //import logo
-import logoSm from '../../assets/icons/logo.png';
-import logoLight from '../../assets/images/logo-light.png';
+import logoSm from 'src/assets/icons/logo.png';
+import logoLight from 'src/assets/images/logo-light.png';
 
 //Import Components
 import SidebarContent from './SidebarContent';
@@ -52,7 +52,12 @@ const Sidebar = ({ layoutType }) => {
                             <img src={logoLight} alt="logo" style={{ width: '100%', height: '50%' }} />
                         </span>
                     </Link>
-                    <button onClick={addEventListenerOnSmHoverMenu} type="button" className="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <button
+                        onClick={addEventListenerOnSmHoverMenu}
+                        type="button"
+                        className="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                        id="vertical-hover"
+                    >
                         <i className="ri-record-circle-line"></i>
                     </button>
                 </div>

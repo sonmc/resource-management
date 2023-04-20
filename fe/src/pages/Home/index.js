@@ -3,7 +3,7 @@ import { Container, CardBody, Card, CardHeader, Row, Col } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import News from '../../Components/Home/New';
 import Handbook from '../../Components/Home/Handbook';
-import { GetAll } from '../../Services/new.service';
+import { GetAll } from 'src/Services/new.service';
 
 const HomePage = () => {
     const [news, setNews] = useState([]);

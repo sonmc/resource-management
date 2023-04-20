@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Update, Create } from '../../../Services/new.service';
+import { Update, Create } from 'src/Services/new.service';
 import { useHistory } from 'react-router-dom';
 import { MyUploadAdapter } from '../../../helpers';
 import UploadImage from '../../../Components/Common/UploadFile';
 import { useRecoilValue } from 'recoil';
-import { currentUserAtom } from '../../../Recoil/states/users';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const InitialState = {
     id: 0,

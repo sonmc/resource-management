@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Col, CardBody } from 'reactstrap';
 import DualListBox from 'react-dual-listbox';
-import { Get as GetPermission } from '../../../Services/permission.service';
-import { UpdateRolePerms } from '../../../Services/role.service';
+import { Get as GetPermission } from 'src/Services/permission.service';
+import { UpdateRolePerms } from 'src/Services/role.service';
 
 const RolePerm = (props) => {
     const { roles } = props;
