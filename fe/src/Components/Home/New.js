@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardBody, Col, Row } from 'reactstrap';
 import NewDetailModal from './DetailModal/NewDetailModal';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import moment from 'moment';
-import { Pagination, Navigation, Scrollbar, EffectFade, EffectCreative, Mousewheel, EffectFlip, EffectCoverflow, Autoplay } from 'swiper';
+import { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import './index.scss';
+
 const News = (props) => {
     const { news } = props;
     const [objectNewDetail, setObjectNewDetail] = useState({
@@ -29,48 +32,56 @@ const News = (props) => {
                 breakpoints={{
                     640: {
                         slidesPerView: 2,
-                        spaceBetween: 20,
+                        spaceBetween: 0,
                     },
                     768: {
                         slidesPerView: 3,
-                        spaceBetween: 40,
+                        spaceBetween: 0,
                     },
                     1024: {
                         slidesPerView: 4,
-                        spaceBetween: 50,
+                        spaceBetween: 0,
+                    },
+                    1920: {
+                        slidesPerView: 5,
+                        spaceBetween: 0,
                     },
                 }}
-                modules={[Pagination]}
+                modules={[Pagination, Navigation, Autoplay]}
+                navigation={true}
+                // autoplay={{ delay: 2500, disableOnInteraction: false }}
                 className="mySwiper swiper responsive-swiper rounded gallery-light pb-4"
             >
                 <div className="swiper-wrapper">
-                    {news.map((item, key) => (
-                        <SwiperSlide key={key}>
-                            <div className="gallery-box card">
-                                <div className="gallery-container">
-                                    <img className="gallery-img img-fluid mx-auto" src={item.image} alt="" />
-                                    <div className="gallery-overlay">
+                    {news.map((item, key) => {
+                        let content = item.content.replace(/<[^>]+>/g, '');
+                        return (
+                            <SwiperSlide
+                                key={key}
+                                onClick={() => {
+                                    showNewDetail(item);
+                                }}
+                            >
+                                <div className="mx-3 card">
+                                    <div className="box-img thumbnail">
+                                        <div className="img">
+                                            <img src={item.image} alt="" />
+                                        </div>
+                                        {/* <div className="gallery-overlay">
                                         <h5 className="overlay-caption">Project discussion with team</h5>
+                                    </div> */}
                                     </div>
-                                </div>
-                                <div className="box-content">
-                                    <div className="d-flex align-items-center mt-1">
-                                        <div className="flex-grow-1 text-muted">by Erica Kernan</div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex gap-3">
-                                                <button type="button" className="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
-                                                    <i className="ri-thumb-up-fill text-muted align-bottom me-1"></i> 3.4K
-                                                </button>
-                                                <button type="button" className="btn btn-sm fs-12 btn-link text-body text-decoration-none px-0">
-                                                    <i className="ri-question-answer-fill text-muted align-bottom me-1"></i> 1.3k
-                                                </button>
-                                            </div>
+                                    <div className="box-content p-4">
+                                        <div className="d-flex mt-1">
+                                            <h6 className="text-line-3">
+                                                <b>{item.title}</b>
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                            </SwiperSlide>
+                        );
+                    })}
                 </div>
             </Swiper>
             <NewDetailModal objectNewDetail={objectNewDetail} onCloseClick={onCloseClick} />

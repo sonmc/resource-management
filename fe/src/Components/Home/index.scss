@@ -1,0 +1,24 @@
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+    background-color: #fff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 1px 10px rgba(56, 65, 74, 0.15);
+    left: 0px;
+}
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+    background-color: #fff !important;
+    border-radius: 50% !important;
+    right: 0px;
+    box-shadow: 0 1px 10px rgba(56, 65, 74, 0.15);
+}
+.text-line-3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    min-height: 4.5em;
+}
