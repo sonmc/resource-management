@@ -14,6 +14,8 @@ import Lunch from '../pages/Lunch';
 import NewManagement from '../pages/NewManagement';
 import CreateNewManagement from '../pages/NewManagement/Create';
 import CandidatePage from '../pages/Candidate';
+import Profile from '../pages/Profile';
+import Settings from '../pages/Profile/Setting';
 
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
@@ -28,6 +30,9 @@ const authProtectedRoutes = [
     { path: '/new-management/add', component: CreateNewManagement },
     { path: '/new-management/edit/:id', component: CreateNewManagement },
     { path: '/candidates', component: CandidatePage },
+    { path: '/profile', component: Profile },
+    { path: '/profile/setting', component: Settings },
+
     {
         path: '/',
         exact: true,

@@ -17,20 +17,20 @@ const EMPLOYEE_DEFAULT = {
     phone_number: '',
     status: 1,
     status_level: 1,
-    chapter_head: null,
+    chapter_head: 0,
     onboarding: new Date(),
     avatar: '',
     gender: 1,
+    roles: [],
 };
 const levelStatus = LEVEL_STATUS;
 
 const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
-    const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
+    const [selectedStatus, setSelectedStatus] = useState(null);
     const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
     const [title, setTitle] = useState('Create employee');
-    const [selectedRoles, setRoles] = useState(null);
     const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
     const changeField = (event) => {
@@ -44,7 +44,9 @@ const ModalUpdate = (props) => {
     };
 
     const handleMultiRole = (selectedRoles) => {
-        setRoles(selectedRoles);
+        setEmployee((x) => {
+            return { ...x, roles: selectedRoles };
+        });
     };
 
     const handleChapterHead = (chapterHead) => {
@@ -52,7 +54,9 @@ const ModalUpdate = (props) => {
     };
     const fetchEmployee = (filter) => {
         GetEmployee(filter).then((res) => {
-            setEmployees(res);
+            let es = res.filter((x) => x.id != employee.id)
+            console.log(es)
+            setEmployees(es);
         });
     };
 
@@ -60,21 +64,28 @@ const ModalUpdate = (props) => {
         setSelectedStatus(st);
     };
     useEffect(() => {
-        let emp = { ...employee, roles: selectedRoles, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
+        let emp = { ...employee, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
         setEmployee(emp);
-    }, [selectedRoles, selectedStatus, selectedChapterHead]);
+    }, [selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
         if (employeeId) {
             const params = { id: employeeId };
             Get(params).then((res) => {
                 setEmployee(res);
+                let st = levelStatus.find((x) => x.id == res.status_level) || {};
+                setSelectedStatus(st);
             });
             setTitle('Update employee');
         } else {
             setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
         }
     }, [employeeId]);
+
+    useEffect(() => {
+        let chapterHead = employees.find((x) => x.id == employee.chapter_head);
+        setSelectedChapterHead(chapterHead);
+    }, [employees, employee]);
 
     useEffect(() => {
         fetchEmployee({
@@ -191,7 +202,7 @@ const ModalUpdate = (props) => {
                                 Role
                             </label>
                             <Select
-                                value={selectedRoles}
+                                value={employee.roles}
                                 getOptionLabel={(option) => {
                                     return option.name;
                                 }}
