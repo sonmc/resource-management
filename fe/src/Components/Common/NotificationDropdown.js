@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import VacationDetailModal from './VacationDetailModal';
 //import images
-import avatar3 from '../../assets/images/users/avatar-3.jpg';
+import avatar3 from 'src/assets/images/users/avatar-3.jpg';
 
 //SimpleBar
 import SimpleBar from 'simplebar-react';
@@ -93,7 +93,8 @@ const NotificationDropdown = () => {
                                         <div className="flex-1">
                                             <Link to="#" className="stretched-link">
                                                 <h6 className="mt-0 mb-2 lh-base">
-                                                    Your <b>Elite</b> author Graphic Optimization <span className="text-secondary">reward</span> is ready!
+                                                    Your <b>Elite</b> author Graphic Optimization <span className="text-secondary">reward</span> is
+                                                    ready!
                                                 </h6>
                                             </Link>
                                             <p className="mb-0 fs-11 fw-medium text-muted">

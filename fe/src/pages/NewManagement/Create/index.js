@@ -1,12 +1,14 @@
-import { Table, Container, Col, CardBody, Row, Label, Input, Button, Spinner } from 'reactstrap';
-import React, { useEffect, useState, useRef } from 'react';
+import { Container, Col, CardBody, Row, Label, Input, Button, Spinner } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { GetById, Update, Create } from '../../../Services/new.service';
+import { Update, Create } from 'src/Services/new.service';
 import { useHistory } from 'react-router-dom';
 import { MyUploadAdapter } from '../../../helpers';
-import UploadImage from '../../../Components/Common/UploadImage.js';
+import UploadImage from '../../../Components/Common/UploadFile';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const InitialState = {
     id: 0,
@@ -16,6 +18,8 @@ const InitialState = {
     user_id: '',
 };
 const Component = (props) => {
+    const currentUser = useRecoilValue(currentUserAtom);
+
     const { state } = props.location;
     const [isEdit, setIsEdit] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -40,9 +44,7 @@ const Component = (props) => {
 
     const submit = (formNew) => {
         setSubmitted(true);
-        let current_user = localStorage.getItem('currentUser');
-        current_user = JSON.parse(current_user);
-        const param = { ...formNew, user_id: current_user.user_id };
+        const param = { ...formNew, user_id: currentUser.user_id };
         handleSubmit(param)
             .then(() => {
                 history.push('/new-management');

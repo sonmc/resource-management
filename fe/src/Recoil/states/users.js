@@ -4,7 +4,10 @@ const usersAtom = atom({
     key: 'users',
     default: null,
 });
-
+const currentUserAtom = atom({
+    key: 'currentUser',
+    default: {},
+});
 export const usersState = selector({
     key: 'usersState',
     get: ({ get }) => {
@@ -16,4 +19,4 @@ export const usersState = selector({
     },
 });
 
-export { usersAtom };
+export { usersAtom, currentUserAtom };

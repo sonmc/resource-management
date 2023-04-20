@@ -1,5 +1,5 @@
 import { hash } from 'src/infrastructure/services/bcrypt.service';
-import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index, OneToOne, JoinColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, ManyToMany, JoinTable, Index } from 'typeorm';
 import { BaseEntity } from './base.schema';
 import { Project } from './project.schema';
 import { Role } from './role.schema';
@@ -8,7 +8,6 @@ import { Vacation } from './vacation.schema';
 import { Kanban } from './kanban.schema';
 import { Task } from './task.schema';
 import { New } from './new.schema';
-import { LunchOrder } from './lunch_order.schema';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -17,16 +16,19 @@ export class User extends BaseEntity {
     username: string;
 
     @Column({ nullable: true })
-    email: string;
-
-    @Column({ nullable: true })
-    phone_number: string;
-
-    @Column()
     first_name: string;
 
     @Column({ nullable: true })
     last_name: string;
+
+    @Column({ nullable: true })
+    nick_name: string;
+
+    @Column({ nullable: true })
+    email: string;
+
+    @Column({ nullable: true })
+    phone_number: string;
 
     @Column()
     password: string;
@@ -42,6 +44,12 @@ export class User extends BaseEntity {
 
     @Column()
     dob: Date;
+
+    @Column()
+    address: string;
+
+    @Column({ nullable: true })
+    introduce: string;
 
     @Column({ nullable: true })
     last_login?: Date;

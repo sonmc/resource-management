@@ -10,4 +10,6 @@ export enum EndPoint {
     VACATION_GET = 'vacation_get',
     NEW_GET = 'new_get',
     NEW_CREATE = 'new_create',
+
+    CANDIDATE_GET = 'category_get',
 }

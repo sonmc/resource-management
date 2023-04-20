@@ -1,5 +1,5 @@
 import { WorkloadEntity } from 'src/domain/entities/workload.entity';
-import { calculatorWeekNumber, calculatorWeekNumberDate } from 'src/domain/helper/common';
+import { calculatorWeekNumber, calculatorWeekNumberDate } from 'src/actions/common';
 
 export function generateWorkload(start_date, end_date, user_id: number, value: string, projectId: number): any[] {
     const workloads = [];
@@ -15,6 +15,7 @@ export function generateWorkload(start_date, end_date, user_id: number, value: s
             workload.start_date = weekNumberDate[index].start_date;
             workload.end_date = weekNumberDate[index].end_date;
             workload.project_id = projectId;
+            workload.user_id = user_id;
             workloads.push(workload);
         }
     }

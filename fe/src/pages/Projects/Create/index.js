@@ -1,30 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
 import { useRecoilValue } from 'recoil';
-import { newWeekInMonthState } from '../../../Recoil/states/common';
+import Select from 'react-select';
+import { newWeekInMonthState } from 'src/Recoil/states/common';
 
 const CreateModal = (props) => {
     const weekInMonthValue = useRecoilValue(newWeekInMonthState);
-    const { isShowFormUpdate, closeFormUpdate, save } = props;
+    const { isShowFormUpdate, closeFormUpdate, save, employees } = props;
+
+    const [users, setUsers] = useState(employees);
 
     const [project, setProject] = useState({
         id: 0,
         name: '',
         start_date: '',
         note: '',
-        weekInCurrentMonth: '',
+        weekInCurrentMonth: weekInMonthValue,
+        project_leader: 0,
     });
+
+    // useEffect(() => {
+    //     const userList = []
+    //     setUsers(userList);
+    // }, [_users, project]);
 
     const changeField = (event) => {
         let proj = { ...project, [event.target.name]: event.target.value };
         setProject(proj);
     };
 
+    const handleUserChanged = (user) => {
+        let obj = { ...project, project_leader: user.id };
+        setProject(obj);
+    };
+
     const update = () => {
-        project.weekInCurrentMonth = weekInMonthValue;
         save(project);
     };
+
+    useEffect(() => {
+        setUsers(employees);
+    }, [employees]);
 
     return (
         <Modal
@@ -40,6 +57,26 @@ const CreateModal = (props) => {
             <ModalBody>
                 <form action="#">
                     <div className="row g-3">
+                        <Col lg={12}>
+                            <>
+                                <label htmlFor="project-leader-select" className="form-label">
+                                    Project Leader
+                                </label>
+                                <Select
+                                    name="project-leader-select"
+                                    id="choices-single-default"
+                                    onChange={(x) => handleUserChanged(x)}
+                                    getOptionLabel={(option) => {
+                                        return option.username;
+                                    }}
+                                    getOptionValue={(option) => {
+                                        return option.id;
+                                    }}
+                                    isMulti={false}
+                                    options={users}
+                                />
+                            </>
+                        </Col>
                         <Col xxl={12}>
                             <label htmlFor="userName" className="form-label">
                                 Project name

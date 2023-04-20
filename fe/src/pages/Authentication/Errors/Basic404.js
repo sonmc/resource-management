@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 
 // Import Images
-import error from '../../../assets/images/error.svg';
+import error from 'src/assets/images/error.svg';
 
 const Basic404 = () => {
     return (

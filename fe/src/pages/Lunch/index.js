@@ -3,8 +3,8 @@ import { Container, Table, CardBody, Card, CardHeader, Row, Col } from 'reactstr
 import MetaTags from 'react-meta-tags';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
-import { Get as GetEmployees } from '../../Services/user.service';
-import { Get as GetLunch } from '../../Services/lunch-order.service';
+import { Get as GetEmployees } from 'src/Services/user.service';
+import { Get as GetLunch } from 'src/Services/lunch-order.service';
 import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
 
@@ -165,7 +165,9 @@ const LunchPage = () => {
                                                         <td className="fw-medium">{i + 1}</td>
                                                         <td>{fullname}</td>
                                                         {dataLunch.map((d) => {
-                                                            let lunch = d.data.find((x) => x.user_id === employee.id && moment(d.value).isSame(x.date));
+                                                            let lunch = d.data.find(
+                                                                (x) => x.user_id === employee.id && moment(d.value).isSame(x.date)
+                                                            );
                                                             return (
                                                                 <td key={d.timestamp} style={{ textAlign: 'center' }}>
                                                                     <select

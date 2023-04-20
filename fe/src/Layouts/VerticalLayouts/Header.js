@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //import images
-import logoSm from '../../assets/icons/logo.png';
-import logoDark from '../../assets/images/logo.png';
-import logoLight from '../../assets/images/logo-light.png';
+import logoSm from 'src/assets/icons/logo.png';
+import logoDark from 'src/assets/images/logo.png';
+import logoLight from 'src/assets/images/logo-light.png';
 //import Components
 import FullScreenDropdown from '../../Components/Common/FullScreenDropdown';
 import NotificationDropdown from '../../Components/Common/NotificationDropdown';
@@ -39,10 +39,14 @@ const Header = ({ headerClass }) => {
         if (document.documentElement.getAttribute('data-layout') === 'vertical') {
             if (windowSize < 1025 && windowSize > 767) {
                 document.body.classList.remove('vertical-sidebar-enable');
-                document.documentElement.getAttribute('data-sidebar-size') === 'sm' ? document.documentElement.setAttribute('data-sidebar-size', '') : document.documentElement.setAttribute('data-sidebar-size', 'sm');
+                document.documentElement.getAttribute('data-sidebar-size') === 'sm'
+                    ? document.documentElement.setAttribute('data-sidebar-size', '')
+                    : document.documentElement.setAttribute('data-sidebar-size', 'sm');
             } else if (windowSize > 1025) {
                 document.body.classList.remove('vertical-sidebar-enable');
-                document.documentElement.getAttribute('data-sidebar-size') === 'lg' ? document.documentElement.setAttribute('data-sidebar-size', 'sm') : document.documentElement.setAttribute('data-sidebar-size', 'lg');
+                document.documentElement.getAttribute('data-sidebar-size') === 'lg'
+                    ? document.documentElement.setAttribute('data-sidebar-size', 'sm')
+                    : document.documentElement.setAttribute('data-sidebar-size', 'lg');
             } else if (windowSize <= 767) {
                 document.body.classList.add('vertical-sidebar-enable');
                 document.documentElement.setAttribute('data-sidebar-size', 'lg');
@@ -51,7 +55,9 @@ const Header = ({ headerClass }) => {
 
         //Two column menu
         if (document.documentElement.getAttribute('data-layout') === 'twocolumn') {
-            document.body.classList.contains('twocolumn-panel') ? document.body.classList.remove('twocolumn-panel') : document.body.classList.add('twocolumn-panel');
+            document.body.classList.contains('twocolumn-panel')
+                ? document.body.classList.remove('twocolumn-panel')
+                : document.body.classList.add('twocolumn-panel');
         }
     };
     return (
@@ -80,7 +86,12 @@ const Header = ({ headerClass }) => {
                                 </Link>
                             </div>
 
-                            <button onClick={toogleMenuBtn} type="button" className="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                            <button
+                                onClick={toogleMenuBtn}
+                                type="button"
+                                className="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                                id="topnav-hamburger-icon"
+                            >
                                 <span className="hamburger-icon">
                                     <span></span>
                                     <span></span>

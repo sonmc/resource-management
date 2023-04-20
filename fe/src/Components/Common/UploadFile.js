@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import avatar from '../../assets/images/default-avatar.png';
-import thumbnail from '../../assets/images/default.png';
-import { Upload } from '../../Services/share.service';
+import avatar from 'src/assets/images/default-avatar.png';
+import thumbnail from 'src/assets/images/default.png';
+import { Upload } from 'src/Services/share.service';
 import './index.scss';
 
 const Component = (props) => {
@@ -12,7 +12,7 @@ const Component = (props) => {
         setSrc(currentUrl);
     }, [currentUrl]);
 
-    const uploadImage = () => {
+    const uploadFile = () => {
         let inputTag = document.createElement('input');
         inputTag.type = 'file';
         inputTag.accept = 'image/png, image/jpeg';
@@ -50,7 +50,7 @@ const Component = (props) => {
             <div
                 className="caption"
                 onClick={() => {
-                    uploadImage();
+                    uploadFile();
                 }}
             >
                 <div className="file-input-wrapper">

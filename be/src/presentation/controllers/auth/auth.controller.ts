@@ -52,6 +52,9 @@ export class AuthController {
         currentUser.username = request.user.username;
         currentUser.avatar = request.user.avatar;
         currentUser.first_name = request.user.first_name;
+        currentUser.phone_number = request.user.phone_number;
+        currentUser.email = request.user.email;
+        currentUser.onboarding = request.user.onboarding;
         currentUser.last_name = request.user.last_name;
         currentUser.full_name = request.user.first_name + ' ' + request.user.last_name;
         currentUser.permissions = convertPermissions(request.user.roles);

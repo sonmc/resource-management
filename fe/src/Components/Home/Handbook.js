@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardBody, Col } from 'reactstrap';
 import HandbookModal from './DetailModal/HandbookModal';
-import handbookImg from '../../assets/images/handbook.png';
+import handbookImg from 'src/assets/images/handbook.png';
 
 const Handbook = () => {
     const [status, setStatus] = useState(false);

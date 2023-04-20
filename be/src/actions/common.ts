@@ -18,6 +18,7 @@ export function checkWorkloadExist(user_workloads, first_date) {
     }
     return isExist;
 }
+
 export function calculatorWeekNumberDate(user_workloads, week_number, start_date): any {
     let weekNumberDates = [];
     for (let index = 0; index < week_number + user_workloads.length; index++) {
@@ -40,4 +41,20 @@ export function calculatorFistAndLastDate(dateTime: Date): any {
     const first_date = new Date(dateTime.setDate(dateTime.getDate() - dateTime.getDay()));
     const last_date = new Date(dateTime.setDate(dateTime.getDate() - dateTime.getDay() + 6));
     return { first_date, last_date };
+}
+
+export function GetLastDayOfMonth(date: Date): any {
+    const currentDate = new Date(date);
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    var d = new Date(year, month, 0);
+    return { day: d.getDate(), date: d };
+}
+
+export function GetFileExtension(filename) {
+    if (filename.length == 0) return '';
+    var dot = filename.lastIndexOf('.');
+    if (dot == -1) return '';
+    var extension = filename.substr(dot, filename.length);
+    return extension;
 }

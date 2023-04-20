@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
-import { Get } from '../../../Services/user.service';
+import { Get } from 'src/Services/user.service';
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
 import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
-import { Get as GetEmployee } from '../../../Services/user.service';
+import { Get as GetEmployee } from 'src/Services/user.service';
 import { LEVEL_STATUS } from '../../../Constant';
 
 const EMPLOYEE_DEFAULT = {
@@ -15,22 +15,23 @@ const EMPLOYEE_DEFAULT = {
     username: '',
     email: '',
     phone_number: '',
+    address: '',
     status: 1,
     status_level: 1,
-    chapter_head: null,
+    chapter_head: 0,
     onboarding: new Date(),
     avatar: '',
     gender: 1,
+    roles: [],
 };
 const levelStatus = LEVEL_STATUS;
 
 const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
-    const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
+    const [selectedStatus, setSelectedStatus] = useState(null);
     const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
     const [title, setTitle] = useState('Create employee');
-    const [selectedRoles, setRoles] = useState(null);
     const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
     const changeField = (event) => {
@@ -44,7 +45,9 @@ const ModalUpdate = (props) => {
     };
 
     const handleMultiRole = (selectedRoles) => {
-        setRoles(selectedRoles);
+        setEmployee((x) => {
+            return { ...x, roles: selectedRoles };
+        });
     };
 
     const handleChapterHead = (chapterHead) => {
@@ -52,7 +55,9 @@ const ModalUpdate = (props) => {
     };
     const fetchEmployee = (filter) => {
         GetEmployee(filter).then((res) => {
-            setEmployees(res);
+            let es = res.filter((x) => x.id != employee.id);
+            console.log(es);
+            setEmployees(es);
         });
     };
 
@@ -60,21 +65,28 @@ const ModalUpdate = (props) => {
         setSelectedStatus(st);
     };
     useEffect(() => {
-        let emp = { ...employee, roles: selectedRoles, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
+        let emp = { ...employee, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
         setEmployee(emp);
-    }, [selectedRoles, selectedStatus, selectedChapterHead]);
+    }, [selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
         if (employeeId) {
             const params = { id: employeeId };
             Get(params).then((res) => {
                 setEmployee(res);
+                let st = levelStatus.find((x) => x.id == res.status_level) || {};
+                setSelectedStatus(st);
             });
             setTitle('Update employee');
         } else {
             setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
         }
     }, [employeeId]);
+
+    useEffect(() => {
+        let chapterHead = employees.find((x) => x.id == employee.chapter_head);
+        setSelectedChapterHead(chapterHead);
+    }, [employees, employee]);
 
     useEffect(() => {
         fetchEmployee({
@@ -104,14 +116,7 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     UserName
                                 </label>
-                                <Input
-                                    value={employee.username}
-                                    type="text"
-                                    className="form-control"
-                                    name="username"
-                                    placeholder="Enter employee username"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input value={employee.username} type="text" className="form-control" name="username" placeholder="Enter employee username" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
                         <Col xxl={3}>
@@ -119,14 +124,7 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     FirstName
                                 </label>
-                                <Input
-                                    value={employee.first_name}
-                                    type="text"
-                                    className="form-control"
-                                    name="first_name"
-                                    placeholder="Enter employee first name"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
                         <Col xxl={3}>
@@ -134,41 +132,20 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     LastName
                                 </label>
-                                <Input
-                                    value={employee.last_name}
-                                    type="text"
-                                    className="form-control"
-                                    name="last_name"
-                                    placeholder="Enter employee last name"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input value={employee.last_name} type="text" className="form-control" name="last_name" placeholder="Enter employee last name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
                         <Col xxl={6}>
                             <label htmlFor="email" className="form-label">
                                 Email
                             </label>
-                            <Input
-                                value={employee.email}
-                                type="email"
-                                className="form-control"
-                                name="email"
-                                placeholder="Enter employee email"
-                                onChange={(x) => changeField(x)}
-                            />
+                            <Input value={employee.email} type="email" className="form-control" name="email" placeholder="Enter employee email" onChange={(x) => changeField(x)} />
                         </Col>
                         <Col xxl={3}>
                             <label htmlFor="phoneNumber" className="form-label">
                                 Phone number
                             </label>
-                            <Input
-                                value={employee.phone_number}
-                                type="number"
-                                className="form-control"
-                                name="phone_number"
-                                placeholder="Enter employee phone number"
-                                onChange={(x) => changeField(x)}
-                            />
+                            <Input value={employee.phone_number} type="number" className="form-control" name="phone_number" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
                         </Col>
                         <Col xxl={3}>
                             <Label for="start-field" className="form-label">
@@ -191,7 +168,7 @@ const ModalUpdate = (props) => {
                                 Role
                             </label>
                             <Select
-                                value={selectedRoles}
+                                value={employee.roles}
                                 getOptionLabel={(option) => {
                                     return option.name;
                                 }}
@@ -259,39 +236,29 @@ const ModalUpdate = (props) => {
                                 options={levelStatus}
                             />
                         </Col>
-
-                        <Col xxl={6} className="d-flex">
-                            <label className="form-label me-3">Gender</label>
-                            <div>
+                        <Col xxl={6} className="flex">
+                            <label htmlFor="address" className="form-label">
+                                Address
+                            </label>
+                            <Input value={employee.address} type="text" className="form-control" name="address" placeholder="Enter employee address" onChange={(x) => changeField(x)} />
+                        </Col>
+                        <Col xxl={6}>
+                            <label className="form-label">Gender</label>
+                            <div className="mt-2">
                                 <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        checked={employee.gender == GENDER_MALE}
-                                        value={GENDER_MALE}
-                                        onChange={(x) => changeField(x)}
-                                    />
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={GENDER_MALE} onChange={(x) => changeField(x)} />
                                     <label className="form-check-label" htmlFor="inlineRadio1">
                                         Male
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        checked={employee.gender == GENDER_FEMALE}
-                                        value={GENDER_FEMALE}
-                                        onChange={(x) => changeField(x)}
-                                    />
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={GENDER_FEMALE} onChange={(x) => changeField(x)} />
                                     <label className="form-check-label" htmlFor="inlineRadio2">
                                         Female
                                     </label>
                                 </div>
                             </div>
                         </Col>
-
                         <Col xxl={12}>
                             <div className="hstack gap-2 justify-content-end">
                                 <Button color="light" onClick={() => closeFormUpdate(false)}>

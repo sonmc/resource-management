@@ -4,20 +4,22 @@ import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
 import { GetCurrentUser } from './Services/auth.service';
 import { spinnerAtom } from './Recoil/states/spinner';
+import { currentUserAtom } from './Recoil/states/users';
 import './assets/scss/themes.scss';
 import './App.scss';
 
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
+    const [user, setCurrentUser] = useRecoilState(currentUserAtom);
+
     const spinner = useRecoilValue(spinnerAtom);
 
     useEffect(() => {
         const getUsers = async () => {
             try {
                 const user = await GetCurrentUser();
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                setCurrentUser(user);
             } catch (error) {
-                localStorage.removeItem('currentUser');
                 console.log(error);
             }
             setSpinner(false);

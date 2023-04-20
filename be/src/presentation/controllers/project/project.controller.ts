@@ -12,14 +12,14 @@ import { UserProjectPresenter } from './presenter/user-project.presenter';
 import { AddMemberEntity } from 'src/domain/entities/add-member.entity';
 import { UserPresenter } from './presenter/user-presenter';
 import { CreateProjectPresenter } from './presenter/create-project.presenter';
-import { UserEntity } from 'src/domain/entities/user.entity';
-import { generateWorkload } from 'src/actions/workload.action';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { ProjectRepository } from 'src/presentation/repositories/project.repository';
+import { UserRepository } from 'src/presentation/repositories/user.repository';
 import { RemoveMemberUseCases } from 'src/use-cases/project/remove-member-to-project.usercase';
+import { GetLastDayOfMonth } from 'src/actions/common';
 
 @Controller('projects')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -33,7 +33,8 @@ export class ProjectController {
         private readonly addMemberUsecaseProxy: UseCaseProxy<AddMemberUseCases>,
         @Inject(UseCasesProxyModule.REMOVE_MEMBER_USECASES_PROXY)
         private readonly removeUserUsecaseProxy: UseCaseProxy<RemoveMemberUseCases>,
-        private readonly projectRepository: ProjectRepository
+        private readonly projectRepository: ProjectRepository,
+        private readonly userRepository: UserRepository
     ) {}
 
     @Permissions(EndPoint.PROJECT_GET)
@@ -56,10 +57,18 @@ export class ProjectController {
     async create(@Body() createProjectPresenter: CreateProjectPresenter): Promise<ProjectPresenter> {
         const project = plainToClass(ProjectEntity, createProjectPresenter);
         const projectEntity = await this.createProjectsUsecaseProxy.getInstance().execute(project);
+        const data = new AddMemberEntity();
+        const startDate = new Date(createProjectPresenter.start_date);
+        data.project_id = projectEntity.id;
+        data.start_date = startDate;
+        const last = GetLastDayOfMonth(new Date(startDate.getFullYear(), startDate.getMonth() + 2, startDate.getDay()));
+        data.end_date = last.date;
+        data.workload = 100;
+        data.weekInCurrentMonth = createProjectPresenter.weekInCurrentMonth;
+        const user = await this.userRepository.findOne(createProjectPresenter.project_leader);
+        data.members = [user];
+        await this.addMemberUsecaseProxy.getInstance().execute(data);
         const projectPresenter = plainToClass(ProjectPresenter, projectEntity);
-        const workloads = generateWorkload(null, null, 0, '', projectPresenter.id);
-        const user = plainToClass(UserEntity, { workloads: workloads });
-        projectPresenter.users.push(user);
         return projectPresenter;
     }
 

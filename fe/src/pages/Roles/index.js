@@ -3,10 +3,10 @@ import { CardBody, Col, Container, Table, Button, Label } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import ModalUpdate from './FormUpdate';
 import ConfirmDelete from './ConfirmDelete';
-import { Get as GetRole, Create, Update, Delete } from '../../Services/role.service';
+import { Get as GetRole, Create, Update, Delete } from 'src/Services/role.service';
 import RolePems from './RolePems';
 import { useSetRecoilState } from 'recoil';
-import { rolesState } from '../../Recoil/states/roles';
+import { rolesState } from 'src/Recoil/states/roles';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 const RolePage = () => {
@@ -144,7 +144,12 @@ const RolePage = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
+                    <ConfirmDelete
+                        deleteRole={deleteRole}
+                        isShowConfirmDelete={isShowConfirmDelete}
+                        closeConfirmDelete={closeConfirmDelete}
+                        roleId={roleId}
+                    />
                 </Container>
             </div>
         </React.Fragment>

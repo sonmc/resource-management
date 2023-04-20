@@ -18,6 +18,7 @@ const HandbookModal = ({ status, onCloseClick }) => {
                 toggle={() => {
                     onCloseClick();
                 }}
+                className="pb-3 bg-success"
             >
                 Zen8labs Handbook
             </ModalHeader>

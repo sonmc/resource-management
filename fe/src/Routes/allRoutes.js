@@ -13,21 +13,27 @@ import Home from '../pages/Home';
 import Lunch from '../pages/Lunch';
 import NewManagement from '../pages/NewManagement';
 import CreateNewManagement from '../pages/NewManagement/Create';
-import CvManagementPage from '../pages/Cv';
-
+import CandidatePage from '../pages/Candidate';
+import Profile from '../pages/Profile';
+import Settings from '../pages/Profile/Setting';
+import Introduction from '../pages/Introduction';
 const authProtectedRoutes = [
     { path: '/projects', component: Projects },
-    { path: '/project-detail/:id', component: ProjectDetail },
+    { path: '/projects/:id', component: ProjectDetail },
     { path: '/tasks-details', component: TaskDetails },
     { path: '/employees', component: Employees },
     { path: '/vacations', component: Vacations },
     { path: '/roles', component: Roles },
     { path: '/home', component: Home },
+    { path: '/introduction', component: Introduction },
     { path: '/lunch-order', component: Lunch },
     { path: '/new-management', component: NewManagement },
     { path: '/new-management/add', component: CreateNewManagement },
     { path: '/new-management/edit/:id', component: CreateNewManagement },
-    { path: '/cvs', component: CvManagementPage },
+    { path: '/candidates', component: CandidatePage },
+    { path: '/profile', component: Profile },
+    { path: '/profile/setting', component: Settings },
+
     {
         path: '/',
         exact: true,

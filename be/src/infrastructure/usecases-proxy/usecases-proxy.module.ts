@@ -9,11 +9,12 @@ import { RepositoriesModule } from 'src/presentation/repositories/zrepository.mo
 import { getLoginProvide, isAuthenticatedProvide } from './auth.provide';
 import { addMemberProvide, createProjectProvide, getProjectProvide, removeMemberProvide } from './project.provide';
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
-import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide } from './employee.provide';
+import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide, updateEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
 import { getVacationsProvide, createVacationProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
 import { getLunchOrderProvide } from './lunch-order.provide';
+import { createCandidateProvide, getCandidateProvide, getCandidatesProvide } from './candidate.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
 })
@@ -37,6 +38,7 @@ export class UseCasesProxyModule {
     static GET_EMPLOYEE_USECASES_PROXY = 'GetEmployeeUseCasesProxy';
     static CREATE_EMPLOYEES_USECASES_PROXY = 'CreateEmployeesUseCasesProxy';
     static DELETE_EMPLOYEE_USECASES_PROXY = 'DeleteEmployeesUseCaseProxy';
+    static UPDATE_EMPLOYEE_USECASES_PROXY = 'UpdateEmployeesUseCaseProxy';
     // Permission
     static GET_PERMISSIONS_USECASES_PROXY = 'GetPermissionsUseCasesProxy';
     static ADD_PERM_TO_ROLE_USECASES_PROXY = 'AddPermissionsUseCasesProxy';
@@ -48,6 +50,10 @@ export class UseCasesProxyModule {
     static CREATE_NEW_USECASES_PROXY = 'CreateNewsUseCaseProxy';
     // Lunch order
     static GET_LUNCH_ORDER_USECASES_PROXY = 'GetLunchUseCaseProxy';
+    // Candidate
+    static CREATE_CANDIDATE_USECASES_PROXY = 'CreateCandidateUseProxy';
+    static GET_CANDIDATE_USECASES_PROXY = 'GetCandidateUseCaseProxy';
+    static GET_CANDIDATES_USECASES_PROXY = 'GetCandidatesUseCaseProxy';
 
     static register(): DynamicModule {
         return {
@@ -70,6 +76,7 @@ export class UseCasesProxyModule {
                 getAllProvide(UseCasesProxyModule.GET_EMPLOYEES_USECASES_PROXY),
                 getOneProvide(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY),
                 createEmployeeProvide(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY),
+                updateEmployeeProvide(UseCasesProxyModule.UPDATE_EMPLOYEE_USECASES_PROXY),
                 deleteEmployeeProvide(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY),
                 // Permissions
                 getPermissionsProvide(UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY),
@@ -82,6 +89,10 @@ export class UseCasesProxyModule {
                 createNewProvide(UseCasesProxyModule.CREATE_NEW_USECASES_PROXY),
                 // lunch order
                 getLunchOrderProvide(UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY),
+                // Candidate
+                createCandidateProvide(UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY),
+                getCandidateProvide(UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY),
+                getCandidatesProvide(UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY),
             ],
             exports: [
                 // Auths
@@ -102,6 +113,7 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY,
                 UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY,
+                UseCasesProxyModule.UPDATE_EMPLOYEE_USECASES_PROXY,
                 // Permissions
                 UseCasesProxyModule.GET_PERMISSIONS_USECASES_PROXY,
                 UseCasesProxyModule.ADD_PERM_TO_ROLE_USECASES_PROXY,
@@ -113,6 +125,10 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.CREATE_NEW_USECASES_PROXY,
                 // Lunch order
                 UseCasesProxyModule.GET_LUNCH_ORDER_USECASES_PROXY,
+                // Candidates
+                UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY,
+                UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY,
+                UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY,
             ],
         };
     }

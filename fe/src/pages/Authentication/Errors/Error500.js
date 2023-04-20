@@ -4,7 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 
 // Import Images
-import error500 from "../../../assets/images/error500.png";
+import error500 from 'src/assets/images/error500.png';
 
 const Error500 = () => {
     return (
@@ -23,8 +23,12 @@ const Error500 = () => {
                                 </div>
                                 <div>
                                     <h4>Internal Server Error!</h4>
-                                    <p className="text-muted w-75 mx-auto">Server Error 500. We're not exactly sure what happened, but our servers say something is wrong.</p>
-                                    <Link to="/dashboard" className="btn btn-success"><i className="mdi mdi-home me-1"></i>Back to home</Link>
+                                    <p className="text-muted w-75 mx-auto">
+                                        Server Error 500. We're not exactly sure what happened, but our servers say something is wrong.
+                                    </p>
+                                    <Link to="/dashboard" className="btn btn-success">
+                                        <i className="mdi mdi-home me-1"></i>Back to home
+                                    </Link>
                                 </div>
                             </Col>
                         </Row>

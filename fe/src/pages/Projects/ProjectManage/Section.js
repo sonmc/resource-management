@@ -4,6 +4,9 @@ import classnames from 'classnames';
 
 import OverviewTab from './OverviewTab';
 import TaskList from './TaskList';
+import MeetingNote from './MeetingNote';
+import ProjectIssues from './ProjectIssues';
+import ProjectReport from './ProjectReport';
 
 const Section = () => {
     //Tab
@@ -44,13 +47,24 @@ const Section = () => {
 
                                 <NavItem>
                                     <NavLink
+                                        className={classnames({ active: activeTab === '2' }, 'fw-semibold')}
+                                        onClick={() => {
+                                            toggleTab('2');
+                                        }}
+                                        href="#"
+                                    >
+                                        Tasks
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
                                         className={classnames({ active: activeTab === '3' }, 'fw-semibold')}
                                         onClick={() => {
                                             toggleTab('3');
                                         }}
                                         href="#"
                                     >
-                                        Tasks
+                                        Meeting note
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -86,8 +100,17 @@ const Section = () => {
                         <TabPane tabId="1">
                             <OverviewTab />
                         </TabPane>
-                        <TabPane tabId="3">
+                        <TabPane tabId="2">
                             <TaskList />
+                        </TabPane>
+                        <TabPane tabId="3">
+                            <MeetingNote />
+                        </TabPane>
+                        <TabPane tabId="4">
+                            <ProjectIssues />
+                        </TabPane>
+                        <TabPane tabId="5">
+                            <ProjectReport />
                         </TabPane>
                     </TabContent>
                 </Col>

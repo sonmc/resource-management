@@ -45,20 +45,4 @@ export class ProjectRepository implements IProjectRepository {
         let projects = await data.map((p) => plainToInstance(ProjectEntity, p));
         return projects;
     }
-
-    // async findAll(query: any): Promise<ProjectEntity[]> {
-    //     let findOption: FindManyOptions = {
-    //         relations: ['users', 'users.workloads', 'users.roles'],
-    //         order: {
-    //             created_at: 'DESC',
-    //         },
-    //         where: {
-    //             name: ILike(`%${query.project_name || ''}%`),
-    //             start_date: Between(new Date(query.start_date), new Date(query.end_date)),
-    //         },
-    //     };
-    //     let data = this.repository.find(findOption as FindManyOptions);
-    //     let projects = await data.then((p) => plainToInstance(ProjectEntity, p));
-    //     return projects;
-    // }
 }

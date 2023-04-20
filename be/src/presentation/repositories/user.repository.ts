@@ -2,8 +2,8 @@ import { plainToClass } from 'class-transformer';
 import { ADMIN_ID, PASSWORD_DEFAULT, STATUS_INACTIVE } from '../../business-rules/employee.rule';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOneOptions, MoreThan } from 'typeorm';
-import { UserEntity, UserWithoutPassword } from '../../domain/entities/user.entity';
+import { Repository, FindOneOptions } from 'typeorm';
+import { UserEntity } from '../../domain/entities/user.entity';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
 import { User } from 'src/infrastructure/schemas/user.schema';
 import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
@@ -39,7 +39,7 @@ export class UserRepository implements IUserRepository {
         return userE;
     }
 
-    async findAll(query: any): Promise<UserWithoutPassword[]> {
+    async findAll(query: any): Promise<UserEntity[]> {
         const querySelecter = this.userRepository.createQueryBuilder('u');
         querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID }).andWhere('u.status != :status', { status: STATUS_INACTIVE });
         let users = null;
@@ -57,7 +57,7 @@ export class UserRepository implements IUserRepository {
             users = await querySelecter.getMany().then((u) =>
                 u.map((x) => {
                     delete x.password;
-                    return plainToClass(UserWithoutPassword, x);
+                    return plainToClass(UserEntity, x);
                 })
             );
         } catch (error) {
@@ -66,7 +66,7 @@ export class UserRepository implements IUserRepository {
         return users;
     }
 
-    async createOrUpdate(user: UserEntity): Promise<UserWithoutPassword> {
+    async createOrUpdate(user: UserEntity): Promise<UserEntity> {
         const userSchema = plainToClass(User, user);
         let userUpdated = new User();
         if (user.id != 0) {
@@ -85,7 +85,7 @@ export class UserRepository implements IUserRepository {
             userUpdated = await this.userRepository.save(userCreated);
         }
 
-        const userE = plainToClass(UserWithoutPassword, userUpdated);
+        const userE = plainToClass(UserEntity, userUpdated);
         return userE;
     }
 
