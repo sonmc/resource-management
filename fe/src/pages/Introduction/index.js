@@ -4,6 +4,7 @@ import MetaTags from 'react-meta-tags';
 import { co_founders } from './data';
 import { Get as GetEmployee } from '../../Services/user.service';
 import company_structure_img from '../../assets/images/company-structure.png';
+import { formatTime } from 'src/helpers/common';
 
 const Introduction = () => {
     const [employees, setEmployees] = useState([]);
@@ -81,7 +82,7 @@ const Introduction = () => {
                                                                 <h6 className="fw-medium text-truncate mb-3">
                                                                     Hello, I'm {x.fist_name} {x.last_name}
                                                                 </h6>
-                                                                <h6 className="fw-medium text-truncate mb-3">YoB: {x.dob}</h6>
+                                                                <h6 className="fw-medium text-truncate mb-3">YoB: {formatTime(x.dob)}</h6>
                                                                 <h6 className="fw-medium text-truncate mb-3">Phone: {x.phone_number}</h6>
                                                                 <p dangerouslySetInnerHTML={{ __html: x.introduce }}></p>
                                                                 <h6>Position: {x.roles.map((r) => r.name).join(', ')}</h6>

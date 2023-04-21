@@ -9,6 +9,7 @@ import { currentUserAtom } from 'src/Recoil/states/users';
 //Images
 import profileBg from 'src/assets/images/profile-bg.jpg';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
+import { formatTime } from 'src/helpers/common';
 
 const SimplePage = () => {
     SwiperCore.use([Autoplay]);
@@ -90,7 +91,13 @@ const SimplePage = () => {
                                                     <th className="ps-0" scope="row">
                                                         Joining Date:
                                                     </th>
-                                                    <td className="text-muted">{currentUser.onboarding}</td>
+                                                    <td className="text-muted">{formatTime(currentUser.onboarding)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th className="ps-0" scope="row">
+                                                        Address :
+                                                    </th>
+                                                    <td className="text-muted">{currentUser.address}</td>
                                                 </tr>
                                             </tbody>
                                         </Table>
@@ -102,19 +109,9 @@ const SimplePage = () => {
                             <Card>
                                 <CardBody>
                                     <h5 className="card-title mb-3">Introduce</h5>
-                                    <p>
-                                        Hi I'm Anna Adame, It will be as simple as Occidental; in fact, it will be Occidental. To an English person,
-                                        it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is
-                                        European languages are members of the same family.
-                                    </p>
-                                    <p>
-                                        You always want to make sure that your fonts work well together and try to limit the number of fonts you use
-                                        to three or less. Experiment and play around with the fonts that you already have in the software you’re
-                                        working with reputable font websites. This may be the most commonly encountered tip I received from the
-                                        designers I spoke with. They highly encourage that you use different fonts in one design, but do not
-                                        over-exaggerate and go overboard.
-                                    </p>
-                                    <Row>
+                                    <p dangerouslySetInnerHTML={{ __html: currentUser.introduce }}></p>
+
+                                    {/* <Row>
                                         <Col xs={6} md={4}>
                                             <div className="d-flex mt-3 align-items-center">
                                                 <div className="flex-shrink-0 avatar-xs align-self-center me-3">
@@ -129,7 +126,7 @@ const SimplePage = () => {
                                                 </div>
                                             </div>
                                         </Col>
-                                    </Row>
+                                    </Row> */}
                                 </CardBody>
                             </Card>
                         </Col>
