@@ -8,10 +8,12 @@ import { currentUserAtom } from './Recoil/states/users';
 import './assets/scss/themes.scss';
 import './App.scss';
 import { GetAll } from './Services/notification.service';
+import { notificationAtom } from './Recoil/states/notification';
 
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const [user, setCurrentUser] = useRecoilState(currentUserAtom);
+    const [notifications, setNotifications] = useRecoilState(notificationAtom);
 
     const spinner = useRecoilValue(spinnerAtom);
 
@@ -19,7 +21,11 @@ function App() {
         const getUsers = async () => {
             try {
                 const user = await GetCurrentUser();
-                GetAll({ user_id: user.user_id });
+                GetAll({ user_id: user.user_id })
+                    .then((res) => {
+                        setNotifications(res);
+                    })
+                    .catch(() => {});
                 setCurrentUser(user);
             } catch (error) {
                 console.log(error);
@@ -28,7 +34,7 @@ function App() {
         };
         getUsers();
         return () => {};
-    }, [setCurrentUser, setSpinner]);
+    }, [setCurrentUser, setSpinner, setNotifications]);
 
     return (
         <React.Fragment>

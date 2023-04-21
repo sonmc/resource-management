@@ -21,13 +21,13 @@ import { notificationAtom } from 'src/Recoil/states/notification';
 //redux
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
 import { GetAll } from 'src/Services/notification.service';
 const baseUrl = process.env.REACT_APP_API_URL;
 const Layout = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
-    const [notifications, setNotifications] = useRecoilValue(notificationAtom);
+    const [notifications, setNotifications] = useRecoilState(notificationAtom);
 
     const [headerClass, setHeaderClass] = useState('');
     const dispatch = useDispatch();
@@ -118,7 +118,6 @@ const Layout = (props) => {
                     setNotifications(res);
                 })
                 .catch(() => {});
-            console.log(notification);
         });
         socket.on('connect', function () {
             console.log('Connected');
@@ -130,7 +129,7 @@ const Layout = (props) => {
             console.log('Disconnected');
         });
         return () => {
-            if (socket.connected) socket.disconnected();
+            if (socket.connected) socket.disconnect();
         };
     }, []);
     return (
