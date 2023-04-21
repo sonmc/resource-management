@@ -34,7 +34,7 @@ export class AddMemberUseCases {
                 );
                 const userSchema = await this.userRepository.findOne(user.id);
                 userSchema.workloads = workloads;
-                userSchema.full_name = user.first_name + ' ' + user.last_name;
+                userSchema.full_name = (user.first_name || '') + ' ' + (user.last_name || '');
                 this.logger.log('AddMemberUseCases execute', 'New member have been added');
                 listUserAdded.push(userSchema);
             })

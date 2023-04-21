@@ -34,7 +34,7 @@ export class VacationRepository implements IVacationRepository {
     }
 
     async findAll(filter: any): Promise<VacationEntity[]> {
-        const query = this.userRepository.createQueryBuilder('vacation').leftJoinAndSelect('vacation.user', 'user');
+        const query = this.repository.createQueryBuilder('vacation').innerJoinAndSelect('vacation.user', 'user');
 
         if (filter.status > 0) {
             query.andWhere('vacation.status = :status', { status: filter.status });

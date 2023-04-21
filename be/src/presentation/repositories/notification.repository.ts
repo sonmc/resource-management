@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
-import { New } from 'src/infrastructure/schemas/new.schema';
 import { User } from 'src/infrastructure/schemas/user.schema';
 import { NotificationEntity } from 'src/domain/entities/notification.entity';
 import { INotificationRepository } from 'src/domain/repositories/notification.repository.interface';

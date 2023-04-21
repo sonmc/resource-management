@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions, MoreThan } from 'typeorm';
 import { User } from 'src/infrastructure/schemas/user.schema';
-import { UserRole } from 'src/infrastructure/schemas/user-role.schema';
 import { ICandidateRepository } from 'src/domain/repositories/candidate.repository.interface';
 import { Candidate } from 'src/infrastructure/schemas/candidate.schema';
 

@@ -28,6 +28,6 @@ export class EmployeeBasePresenter {
     kanbans: [];
     full_name: string;
     constructor() {
-        this.full_name = this.first_name + ' ' + this.last_name;
+        this.full_name = (this.first_name || '') + ' ' + (this.last_name || '');
     }
 }

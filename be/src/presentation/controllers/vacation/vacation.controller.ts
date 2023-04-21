@@ -58,7 +58,7 @@ export class VacationController {
         vacationEntity.status = VACATION_STATUS.PENDING;
         const vacation = await this.createVacationUseCases.getInstance().execute(vacationEntity);
         const user = await this.getOneUseCaseProxy.getInstance().execute(vacation.user.id);
-        const full_name = user.first_name + ' ' + user.last_name;
+        const full_name = (user.first_name ? user.first_name : '') + ' ' + (user.last_name ? user.last_name : '');
         const title = vacation.type == REMOTE ? full_name + ' ' + 'request remote' : full_name + 'request offline';
         const content = vacation.reason;
         const created_by = user.id;

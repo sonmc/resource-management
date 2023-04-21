@@ -56,7 +56,7 @@ export class AuthController {
         currentUser.email = request.user.email;
         currentUser.onboarding = request.user.onboarding;
         currentUser.last_name = request.user.last_name;
-        currentUser.full_name = request.user.first_name + ' ' + request.user.last_name;
+        currentUser.full_name = (request.user.first_name ? request.user.first_name : '') + ' ' + request.user.last_name ? request.user.last_name : '';
         currentUser.permissions = convertPermissions(request.user.roles);
         currentUser.roles = convertRoles(request.user.roles);
         currentUser.projects = await this.userRepository.getProjects(request.user.id);

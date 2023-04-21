@@ -5,8 +5,6 @@ import { ProjectEntity } from 'src/domain/entities/project.entity';
 import { FindManyOptions, Repository, Between, ILike } from 'typeorm';
 import { IProjectRepository } from '../../domain/repositories/project-repository.interface';
 import { Project } from '../../infrastructure/schemas/project.schema';
-import { User } from 'src/infrastructure/schemas/user.schema';
-import { Role } from 'src/infrastructure/schemas/role.schema';
 
 @Injectable()
 export class ProjectRepository implements IProjectRepository {
