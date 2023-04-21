@@ -1,10 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const OrdersId = (cell) => {
     return (
         <React.Fragment>
-            <Link to="/apps-tasks-details" className="fw-medium link-primary">{cell.value}</Link>
+            <Link to="/tasks-details" className="fw-medium link-primary">
+                {cell.value}
+            </Link>
         </React.Fragment>
     );
 };
@@ -12,7 +14,9 @@ const OrdersId = (cell) => {
 const Project = (cell) => {
     return (
         <React.Fragment>
-            <Link to="/apps-projects-overview" className="fw-medium link-primary">{cell.value}</Link>
+            <Link to="/apps-projects-overview" className="fw-medium link-primary">
+                {cell.value}
+            </Link>
         </React.Fragment>
     );
 };
@@ -25,7 +29,7 @@ const Tasks = (cell) => {
                 <div className="flex-shrink-0 ms-4">
                     <ul className="list-inline tasks-list-menu mb-0">
                         <li className="list-inline-item">
-                            <Link to="/apps-tasks-details">
+                            <Link to="/tasks-details">
                                 <i className="ri-eye-fill align-bottom me-2 text-muted"></i>
                             </Link>
                         </li>
@@ -47,11 +51,7 @@ const Tasks = (cell) => {
 };
 
 const CreateBy = (cell) => {
-    return (
-        <React.Fragment>
-            {cell.value}
-        </React.Fragment>
-    );
+    return <React.Fragment>{cell.value}</React.Fragment>;
 };
 
 const AssignedTo = (cell) => {
@@ -69,27 +69,21 @@ const AssignedTo = (cell) => {
 };
 
 const DueDate = (cell) => {
-    return (
-        <React.Fragment>
-            {cell.value}
-        </React.Fragment>
-    );
+    return <React.Fragment>{cell.value}</React.Fragment>;
 };
 
 const Status = (cell) => {
     return (
         <React.Fragment>
-            {cell.value === "Inprogress" ?
+            {cell.value === 'Inprogress' ? (
                 <span className="badge badge-soft-secondary text-uppercase">{cell.value}</span>
-                :
-                cell.value === "New" ?
-                    <span className="badge badge-soft-info text-uppercase">{cell.value}</span>
-                    : cell.value === "Completed" ?
-                        <span className="badge badge-soft-success text-uppercase">{cell.value}</span>
-                        : cell.value === "Pending" ?
-                            <span className="badge badge-soft-warning text-uppercase">{cell.value}</span>
-                            : null
-            }
+            ) : cell.value === 'New' ? (
+                <span className="badge badge-soft-info text-uppercase">{cell.value}</span>
+            ) : cell.value === 'Completed' ? (
+                <span className="badge badge-soft-success text-uppercase">{cell.value}</span>
+            ) : cell.value === 'Pending' ? (
+                <span className="badge badge-soft-warning text-uppercase">{cell.value}</span>
+            ) : null}
         </React.Fragment>
     );
 };
@@ -97,18 +91,15 @@ const Status = (cell) => {
 const Priority = (cell) => {
     return (
         <React.Fragment>
-            {cell.value === "Medium" ?
+            {cell.value === 'Medium' ? (
                 <span className="badge bg-warning text-uppercase">{cell.value}</span>
-                :
-                cell.value === "High" ?
-                    <span className="badge bg-danger text-uppercase">{cell.value}</span>
-                    : cell.value === "Low" ?
-                        <span className="badge bg-success text-uppercase">{cell.value}</span>
-                        : null
-            }
+            ) : cell.value === 'High' ? (
+                <span className="badge bg-danger text-uppercase">{cell.value}</span>
+            ) : cell.value === 'Low' ? (
+                <span className="badge bg-success text-uppercase">{cell.value}</span>
+            ) : null}
         </React.Fragment>
     );
 };
-
 
 export { OrdersId, Project, Tasks, CreateBy, AssignedTo, DueDate, Status, Priority };

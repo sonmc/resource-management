@@ -7,6 +7,12 @@ export const VACATION_TYPE = {
     REMOTE: 1,
 };
 
+export const VACATION = {
+    REJECT: 1,
+    PENDING: 2,
+    APPROVED: 3,
+};
+
 export const LEVEL_STATUS = [
     {
         id: 1,

@@ -2,7 +2,7 @@ import { INotificationRepository } from 'src/domain/repositories/notification.re
 import { ILogger } from '../../domain/logger/logger.interface';
 import { NotificationEntity } from 'src/domain/entities/notification.entity';
 
-export class CreateUseCases {
+export class CreateNotificationUseCases {
     constructor(private readonly logger: ILogger, private readonly notificationRepository: INotificationRepository) {}
 
     async execute(notifE: NotificationEntity): Promise<NotificationEntity> {

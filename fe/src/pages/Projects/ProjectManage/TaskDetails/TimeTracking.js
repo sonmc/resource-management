@@ -1,35 +1,21 @@
 import React from 'react';
-import { Card, CardBody, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { Card, CardBody, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown, CardHeader } from 'reactstrap';
 
 import avatar10 from 'src/assets/images/users/avatar-10.jpg';
 import avatar8 from 'src/assets/images/users/avatar-8.jpg';
 import avatar2 from 'src/assets/images/users/avatar-2.jpg';
 import { Link } from 'react-router-dom';
+import { Basic, DifferentColor, MultiSeries, Advanced } from './TimelineCharts';
 
 const TimeTracking = () => {
     return (
         <React.Fragment>
             <Card>
-                <CardBody className="text-center">
-                    <h6 className="card-title mb-3 flex-grow-1 text-start">Time Tracking</h6>
-                    <div className="mb-2">
-                        <lord-icon
-                            src="https://cdn.lordicon.com/kbtmbyzy.json"
-                            trigger="loop"
-                            colors="primary:#405189,secondary:#02a8b5"
-                            style={{ width: '90px', height: '90px' }}
-                        ></lord-icon>
-                    </div>
-                    <h3 className="mb-1">9 hrs 13 min</h3>
-                    <h5 className="fs-14 mb-4">Profile Page Satructure</h5>
-                    <div className="hstack gap-2 justify-content-center">
-                        <button className="btn btn-danger btn-sm">
-                            <i className="ri-stop-circle-line align-bottom me-1"></i> Stop
-                        </button>
-                        <button className="btn btn-success btn-sm">
-                            <i className="ri-play-circle-line align-bottom me-1"></i> Start
-                        </button>
-                    </div>
+                <CardHeader>
+                    <h4 className="card-title mb-0">Time line</h4>
+                </CardHeader>
+                <CardBody>
+                    <DifferentColor />
                 </CardBody>
             </Card>
             <Card className="mb-3">

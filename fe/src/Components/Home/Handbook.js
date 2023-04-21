@@ -14,12 +14,12 @@ const Handbook = () => {
     };
     return (
         <React.Fragment>
-            <Col xl={6} md={6} onClick={() => showHandbookDetail()}>
+            <Col xl={12} md={12} onClick={() => showHandbookDetail()}>
                 <Card className="card-animate">
-                    <CardBody className="p-0">
+                    <CardBody>
                         <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                                <img className="w-100 h-100" src={handbookImg} alt="" />
+                                <img className="w-25 h-100" style={{ cursor: 'pointer' }} src={handbookImg} alt="" />
                             </div>
                         </div>
                     </CardBody>
