@@ -6,6 +6,11 @@ import Flatpickr from 'react-flatpickr';
 import { Get as GetLunch } from 'src/Services/lunch-order.service';
 import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
+import { formatTime } from 'src/helpers/common';
+import './index.scss';
+const checkPi = (value) => {
+    return moment(value).startOf('day').set('hour', 10).isBefore(moment());
+};
 
 function getDaysArrayByMonth(month) {
     let _month = month.clone();
@@ -21,7 +26,8 @@ function getDaysArrayByMonth(month) {
     }
     return arrDays
         .map((x) => {
-            return { value: x.format('yyyy-MM-DD HH:mm:ss'), title: x.format('DD-MMM') };
+            let disabled = checkPi(x);
+            return { date: x.format('yyyy-MM-DD HH:mm:ss'), title: x.format('DD-MMM'), disabled, classDisabled: disabled ? 'disabled-col' : '' };
         })
         .reverse();
 }
@@ -49,15 +55,15 @@ const LunchPage = () => {
         let lunchs = emps.reduce((prev, current) => {
             return prev.concat(current.lunch_calendars || []);
         }, []);
-
         let data = days.map((lc) => {
             let lunchByDay = lunchs.filter((ld) => {
-                return moment(ld.date, 'DD/MM/YYYY').isSame(lc.value);
+                return moment(ld.date).isSame(lc.date);
             });
-            return { ...lc, lunchs: lunchByDay.filter((x) => x.value != 0) };
+            return { ...lc, lunchs: lunchByDay };
         });
         setTotal(data);
     }, [days, emps]);
+
     useEffect(() => {
         if (days.length === 0) return;
         GetLunch()
@@ -66,10 +72,13 @@ const LunchPage = () => {
                     let lunchData = x.lunch_calendars;
                     x.lunch_calendars = days.map((lc) => {
                         let d = lunchData.find((ld) => {
-                            return moment(ld.date, 'DD/MM/YYYY').isSame(lc.value);
+                            return moment(ld.date).isSame(lc.date);
                         });
-                        return d ? { ...d, active: true } : { date: moment(lc.date).format('DD/MM/YYYY'), value: 0, active: false };
+                        return d
+                            ? { ...d, active: true, disabled: lc.disabled, classDisabled: lc.classDisabled }
+                            : { date: formatTime(lc.date), value: 0, active: false, disabled: lc.disabled, classDisabled: lc.classDisabled };
                     });
+
                     return x;
                 });
                 setEmp(data);
@@ -104,96 +113,105 @@ const LunchPage = () => {
                             </div>
                         </CardHeader>
                         <CardBody className="">
-                            <div className="row">
-                                <div className="table-responsive" style={{ paddingBottom: '1rem' }}>
-                                    <Table className="table-bordered table-nowrap align-middle mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th colSpan="2">Total</th>
-                                                {totals.map((x) => {
-                                                    return (
-                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.value}>
-                                                            {x.lunchs.filter((x) => x.value != 0).length}
-                                                        </th>
-                                                    );
-                                                })}
-                                            </tr>
-                                            {LUNCH_TYPES.map((l, i) => {
+                            <div className="table-scroll-fixed">
+                                <Table className="table-bordered table-nowrap align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div>Total</div>
+                                            </th>
+                                            {totals.map((x) => {
                                                 return (
-                                                    <tr key={i}>
-                                                        <th colSpan="2">{l.name}</th>
-                                                        {totals.map((x) => {
-                                                            return (
-                                                                <th scope="col" style={{ textAlign: 'center' }} key={`${x.value}${l.name}`}>
-                                                                    {x.lunchs.filter((x) => x.value == l.value).length}
-                                                                </th>
-                                                            );
-                                                        })}
-                                                    </tr>
+                                                    <th scope="col" key={x.date} className={x.classDisabled}>
+                                                        {x.lunchs.filter((l) => l.value != 0).length}
+                                                    </th>
                                                 );
                                             })}
-                                            <tr>
-                                                <th style={{ border: 'none' }}></th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">No.</th>
-                                                <th scope="col">Full name</th>
-                                                {days.map((x) => {
-                                                    return (
-                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.value}>
-                                                            {x.title}
-                                                        </th>
-                                                    );
-                                                })}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {emps.map((emp, i) => {
-                                                let employee = emp.user;
-                                                let fullname = employee.first_name + ' ' + employee.last_name;
+                                        </tr>
+                                        {LUNCH_TYPES.map((lt, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <th>
+                                                        <div>{lt.name}</div>
+                                                    </th>
+
+                                                    {totals.map((t) => {
+                                                        return (
+                                                            <th className={t.classDisabled} scope="col" key={`${t.date}${lt.name}`}>
+                                                                {t.lunchs.filter((l) => l.value == lt.value).length}
+                                                            </th>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                        <tr>
+                                            <th scope="col">
+                                                <div>
+                                                    <div>No.</div>
+                                                    <div>Full name</div>
+                                                </div>
+                                            </th>
+                                            {days.map((x) => {
                                                 return (
-                                                    <tr key={employee.id}>
-                                                        <td className="fw-medium">{i + 1}</td>
-                                                        <td>{fullname}</td>
-                                                        {emp.lunch_calendars.map((d, j) => {
-                                                            return (
-                                                                <td key={`${i}${j}`} style={{ textAlign: 'center' }}>
-                                                                    <select
-                                                                        id="inputState"
-                                                                        className="form-select"
-                                                                        onChange={(event) => {
-                                                                            d.value = event.target.value;
-                                                                            setEmp((prevEmps) => {
-                                                                                return prevEmps.map((e) => {
-                                                                                    if (e.user.id == emp.user.id) {
-                                                                                        return { ...emp };
-                                                                                    } else {
-                                                                                        return e;
-                                                                                    }
-                                                                                });
+                                                    <th scope="col" key={x.date} className={x.classDisabled}>
+                                                        {x.title}
+                                                    </th>
+                                                );
+                                            })}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {emps.map((emp, i) => {
+                                            let employee = emp.user;
+                                            let fullname = employee.first_name + ' ' + employee.last_name;
+                                            return (
+                                                <tr key={employee.id}>
+                                                    <td className="first-col">
+                                                        <div>
+                                                            <div>{i + 1}</div>
+                                                            <div>{fullname}</div>
+                                                        </div>
+                                                    </td>
+                                                    {emp.lunch_calendars.map((d, j) => {
+                                                        return (
+                                                            <td key={`${i}${j}`}>
+                                                                <select
+                                                                    id="inputState"
+                                                                    className="form-select"
+                                                                    disabled={d.disabled}
+                                                                    onChange={(event) => {
+                                                                        d.value = event.target.value;
+                                                                        setEmp((prevEmps) => {
+                                                                            return prevEmps.map((e) => {
+                                                                                if (e.user.id == emp.user.id) {
+                                                                                    return { ...emp };
+                                                                                } else {
+                                                                                    return e;
+                                                                                }
                                                                             });
-                                                                        }}
-                                                                        value={d.value}
-                                                                        style={{ width: 130, border: 0 }}
-                                                                    >
-                                                                        <option value={0}>No</option>
-                                                                        {LUNCH_TYPES.map((x) => {
-                                                                            return (
-                                                                                <option key={x.value} value={x.value}>
-                                                                                    {x.name}
-                                                                                </option>
-                                                                            );
-                                                                        })}
-                                                                    </select>
-                                                                </td>
-                                                            );
-                                                        })}
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </Table>
-                                </div>
+                                                                        });
+                                                                    }}
+                                                                    value={d.value}
+                                                                    style={{ width: 130, border: 0 }}
+                                                                >
+                                                                    <option value={0}>No</option>
+                                                                    {LUNCH_TYPES.map((x) => {
+                                                                        return (
+                                                                            <option key={x.value} value={x.value}>
+                                                                                {x.name}
+                                                                            </option>
+                                                                        );
+                                                                    })}
+                                                                </select>
+                                                            </td>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </Table>
                             </div>
                         </CardBody>
                     </Card>

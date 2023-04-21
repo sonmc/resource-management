@@ -1,0 +1,86 @@
+$white: #ffffff;
+
+.table-scroll-fixed {
+    max-width: 100%;
+    margin: auto;
+    overflow-x: auto;
+    table {
+        position: relative;
+        border-collapse: collapse;
+        table-layout: auto;
+        width: 100%;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+        white-space: nowrap;
+        thead tr {
+            th {
+                background: $white;
+                vertical-align: middle;
+                height: 44.5px;
+                text-align: center;
+            }
+        }
+
+        tbody {
+            td {
+                text-align: left;
+                background: $white;
+                vertical-align: middle;
+                height: 44.5px;
+                padding: 0;
+            }
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-left-radius: 0.5rem;
+        }
+
+        th:first-child {
+            border-top-left-radius: 0.5rem;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        th:last-child {
+            border-top-right-radius: 0.5rem;
+        }
+
+        tr > th:first-child,
+        tr > td:first-child {
+            position: sticky;
+            left: 0;
+            border: none;
+            padding: 0;
+            & > div {
+                height: 100%;
+                border-right: 1px solid red;
+                padding-left: 12px;
+                display: flex;
+                align-items: center;
+                border-left: 1px solid #e9ebec;
+                & > div {
+                    height: 100%;
+                    padding: 0 12px;
+                    display: flex;
+                    align-items: center;
+                }
+                & > div:first-child {
+                    width: 50px;
+                    padding-right: 12px;
+                    padding-left: 0;
+                    border-right: 1px solid #e9ebec;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+    select {
+        height: 44.5px;
+    }
+    .disabled-col {
+        background-color: #eff2f7;
+    }
+}

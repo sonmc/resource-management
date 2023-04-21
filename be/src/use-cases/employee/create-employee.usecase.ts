@@ -16,7 +16,7 @@ export class CreateEmployeeUseCases {
         const user = await this.userRepository.createOrUpdate(userE);
         const lunchOrder = new LunchOrderEntity();
         lunchOrder.user = user;
-        if (userE.id == 0) {
+        if (!userE.id) {
             lunchOrder.lunch_calendars = GenerateLunchCalendars(user.onboarding);
             await this.lunchOrderRepository.createOrUpdate(lunchOrder);
         }
