@@ -11,7 +11,7 @@ import SimpleBar from 'simplebar-react';
 import { notificationAtom } from 'src/Recoil/states/notification';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import moment from 'moment';
-import { ChangeStatus } from 'src/Services/vacation';
+import { ChangeStatus } from 'src/Services/vacation.service';
 
 const NotificationDropdown = () => {
     //Dropdown Toggle

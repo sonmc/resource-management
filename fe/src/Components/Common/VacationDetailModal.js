@@ -1,4 +1,4 @@
-import { VACATION } from 'src/Constant';
+import { VACATION_STATUS } from 'src/Constant';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, ModalBody } from 'reactstrap';
@@ -30,7 +30,7 @@ const VacationDetailModal = ({ show, onConfirm, onCloseClick, notification }) =>
                         type="button"
                         className="btn w-sm btn-primary"
                         onClick={() => {
-                            onConfirm(VACATION.REJECT);
+                            onConfirm(VACATION_STATUS.REJECT);
                         }}
                     >
                         Reject
@@ -40,7 +40,7 @@ const VacationDetailModal = ({ show, onConfirm, onCloseClick, notification }) =>
                         className="btn w-sm btn-success "
                         id="delete-record"
                         onClick={() => {
-                            onConfirm(VACATION.APPROVED);
+                            onConfirm(VACATION_STATUS.APPROVED);
                         }}
                     >
                         Accept
