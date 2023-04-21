@@ -9,12 +9,11 @@ import './assets/scss/themes.scss';
 import './App.scss';
 import { GetAll } from './Services/notification.service';
 import { notificationAtom } from './Recoil/states/notification';
-
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const [user, setCurrentUser] = useRecoilState(currentUserAtom);
     const [notifications, setNotifications] = useRecoilState(notificationAtom);
-
     const spinner = useRecoilValue(spinnerAtom);
 
     useEffect(() => {

@@ -98,7 +98,7 @@ const Component = (props) => {
                                                 />
                                             </div>
                                         </Col>
-                                        <Col md={6}>
+                                        <Col md={3}>
                                             <div className="mb-3">
                                                 <Label for="firstNameinput" className="form-label">
                                                     Image

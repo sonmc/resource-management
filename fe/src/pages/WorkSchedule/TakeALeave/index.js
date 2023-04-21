@@ -4,6 +4,7 @@ import Flatpickr from 'react-flatpickr';
 import moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
+import { formatTime } from 'src/helpers/common';
 
 const TakeALeave = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
@@ -108,7 +109,7 @@ const TakeALeave = (props) => {
                                             maxDate: vacation.end,
                                         }}
                                         onChange={([value]) => {
-                                            changeField({ target: { name: 'start', value: moment(value).format('YYYY-MM-DD') } });
+                                            changeField({ target: { name: 'start', value: formatTime(value) } });
                                         }}
                                         value={vacation.start}
                                         placeholder="Select start date"
@@ -125,7 +126,7 @@ const TakeALeave = (props) => {
                                             minDate: vacation.start,
                                         }}
                                         onChange={([value]) => {
-                                            changeField({ target: { name: 'end', value: moment(value).format('YYYY-MM-DD') } });
+                                            changeField({ target: { name: 'end', value: formatTime(value) } });
                                         }}
                                         value={vacation.end}
                                         placeholder="Select end date"

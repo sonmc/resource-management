@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const calculatorWorkloadStatus = (workload) => {
     if (workload > 0 && workload < 50) {
         return '#06c706';
@@ -8,4 +10,7 @@ export const calculatorWorkloadStatus = (workload) => {
     } else {
         return '#ffffff';
     }
+};
+export const formatTime = (time, format = 'YYYY-MM-DD') => {
+    return moment(time).format(format);
 };

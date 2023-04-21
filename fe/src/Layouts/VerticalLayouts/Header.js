@@ -101,9 +101,9 @@ const Header = ({ headerClass }) => {
                         </div>
 
                         <div className="d-flex align-items-center">
-                            <button onClick={() => changeLayoutType()} className="btn btn-ghost-primary">
+                            {/* <button onClick={() => changeLayoutType()} className="btn btn-ghost-primary">
                                 {layoutType === 'Vertical' ? 'Horizontal' : 'Vertical'}
-                            </button>
+                            </button> */}
 
                             <FullScreenDropdown />
 
