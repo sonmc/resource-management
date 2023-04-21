@@ -48,18 +48,23 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     async getCurrentUser(@Request() request: any) {
         const currentUser = new AuthPresenter();
-        currentUser.user_id = request.user.id;
-        currentUser.username = request.user.username;
-        currentUser.avatar = request.user.avatar;
-        currentUser.first_name = request.user.first_name;
-        currentUser.phone_number = request.user.phone_number;
-        currentUser.email = request.user.email;
-        currentUser.onboarding = request.user.onboarding;
-        currentUser.last_name = request.user.last_name;
-        currentUser.full_name = (request.user.first_name ? request.user.first_name : '') + ' ' + request.user.last_name ? request.user.last_name : '';
-        currentUser.permissions = convertPermissions(request.user.roles);
-        currentUser.roles = convertRoles(request.user.roles);
-        currentUser.projects = await this.userRepository.getProjects(request.user.id);
+        let user = request.user;
+        currentUser.user_id = user.id;
+        currentUser.username = user.username;
+        currentUser.avatar = user.avatar;
+        currentUser.first_name = user.first_name;
+        currentUser.phone_number = user.phone_number;
+        currentUser.email = user.email;
+        currentUser.onboarding = user.onboarding;
+        currentUser.last_name = user.last_name;
+        currentUser.address = user.address;
+        currentUser.introduce = user.introduce;
+        currentUser.full_name = `${user.first_name || ''} ${user.last_name || ''}`;
+        let permissions = convertPermissions(user.roles);
+        currentUser.permissions = [...new Set(permissions)];
+        currentUser.role_ids = user.roles.map((x) => x.id);
+        currentUser.roles = convertRoles(user.roles);
+        currentUser.projects = await this.userRepository.getProjects(user.id);
         return currentUser;
     }
 

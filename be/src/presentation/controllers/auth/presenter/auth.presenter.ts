@@ -11,8 +11,11 @@ export class AuthPresenter {
     first_name: string;
     phone_number: string;
     email: string;
+    address: string;
+    introduce: string;
     onboarding: string;
     roles: string[];
+    role_ids: number[];
     permissions: string[];
     projects: string[];
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Form, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 import MetaTags from 'react-meta-tags';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useRecoilState } from 'recoil';
 import { currentUserAtom } from '../../Recoil/states/users';
 //import images
@@ -9,12 +10,14 @@ import progileBg from 'src/assets/images/profile-bg.jpg';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 import { Upload } from 'src/Services/share.service';
 import { UpdateInfo, UpdatePassword } from 'src/Services/user.service';
+import { MyUploadAdapter } from 'src/helpers';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 const Settings = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     const [avatar, setAvatar] = useState(avatar1);
-    const [form, setForm] = useState(currentUser);
+    const [form, setForm] = useState({ ...currentUser });
     const [formPassword, setFormPassword] = useState({});
 
     useEffect(() => {
@@ -88,7 +91,12 @@ const Settings = () => {
                                                 }}
                                             />
                                             <div className="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                <Input id="profile-img-file-input" type="file" className="profile-img-file-input" onChange={UploadImage} />
+                                                <Input
+                                                    id="profile-img-file-input"
+                                                    type="file"
+                                                    className="profile-img-file-input"
+                                                    onChange={UploadImage}
+                                                />
                                                 <Label htmlFor="profile-img-file-input" className="profile-photo-edit avatar-xs">
                                                     <span className="avatar-title rounded-circle bg-light text-body">
                                                         <i className="ri-camera-fill"></i>
@@ -142,7 +150,15 @@ const Settings = () => {
                                                             <Label htmlFor="firstnameInput" className="form-label">
                                                                 First Name
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="firstnameInput" placeholder="Enter your firstname" value={form.first_name} name="first_name" onChange={changeInput} />
+                                                            <Input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="firstnameInput"
+                                                                placeholder="Enter your firstname"
+                                                                value={form.first_name}
+                                                                name="first_name"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={3}>
@@ -150,7 +166,15 @@ const Settings = () => {
                                                             <Label htmlFor="lastnameInput" className="form-label">
                                                                 Last Name
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="lastnameInput" placeholder="Enter your lastname" value={form.last_name} name="last_name" onChange={changeInput} />
+                                                            <Input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="lastnameInput"
+                                                                placeholder="Enter your lastname"
+                                                                value={form.last_name}
+                                                                name="last_name"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={6}>
@@ -158,7 +182,15 @@ const Settings = () => {
                                                             <Label htmlFor="firstnameInput" className="form-label">
                                                                 Nick Name
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="firstnameInput" placeholder="Enter your firstname" value={form.first_name} name="first_name" onChange={changeInput} />
+                                                            <Input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="firstnameInput"
+                                                                placeholder="Enter your firstname"
+                                                                value={form.first_name}
+                                                                name="first_name"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={6}>
@@ -166,7 +198,15 @@ const Settings = () => {
                                                             <Label htmlFor="phonenumberInput" className="form-label">
                                                                 Phone Number
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="phonenumberInput" placeholder="Enter your phone number" value={form.phone_number} name="phone_number" onChange={changeInput} />
+                                                            <Input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="phonenumberInput"
+                                                                placeholder="Enter your phone number"
+                                                                value={form.phone_number}
+                                                                name="phone_number"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={3}>
@@ -174,7 +214,15 @@ const Settings = () => {
                                                             <Label htmlFor="emailInput" className="form-label">
                                                                 Email
                                                             </Label>
-                                                            <Input type="email" className="form-control" id="emailInput" placeholder="Enter your email" value={form.email} name="email" onChange={changeInput} />
+                                                            <Input
+                                                                type="email"
+                                                                className="form-control"
+                                                                id="emailInput"
+                                                                placeholder="Enter your email"
+                                                                value={form.email}
+                                                                name="email"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
 
@@ -183,7 +231,15 @@ const Settings = () => {
                                                             <Label htmlFor="JoiningdatInput" className="form-label">
                                                                 Address
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="addressInput" placeholder="Enter your address" value={form.address} name="address" onChange={changeInput} />
+                                                            <Input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="addressInput"
+                                                                placeholder="Enter your address"
+                                                                value={form.address}
+                                                                name="address"
+                                                                onChange={changeInput}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
@@ -191,7 +247,21 @@ const Settings = () => {
                                                             <Label htmlFor="JoiningdatInput" className="form-label">
                                                                 Introduce
                                                             </Label>
-                                                            <Input type="text" className="form-control" id="addressInput" placeholder="Enter your address" value={form.address} name="address" onChange={changeInput} />
+                                                            <CKEditor
+                                                                editor={ClassicEditor}
+                                                                data={form?.introduce}
+                                                                onReady={(editor) => {
+                                                                    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                                                                        return new MyUploadAdapter(loader, 'news');
+                                                                    };
+                                                                }}
+                                                                onChange={(event, editor) => {
+                                                                    setForm((x) => {
+                                                                        x.introduce = editor.getData();
+                                                                        return { ...x };
+                                                                    });
+                                                                }}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
@@ -216,7 +286,15 @@ const Settings = () => {
                                                             <Label htmlFor="oldpasswordInput" className="form-label">
                                                                 Old Password <span className="text-danger">*</span>
                                                             </Label>
-                                                            <Input type="password" className="form-control" id="oldpasswordInput" placeholder="Enter current password" value={formPassword.old_password} onChange={changePassword} name="old_password" />
+                                                            <Input
+                                                                type="password"
+                                                                className="form-control"
+                                                                id="oldpasswordInput"
+                                                                placeholder="Enter current password"
+                                                                value={formPassword.old_password}
+                                                                onChange={changePassword}
+                                                                name="old_password"
+                                                            />
                                                         </div>
                                                     </Col>
 
@@ -225,7 +303,15 @@ const Settings = () => {
                                                             <Label htmlFor="newpasswordInput" className="form-label">
                                                                 New Password <span className="text-danger">*</span>
                                                             </Label>
-                                                            <Input type="password" className="form-control" id="newpasswordInput" placeholder="Enter new password" value={formPassword.new_password} name="new_password" onChange={changePassword} />
+                                                            <Input
+                                                                type="password"
+                                                                className="form-control"
+                                                                id="newpasswordInput"
+                                                                placeholder="Enter new password"
+                                                                value={formPassword.new_password}
+                                                                name="new_password"
+                                                                onChange={changePassword}
+                                                            />
                                                         </div>
                                                     </Col>
 
@@ -234,7 +320,15 @@ const Settings = () => {
                                                             <Label htmlFor="confirmpasswordInput" className="form-label">
                                                                 Confirm Password <span className="text-danger">*</span>
                                                             </Label>
-                                                            <Input type="password" className="form-control" id="confirmpasswordInput" placeholder="Confirm password" value={formPassword.confirm_password} name="confirm_password" onChange={changePassword} />
+                                                            <Input
+                                                                type="password"
+                                                                className="form-control"
+                                                                id="confirmpasswordInput"
+                                                                placeholder="Confirm password"
+                                                                value={formPassword.confirm_password}
+                                                                name="confirm_password"
+                                                                onChange={changePassword}
+                                                            />
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
