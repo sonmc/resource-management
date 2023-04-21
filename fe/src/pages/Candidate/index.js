@@ -72,10 +72,10 @@ const CandidatePage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Candidates</h5>
+                                        <h5 className="card-title mb-0 flex-grow-1">Candidate Management</h5>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormUpdate()}>
-                                                <i className="ri-add-line align-bottom me-1"></i> Create
+                                                <i className="ri-add-line align-bottom me-1"></i> New
                                             </button>
                                         </div>
                                     </div>
@@ -96,8 +96,8 @@ const CandidatePage = () => {
                                         </div>
                                         <div className="col-xxl-2 col-sm-4">
                                             <select className="form-control">
-                                                <option>Select a option</option>
-                                                <option>No</option>
+                                                <option>Select status</option>
+                                                <option>Not Interview</option>
                                                 <option>Interviewed</option>
                                             </select>
                                         </div>
@@ -113,7 +113,7 @@ const CandidatePage = () => {
                                                 <i className="ri-delete-bin-5-line label-icon align-middle fs-16 me-2"></i> Delete
                                             </button>
                                             <button type="button" className="btn btn-success btn-label btn-sm waves-effect waves-light">
-                                                <i className="ri-download-line label-icon align-middle fs-16 me-2"></i> Download
+                                                <i className="ri-download-line label-icon align-middle fs-16 me-2"></i> Export
                                             </button>
                                         </div>
                                     </div>
@@ -132,7 +132,7 @@ const CandidatePage = () => {
                                                         <th>Email</th>
                                                         <th>Skill</th>
                                                         <th>Phone number</th>
-                                                        <th>Cv</th>
+                                                        <th>CV</th>
                                                         <th>Status</th>
                                                         <th style={{ width: '10%' }}></th>
                                                     </tr>
