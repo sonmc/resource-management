@@ -353,7 +353,7 @@ const ProjectPage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
+                                        <h5 className="card-title mb-0 flex-grow-1">Projects Management</h5>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormCreate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create New
@@ -412,7 +412,7 @@ const ProjectPage = () => {
                                             <thead>
                                                 <tr>
                                                     <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                        Project name
+                                                        Project's Name
                                                     </th>
                                                     <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
                                                         Notes

@@ -34,7 +34,7 @@ const Introduction = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardHeader className="align-items-center d-flex">
-                                    <h4 className="card-title mb-0 flex-grow-1">Company structure</h4>
+                                    <h4 className="card-title mb-0 flex-grow-1">Company Structure</h4>
                                 </CardHeader>
 
                                 <CardBody>
@@ -47,7 +47,7 @@ const Introduction = () => {
                             </Card>
                             <Card>
                                 <CardHeader className="align-items-center d-flex">
-                                    <h4 className="card-title mb-0 flex-grow-1">Co-Founders introduction</h4>
+                                    <h4 className="card-title mb-0 flex-grow-1">Leadership Team</h4>
                                 </CardHeader>
 
                                 <CardBody>
@@ -67,7 +67,7 @@ const Introduction = () => {
                             </Card>
                             <Card>
                                 <CardHeader className="align-items-center d-flex">
-                                    <h4 className="card-title mb-0 flex-grow-1">Members introduction</h4>
+                                    <h4 className="card-title mb-0 flex-grow-1">Team members</h4>
                                 </CardHeader>
 
                                 <CardBody>

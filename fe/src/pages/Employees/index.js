@@ -110,10 +110,10 @@ const EmployeePage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Employees</h5>
+                                        <h5 className="card-title mb-0 flex-grow-1">Employee Management</h5>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormUpdate()}>
-                                                <i className="ri-add-line align-bottom me-1"></i> Create New
+                                                <i className="ri-add-line align-bottom me-1"></i> New
                                             </button>
                                         </div>
                                     </div>
@@ -184,11 +184,11 @@ const EmployeePage = () => {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
-                                                    <th>UserName</th>
+                                                    <th>Full name</th>
                                                     <th>Email</th>
                                                     <th>Role</th>
                                                     <th style={{ width: '10%', textAlign: 'center' }}>Status</th>
-                                                    <th style={{ width: '20%', textAlign: 'center' }}></th>
+                                                    <th style={{ width: '20%', textAlign: 'center' }}>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

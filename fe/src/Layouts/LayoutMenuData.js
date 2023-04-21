@@ -76,7 +76,7 @@ const Navdata = () => {
         },
         {
             id: 'new-management',
-            label: 'News',
+            label: 'News Management',
             icon: 'ri-honour-line',
             link: '/new-management',
             click: function (e) {
