@@ -18,6 +18,8 @@ import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { REMOTE } from 'src/business-rules/employee.rule';
 import { NotificationPresenter } from '../notification/presenter/notification.presenter';
 import { timeAgo } from 'src/actions/common';
+import { ChangeStatusPresenter } from './presenter/change-status.presenter';
+import { ChangeStatusUseCases } from 'src/use-cases/vacation/change-status.usecase';
 
 @Controller('vacations')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -31,7 +33,8 @@ export class VacationController {
         private readonly createNotificationUseCases: UseCaseProxy<CreateNotificationUseCases>,
         @Inject(UseCasesProxyModule.GET_EMPLOYEE_USECASES_PROXY)
         private readonly getOneUseCaseProxy: UseCaseProxy<GetOneUseCases>,
-
+        @Inject(UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY)
+        private readonly changeStatusUseCaseProxy: UseCaseProxy<ChangeStatusUseCases>,
         @Inject(EventsGateway)
         private readonly eventsGateway: EventsGateway
     ) {}
@@ -41,6 +44,12 @@ export class VacationController {
     async get(@Query() query) {
         const vacations = await this.getVacationUseCases.getInstance().execute(query);
         return vacations;
+    }
+
+    @Post('change_status')
+    async changeStatus(@Body() changeStatusPresenter: ChangeStatusPresenter) {
+        const result = await this.changeStatusUseCaseProxy.getInstance().execute(changeStatusPresenter.vacation_id, changeStatusPresenter.status);
+        return result;
     }
 
     @Post()

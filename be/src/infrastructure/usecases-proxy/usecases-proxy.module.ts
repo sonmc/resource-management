@@ -11,7 +11,7 @@ import { addMemberProvide, createProjectProvide, getProjectProvide, removeMember
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
 import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide, updateEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
-import { getVacationsProvide, createVacationProvide } from './vacation.provide';
+import { getVacationsProvide, createVacationProvide, changeStatusProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
 import { getLunchOrderProvide } from './lunch-order.provide';
 import { createCandidateProvide, getCandidateProvide, getCandidatesProvide } from './candidate.provide';
@@ -46,6 +46,7 @@ export class UseCasesProxyModule {
     // Vacation
     static GET_VACATIONS_USECASES_PROXY = 'GetVacationsUseCasesProxy';
     static CREATE_VACATIONS_USECASES_PROXY = 'CreateVacationUseCaseProxy';
+    static CHANGE_STATUS_USECASES_PROXY = 'ChangeStatusUseCaseProxy';
     // New
     static GET_NEWS_USECASES_PROXY = 'GetNewsUseCasesProxy';
     static CREATE_NEW_USECASES_PROXY = 'CreateNewsUseCaseProxy';
@@ -88,6 +89,7 @@ export class UseCasesProxyModule {
                 // Vacations
                 getVacationsProvide(UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY),
                 createVacationProvide(UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY),
+                changeStatusProvide(UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY),
                 // News
                 getNewsProvide(UseCasesProxyModule.GET_NEWS_USECASES_PROXY),
                 createNewProvide(UseCasesProxyModule.CREATE_NEW_USECASES_PROXY),
@@ -127,6 +129,7 @@ export class UseCasesProxyModule {
                 // Vacations
                 UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY,
+                UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY,
                 // News
                 UseCasesProxyModule.GET_NEWS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_NEW_USECASES_PROXY,
