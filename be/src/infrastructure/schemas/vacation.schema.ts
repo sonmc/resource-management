@@ -15,6 +15,6 @@ export class Vacation extends BaseEntity {
     start: Date;
     @Column()
     end: Date;
-    @ManyToOne(() => User, (user) => user.workloads)
+    @ManyToOne(() => User, (user) => user.vacations)
     user: User;
 }

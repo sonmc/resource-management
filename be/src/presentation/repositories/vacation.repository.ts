@@ -1,4 +1,4 @@
-import { plainToClass, plainToInstance } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,9 +25,21 @@ export class VacationRepository implements IVacationRepository {
         return plainToClass(VacationEntity, result);
     }
 
-    async findAll(filter: any): Promise<any> {
-        const data = await this.repository.createQueryBuilder('vacation').leftJoinAndSelect('vacation.user', 'user').getMany();
-        let vacations = await data.map((v) => plainToInstance(VacationEntity, v));
+    async findAll(filter: any): Promise<VacationEntity[]> {
+        const query = this.userRepository.createQueryBuilder('vacation').leftJoinAndSelect('vacation.user', 'user');
+
+        if (filter.status > 0) {
+            query.andWhere('vacation.status = :status', { status: filter.status });
+        }
+        if (filter.searchTerm) {
+            query.andWhere('user.first_name like :name', { name: `%${filter.searchTerm}%` });
+            query.andWhere('user.last_name like :name', { name: `%${filter.searchTerm}%` });
+        }
+        const vacations = await query.getMany().then((u) =>
+            u.map((x) => {
+                return plainToClass(VacationEntity, x);
+            })
+        );
         return vacations;
     }
 }

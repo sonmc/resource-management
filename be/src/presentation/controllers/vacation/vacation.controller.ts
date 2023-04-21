@@ -13,7 +13,7 @@ import { EndPoint } from 'src/domain/enums/endpoint.enum';
 import { EventsGateway } from 'src/events/events.gateway';
 import { CreateNotificationUseCases } from 'src/use-cases/notification/create-notification.usecase';
 import { NotificationEntity } from 'src/domain/entities/notification.entity';
-import { VACATION } from 'src/business-rules/notification.rule';
+import { VACATION, VACATION_STATUS } from 'src/business-rules/notification.rule';
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { REMOTE } from 'src/business-rules/employee.rule';
 import { NotificationPresenter } from '../notification/presenter/notification.presenter';
@@ -46,6 +46,7 @@ export class VacationController {
     @Post()
     async create(@Body() createVacationPresenter: CreateVacationPresenter) {
         const vacationEntity = plainToClass(VacationEntity, createVacationPresenter);
+        vacationEntity.status = VACATION_STATUS.PENDING;
         const vacation = await this.createVacationUseCases.getInstance().execute(vacationEntity);
         const user = await this.getOneUseCaseProxy.getInstance().execute(vacation.user.id);
         const full_name = user.first_name + ' ' + user.last_name;
