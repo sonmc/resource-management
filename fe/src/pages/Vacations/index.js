@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { CardBody, Col, Container, Table, Button } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
-import { Link } from 'react-router-dom';
-import { Get } from 'src/Services/user.service';
-import { Get as GetRole } from 'src/Services/role.service';
-import { usersState } from 'src/Recoil/states/users';
-import { useSetRecoilState } from 'recoil';
-import { LEVEL_STATUS } from '../../Constant';
+import { Get } from 'src/Services/vacation.service';
+import { VACATION_TYPES, VACATION_STATUS } from '../../Constant';
+import moment from 'moment';
 
-const levelStatus = LEVEL_STATUS;
+const vacation_types = VACATION_TYPES;
+const vacation_status = VACATION_STATUS;
 
 const Vacations = () => {
     const [vacations, setVacation] = useState([]);
     const [filter, setFilter] = useState({
         searchTerm: '',
-        roleId: 0,
         status: 0,
     });
-    const [isShowFormUpdate, setShowFormUpdate] = useState(false);
 
     const fetchVacation = (filter) => {
         Get(filter).then((res) => {
@@ -59,10 +55,10 @@ const Vacations = () => {
                                                 <div className="input-light">
                                                     <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
                                                         <option value="all">Select status</option>
-                                                        {levelStatus.map((item, key) => {
+                                                        {vacation_types.map((item, key) => {
                                                             return (
-                                                                <option key={key} value={item.id}>
-                                                                    {item.title}
+                                                                <option key={key} value={item.key}>
+                                                                    {item.value}
                                                                 </option>
                                                             );
                                                         })}
@@ -86,32 +82,27 @@ const Vacations = () => {
                                                     <th style={{ width: 5 }}>No.</th>
                                                     <th>Reason</th>
                                                     <th>Type</th>
-                                                    <th>Start</th>
-                                                    <th>End</th>
                                                     <th>User</th>
-                                                    <th>Created at</th>
+                                                    <th>From</th>
+                                                    <th>To</th>
                                                     <th>Status</th>
+                                                    <th>Request created at</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {vacations.map((emp, key) => {
+                                                {vacations.map((va, key) => {
                                                     return (
                                                         <tr key={key}>
                                                             <th>{key + 1}</th>
-                                                            <th>
-                                                                <Link to="#" title="click for more detail" className="fw-medium">
-                                                                    {emp.username}
-                                                                </Link>
-                                                            </th>
-                                                            <td>{emp.email}</td>
+                                                            <td>{va.reason}</td>
+                                                            <td>{vacation_types.find((x) => x.key == va.type).value}</td>
                                                             <td>
-                                                                {emp.roles
-                                                                    .map((role) => {
-                                                                        return role.name;
-                                                                    })
-                                                                    .join(', ')}
+                                                                {va.user.first_name} {va.user.last_name}
                                                             </td>
-                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
+                                                            <td>{moment(va.start).format('DD/MM/YYYY')}</td>
+                                                            <td>{moment(va.end).format('DD/MM/YYYY')}</td>
+                                                            <td>{vacation_status.find((x) => x.key == va.status).value}</td>
+                                                            <td>{moment(va.created_at).format('DD/MM/YYYY hh:mm:ss')}</td>
                                                         </tr>
                                                     );
                                                 })}
