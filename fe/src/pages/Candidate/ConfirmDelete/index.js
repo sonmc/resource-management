@@ -7,7 +7,6 @@ const ConfirmDelete = (props) => {
     const remote = () => {
         deleteEmployee(employee.id);
     };
-    console.log(employee);
     return (
         <Modal
             id="flipModal"

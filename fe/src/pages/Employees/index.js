@@ -180,7 +180,7 @@ const EmployeePage = () => {
                                 </div>
                                 <CardBody>
                                     <div className="table-responsive mt-3">
-                                        <Table className="table-bordered table-hover">
+                                        <Table className="table-hover">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
@@ -236,6 +236,9 @@ const EmployeePage = () => {
                         closeFormUpdate={closeFormUpdate}
                         employeeId={employeeId}
                         roles={roles}
+                        employees={employees.filter((x) => {
+                            return x.id !== employeeId;
+                        })}
                     />
                     <ConfirmDelete
                         deleteEmployee={deleteEmployee}

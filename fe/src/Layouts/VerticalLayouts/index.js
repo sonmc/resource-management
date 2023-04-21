@@ -7,15 +7,40 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 //import actions
-import { changeLayout, changeSidebarTheme, changeLayoutMode, changeLayoutWidth, changeLayoutPosition, changeTopbarTheme, changeLeftsidebarSizeType, changeLeftsidebarViewType } from '../../store/actions';
-
+import {
+    changeLayout,
+    changeSidebarTheme,
+    changeLayoutMode,
+    changeLayoutWidth,
+    changeLayoutPosition,
+    changeTopbarTheme,
+    changeLeftsidebarSizeType,
+    changeLeftsidebarViewType,
+} from '../../store/actions';
+import { notificationAtom } from 'src/Recoil/states/notification';
 //redux
 import { useSelector, useDispatch } from 'react-redux';
-
+import io from 'socket.io-client';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states/users';
+import { GetAll } from 'src/Services/notification.service';
+const baseUrl = process.env.REACT_APP_API_URL;
 const Layout = (props) => {
+    const currentUser = useRecoilValue(currentUserAtom);
+    const [notifications, setNotifications] = useRecoilState(notificationAtom);
+
     const [headerClass, setHeaderClass] = useState('');
     const dispatch = useDispatch();
-    const { layoutType, leftSidebarType, layoutModeType, layoutWidthType, layoutPositionType, topbarThemeType, leftsidbarSizeType, leftSidebarViewType } = useSelector((state) => ({
+    const {
+        layoutType,
+        leftSidebarType,
+        layoutModeType,
+        layoutWidthType,
+        layoutPositionType,
+        topbarThemeType,
+        leftsidbarSizeType,
+        leftSidebarViewType,
+    } = useSelector((state) => ({
         layoutType: state.Layout.layoutType,
         leftSidebarType: state.Layout.leftSidebarType,
         layoutModeType: state.Layout.layoutModeType,
@@ -30,7 +55,16 @@ const Layout = (props) => {
     layout settings
     */
     useEffect(() => {
-        if (layoutType || leftSidebarType || layoutModeType || layoutWidthType || layoutPositionType || topbarThemeType || leftsidbarSizeType || leftSidebarViewType) {
+        if (
+            layoutType ||
+            leftSidebarType ||
+            layoutModeType ||
+            layoutWidthType ||
+            layoutPositionType ||
+            topbarThemeType ||
+            leftsidbarSizeType ||
+            leftSidebarViewType
+        ) {
             dispatch(changeLeftsidebarViewType(leftSidebarViewType));
             dispatch(changeLeftsidebarSizeType(leftsidbarSizeType));
             dispatch(changeSidebarTheme(leftSidebarType));
@@ -40,7 +74,17 @@ const Layout = (props) => {
             dispatch(changeTopbarTheme(topbarThemeType));
             dispatch(changeLayout(layoutType));
         }
-    }, [layoutType, leftSidebarType, layoutModeType, layoutWidthType, layoutPositionType, topbarThemeType, leftsidbarSizeType, leftSidebarViewType, dispatch]);
+    }, [
+        layoutType,
+        leftSidebarType,
+        layoutModeType,
+        layoutWidthType,
+        layoutPositionType,
+        topbarThemeType,
+        leftsidbarSizeType,
+        leftSidebarViewType,
+        dispatch,
+    ]);
     /*
     call dark/light mode
     */
@@ -64,6 +108,30 @@ const Layout = (props) => {
         }
     }
 
+    useEffect(() => {
+        const socket = io(baseUrl, {
+            query: { user_id: currentUser.user_id },
+        });
+        socket.on('notification', (notification) => {
+            GetAll({ user_id: currentUser.user_id })
+                .then((res) => {
+                    setNotifications(res);
+                })
+                .catch(() => {});
+        });
+        socket.on('connect', function () {
+            console.log('Connected');
+        });
+        socket.on('exception', function (data) {
+            console.log('event', data);
+        });
+        socket.on('disconnect', function () {
+            console.log('Disconnected');
+        });
+        return () => {
+            if (socket.connected) socket.disconnect();
+        };
+    }, []);
     return (
         <React.Fragment>
             <div id="layout-wrapper">

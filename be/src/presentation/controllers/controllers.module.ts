@@ -26,10 +26,43 @@ import { NewController } from './new/new.controller';
 import { FileController } from './file/file.controller';
 import { LunchOrderController } from './lunch-order/lunch-order.controller';
 import { Candidate } from 'src/infrastructure/schemas/candidate.schema';
+import { Notification } from 'src/infrastructure/schemas/notification.schema';
 import { CandidateController } from './candidate/candidate.controller';
+import { EventsModule } from 'src/events/events.module';
+import { EventsGateway } from 'src/events/events.gateway';
+import { NotificationController } from './notification/notification.controller';
+
 @Module({
-    imports: [UseCasesProxyModule.register(), TypeOrmModule.forFeature([User, UserRole, Project, New, Candidate])],
-    controllers: [AuthController, ProjectController, RoleController, UserController, PermissionController, VacationController, RolePermController, NewController, FileController, LunchOrderController, CandidateController],
-    providers: [LocalStrategy, JwtStrategy, RolesGuard, PermissionsGuard, JwtRefreshTokenStrategy, LoggerService, ExceptionsService, UserRepository, ProjectRepository, NewRepository, LunchOrderController, CandidateController],
+    imports: [UseCasesProxyModule.register(), EventsModule, TypeOrmModule.forFeature([User, UserRole, Project, New, Candidate, Notification])],
+    controllers: [
+        AuthController,
+        ProjectController,
+        RoleController,
+        UserController,
+        PermissionController,
+        VacationController,
+        RolePermController,
+        NewController,
+        FileController,
+        LunchOrderController,
+        CandidateController,
+        NotificationController,
+    ],
+    providers: [
+        LocalStrategy,
+        JwtStrategy,
+        RolesGuard,
+        PermissionsGuard,
+        JwtRefreshTokenStrategy,
+        LoggerService,
+        ExceptionsService,
+        UserRepository,
+        ProjectRepository,
+        NewRepository,
+        LunchOrderController,
+        CandidateController,
+        EventsGateway,
+        NotificationController,
+    ],
 })
 export class ControllersModule {}

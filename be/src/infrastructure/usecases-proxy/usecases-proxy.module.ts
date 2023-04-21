@@ -11,10 +11,11 @@ import { addMemberProvide, createProjectProvide, getProjectProvide, removeMember
 import { getRoleProvide, createRoleProvide, deleteRoleProvide } from './role.provide';
 import { getOneProvide, getAllProvide, createEmployeeProvide, deleteEmployeeProvide, updateEmployeeProvide } from './employee.provide';
 import { addPermToRoleProvide, getPermissionsProvide } from './permission.provide';
-import { getVacationsProvide, createVacationProvide } from './vacation.provide';
+import { getVacationsProvide, createVacationProvide, changeStatusProvide } from './vacation.provide';
 import { createNewProvide, getNewsProvide } from './new.provide';
 import { getLunchOrderProvide } from './lunch-order.provide';
 import { createCandidateProvide, getCandidateProvide, getCandidatesProvide } from './candidate.provide';
+import { createNotificationProvide, getNotificationsProvide } from './notification.provide';
 @Module({
     imports: [LoggerModule, JwtModule, RepositoriesModule, ExceptionsModule],
 })
@@ -45,6 +46,7 @@ export class UseCasesProxyModule {
     // Vacation
     static GET_VACATIONS_USECASES_PROXY = 'GetVacationsUseCasesProxy';
     static CREATE_VACATIONS_USECASES_PROXY = 'CreateVacationUseCaseProxy';
+    static CHANGE_STATUS_USECASES_PROXY = 'ChangeStatusUseCaseProxy';
     // New
     static GET_NEWS_USECASES_PROXY = 'GetNewsUseCasesProxy';
     static CREATE_NEW_USECASES_PROXY = 'CreateNewsUseCaseProxy';
@@ -54,6 +56,9 @@ export class UseCasesProxyModule {
     static CREATE_CANDIDATE_USECASES_PROXY = 'CreateCandidateUseProxy';
     static GET_CANDIDATE_USECASES_PROXY = 'GetCandidateUseCaseProxy';
     static GET_CANDIDATES_USECASES_PROXY = 'GetCandidatesUseCaseProxy';
+    // Notifications
+    static GET_NOTIFICATION_USECASES_PROXY = 'GetNotificationUseCaseProxy';
+    static CREATE_NOTIFICATION_USECASES_PROXY = 'CreateNotificationUseCaseProxy';
 
     static register(): DynamicModule {
         return {
@@ -84,6 +89,7 @@ export class UseCasesProxyModule {
                 // Vacations
                 getVacationsProvide(UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY),
                 createVacationProvide(UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY),
+                changeStatusProvide(UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY),
                 // News
                 getNewsProvide(UseCasesProxyModule.GET_NEWS_USECASES_PROXY),
                 createNewProvide(UseCasesProxyModule.CREATE_NEW_USECASES_PROXY),
@@ -93,6 +99,9 @@ export class UseCasesProxyModule {
                 createCandidateProvide(UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY),
                 getCandidateProvide(UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY),
                 getCandidatesProvide(UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY),
+                // Notification
+                createNotificationProvide(UseCasesProxyModule.CREATE_NOTIFICATION_USECASES_PROXY),
+                getNotificationsProvide(UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY),
             ],
             exports: [
                 // Auths
@@ -120,6 +129,7 @@ export class UseCasesProxyModule {
                 // Vacations
                 UseCasesProxyModule.GET_VACATIONS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_VACATIONS_USECASES_PROXY,
+                UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY,
                 // News
                 UseCasesProxyModule.GET_NEWS_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_NEW_USECASES_PROXY,
@@ -129,6 +139,9 @@ export class UseCasesProxyModule {
                 UseCasesProxyModule.GET_CANDIDATE_USECASES_PROXY,
                 UseCasesProxyModule.GET_CANDIDATES_USECASES_PROXY,
                 UseCasesProxyModule.CREATE_CANDIDATE_USECASES_PROXY,
+                // Notifications
+                UseCasesProxyModule.GET_NOTIFICATION_USECASES_PROXY,
+                UseCasesProxyModule.CREATE_NOTIFICATION_USECASES_PROXY,
             ],
         };
     }

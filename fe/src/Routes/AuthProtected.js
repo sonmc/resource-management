@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserAtom } from '../Recoil/states/users';
 const AuthProtected = (props) => {
     let currentUser = useRecoilValue(currentUserAtom);
-    if (!currentUser) {
+    if (!currentUser?.user_id) {
         return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
     }
 

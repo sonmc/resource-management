@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import MetaTags from 'react-meta-tags';
-import { Col, Row, Container, CardBody } from 'reactstrap';
+import { Row, Container, CardBody } from 'reactstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
 import homeSvg from 'src/assets/icons/home.svg';
 import profileSvg from 'src/assets/icons/profile.svg';
 import { DAY_OF_WEEK } from '../../Constant';
-import { GetVacations, Create, GetEvents } from 'src/Services/vacation';
+import { GetVacations, Create } from 'src/Services/vacation.service';
 import Tooltip from '../../Components/Common/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
-import { TOAST_CONFIG, VACATION_TYPE } from '../../Constant';
+import { TOAST_CONFIG, VACATION_TYPES } from '../../Constant';
 import TakeALeave from './TakeALeave';
-
 import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
 
@@ -45,7 +44,7 @@ const WorkSchedulePage = (props) => {
                     d = { start: day, end: day, events: [{}, {}], remotes: [], offs: [] };
                     data.push(d);
                 }
-                if (r.type === VACATION_TYPE.REMOTE) {
+                if (r.type === VACATION_TYPES[1].key) {
                     d.remotes.push(user);
                 } else {
                     d.offs.push(user);

@@ -2,10 +2,32 @@ export const GENDER_MALE = 1;
 export const GENDER_FEMALE = 2;
 export const STATUS_ACTIVE = 1;
 export const STATUS_INACTIVE = 2;
-export const VACATION_TYPE = {
-    OFF: 0,
-    REMOTE: 1,
-};
+
+export const VACATION_TYPES = [
+    {
+        key: 1,
+        value: 'off',
+    },
+    {
+        key: 2,
+        value: 'remote',
+    },
+];
+
+export const VACATION_STATUS = [
+    {
+        key: 1,
+        value: 'Rejected',
+    },
+    {
+        key: 2,
+        value: 'Pending',
+    },
+    {
+        key: 3,
+        value: 'Approved',
+    },
+];
 
 export const LEVEL_STATUS = [
     {

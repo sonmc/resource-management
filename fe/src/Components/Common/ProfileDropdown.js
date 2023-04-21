@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Logout } from 'src/Services/auth.service';
 import { currentUserAtom } from 'src/Recoil/states/users';
 const ProfileDropdown = () => {
     const history = useHistory();
-    const currentUser = useRecoilValue(currentUserAtom);
+    const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
     const [isProfileDropdown, setIsProfileDropdown] = useState(false);
     const toggleProfileDropdown = () => {
@@ -19,8 +19,8 @@ const ProfileDropdown = () => {
     }, [currentUser]);
     const logout = () => {
         Logout();
-        localStorage.removeItem('currentUser');
         history.push('/login');
+        setCurrentUser(null);
     };
 
     return (

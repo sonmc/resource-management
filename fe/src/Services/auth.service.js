@@ -9,7 +9,9 @@ export const Login = (data) =>
     });
 export const LogoutApi = () => api.get(baseUrl + '/logout');
 export const Register = (data) => api.create(baseUrl + '/register', data);
-export const GetCurrentUser = () => api.get(baseUrl + '/getCurrentUser');
+export const GetCurrentUser = () => {
+    return api.get(baseUrl + '/getCurrentUser');
+};
 export const Logout = () => {
     LogoutApi();
 };

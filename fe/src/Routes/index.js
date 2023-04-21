@@ -1,11 +1,11 @@
 import React from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from 'react-router-dom';
 
 //Layouts
-import NonAuthLayout from "../Layouts/NonAuthLayout";
-import VerticalLayout from "../Layouts/VerticalLayouts";
+import NonAuthLayout from '../Layouts/NonAuthLayout';
+import VerticalLayout from '../Layouts/VerticalLayouts';
 //routes
-import { authProtectedRoutes, publicRoutes } from "./allRoutes";
+import { authProtectedRoutes, publicRoutes } from './allRoutes';
 import { AuthProtected, AccessRoute } from './AuthProtected';
 
 const Index = () => {
@@ -18,33 +18,22 @@ const Index = () => {
                     <NonAuthLayout>
                         <Switch>
                             {publicRoutes.map((route, idx) => (
-                                <Route
-                                    path={route.path}
-                                    component={route.component}
-                                    key={idx}
-                                    exact={true}
-                                />
+                                <Route path={route.path} component={route.component} key={idx} exact={true} />
                             ))}
                         </Switch>
                     </NonAuthLayout>
                 </Route>
-
-                <Route path={availableAuthRoutesPath}>
-                    <AuthProtected>
-                        <VerticalLayout>
+                <VerticalLayout>
+                    <Route path={availableAuthRoutesPath}>
+                        <AuthProtected>
                             <Switch>
                                 {authProtectedRoutes.map((route, idx) => (
-                                    <AccessRoute
-                                        path={route.path}
-                                        component={route.component}
-                                        key={idx}
-                                        exact={true}
-                                    />
+                                    <AccessRoute path={route.path} component={route.component} key={idx} exact={true} />
                                 ))}
                             </Switch>
-                        </VerticalLayout>
-                    </AuthProtected>
-                </Route>
+                        </AuthProtected>
+                    </Route>
+                </VerticalLayout>
             </Switch>
         </React.Fragment>
     );

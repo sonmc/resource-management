@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
 import { Get as GetEmployee } from 'src/Services/user.service';
 import { LEVEL_STATUS } from '../../../Constant';
+import Education from './Education';
 
 const EMPLOYEE_DEFAULT = {
     role_id: 0,
@@ -29,7 +30,7 @@ const ModalUpdate = (props) => {
     const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
     const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
-    const [title, setTitle] = useState('Create employee');
+    const [title, setTitle] = useState('Create candidate');
     const [selectedRoles, setRoles] = useState(null);
     const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
@@ -70,7 +71,7 @@ const ModalUpdate = (props) => {
             Get(params).then((res) => {
                 setEmployee(res);
             });
-            setTitle('Update employee');
+            setTitle('Update candidate');
         } else {
             // setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
         }
@@ -98,81 +99,60 @@ const ModalUpdate = (props) => {
             <ModalHeader className="p-3 bg-soft-info">{title}</ModalHeader>
             <ModalBody>
                 <form action="#">
-                    <div className="row g-4">
-                        <Col xxl={6}>
+                    <div className="row">
+                        <h4 className="pb-2"> Personal information</h4>
+                    </div>
+                    <div className="row g-4 personal-information">
+                        <Col xxl={4}>
                             <div>
                                 <label htmlFor="name" className="form-label">
-                                    UserName
+                                    Full name <span className="text-danger">*</span>
                                 </label>
-                                <Input
-                                    value={employee.username}
-                                    type="text"
-                                    className="form-control"
-                                    name="username"
-                                    placeholder="Enter employee username"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input value={employee.username} type="text" className="form-control" name="username" placeholder="Enter employee username" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
-                        <Col xxl={3}>
+                        <Col xxl={4}>
                             <div>
                                 <label htmlFor="name" className="form-label">
-                                    FirstName
+                                    Position <span className="text-danger">*</span>
                                 </label>
-                                <Input
-                                    value={employee.first_name}
-                                    type="text"
-                                    className="form-control"
-                                    name="first_name"
-                                    placeholder="Enter employee first name"
-                                    onChange={(x) => changeField(x)}
-                                />
+                                <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
                             </div>
                         </Col>
-                        <Col xxl={3}>
-                            <div>
-                                <label htmlFor="name" className="form-label">
-                                    LastName
-                                </label>
-                                <Input
-                                    value={employee.last_name}
-                                    type="text"
-                                    className="form-control"
-                                    name="last_name"
-                                    placeholder="Enter employee last name"
-                                    onChange={(x) => changeField(x)}
-                                />
+                        <Col xxl={4}>
+                            <label className="form-label me-3">
+                                Gender <span className="text-danger">*</span>
+                            </label>
+                            <div className="mt-2">
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={GENDER_MALE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio1">
+                                        Male
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={GENDER_FEMALE} onChange={(x) => changeField(x)} />
+                                    <label className="form-check-label" htmlFor="inlineRadio2">
+                                        Female
+                                    </label>
+                                </div>
                             </div>
                         </Col>
-                        <Col xxl={6}>
+                        <Col xxl={4}>
                             <label htmlFor="email" className="form-label">
-                                Email
+                                Email <span className="text-danger">*</span>
                             </label>
-                            <Input
-                                value={employee.email}
-                                type="email"
-                                className="form-control"
-                                name="email"
-                                placeholder="Enter employee email"
-                                onChange={(x) => changeField(x)}
-                            />
+                            <Input value={employee.email} type="email" className="form-control" name="email" placeholder="Enter employee email" onChange={(x) => changeField(x)} />
                         </Col>
-                        <Col xxl={3}>
+                        <Col xxl={4}>
                             <label htmlFor="phoneNumber" className="form-label">
-                                Phone number
+                                Phone number <span className="text-danger">*</span>
                             </label>
-                            <Input
-                                value={employee.phone_number}
-                                type="number"
-                                className="form-control"
-                                name="phone_number"
-                                placeholder="Enter employee phone number"
-                                onChange={(x) => changeField(x)}
-                            />
+                            <Input value={employee.phone_number} type="number" className="form-control" name="phone_number" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
                         </Col>
-                        <Col xxl={3}>
+                        <Col xxl={4}>
                             <Label for="start-field" className="form-label">
-                                Date of birth
+                                Date of birth <span className="text-danger">*</span>
                             </Label>
                             <Flatpickr
                                 className="form-control"
@@ -186,112 +166,75 @@ const ModalUpdate = (props) => {
                                 placeholder="Select Date"
                             />
                         </Col>
-                        <Col xxl={6}>
+                        <Col xxl={12}>
                             <label htmlFor="dob" className="form-label">
-                                Role
+                                Address <span className="text-danger">*</span>
                             </label>
-                            <Select
-                                value={selectedRoles}
-                                getOptionLabel={(option) => {
-                                    return option.name;
-                                }}
-                                getOptionValue={(option) => {
-                                    return option.id;
-                                }}
-                                isMulti={true}
-                                onChange={(x) => {
-                                    handleMultiRole(x);
-                                }}
-                                options={roles}
-                            />
+                            <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
                         </Col>
-                        <Col xxl={6}>
+                        <Col xxl={12}>
                             <label htmlFor="dob" className="form-label">
-                                Chapter Head
+                                Introduce
                             </label>
-                            <Select
-                                value={selectedChapterHead}
-                                getOptionLabel={(option) => {
-                                    return option.username + ' ( ' + option.first_name + ' ' + option.last_name + ' )';
-                                }}
-                                getOptionValue={(option) => {
-                                    return option.id;
-                                }}
-                                isMulti={false}
-                                onChange={(x) => {
-                                    handleChapterHead(x);
-                                }}
-                                options={employees}
-                            />
+                            <textarea className="form-control"></textarea>
                         </Col>
-                        <Col xxl={6}>
-                            <Label for="start-field" className="form-label">
-                                Onboard day
-                            </Label>
-                            <Flatpickr
-                                className="form-control"
-                                options={{
-                                    dateFormat: 'Y-m-d',
-                                }}
-                                onChange={([value]) => {
-                                    changeField({ target: { name: 'dob', value } });
-                                }}
-                                value={employee.onboarding}
-                                placeholder="Select Date"
-                            />
+                    </div>
+                    <div className="row mt-3">
+                        <h4 className="pb-2"> Educations</h4>
+                    </div>
+                    <div className="row g-4">
+                        <Education />
+                        <Col xxl={12}>
+                            <button type="button" className="w-25 btn btn-outline-secondary waves-effect waves-light">
+                                Add
+                            </button>
                         </Col>
-                        <Col xxl={6}>
-                            <Label for="start-field" className="form-label">
-                                Status
-                            </Label>
-                            <Select
-                                value={selectedStatus}
-                                getOptionLabel={(option) => {
-                                    return option.title;
-                                }}
-                                getOptionValue={(option) => {
-                                    return option.id;
-                                }}
-                                isMulti={false}
-                                onChange={(x) => {
-                                    handleLevelStatus(x);
-                                }}
-                                options={levelStatus}
-                            />
-                        </Col>
+                    </div>
 
-                        <Col xxl={6} className="d-flex">
-                            <label className="form-label me-3">Gender</label>
-                            <div>
-                                <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        checked={employee.gender == GENDER_MALE}
-                                        value={GENDER_MALE}
-                                        onChange={(x) => changeField(x)}
-                                    />
-                                    <label className="form-check-label" htmlFor="inlineRadio1">
-                                        Male
-                                    </label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        checked={employee.gender == GENDER_FEMALE}
-                                        value={GENDER_FEMALE}
-                                        onChange={(x) => changeField(x)}
-                                    />
-                                    <label className="form-check-label" htmlFor="inlineRadio2">
-                                        Female
-                                    </label>
-                                </div>
-                            </div>
+                    <div className="row mt-3">
+                        <h4 className="pb-2">Work Experience</h4>
+                    </div>
+                    <div className="row g-4">
+                        <Col xxl={6}>
+                            <button type="button" className="w-50 btn btn-outline-secondary waves-effect waves-light">
+                                Add
+                            </button>
                         </Col>
-
+                    </div>
+                    <div className="row mt-3">
+                        <h4 className="pb-2"> Projects</h4>
+                    </div>
+                    <div className="row g-4">
+                        <Col xxl={6}>
+                            <button type="button" className="w-50 btn btn-outline-secondary waves-effect waves-light">
+                                Add
+                            </button>
+                        </Col>
+                    </div>
+                    <div className="row mt-3">
+                        <h4 className="pb-2"> Skills</h4>
+                    </div>
+                    <div className="row g-4">
+                        <Col xxl={12}>
+                            <label htmlFor="dob" className="form-label">
+                                Technical Abilities
+                            </label>
+                            <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
+                        </Col>
+                        <Col xxl={12}>
+                            <label htmlFor="dob" className="form-label">
+                                Languages
+                            </label>
+                            <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
+                        </Col>
+                        <Col xxl={12}>
+                            <label htmlFor="dob" className="form-label">
+                                Work Method
+                            </label>
+                            <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
+                        </Col>
+                    </div>
+                    <div className="row g-4 md-footer mt-3">
                         <Col xxl={12}>
                             <div className="hstack gap-2 justify-content-end">
                                 <Button color="light" onClick={() => closeFormUpdate(false)}>
