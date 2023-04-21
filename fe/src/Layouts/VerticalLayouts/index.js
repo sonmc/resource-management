@@ -17,7 +17,7 @@ import {
     changeLeftsidebarSizeType,
     changeLeftsidebarViewType,
 } from '../../store/actions';
-
+import { notificationAtom } from 'src/Recoil/states/notification';
 //redux
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
@@ -27,6 +27,7 @@ import { GetAll } from 'src/Services/notification.service';
 
 const Layout = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
+    const [notifications, setNotifications] = useRecoilValue(notificationAtom);
 
     const [headerClass, setHeaderClass] = useState('');
     const dispatch = useDispatch();
@@ -112,7 +113,11 @@ const Layout = (props) => {
             query: { user_id: currentUser.user_id },
         });
         socket.on('notification', (notification) => {
-            GetAll({ user_id: currentUser.user_id });
+            GetAll({ user_id: currentUser.user_id })
+                .then((res) => {
+                    setNotifications(res);
+                })
+                .catch(() => {});
             console.log(notification);
         });
         socket.on('connect', function () {

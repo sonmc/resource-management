@@ -150,7 +150,6 @@ const LunchPage = () => {
                                         <tbody>
                                             {emps.map((emp, i) => {
                                                 let employee = emp.user;
-                                                console.log(emp.lunch_calendars);
                                                 let fullname = employee.first_name + ' ' + employee.last_name;
                                                 return (
                                                     <tr key={employee.id}>

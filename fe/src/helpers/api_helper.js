@@ -13,9 +13,6 @@ let blackListUrl = ['auth/login', 'auth/refresh'];
 // intercepting to capture errors
 api.interceptors.request.use(function (req) {
     req.withCredentials = true;
-    console.log(req);
-    const cookieHeaders = req.headers['Cookie'];
-    console.log(cookieHeaders);
     return req;
 });
 const processQueue = (error, token = null) => {

@@ -58,15 +58,12 @@ const ModalUpdate = (props) => {
         setSelectedStatus(st);
     };
     useEffect(() => {
-        console.log(1);
         setEmployee((x) => {
             return { ...x, status_level: selectedStatus?.id, chapterHead: selectedChapterHead?.id };
         });
     }, [selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
-        console.log(2);
-
         if (employeeId) {
             const params = { id: employeeId };
             Get(params).then((res) => {
