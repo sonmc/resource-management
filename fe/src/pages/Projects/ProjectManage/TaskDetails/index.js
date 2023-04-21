@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Row, Button } from 'reactstrap';
 import Comments from './Comments';
 import Summary from './Summary';
-import TimeTracking from './TimeTracking';
+import TimeLine from './TimeLine';
 import MetaTags from 'react-meta-tags';
 import { useHistory } from 'react-router-dom';
 
@@ -23,13 +23,15 @@ const TaskDetails = () => {
                         Back
                     </Button>
                     <Row>
-                        <Col xxl={3}>
-                            <TimeTracking />
+                        <Col xxl={6}>
+                            <TimeLine />
                         </Col>
-                        <Col xxl={9}>
+                        <Col xxl={6}>
                             <Summary />
-                            <Comments />
                         </Col>
+                    </Row>
+                    <Row>
+                        <Comments />
                     </Row>
                 </Container>
             </div>

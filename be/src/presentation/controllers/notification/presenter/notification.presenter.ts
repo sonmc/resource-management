@@ -7,4 +7,5 @@ export class NotificationPresenter {
     from_user: UserEntity;
     date_time: string;
     type: number;
+    time_ago: string;
 }

@@ -24,7 +24,7 @@ import io from 'socket.io-client';
 import { useRecoilValue } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
 import { GetAll } from 'src/Services/notification.service';
-
+const baseUrl = process.env.REACT_APP_API_URL;
 const Layout = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
     const [notifications, setNotifications] = useRecoilValue(notificationAtom);
@@ -109,7 +109,7 @@ const Layout = (props) => {
     }
 
     useEffect(() => {
-        const socket = io('http://localhost:5000', {
+        const socket = io(baseUrl, {
             query: { user_id: currentUser.user_id },
         });
         socket.on('notification', (notification) => {

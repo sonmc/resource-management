@@ -48,10 +48,10 @@ const Navdata = () => {
             },
         },
         {
-            id: 'vacations',
+            id: 'works_chedules',
             label: 'Work schedule',
             icon: 'ri-honour-line',
-            link: '/vacations',
+            link: '/work-schedule',
             click: function (e) {
                 e.preventDefault();
             },
@@ -79,6 +79,24 @@ const Navdata = () => {
             label: 'News',
             icon: 'ri-honour-line',
             link: '/new-management',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
+            id: 'library-management',
+            label: 'Libraries',
+            icon: 'ri-honour-line',
+            link: '/libraries',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
+            id: 'vacation-management',
+            label: 'Vacations',
+            icon: 'ri-honour-line',
+            link: '/vacations',
             click: function (e) {
                 e.preventDefault();
             },

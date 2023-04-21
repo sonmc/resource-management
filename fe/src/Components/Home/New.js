@@ -63,7 +63,7 @@ const News = (props) => {
                             >
                                 <div className="mx-3 card">
                                     <div className="box-img thumbnail">
-                                        <div className="img">
+                                        <div className="img p-2">
                                             <img src={item.image} alt="" />
                                         </div>
                                         {/* <div className="gallery-overlay">

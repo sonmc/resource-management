@@ -15,21 +15,20 @@ import image5 from 'src/assets/images/small/img-5.jpg';
 
 //SimpleBar
 import SimpleBar from 'simplebar-react';
+import Stacked from './Stacked';
 
 const OverviewTab = () => {
     return (
         <React.Fragment>
             <Row>
-                <Col xl={9} lg={8}>
+                <Col xl={5} lg={4}>
                     <Card>
                         <CardBody>
                             <div className="text-muted">
                                 <h6 className="mb-3 fw-semibold text-uppercase">Summary</h6>
                                 <p>
-                                    It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like
-                                    simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are
-                                    members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the
-                                    same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.
+                                    It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are members of the same family. Their separate
+                                    existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.
                                 </p>
 
                                 <ul className="ps-4 vstack gap-2">
@@ -106,9 +105,7 @@ const OverviewTab = () => {
                                         <h5 className="fs-13">
                                             Joseph Parker <small className="text-muted ms-2">20 Dec 2021 - 05:47AM</small>
                                         </h5>
-                                        <p className="text-muted">
-                                            I am getting message from customers that when they place order always get error message .
-                                        </p>
+                                        <p className="text-muted">I am getting message from customers that when they place order always get error message .</p>
                                         <Link to="#" className="badge text-muted bg-light">
                                             <i className="mdi mdi-reply"></i> Reply
                                         </Link>
@@ -120,10 +117,7 @@ const OverviewTab = () => {
                                                 <h5 className="fs-13">
                                                     Alexis Clarke <small className="text-muted ms-2">22 Dec 2021 - 02:32PM</small>
                                                 </h5>
-                                                <p className="text-muted">
-                                                    Please be sure to check your Spam mailbox to see if your email filters have identified the email
-                                                    from Dell as spam.
-                                                </p>
+                                                <p className="text-muted">Please be sure to check your Spam mailbox to see if your email filters have identified the email from Dell as spam.</p>
                                                 <Link to="#" className="badge text-muted bg-light">
                                                     <i className="mdi mdi-reply"></i> Reply
                                                 </Link>
@@ -164,8 +158,7 @@ const OverviewTab = () => {
                                             <Link to="#" className="text-decoration-underline">
                                                 Online Order Support
                                             </Link>{' '}
-                                            provides you with the most current status of your order. To help manage your order refer to the “Action
-                                            Menu” to initiate return, contact Customer Support and more.
+                                            provides you with the most current status of your order. To help manage your order refer to the “Action Menu” to initiate return, contact Customer Support and more.
                                         </p>
                                         <Row className="g-2 mb-3">
                                             <div className="col-lg-1 col-sm-2 col-6">
@@ -186,9 +179,7 @@ const OverviewTab = () => {
                                                 <h5 className="fs-13">
                                                     Donald Palmer <small className="text-muted ms-2">8 sec ago</small>
                                                 </h5>
-                                                <p className="text-muted">
-                                                    Other shipping methods are available at checkout if you want your purchase delivered faster.
-                                                </p>
+                                                <p className="text-muted">Other shipping methods are available at checkout if you want your purchase delivered faster.</p>
                                                 <Link to="#" className="badge text-muted bg-light">
                                                     <i className="mdi mdi-reply"></i> Reply
                                                 </Link>
@@ -203,12 +194,7 @@ const OverviewTab = () => {
                                         <label htmlFor="exampleFormControlTextarea1" className="form-label text-body">
                                             Leave a Comments
                                         </label>
-                                        <textarea
-                                            className="form-control bg-light border-light"
-                                            id="exampleFormControlTextarea1"
-                                            rows="3"
-                                            placeholder="Enter your comment..."
-                                        ></textarea>
+                                        <textarea className="form-control bg-light border-light" id="exampleFormControlTextarea1" rows="3" placeholder="Enter your comment..."></textarea>
                                     </Col>
                                     <Col xs={12} className="text-end">
                                         <button type="button" className="btn btn-ghost-secondary btn-icon waves-effect me-1">
@@ -223,8 +209,17 @@ const OverviewTab = () => {
                         </CardBody>
                     </Card>
                 </Col>
-
-                <Col xl={3} lg={4}>
+                <Col xl={5} lg={4}>
+                    <Card>
+                        <CardHeader>
+                            <h4 className="card-title mb-0">Tasks</h4>
+                        </CardHeader>
+                        <CardBody>
+                            <Stacked />
+                        </CardBody>
+                    </Card>
+                </Col>
+                <Col xl={2} lg={3}>
                     <Card>
                         <CardBody>
                             <h5 className="card-title mb-4">Skills</h5>
@@ -244,12 +239,7 @@ const OverviewTab = () => {
                         <CardHeader className="align-items-center d-flex border-bottom-dashed">
                             <h4 className="card-title mb-0 flex-grow-1">Members</h4>
                             <div className="flex-shrink-0">
-                                <button
-                                    type="button"
-                                    className="btn btn-soft-danger btn-sm"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#inviteMembersModal"
-                                >
+                                <button type="button" className="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#inviteMembersModal">
                                     <i className="ri-share-line me-1 align-bottom"></i> Invite Member
                                 </button>
                             </div>
@@ -269,39 +259,6 @@ const OverviewTab = () => {
                                                 </Link>
                                             </h5>
                                         </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        type="button"
-                                                        className="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                                        tag="button"
-                                                    >
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div className="d-flex align-items-center">
@@ -314,39 +271,6 @@ const OverviewTab = () => {
                                                     Henry Baird
                                                 </Link>
                                             </h5>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        type="button"
-                                                        className="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                                        tag="button"
-                                                    >
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -361,39 +285,6 @@ const OverviewTab = () => {
                                                 </Link>
                                             </h5>
                                         </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        type="button"
-                                                        className="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                                        tag="button"
-                                                    >
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div className="d-flex align-items-center">
@@ -406,39 +297,6 @@ const OverviewTab = () => {
                                                     Jennifer Carter
                                                 </Link>
                                             </h5>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        type="button"
-                                                        className="btn btn-icon btn-sm fs-16 text-muted dropdown"
-                                                        tag="button"
-                                                    >
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -453,35 +311,6 @@ const OverviewTab = () => {
                                                 </Link>
                                             </h5>
                                         </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle tag="button" className="btn btn-icon btn-sm fs-16 text-muted dropdown">
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div className="d-flex align-items-center">
@@ -494,35 +323,6 @@ const OverviewTab = () => {
                                                     Joseph Parker
                                                 </Link>
                                             </h5>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <div className="d-flex align-items-center gap-1">
-                                                <button type="button" className="btn btn-light btn-sm">
-                                                    Message
-                                                </button>
-                                                <UncontrolledDropdown>
-                                                    <DropdownToggle tag="button" className="btn btn-icon btn-sm fs-16 text-muted dropdown">
-                                                        <i className="ri-more-fill"></i>
-                                                    </DropdownToggle>
-                                                    <DropdownMenu>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-eye-fill text-muted me-2 align-bottom"></i>View
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-star-fill text-muted me-2 align-bottom"></i>Favourite
-                                                            </DropdownItem>
-                                                        </li>
-                                                        <li>
-                                                            <DropdownItem>
-                                                                <i className="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete
-                                                            </DropdownItem>
-                                                        </li>
-                                                    </DropdownMenu>
-                                                </UncontrolledDropdown>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -564,11 +364,7 @@ const OverviewTab = () => {
                                                     <i className="ri-download-2-line"></i>
                                                 </button>
                                                 <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        tag="button"
-                                                        className="btn btn-icon text-muted btn-sm fs-18 dropdown"
-                                                        type="button"
-                                                    >
+                                                    <DropdownToggle tag="button" className="btn btn-icon text-muted btn-sm fs-18 dropdown" type="button">
                                                         <i className="ri-more-fill"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu>
@@ -612,11 +408,7 @@ const OverviewTab = () => {
                                                     <i className="ri-download-2-line"></i>
                                                 </button>
                                                 <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        tag="button"
-                                                        className="btn btn-icon text-muted btn-sm fs-18 dropdown"
-                                                        type="button"
-                                                    >
+                                                    <DropdownToggle tag="button" className="btn btn-icon text-muted btn-sm fs-18 dropdown" type="button">
                                                         <i className="ri-more-fill"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu>
@@ -660,11 +452,7 @@ const OverviewTab = () => {
                                                     <i className="ri-download-2-line"></i>
                                                 </button>
                                                 <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        tag="button"
-                                                        className="btn btn-icon text-muted btn-sm fs-18 dropdown"
-                                                        type="button"
-                                                    >
+                                                    <DropdownToggle tag="button" className="btn btn-icon text-muted btn-sm fs-18 dropdown" type="button">
                                                         <i className="ri-more-fill"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu>
@@ -708,11 +496,7 @@ const OverviewTab = () => {
                                                     <i className="ri-download-2-line"></i>
                                                 </button>
                                                 <UncontrolledDropdown>
-                                                    <DropdownToggle
-                                                        tag="button"
-                                                        className="btn btn-icon text-muted btn-sm fs-18 dropdown"
-                                                        type="button"
-                                                    >
+                                                    <DropdownToggle tag="button" className="btn btn-icon text-muted btn-sm fs-18 dropdown" type="button">
                                                         <i className="ri-more-fill"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu>

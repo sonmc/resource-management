@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 
-import OverviewTab from './OverviewTab';
+import OverviewTab from './Overview';
 import TaskList from './TaskList';
 import MeetingNote from './MeetingNote';
 import ProjectIssues from './ProjectIssues';
