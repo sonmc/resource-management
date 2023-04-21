@@ -17,12 +17,13 @@ const Handbook = () => {
             <Col xl={12} md={12}>
                 <Card className="card-animate">
                     <CardBody>
-                        <div className="d-flex align-middle">
-                            <div onClick={() => showHandbookDetail()}>
-                                <img className="w-75 h-100" style={{ cursor: 'pointer' }} src={handbookImg} alt="" />
+                        <div className="d-flex">
+                            <div className="w-75" onClick={() => showHandbookDetail()}>
+                                <img className="w-100 h-100" style={{ cursor: 'pointer' }} src={handbookImg} alt="" />
                             </div>
-                            <div className="flex-grow-1">
-                                <h5 className="mb-1 lh-base">Welcome to be a member of Zen8Labs! The first version of the handbook was written in 2022 when Zen8Labs was 3 years old to summarize the core values of Zen8Labs which helps members:</h5>
+                            <div className="ms-3">
+                                <h5 className="mb-1 lh-base">Welcome to be a member of Zen8Labs! </h5>
+                                <h5 className="mb-1 lh-base">The first version of the handbook was written in 2022 when Zen8Labs was 3 years old to summarize the core values of Zen8Labs which helps members:</h5>
                                 <ul>
                                     <li>Understand fully & clearly about the core values of our company, navigate behaviors & working style to form the unique culture</li>
                                     <li>Have a common view of our company development strategy</li>
