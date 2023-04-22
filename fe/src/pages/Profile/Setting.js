@@ -9,10 +9,11 @@ import { currentUserAtom } from '../../Recoil/states/users';
 import progileBg from 'src/assets/images/profile-bg.jpg';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 import { Upload } from 'src/Services/share.service';
-import { UpdateInfo, UpdatePassword } from 'src/Services/user.service';
+import { UpdateInfo, UpdatePassword, UpdateAvatar } from 'src/Services/user.service';
 import { MyUploadAdapter } from 'src/helpers';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
+const base_url = process.env.REACT_APP_API_URL;
 const Settings = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
 
@@ -48,16 +49,35 @@ const Settings = () => {
     };
 
     const updatePassword = () => {
-        UpdatePassword(formPassword)
+        const param = {
+            ...formPassword,
+            id: currentUser.id,
+        };
+        UpdatePassword(param)
+            .then((res) => {
+                if (res) {
+                    // window.location.reload();
+                }
+            })
+            .catch();
+    };
+    const updateUserAvatar = (avatar) => {
+        const param = {
+            avatar: avatar,
+            id: currentUser.id,
+        };
+        UpdateAvatar(param)
             .then((res) => {})
             .catch();
     };
+
     const UploadImage = (e) => {
         let files = e.target.files;
         Upload(files)
             .then((res) => {
                 let url = process.env.REACT_APP_API_URL + '/' + res.imagePath;
                 setAvatar(url);
+                updateUserAvatar(res.imagePath);
                 setForm((x) => {
                     return { ...x, avatar: url };
                 });
@@ -86,7 +106,7 @@ const Settings = () => {
                                             <img
                                                 className="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                                 alt="user-profile"
-                                                src={avatar}
+                                                src={base_url + '/' + currentUser.avatar}
                                                 onError={() => {
                                                     setAvatar(avatar1);
                                                 }}
@@ -252,7 +272,7 @@ const Settings = () => {
                                                             <Label htmlFor="confirmpasswordInput" className="form-label">
                                                                 Confirm Password <span className="text-danger">*</span>
                                                             </Label>
-                                                            <Input type="password" className="form-control" id="confirmpasswordInput" placeholder="Confirm password" value={formPassword.confirm_password} name="confirm_password" onChange={changePassword} />
+                                                            <Input type="password" className="form-control" id="confirmpasswordInput" placeholder="Confirm password" value={formPassword.confirm_password} name="confirm_password" />
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
