@@ -84,7 +84,7 @@ const Navdata = () => {
         },
         {
             public: false,
-            id: 'new_get',
+            id: 'news',
             label: 'News Management',
             icon: 'ri-newspaper-line',
             link: '/new-management',

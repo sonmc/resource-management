@@ -212,15 +212,13 @@ const LunchPage = () => {
                                                                     value={d.value}
                                                                     style={{ width: 130, border: 0 }}
                                                                 >
-                                                                    <option value={0} disabled={isPi}>
-                                                                        No
-                                                                    </option>
+                                                                    <option value={0}>No</option>
                                                                     <option value={-1} disabled={!isPi}>
                                                                         Pi
                                                                     </option>
                                                                     {LUNCH_TYPES.map((x) => {
                                                                         return (
-                                                                            <option key={x.value} value={x.value} disabled={isPi}>
+                                                                            <option key={x.value} value={x.value}>
                                                                                 {x.name}
                                                                             </option>
                                                                         );
