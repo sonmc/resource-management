@@ -1,5 +1,4 @@
 import { Candidate } from 'src/infrastructure/schemas/candidate.schema';
-
 const fs = require('fs');
 const pdf = require('pdf-parse');
 var mammoth = require('mammoth');
@@ -28,8 +27,8 @@ function readFullname(text) {
 }
 
 function readPhone(text) {
-    const phoneRegex = /\(\+84\)\s*\d{9}/;
-    const phoneMatches = text.match(phoneRegex);
+    const phoneNumberRegex = /((\+|00)84|0)[1-9]\d{7,9}/g;
+    const phoneMatches = text.match(phoneNumberRegex);
     const phone = phoneMatches ? phoneMatches[0] : '';
     return phone;
 }
@@ -65,23 +64,27 @@ function readDob(text) {
     const dob = dobMatch ? dobMatch[0] : '';
     return dob.replace('Date of birth', '').trim();
 }
-
+function readSkill(text) {
+    const programmingLanguagesRegex = /\.Net|NodeJs|Javascript|JavaScript|Java|Python|C#|PHP|C\+\+|Ruby|Swift|Objective-C|TypeScript|Go|Angular|SQL|Sql/gi;
+    const dobMatch = text.match(programmingLanguagesRegex);
+    const skill = dobMatch ? dobMatch[0] : '';
+    return skill;
+}
 export function convertData(text): Candidate {
-    const fullName = readFullname(text);
-    const phone = readPhone(text);
-    const email = readEmail(text);
-    const address = readAddress(text);
-    const gender = readGender(text);
-    const dob = readDob(text);
-    const introduce = readIntroduce(text);
     const candidate = new Candidate();
-    candidate.name = fullName;
-    candidate.phone_number = phone;
-    candidate.email = email;
-    candidate.address = address;
-    candidate.introduce = introduce;
-    candidate.dob = dob;
-    candidate.gender = gender;
+
+    candidate.name = readFullname(text);
+    candidate.phone_number = readPhone(text);
+    candidate.email = readEmail(text);
+    candidate.address = readAddress(text);
+    candidate.introduce = readIntroduce(text);
+    candidate.dob = readDob(text);
+    candidate.gender = readGender(text);
+
+    candidate.educations = '';
+    candidate.work_experiences = '';
+    candidate.projects = '';
+    candidate.cv_skill = readSkill(text);
 
     candidate.avatar = '';
     candidate.isInterview = false;
@@ -90,9 +93,5 @@ export function convertData(text): Candidate {
     candidate.cv_file_path = '';
     candidate.cv_file_name = '';
     candidate.notes = '';
-    candidate.educations = '';
-    candidate.work_experiences = '';
-    candidate.projects = '';
-    candidate.cv_skill = '';
     return candidate;
 }

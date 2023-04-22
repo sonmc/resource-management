@@ -150,11 +150,11 @@ const CandidatePage = () => {
                                                     <tr>
                                                         <th style={{ width: 5 }}>
                                                             <div className="form-check form-check-success">
-                                                                <input onChange={() => selectedAll()} checked={idsSelected.length == candidates.length} type="checkbox" className="form-check-input" id="formCheck8" />
+                                                                <input onChange={() => selectedAll()} checked={candidates.length > 0 && idsSelected.length == candidates.length} type="checkbox" className="form-check-input" id="formCheck8" />
                                                             </div>
                                                         </th>
                                                         <th style={{ width: 5 }}>No.</th>
-                                                        <th>UserName</th>
+                                                        <th>Full name</th>
                                                         <th>Email</th>
                                                         <th>Phone number</th>
                                                         <th>Skill</th>
@@ -169,16 +169,16 @@ const CandidatePage = () => {
                                                             <tr key={key}>
                                                                 <th>
                                                                     <div className="form-check form-check-success">
-                                                                        <input onChange={() => selectedItem(can.id)} checked={idsSelected.includes(can.id) || idsSelected.length == candidates.length} className="form-check-input" type="checkbox" id="check-all" />
+                                                                        <input checked={idsSelected.includes(can.id) || idsSelected.length == candidates.length} className="form-check-input" type="checkbox" id="check-all" />
                                                                     </div>
                                                                 </th>
                                                                 <th>{key + 1}</th>
                                                                 <td>{can.name}</td>
                                                                 <td>{can.email}</td>
                                                                 <td>{can.phone_number}</td>
-                                                                <td>{can.skill}</td>
+                                                                <td>{can.cv_skill}</td>
                                                                 <td onClick={() => openFile(can.cv_file_path)}>
-                                                                    <a href="#">{can.cv_file_name}</a>
+                                                                    <a href="javascript:;">{can.cv_file_name}</a>
                                                                 </td>
                                                                 <td>
                                                                     <div style={{ textAlign: 'center' }} className="form-check form-switch form-switch-success form-switch-md">
