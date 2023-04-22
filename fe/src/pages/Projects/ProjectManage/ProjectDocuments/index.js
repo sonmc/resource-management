@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Table, Button } from 'reactstrap';
 
-const Documents = (props) => {
+const ProjectDocuments = (props) => {
     const { documents } = props;
     return (
         <div className="row">
@@ -51,4 +51,4 @@ const Documents = (props) => {
     );
 };
 
-export default Documents;
+export default ProjectDocuments;

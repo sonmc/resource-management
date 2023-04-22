@@ -7,7 +7,7 @@ import TaskList from './TaskList';
 import MeetingNote from './MeetingNote';
 import ProjectIssues from './ProjectIssues';
 import ProjectReport from './ProjectReport';
-import Documents from './ProjectDocuments';
+import ProjectDocuments from './ProjectDocuments';
 
 const Section = () => {
     //Tab
@@ -124,7 +124,7 @@ const Section = () => {
                             <ProjectIssues />
                         </TabPane>
                         <TabPane tabId="5">
-                            <Documents documents={documents} />
+                            <ProjectDocuments documents={documents} />
                         </TabPane>
                         <TabPane tabId="6">
                             <ProjectReport />
