@@ -7,6 +7,9 @@ import { Get as GetRole, Create, Update, Delete } from 'src/Services/role.servic
 import RolePems from './RolePems';
 import { useSetRecoilState } from 'recoil';
 import { rolesState } from 'src/Recoil/states/roles';
+import { ToastContainer, toast } from 'react-toastify';
+import { TOAST_CONFIG, VACATION_TYPES } from '../../Constant';
+
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 const RolePage = () => {
@@ -67,6 +70,7 @@ const RolePage = () => {
                 })
                 .catch((error) => {});
         }
+        toast.success('successfully !', TOAST_CONFIG);
     };
 
     const deleteRole = (roleId) => {
@@ -144,14 +148,10 @@ const RolePage = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete
-                        deleteRole={deleteRole}
-                        isShowConfirmDelete={isShowConfirmDelete}
-                        closeConfirmDelete={closeConfirmDelete}
-                        roleId={roleId}
-                    />
+                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
                 </Container>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };

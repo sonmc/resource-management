@@ -6,6 +6,7 @@ import { Get as GetEmployee } from '../../Services/user.service';
 import company_structure_img from '../../assets/images/company-structure.png';
 import { formatTime } from 'src/helpers/common';
 
+const base_url = process.env.REACT_APP_API_URL;
 const Introduction = () => {
     const [employees, setEmployees] = useState([]);
 
@@ -91,7 +92,7 @@ const Introduction = () => {
                                                                 <div style={{ width: '200px' }}>
                                                                     <div className="box-img thumbnail h-100">
                                                                         <div className="img">
-                                                                            <img src={x.avatar} className="rounded img-fluid" alt=""></img>
+                                                                            <img src={base_url + '/' + x.avatar} className="rounded img-fluid" alt=""></img>
                                                                         </div>
                                                                     </div>
                                                                 </div>

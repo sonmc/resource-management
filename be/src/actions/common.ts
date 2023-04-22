@@ -120,3 +120,9 @@ export function timeAgo(dateParam) {
 
     return getFormattedDate(date); // 10. January 2017. at 10:20
 }
+
+export function convertToShortText(content) {
+    const htmlTagsRegex = /(<([^>]+)>)/gi;
+    const cleanText = content.replace(htmlTagsRegex, '');
+    return cleanText;
+}

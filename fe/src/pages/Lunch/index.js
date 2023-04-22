@@ -210,7 +210,7 @@ const LunchPage = () => {
                                                                         });
                                                                     }}
                                                                     value={d.value}
-                                                                    style={{ width: 130, border: 0 }}
+                                                                    style={{ width: 130, border: 0, textAlign: 'center' }}
                                                                 >
                                                                     <option value={0}>No</option>
                                                                     <option value={-1} disabled={!isPi}>
