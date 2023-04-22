@@ -4,7 +4,12 @@ import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { useState } from 'react';
 
 const MeetingNote = () => {
-    const [meetingNotes, setMeetingNotes] = useState([]);
+    const [meetingNotes, setMeetingNotes] = useState([
+        {
+            email: 'some note',
+            dateTime: new Date().toString(),
+        },
+    ]);
     return (
         <React.Fragment>
             <Row>
@@ -20,7 +25,6 @@ const MeetingNote = () => {
                                     <thead>
                                         <tr>
                                             <th style={{ width: 5 }}>No.</th>
-                                            <th>Title</th>
                                             <th>Content</th>
                                             <th>Date Time</th>
                                         </tr>
@@ -30,8 +34,8 @@ const MeetingNote = () => {
                                             return (
                                                 <tr key={key}>
                                                     <th>{key + 1}</th>
-
                                                     <td>{emp.email}</td>
+                                                    <td>{emp.dateTime}</td>
                                                 </tr>
                                             );
                                         })}
@@ -44,9 +48,6 @@ const MeetingNote = () => {
                                         <textarea className="form-control bg-light border-light" id="exampleFormControlTextarea1" rows="3" placeholder="Enter your notes..."></textarea>
                                     </Col>
                                     <Col xs={12} className="text-end">
-                                        <button type="button" className="btn btn-ghost-secondary btn-icon waves-effect me-1">
-                                            <i className="ri-attachment-line fs-16"></i>
-                                        </button>
                                         <Link to="#" className="btn btn-success">
                                             Post Comments
                                         </Link>
