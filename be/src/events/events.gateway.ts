@@ -14,7 +14,7 @@ export class EventsGateway {
     handleConnection(client: Socket, ...args: any[]) {
         let user_id = client.handshake.query.user_id;
         console.log('Client connected:', client.id);
-        this.clients.push({ client_id: client.id, user_id });
+        this.clients.push({ client_id: client.id, user_id: +user_id });
     }
 
     handleDisconnect(client: Socket) {

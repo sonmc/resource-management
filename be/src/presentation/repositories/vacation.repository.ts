@@ -43,9 +43,6 @@ export class VacationRepository implements IVacationRepository {
             query.andWhere('user.first_name like :name', { name: `%${filter.searchTerm}%` });
             query.andWhere('user.last_name like :name', { name: `%${filter.searchTerm}%` });
         }
-        if (!filter.role_ids.includes(1)) {
-            query.andWhere('user.chapterHead = :chapterHead', { chapterHead: `%${filter.user_id}%` });
-        }
 
         const vacations = await query.getMany().then((u) =>
             u.map((x) => {
