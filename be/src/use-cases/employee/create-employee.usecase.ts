@@ -8,8 +8,27 @@ import { GenerateLunchCalendars } from 'src/business-rules/lunch-order.rule';
 export class CreateEmployeeUseCases {
     constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly lunchOrderRepository: ILunchOrderRepository) {}
 
+    update(user) {
+        let userSchema = new UserEntity();
+        userSchema.first_name = user.first_name;
+        userSchema.last_name = user.last_name;
+        userSchema.email = user.email;
+        userSchema.phone_number = user.phone_number;
+        userSchema.nick_name = user.nick_name;
+        userSchema.introduce = user.introduce;
+        userSchema.address = user.address;
+        userSchema.password = user.password;
+        userSchema.avatar = user.avatar;
+        return userSchema;
+    }
+
     async execute(userE: UserEntity): Promise<UserEntity> {
-        const user = await this.userRepository.createOrUpdate(userE);
+        let newUserEntity = userE;
+        if (userE.id) {
+            const currentUser = await this.userRepository.findOne(userE.id);
+            newUserEntity = this.update(currentUser);
+        }
+        const user = await this.userRepository.createOrUpdate(newUserEntity);
 
         const lunchOrder = new LunchOrderEntity();
         lunchOrder.user = user;
