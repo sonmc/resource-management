@@ -64,7 +64,8 @@ export class AuthController {
         currentUser.permissions = [...new Set(permissions)];
         currentUser.role_ids = user.roles.map((x) => x.id);
         currentUser.roles = convertRoles(user.roles);
-        currentUser.projects = await this.userRepository.getProjects(user.id);
+        let projects = await this.userRepository.getProjects(user.id);
+        currentUser.projects = projects.map((p) => p.name);
         return currentUser;
     }
 

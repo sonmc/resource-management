@@ -130,12 +130,17 @@ export class UserRepository implements IUserRepository {
         );
     }
 
-    async getProjects(user_id: number): Promise<string[]> {
+    async getProjects(user_id: number): Promise<any[]> {
         let projects = [];
-        if (user_id !== ADMIN_ID) {
-            projects = await this.projectRepository.createQueryBuilder('projects').select('projects.name', 'name').innerJoin('users_projects', 'up', 'up.project_id=projects.id').innerJoin('users', 'u', 'u.id=up.user_id').where('u.id= :user_id', { user_id: user_id }).printSql().getRawMany();
-        }
-        const projectNameList = projects.map((p) => p.name);
-        return projectNameList;
+        projects = await this.projectRepository
+            .createQueryBuilder('projects')
+            .select('projects.name', 'name')
+            .addSelect('projects.project_leader', 'project_leader')
+            .innerJoin('users_projects', 'up', 'up.project_id=projects.id')
+            .innerJoin('users', 'u', 'u.id=up.user_id')
+            .where('u.id= :user_id', { user_id: user_id })
+            .printSql()
+            .getRawMany();
+        return projects;
     }
 }
