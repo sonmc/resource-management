@@ -44,7 +44,7 @@ const Settings = () => {
     const updateInfo = () => {
         UpdateInfo(form)
             .then((res) => {
-                setCurrentUser(res);
+                // window.location.reload();
             })
             .catch();
     };
@@ -86,6 +86,7 @@ const Settings = () => {
             .catch((err) => {});
     };
     const back = () => {};
+    console.log(form);
     return (
         <React.Fragment>
             <div className="page-content">
@@ -113,12 +114,7 @@ const Settings = () => {
                                                 }}
                                             />
                                             <div className="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                <Input
-                                                    id="profile-img-file-input"
-                                                    type="file"
-                                                    className="profile-img-file-input"
-                                                    onChange={UploadImage}
-                                                />
+                                                <Input id="profile-img-file-input" type="file" className="profile-img-file-input" onChange={UploadImage} />
                                                 <Label htmlFor="profile-img-file-input" className="profile-photo-edit avatar-xs">
                                                     <span className="avatar-title rounded-circle bg-light text-body">
                                                         <i className="ri-camera-fill"></i>
@@ -172,15 +168,7 @@ const Settings = () => {
                                                             <Label htmlFor="firstnameInput" className="form-label">
                                                                 First Name
                                                             </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="firstnameInput"
-                                                                placeholder="Enter your firstname"
-                                                                value={form.first_name}
-                                                                name="first_name"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="text" className="form-control" id="firstnameInput" placeholder="Enter your firstname" value={form.first_name} name="first_name" onChange={changeInput} />
                                                         </div>
                                                     </Col>
                                                     <Col lg={3}>
@@ -188,15 +176,7 @@ const Settings = () => {
                                                             <Label htmlFor="lastnameInput" className="form-label">
                                                                 Last Name
                                                             </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="lastnameInput"
-                                                                placeholder="Enter your lastname"
-                                                                value={form.last_name}
-                                                                name="last_name"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="text" className="form-control" id="lastnameInput" placeholder="Enter your lastname" value={form.last_name} name="last_name" onChange={changeInput} />
                                                         </div>
                                                     </Col>
                                                     <Col lg={6}>
@@ -204,15 +184,7 @@ const Settings = () => {
                                                             <Label htmlFor="firstnameInput" className="form-label">
                                                                 Nick Name
                                                             </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="firstnameInput"
-                                                                placeholder="Enter your firstname"
-                                                                value={form.first_name}
-                                                                name="first_name"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="text" className="form-control" id="nickNameInput" placeholder="Enter your nick name" value={form.nick_name} name="nick_name" onChange={changeInput} />
                                                         </div>
                                                     </Col>
                                                     <Col lg={6}>
@@ -220,15 +192,7 @@ const Settings = () => {
                                                             <Label htmlFor="phonenumberInput" className="form-label">
                                                                 Phone Number
                                                             </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="phonenumberInput"
-                                                                placeholder="Enter your phone number"
-                                                                value={form.phone_number}
-                                                                name="phone_number"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="text" className="form-control" id="phonenumberInput" placeholder="Enter your phone number" value={form.phone_number} name="phone_number" onChange={changeInput} />
                                                         </div>
                                                     </Col>
                                                     <Col lg={3}>
@@ -236,15 +200,7 @@ const Settings = () => {
                                                             <Label htmlFor="emailInput" className="form-label">
                                                                 Email
                                                             </Label>
-                                                            <Input
-                                                                type="email"
-                                                                className="form-control"
-                                                                id="emailInput"
-                                                                placeholder="Enter your email"
-                                                                value={form.email}
-                                                                name="email"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="email" className="form-control" id="emailInput" placeholder="Enter your email" value={form.email} name="email" onChange={changeInput} />
                                                         </div>
                                                     </Col>
 
@@ -253,15 +209,7 @@ const Settings = () => {
                                                             <Label htmlFor="JoiningdatInput" className="form-label">
                                                                 Address
                                                             </Label>
-                                                            <Input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="addressInput"
-                                                                placeholder="Enter your address"
-                                                                value={form.address}
-                                                                name="address"
-                                                                onChange={changeInput}
-                                                            />
+                                                            <Input type="text" className="form-control" id="addressInput" placeholder="Enter your address" value={form.address} name="address" onChange={changeInput} />
                                                         </div>
                                                     </Col>
                                                     <Col lg={12}>
@@ -308,14 +256,7 @@ const Settings = () => {
                                                             Old Password <span className="text-danger">*</span>
                                                         </Label>
                                                         <div className="position-relative auth-pass-inputgroup mb-3">
-                                                            <Input
-                                                                type={isShow.old_password ? 'text' : 'password'}
-                                                                className="form-control pe-5"
-                                                                placeholder="Enter current password"
-                                                                value={formPassword.old_password}
-                                                                onChange={changePassword}
-                                                                name="old_password"
-                                                            />
+                                                            <Input type={isShow.old_password ? 'text' : 'password'} className="form-control pe-5" placeholder="Enter current password" value={formPassword.old_password} onChange={changePassword} name="old_password" />
                                                             <button
                                                                 className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                                 type="button"
@@ -326,11 +267,7 @@ const Settings = () => {
                                                                     });
                                                                 }}
                                                             >
-                                                                {isShow.old_password ? (
-                                                                    <i className="ri-eye-off-fill align-middle"></i>
-                                                                ) : (
-                                                                    <i className="ri-eye-fill align-middle"></i>
-                                                                )}
+                                                                {isShow.old_password ? <i className="ri-eye-off-fill align-middle"></i> : <i className="ri-eye-fill align-middle"></i>}
                                                             </button>
                                                         </div>
                                                     </Col>
@@ -340,15 +277,7 @@ const Settings = () => {
                                                             New Password <span className="text-danger">*</span>
                                                         </Label>
                                                         <div className="position-relative auth-pass-inputgroup mb-3">
-                                                            <Input
-                                                                type={isShow.new_password ? 'text' : 'password'}
-                                                                className="form-control pe-5"
-                                                                id="newpasswordInput"
-                                                                placeholder="Enter new password"
-                                                                value={formPassword.new_password}
-                                                                name="new_password"
-                                                                onChange={changePassword}
-                                                            />
+                                                            <Input type={isShow.new_password ? 'text' : 'password'} className="form-control pe-5" id="newpasswordInput" placeholder="Enter new password" value={formPassword.new_password} name="new_password" onChange={changePassword} />
                                                             <button
                                                                 className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                                 type="button"
@@ -359,11 +288,7 @@ const Settings = () => {
                                                                     });
                                                                 }}
                                                             >
-                                                                {isShow.new_password ? (
-                                                                    <i className="ri-eye-off-fill align-middle"></i>
-                                                                ) : (
-                                                                    <i className="ri-eye-fill align-middle"></i>
-                                                                )}
+                                                                {isShow.new_password ? <i className="ri-eye-off-fill align-middle"></i> : <i className="ri-eye-fill align-middle"></i>}
                                                             </button>
                                                         </div>
                                                     </Col>
@@ -372,15 +297,7 @@ const Settings = () => {
                                                             Confirm Password <span className="text-danger">*</span>
                                                         </Label>
                                                         <div className="position-relative auth-pass-inputgroup mb-3">
-                                                            <Input
-                                                                type={isShow.confirm_password ? 'text' : 'password'}
-                                                                className="form-control pe-5"
-                                                                id="confirmpasswordInput"
-                                                                placeholder="Confirm password"
-                                                                value={formPassword.confirm_password}
-                                                                name="confirm_password"
-                                                                onChange={changePassword}
-                                                            />
+                                                            <Input type={isShow.confirm_password ? 'text' : 'password'} className="form-control pe-5" id="confirmpasswordInput" placeholder="Confirm password" value={formPassword.confirm_password} name="confirm_password" onChange={changePassword} />
                                                             <button
                                                                 className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                                 type="button"
@@ -391,11 +308,7 @@ const Settings = () => {
                                                                     });
                                                                 }}
                                                             >
-                                                                {isShow.confirm_password ? (
-                                                                    <i className="ri-eye-off-fill align-middle"></i>
-                                                                ) : (
-                                                                    <i className="ri-eye-fill align-middle"></i>
-                                                                )}
+                                                                {isShow.confirm_password ? <i className="ri-eye-off-fill align-middle"></i> : <i className="ri-eye-fill align-middle"></i>}
                                                             </button>
                                                         </div>
                                                     </Col>

@@ -8,6 +8,7 @@ export class AuthPresenter {
     full_name: string;
     last_name: string;
     first_name: string;
+    nick_name: string;
     phone_number: string;
     email: string;
     address: string;

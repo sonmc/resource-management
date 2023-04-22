@@ -59,6 +59,7 @@ export class AuthController {
         currentUser.last_name = user.last_name;
         currentUser.address = user.address;
         currentUser.introduce = user.introduce;
+        currentUser.nick_name = user.nick_name;
         currentUser.full_name = `${user.first_name || ''} ${user.last_name || ''}`;
         let permissions = convertPermissions(user.roles);
         currentUser.permissions = [...new Set(permissions)];
