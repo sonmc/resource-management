@@ -71,7 +71,7 @@ export class UserRepository implements IUserRepository {
 
     async createOrUpdate(user: UserEntity): Promise<UserEntity> {
         let userUpdated = null;
-        if (user.id != 0) {
+        if (user.id) {
             const userSchema = plainToClass(User, user);
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
@@ -83,6 +83,7 @@ export class UserRepository implements IUserRepository {
                 });
             }
         } else {
+            user.password = PASSWORD_DEFAULT;
             const userSchema = plainToClass(User, user);
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);

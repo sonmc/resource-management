@@ -62,7 +62,7 @@ const News = (props) => {
                                 }}
                             >
                                 <div className="mx-3 card">
-                                    <div className="box-img thumbnail">
+                                    <div className="box-img border thumbnail">
                                         <div className="img p-2">
                                             <img src={item.image} alt="" />
                                         </div>
@@ -70,12 +70,13 @@ const News = (props) => {
                                         <h5 className="overlay-caption">Project discussion with team</h5>
                                     </div> */}
                                     </div>
-                                    <div className="box-content p-4">
+                                    <div className="box-content p-1">
                                         <div className="d-flex mt-1">
-                                            <h6 className="text-line-3">
+                                            <h6 className="text-line-3 mb-0">
                                                 <b>{item.title}</b>
                                             </h6>
                                         </div>
+                                        <p className="text-line-6">{item.short_des}</p>
                                     </div>
                                 </div>
                             </SwiperSlide>
