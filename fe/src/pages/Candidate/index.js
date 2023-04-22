@@ -2,19 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, Table, Button } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Get, Upload } from 'src/Services/candidate.service';
-import ModalUpdate from './FormUpdate';
+import { useHistory } from 'react-router-dom';
 
 const CandidatePage = () => {
     const domain = process.env.REACT_APP_API_URL;
     const [candidates, setCandidates] = useState([]);
-    const [candidateId, setCandidateId] = useState(0);
     const [idsSelected, setIdsSelected] = useState([]);
-
+    const history = useHistory();
+    const redirect = (can) => {
+        let url = '';
+        if (can?.id) {
+            url = '/candidates/edit/' + can.id;
+            history.push({
+                pathname: url,
+                state: { candidate: can },
+            });
+        } else {
+            url = '/candidates/add';
+            history.push(url);
+        }
+    };
     const [filter, setFilter] = useState({
         searchTerm: '',
         status: -1,
     });
-    const [isShowFormUpdate, setShowFormUpdate] = useState(false);
 
     const fetchCandidate = (filter) => {
         Get(filter).then((res) => {
@@ -34,7 +45,7 @@ const CandidatePage = () => {
             let files = _this.target.files;
             Upload(files)
                 .then((res) => {
-                    setCandidates([...candidates, res]);
+                    setFilter((x) => ({ ...x }));
                 })
                 .catch((err) => {});
         };
@@ -44,8 +55,6 @@ const CandidatePage = () => {
     const openFile = (path) => {
         window.open(domain + '/' + path, 'blank');
     };
-
-    const save = () => {};
 
     const selectedAll = () => {
         if (idsSelected.length > 0 && idsSelected.length == candidates.length) {
@@ -66,10 +75,6 @@ const CandidatePage = () => {
         setIdsSelected(newIdsSelected);
     };
 
-    const closeFormUpdate = () => {
-        setShowFormUpdate(false);
-    };
-
     const updateStatus = (id, isInterview) => {
         const newCandidates = candidates.map((can) => {
             if (can.id === id) {
@@ -78,11 +83,6 @@ const CandidatePage = () => {
             return can;
         });
         setCandidates(newCandidates);
-    };
-
-    const showFormUpdate = (id) => {
-        setCandidateId(id);
-        setShowFormUpdate(!isShowFormUpdate);
     };
 
     useEffect(() => {
@@ -103,7 +103,7 @@ const CandidatePage = () => {
                                     <div className="d-flex align-items-center">
                                         <h5 className="card-title mb-0 flex-grow-1">Candidate Management</h5>
                                         <div className="flex-shrink-0">
-                                            <button className="btn btn-success" onClick={() => showFormUpdate()}>
+                                            <button className="btn btn-success" onClick={() => redirect()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> New
                                             </button>
                                         </div>
@@ -113,7 +113,13 @@ const CandidatePage = () => {
                                     <div className="row">
                                         <div className="col-xxl-3 col-sm-4">
                                             <div className="search-box">
-                                                <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name, email, phone" />
+                                                <input
+                                                    type="text"
+                                                    name="searchTerm"
+                                                    onChange={(x) => changeFilter(x)}
+                                                    className="form-control search"
+                                                    placeholder="Search by name, email, phone"
+                                                />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
@@ -126,7 +132,11 @@ const CandidatePage = () => {
                                             </select>
                                         </div>
                                         <div className="col-xxl-2 col-sm-4">
-                                            <button type="button" onClick={() => uploadCv()} className="btn btn-success btn-label waves-effect waves-light">
+                                            <button
+                                                type="button"
+                                                onClick={() => uploadCv()}
+                                                className="btn btn-success btn-label waves-effect waves-light"
+                                            >
                                                 <i className="ri-upload-line label-icon align-middle fs-16 me-2"></i> Upload
                                             </button>
                                         </div>
@@ -150,11 +160,17 @@ const CandidatePage = () => {
                                                     <tr>
                                                         <th style={{ width: 5 }}>
                                                             <div className="form-check form-check-success">
-                                                                <input onChange={() => selectedAll()} checked={idsSelected.length == candidates.length} type="checkbox" className="form-check-input" id="formCheck8" />
+                                                                <input
+                                                                    onChange={() => selectedAll()}
+                                                                    checked={idsSelected.length == candidates.length}
+                                                                    type="checkbox"
+                                                                    className="form-check-input"
+                                                                    id="formCheck8"
+                                                                />
                                                             </div>
                                                         </th>
                                                         <th style={{ width: 5 }}>No.</th>
-                                                        <th>UserName</th>
+                                                        <th>Name</th>
                                                         <th>Email</th>
                                                         <th>Phone number</th>
                                                         <th>Skill</th>
@@ -169,7 +185,16 @@ const CandidatePage = () => {
                                                             <tr key={key}>
                                                                 <th>
                                                                     <div className="form-check form-check-success">
-                                                                        <input onChange={() => selectedItem(can.id)} checked={idsSelected.includes(can.id) || idsSelected.length == candidates.length} className="form-check-input" type="checkbox" id="check-all" />
+                                                                        <input
+                                                                            onChange={() => selectedItem(can.id)}
+                                                                            checked={
+                                                                                idsSelected.includes(can.id) ||
+                                                                                idsSelected.length == candidates.length
+                                                                            }
+                                                                            className="form-check-input"
+                                                                            type="checkbox"
+                                                                            id="check-all"
+                                                                        />
                                                                     </div>
                                                                 </th>
                                                                 <th>{key + 1}</th>
@@ -181,8 +206,18 @@ const CandidatePage = () => {
                                                                     <a href="#">{can.cv_file_name}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <div style={{ textAlign: 'center' }} className="form-check form-switch form-switch-success form-switch-md">
-                                                                        <input className="form-check-input" onChange={() => updateStatus(can.id, can.isInterview)} type="checkbox" role="switch" id="SwitchCheck3" checked={can.isInterview} />
+                                                                    <div
+                                                                        style={{ textAlign: 'center' }}
+                                                                        className="form-check form-switch form-switch-success form-switch-md"
+                                                                    >
+                                                                        <input
+                                                                            className="form-check-input"
+                                                                            onChange={() => updateStatus(can.id, can.isInterview)}
+                                                                            type="checkbox"
+                                                                            role="switch"
+                                                                            id="SwitchCheck3"
+                                                                            checked={can.isInterview}
+                                                                        />
                                                                     </div>
                                                                 </td>
                                                                 <td style={{ textAlign: 'center' }}>
@@ -194,7 +229,12 @@ const CandidatePage = () => {
                                                                     >
                                                                         <i className="ri-download-line"></i>
                                                                     </Button>
-                                                                    <Button type="button" onClick={() => showFormUpdate(can.id)} title="Update profile" className="btn btn-sm btn-primary btn-icon waves-effect waves-light ">
+                                                                    <Button
+                                                                        type="button"
+                                                                        onClick={() => redirect(can)}
+                                                                        title="Update profile"
+                                                                        className="btn btn-sm btn-primary btn-icon waves-effect waves-light "
+                                                                    >
                                                                         <i className="ri-edit-2-fill"></i>
                                                                     </Button>
                                                                 </td>
@@ -209,7 +249,6 @@ const CandidatePage = () => {
                             </div>
                         </Col>
                     </div>
-                    <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} candidateId={candidateId} />
                 </Container>
             </div>
         </React.Fragment>

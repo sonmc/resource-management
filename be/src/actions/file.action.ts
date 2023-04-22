@@ -90,9 +90,9 @@ export function convertData(text): Candidate {
     candidate.cv_file_path = '';
     candidate.cv_file_name = '';
     candidate.notes = '';
-    candidate.educations = '';
-    candidate.work_experiences = '';
-    candidate.projects = '';
-    candidate.cv_skill = '';
+    candidate.educations = '[]';
+    candidate.work_experiences = '[]';
+    candidate.projects = '[]';
+    candidate.cv_skill = '[]';
     return candidate;
 }

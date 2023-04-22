@@ -3,7 +3,7 @@ import MetaTags from 'react-meta-tags';
 import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFeedback } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import { useFormik, Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { Login as OnLogin, GetCurrentUser } from 'src/Services/auth.service';
 import { useRecoilState } from 'recoil';

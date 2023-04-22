@@ -1,15 +1,12 @@
 import { Container, Col, CardBody, Row, Label, Input, Button, Spinner } from 'reactstrap';
 import React, { useEffect, useState } from 'react';
 import MetaTags from 'react-meta-tags';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Update, Create } from 'src/Services/new.service';
 import { useHistory } from 'react-router-dom';
-import { MyUploadAdapter } from '../../../helpers';
 import UploadImage from '../../../Components/Common/UploadFile';
 import { useRecoilValue } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
-
+import CkeditorCommon from 'src/Components/Common/Ckeditor';
 const InitialState = {
     id: 0,
     title: '',
@@ -121,21 +118,14 @@ const Component = (props) => {
                                                 <Label for="compnayNameinput" className="form-label">
                                                     Content
                                                 </Label>
-                                                <CKEditor
-                                                    editor={ClassicEditor}
-                                                    data={formNew.content}
-                                                    onReady={(editor) => {
-                                                        editor.setData(state?.new?.content || '');
-                                                        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                                                            return new MyUploadAdapter(loader, 'news');
-                                                        };
-                                                    }}
-                                                    onChange={(event, editor) => {
+                                                <CkeditorCommon
+                                                    setValue={(value) => {
                                                         setForm((x) => {
-                                                            x.content = editor.getData();
+                                                            x.content = value;
                                                             return { ...x };
                                                         });
                                                     }}
+                                                    value={formNew.content}
                                                 />
                                             </div>
                                         </Col>
