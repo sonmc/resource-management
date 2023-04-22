@@ -20,7 +20,7 @@ function App() {
         const getUsers = async () => {
             try {
                 const user = await GetCurrentUser();
-                GetAll({ user_id: user.user_id })
+                GetAll({ user_id: user.id })
                     .then((res) => {
                         setNotifications(res);
                     })

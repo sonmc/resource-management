@@ -11,10 +11,11 @@ import profileBg from 'src/assets/images/profile-bg.jpg';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 import { formatTime } from 'src/helpers/common';
 
-const SimplePage = () => {
+const UserProfile = () => {
     SwiperCore.use([Autoplay]);
     const currentUser = useRecoilValue(currentUserAtom);
     const [avatar, setAvatar] = useState(avatar1);
+
     useEffect(() => {
         setAvatar(currentUser.avatar);
     }, [currentUser]);
@@ -137,4 +138,4 @@ const SimplePage = () => {
     );
 };
 
-export default SimplePage;
+export default UserProfile;

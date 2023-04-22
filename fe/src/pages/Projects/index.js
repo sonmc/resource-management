@@ -381,32 +381,16 @@ const ProjectPage = () => {
                                         </div>
                                         <div className="col-sm-3">
                                             <div className="search-box">
-                                                <input
-                                                    type="text"
-                                                    onChange={(x) => handleChangeFilter('project_name', x.target.value)}
-                                                    className="form-control search"
-                                                    placeholder="Search by name"
-                                                />
+                                                <input type="text" onChange={(x) => handleChangeFilter('project_name', x.target.value)} className="form-control search" placeholder="Search by name" />
                                                 <i className="ri-search-line search-icon"></i>
                                             </div>
                                         </div>
                                         <div className="offset-md-3 col-sm-3">
                                             <div className="d-flex flex-row-reverse">
-                                                <button
-                                                    type="button"
-                                                    disabled={isLastOfMonth}
-                                                    title="Next month"
-                                                    onClick={() => onWorkloadDateNext()}
-                                                    aria-pressed="false"
-                                                    className="fc-next-button btn btn-secondary rounded-0"
-                                                >
+                                                <button type="button" disabled={isLastOfMonth} title="Next month" onClick={() => onWorkloadDateNext()} aria-pressed="false" className="fc-next-button btn btn-secondary rounded-0">
                                                     <span className="fa fa-chevron-left"></span>
                                                 </button>
-                                                <select
-                                                    onChange={(value) => onChangeWorkloadMonth(value)}
-                                                    value={currentWorkloadDate}
-                                                    className="form-control mb-1 rounded-0 text-center"
-                                                >
+                                                <select onChange={(value) => onChangeWorkloadMonth(value)} value={currentWorkloadDate} className="form-control mb-1 rounded-0 text-center">
                                                     {workloadDates.map((d, key) => {
                                                         return (
                                                             <option key={key} value={d}>
@@ -415,14 +399,7 @@ const ProjectPage = () => {
                                                         );
                                                     })}
                                                 </select>
-                                                <button
-                                                    type="button"
-                                                    title="Previous month"
-                                                    disabled={isFirstOfMonth}
-                                                    onClick={() => onWorkloadDatePrev()}
-                                                    aria-pressed="false"
-                                                    className="btn btn-secondary fc-prev-button rounded-0"
-                                                >
+                                                <button type="button" title="Previous month" disabled={isFirstOfMonth} onClick={() => onWorkloadDatePrev()} aria-pressed="false" className="btn btn-secondary fc-prev-button rounded-0">
                                                     <span className="fa fa-chevron-right"></span>
                                                 </button>
                                             </div>
@@ -511,19 +488,12 @@ const ProjectPage = () => {
                                                     <React.Fragment key={key}>
                                                         {key > 0 && (
                                                             <tr>
-                                                                <td
-                                                                    colSpan={
-                                                                        workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4
-                                                                    }
-                                                                ></td>
+                                                                <td colSpan={workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4}></td>
                                                             </tr>
                                                         )}
                                                         {x.users.length > 0 && (
                                                             <tr>
-                                                                <td
-                                                                    rowSpan={x.users.length}
-                                                                    style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}
-                                                                >
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 35px 5px 5px' }}>
                                                                     <Link
                                                                         to="#"
                                                                         onClick={() => showFormAddMember(x)}
@@ -536,19 +506,11 @@ const ProjectPage = () => {
                                                                     >
                                                                         <i className="ri-add-box-fill" style={{ fontSize: '35px' }} />
                                                                     </Link>
-                                                                    <Link
-                                                                        to="#"
-                                                                        onClick={() => goProjectDetail(x)}
-                                                                        className="fs-100"
-                                                                        style={{ fontSize: '15px' }}
-                                                                    >
+                                                                    <Link to="#" onClick={() => goProjectDetail(x)} className="fs-100" style={{ fontSize: '15px' }}>
                                                                         {x.name}
                                                                     </Link>
                                                                 </td>
-                                                                <td
-                                                                    rowSpan={x.users.length}
-                                                                    style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}
-                                                                >
+                                                                <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
                                                                 <td
@@ -570,10 +532,7 @@ const ProjectPage = () => {
                                                                                 right: 0,
                                                                             }}
                                                                         >
-                                                                            <i
-                                                                                className="ri-indeterminate-circle-line"
-                                                                                style={{ fontSize: '20px' }}
-                                                                            />
+                                                                            <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                         </Link>
                                                                     )}
                                                                     {x.users[0]?.full_name}
@@ -591,11 +550,7 @@ const ProjectPage = () => {
                                                                 {x.users[0].workloads.map((z, key3) => {
                                                                     const colorStatus = calculatorWorkloadStatus(z.value);
                                                                     return (
-                                                                        <td
-                                                                            className="row-workload-first"
-                                                                            style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }}
-                                                                            key={key3}
-                                                                        >
+                                                                        <td className="row-workload-first" style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
                                                                             {z.value} {z.value && <span>%</span>}
                                                                         </td>
                                                                     );
@@ -617,10 +572,7 @@ const ProjectPage = () => {
                                                                                     right: 0,
                                                                                 }}
                                                                             >
-                                                                                <i
-                                                                                    className="ri-indeterminate-circle-line"
-                                                                                    style={{ fontSize: '20px' }}
-                                                                                />
+                                                                                <i className="ri-indeterminate-circle-line" style={{ fontSize: '20px' }} />
                                                                             </Link>
                                                                             {y.full_name}
                                                                         </td>
@@ -677,13 +629,7 @@ const ProjectPage = () => {
                         </div>
                     </div>
                     <CreateModal save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} employees={employees} />
-                    <AddMemberModal
-                        addMember={addMember}
-                        isShowFormAddMember={isShowFormAddMember}
-                        closeFormAddMember={closeFormAddMember}
-                        project={project}
-                        users={employees}
-                    />
+                    <AddMemberModal addMember={addMember} isShowFormAddMember={isShowFormAddMember} closeFormAddMember={closeFormAddMember} project={project} users={employees} />
                     <ConfirmDeleteModal confirmed={remove} isShowConfirmModal={isShowConfirmModal} closeConfirmDelete={closeConfirmDelete} />
                 </Container>
             </div>

@@ -42,7 +42,7 @@ export class UserController {
     }
 
     @Post()
-    @Permissions(EndPoint.EMPLOYEE_CREATE)
+    // @Permissions(EndPoint.EMPLOYEE_CREATE)
     async create(@Body() employeePresenter: EmployeePresenter) {
         const userEntity = plainToClass(UserEntity, employeePresenter);
         const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);

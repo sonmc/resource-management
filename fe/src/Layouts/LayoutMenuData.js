@@ -92,16 +92,16 @@ const Navdata = () => {
                 e.preventDefault();
             },
         },
-        {
-            id: 'library-management',
-            label: 'Libraries',
-            public: true,
-            icon: 'ri-book-open-line',
-            link: '/libraries',
-            click: function (e) {
-                e.preventDefault();
-            },
-        },
+        // {
+        //     id: 'library-management',
+        //     label: 'Libraries',
+        //     public: true,
+        //     icon: 'ri-book-open-line',
+        //     link: '/libraries',
+        //     click: function (e) {
+        //         e.preventDefault();
+        //     },
+        // },
         {
             id: 'vacation_get',
             public: false,

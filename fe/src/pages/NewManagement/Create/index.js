@@ -40,7 +40,7 @@ const Component = (props) => {
 
     const submit = (formNew) => {
         setSubmitted(true);
-        const param = { ...formNew, user_id: currentUser.user_id };
+        const param = { ...formNew, user_id: currentUser.id };
         handleSubmit(param)
             .then(() => {
                 history.push('/new-management');

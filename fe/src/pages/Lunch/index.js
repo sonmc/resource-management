@@ -75,7 +75,7 @@ const LunchPage = () => {
             .then((res) => {
                 let data = res
                     .filter((x) => {
-                        return isAdmin || x.user.id === currentUser.user_id;
+                        return isAdmin || x.user.id === currentUser.id;
                     })
                     .map((x) => {
                         let lunchData = x.lunch_calendars;
