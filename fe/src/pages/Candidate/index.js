@@ -162,7 +162,7 @@ const CandidatePage = () => {
                                                             <div className="form-check form-check-success">
                                                                 <input
                                                                     onChange={() => selectedAll()}
-                                                                    checked={idsSelected.length == candidates.length}
+                                                                    checked={candidates.length > 0 && idsSelected.length == candidates.length}
                                                                     type="checkbox"
                                                                     className="form-check-input"
                                                                     id="formCheck8"
@@ -170,7 +170,7 @@ const CandidatePage = () => {
                                                             </div>
                                                         </th>
                                                         <th style={{ width: 5 }}>No.</th>
-                                                        <th>Name</th>
+                                                        <th>Full name</th>
                                                         <th>Email</th>
                                                         <th>Phone number</th>
                                                         <th>Skill</th>
@@ -186,7 +186,6 @@ const CandidatePage = () => {
                                                                 <th>
                                                                     <div className="form-check form-check-success">
                                                                         <input
-                                                                            onChange={() => selectedItem(can.id)}
                                                                             checked={
                                                                                 idsSelected.includes(can.id) ||
                                                                                 idsSelected.length == candidates.length
@@ -201,9 +200,9 @@ const CandidatePage = () => {
                                                                 <td>{can.name}</td>
                                                                 <td>{can.email}</td>
                                                                 <td>{can.phone_number}</td>
-                                                                <td>{can.skill}</td>
+                                                                <td>{can.cv_skill}</td>
                                                                 <td onClick={() => openFile(can.cv_file_path)}>
-                                                                    <a href="#">{can.cv_file_name}</a>
+                                                                    <a href="javascript:;">{can.cv_file_name}</a>
                                                                 </td>
                                                                 <td>
                                                                     <div

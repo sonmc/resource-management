@@ -8,13 +8,13 @@ import { currentUserAtom } from 'src/Recoil/states/users';
 
 //Images
 import profileBg from 'src/assets/images/profile-bg.jpg';
-import avatar1 from 'src/assets/images/users/avatar-1.jpg';
+import defaultAvatar from 'src/assets/images/default-avatar.png';
 import { formatTime } from 'src/helpers/common';
 
 const UserProfile = () => {
     SwiperCore.use([Autoplay]);
     const currentUser = useRecoilValue(currentUserAtom);
-    const [avatar, setAvatar] = useState(avatar1);
+    const [avatar, setAvatar] = useState(defaultAvatar);
 
     useEffect(() => {
         setAvatar(currentUser.avatar);
@@ -41,7 +41,7 @@ const UserProfile = () => {
                                         alt="user-img"
                                         className="img-thumbnail rounded-circle"
                                         onError={() => {
-                                            setAvatar(avatar1);
+                                            setAvatar(defaultAvatar);
                                         }}
                                     />
                                 </div>
