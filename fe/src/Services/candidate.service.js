@@ -6,9 +6,13 @@ export const Get = (params) => api.get(baseUrl, params);
 
 export const Upload = (files) => {
     let fileToUpload = files[0];
+    const config = {
+        headers: {
+            'Content-Type': fileToUpload.type,
+        },
+    };
     const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('path', '');
-    formData.append('type', '');
-    return api.create(baseUrl, formData);
+    const encodedFilename = encodeURIComponent(fileToUpload.name);
+    formData.append('file', fileToUpload, encodedFilename);
+    return api.create(baseUrl, formData, config);
 };

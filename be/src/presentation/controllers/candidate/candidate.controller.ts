@@ -55,10 +55,4 @@ export class CandidateController {
         const candidateCreated = await this.createCandidateUseCaseProxy.getInstance().execute(file);
         return candidateCreated;
     }
-    // @Delete(':id')
-    // @Permissions(EndPoint.EMPLOYEE_DELETE)
-    // async delete(@Param('id') id: string) {
-    //     const idDeleted = await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
-    //     return idDeleted;
-    // }
 }
