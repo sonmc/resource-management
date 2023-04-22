@@ -100,7 +100,7 @@ const RolePage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h3 className="card-title mb-0 flex-grow-1">Users Management</h3>
+                                        <h3 className="card-title mb-0 flex-grow-1">Roles Management</h3>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormUpdate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> New
