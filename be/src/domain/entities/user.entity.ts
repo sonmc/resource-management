@@ -8,20 +8,27 @@ export class UserWithoutPassword {
     username: string;
     email: string;
     phone_number: string;
+    first_name: string;
+    last_name: string;
     status: number;
     gender: boolean;
     avatar: string;
-    last_name: string;
-    first_name: string;
     dob: Date;
+    address: string;
+    last_login?: Date;
+    hash_refresh_token: string;
+    onboarding: Date;
     status_level: string;
     chapterHead: number;
-    onboarding: Date;
-    roles: RoleEntity[];
-    hash_refresh_token: string;
     workloads: WorkloadEntity[];
+    news: [];
+    nick_name: string;
+    introduce: string;
+    vacations: [];
+    roles: RoleEntity[];
     projects: ProjectEntity[];
-    permissions: string[];
+    tasks: [];
+    kanbans: [];
 }
 
 export class UserEntity extends UserWithoutPassword {

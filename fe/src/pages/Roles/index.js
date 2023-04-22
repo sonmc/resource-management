@@ -3,10 +3,10 @@ import { CardBody, Col, Container, Table, Button, Label } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import ModalUpdate from './FormUpdate';
 import ConfirmDelete from './ConfirmDelete';
-import { Get as GetRole, Create, Update, Delete } from '../../Services/role.service';
+import { Get as GetRole, Create, Update, Delete } from 'src/Services/role.service';
 import RolePems from './RolePems';
 import { useSetRecoilState } from 'recoil';
-import { rolesState } from '../../Recoil/states/roles';
+import { rolesState } from 'src/Recoil/states/roles';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 const RolePage = () => {
@@ -96,10 +96,10 @@ const RolePage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h3 className="card-title mb-0 flex-grow-1">Roles</h3>
+                                        <h3 className="card-title mb-0 flex-grow-1">Users Management</h3>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormUpdate()}>
-                                                <i className="ri-add-line align-bottom me-1"></i> Create New
+                                                <i className="ri-add-line align-bottom me-1"></i> New
                                             </button>
                                         </div>
                                     </div>
@@ -111,7 +111,7 @@ const RolePage = () => {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: 5 }}>No.</th>
-                                                    <th>Name</th>
+                                                    <th>Role</th>
                                                     <th>Description</th>
                                                     <th>Actions</th>
                                                 </tr>
@@ -125,7 +125,7 @@ const RolePage = () => {
                                                             <td>{role.description}</td>
                                                             <td>
                                                                 <Button color="success btn-sm me-2" onClick={() => showFormUpdate(role.id)}>
-                                                                    Update
+                                                                    Edit
                                                                 </Button>
                                                                 <Button color="danger btn-sm btn-action" onClick={() => showConfirmDelete(role.id)}>
                                                                     Delete
@@ -144,7 +144,12 @@ const RolePage = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
+                    <ConfirmDelete
+                        deleteRole={deleteRole}
+                        isShowConfirmDelete={isShowConfirmDelete}
+                        closeConfirmDelete={closeConfirmDelete}
+                        roleId={roleId}
+                    />
                 </Container>
             </div>
         </React.Fragment>

@@ -3,10 +3,16 @@ import { Container, Table, CardBody, Card, CardHeader, Row, Col } from 'reactstr
 import MetaTags from 'react-meta-tags';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
-import { Get as GetEmployees } from '../../Services/user.service';
-import { Get as GetLunch } from '../../Services/lunch-order.service';
+import { Get as GetLunch } from 'src/Services/lunch-order.service';
 import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
+import { formatTime } from 'src/helpers/common';
+import './index.scss';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states';
+const checkPi = (value) => {
+    return moment(value).startOf('day').set('hour', 10).isBefore(moment());
+};
 
 function getDaysArrayByMonth(month) {
     let _month = month.clone();
@@ -22,70 +28,78 @@ function getDaysArrayByMonth(month) {
     }
     return arrDays
         .map((x) => {
-            return { week: x.week(), value: x.format('yyyy-MM-DD HH:mm:ss'), title: x.format('DD-MMM'), timestamp: x.unix(), data: [] };
+            let disabled = checkPi(x);
+            return { date: x.format('yyyy-MM-DD HH:mm:ss'), title: x.format('DD-MMM'), disabled, classDisabled: disabled ? 'disabled-col' : '' };
         })
         .reverse();
 }
-const generateDataFake = (arr, value) => {
-    return arr.map((x) => {
-        return { id: 0, lunch_type: 1, user_id: x.id, date: value };
-    });
-};
+
 const LUNCH_TYPES = [
     {
         name: 'Normal',
-        value: 1,
+        value: 2,
     },
     {
         name: 'Less rice',
-        value: 2,
+        value: 1,
     },
 ];
 const LunchPage = () => {
-    const [employees, setEmployees] = useState([]);
+    const currentUser = useRecoilValue(currentUserAtom);
+
     const [days, setDays] = useState([]);
-    const [dataLunch, setDataLunchs] = useState([]);
+    const [totals, setTotal] = useState([]);
+    const [emps, setEmp] = useState([]);
     const [month, setMonth] = useState(moment().startOf('day').startOf('month'));
-
-    const fetchEmployee = () => {
-        GetEmployees({
-            status: 1,
-        }).then((res) => {
-            setEmployees(res);
-        });
-    };
-
-    useEffect(() => {
-        fetchEmployee();
-    }, []);
 
     useEffect(() => {
         setDays(getDaysArrayByMonth(month));
     }, [month]);
+    useEffect(() => {
+        let lunchs = emps.reduce((prev, current) => {
+            return prev.concat(current.lunch_calendars || []);
+        }, []);
+        let data = days.map((lc) => {
+            let lunchByDay = lunchs.filter((ld) => {
+                return moment(ld.date).isSame(lc.date);
+            });
+            return { ...lc, lunchs: lunchByDay };
+        });
+        setTotal(data);
+    }, [days, emps]);
 
     useEffect(() => {
         if (days.length === 0) return;
+        let isAdmin = currentUser.role_ids.includes(1);
         GetLunch()
             .then((res) => {
-                // setDays(res);
-                //fake
-                if (employees.length === 0) return;
-                let d = days.map((x) => {
-                    x.data = generateDataFake(employees, x.value);
-                    return x;
-                });
-                setDataLunchs(d);
-                // fake
+                let data = res
+                    .filter((x) => {
+                        return isAdmin || x.user.id === currentUser.id;
+                    })
+                    .map((x) => {
+                        let lunchData = x.lunch_calendars;
+                        x.lunch_calendars = days.map((lc) => {
+                            let d = lunchData.find((ld) => {
+                                return moment(ld.date).isSame(lc.date);
+                            });
+                            return d
+                                ? { ...d, active: true, disabled: isAdmin ? false : lc.disabled, classDisabled: isAdmin ? '' : lc.classDisabled }
+                                : {
+                                      date: formatTime(lc.date),
+                                      value: 0,
+                                      active: false,
+                                      disabled: isAdmin ? false : lc.disabled,
+                                      classDisabled: isAdmin ? '' : lc.classDisabled,
+                                  };
+                        });
+
+                        return x;
+                    });
+                setEmp(data);
             })
-            .catch(() => {
-                if (employees.length === 0) return;
-                let d = days.map((x) => {
-                    x.data = generateDataFake(employees, x.value);
-                    return x;
-                });
-                setDataLunchs(d);
-            });
-    }, [days, employees]);
+            .catch(() => {});
+    }, [days]);
 
     return (
         <React.Fragment>
@@ -114,97 +128,112 @@ const LunchPage = () => {
                             </div>
                         </CardHeader>
                         <CardBody className="">
-                            <div className="row">
-                                <div className="table-responsive" style={{ paddingBottom: '1rem' }}>
-                                    <Table className="table-bordered table-nowrap align-middle mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th colSpan="2">Total</th>
-                                                {dataLunch.map((x) => {
-                                                    return (
-                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
-                                                            {x.data.filter((d) => d.lunch_type !== 0).length}
-                                                        </th>
-                                                    );
-                                                })}
-                                            </tr>
-                                            {LUNCH_TYPES.map((l, i) => {
+                            <div className="table-scroll-fixed">
+                                <Table className="table-bordered table-nowrap align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div>Total</div>
+                                            </th>
+                                            {totals.map((x) => {
+                                                let keys = LUNCH_TYPES.map((x) => x.key);
                                                 return (
-                                                    <tr key={i}>
-                                                        <th colSpan="2">{l.name}</th>
-                                                        {dataLunch.map((x) => {
-                                                            return (
-                                                                <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
-                                                                    {x.data.filter((d) => d.lunch_type === l.value).length}
-                                                                </th>
-                                                            );
-                                                        })}
-                                                    </tr>
+                                                    <th scope="col" key={x.date} className={x.classDisabled}>
+                                                        {x.lunchs.filter((l) => keys.includes(l.value)).length}
+                                                    </th>
                                                 );
                                             })}
-                                            <tr>
-                                                <th style={{ border: 'none' }}></th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">No.</th>
-                                                <th scope="col">Full name</th>
-                                                {dataLunch.map((x) => {
-                                                    return (
-                                                        <th scope="col" style={{ textAlign: 'center' }} key={x.timestamp}>
-                                                            {x.title}
-                                                        </th>
-                                                    );
-                                                })}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {employees.map((employee, i) => {
-                                                let fullname = employee.first_name + ' ' + employee.last_name;
-                                                return (
-                                                    <tr key={employee.id}>
-                                                        <td className="fw-medium">{i + 1}</td>
-                                                        <td>{fullname}</td>
-                                                        {dataLunch.map((d) => {
-                                                            let lunch = d.data.find((x) => x.user_id === employee.id && moment(d.value).isSame(x.date));
-                                                            return (
-                                                                <td key={d.timestamp} style={{ textAlign: 'center' }}>
-                                                                    <select
-                                                                        id="inputState"
-                                                                        className="form-select"
-                                                                        onChange={(event) => {
-                                                                            let _data = dataLunch.map((day) => {
-                                                                                day.data = day.data.map((x) => {
-                                                                                    if (moment(d.value).isSame(x.date) && employee.id === x.user_id) {
-                                                                                        x.lunch_type = parseInt(event.target.value);
-                                                                                    }
+                                        </tr>
+                                        {LUNCH_TYPES.map((lt, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <th>
+                                                        <div>{lt.name}</div>
+                                                    </th>
 
-                                                                                    return x;
-                                                                                });
-                                                                                return day;
-                                                                            });
-                                                                            setDataLunchs(_data);
-                                                                        }}
-                                                                        value={lunch.lunch_type}
-                                                                        style={{ width: 130, border: 0 }}
-                                                                    >
-                                                                        <option value="0">No</option>
-                                                                        {LUNCH_TYPES.map((x) => {
-                                                                            return (
-                                                                                <option key={x.value} value={x.value}>
-                                                                                    {x.name}
-                                                                                </option>
-                                                                            );
-                                                                        })}
-                                                                    </select>
-                                                                </td>
-                                                            );
-                                                        })}
-                                                    </tr>
+                                                    {totals.map((t) => {
+                                                        return (
+                                                            <th scope="col" key={`${t.date}${lt.name}`}>
+                                                                {t.lunchs.filter((l) => l.value == lt.value).length}
+                                                            </th>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                        <tr>
+                                            <th scope="col">
+                                                <div>
+                                                    <div>No.</div>
+                                                    <div>Full name</div>
+                                                </div>
+                                            </th>
+                                            {days.map((x) => {
+                                                return (
+                                                    <th scope="col" key={x.date} className={x.classDisabled}>
+                                                        {x.title}
+                                                    </th>
                                                 );
                                             })}
-                                        </tbody>
-                                    </Table>
-                                </div>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {emps.map((emp, i) => {
+                                            let employee = emp.user;
+                                            let fullname = employee.first_name + ' ' + employee.last_name;
+                                            return (
+                                                <tr key={employee.id}>
+                                                    <td className="first-col">
+                                                        <div>
+                                                            <div>{i + 1}</div>
+                                                            <div>{fullname}</div>
+                                                        </div>
+                                                    </td>
+                                                    {emp.lunch_calendars.map((d, j) => {
+                                                        let isPi = checkPi(d.date);
+                                                        return (
+                                                            <td key={`${i}${j}`}>
+                                                                <select
+                                                                    id="inputState"
+                                                                    className={`form-select ${d.value == -1 ? 'select-danger' : ''}`}
+                                                                    disabled={d.disabled}
+                                                                    onChange={(event) => {
+                                                                        d.value = event.target.value;
+                                                                        setEmp((prevEmps) => {
+                                                                            return prevEmps.map((e) => {
+                                                                                if (e.user.id == emp.user.id) {
+                                                                                    return { ...emp };
+                                                                                } else {
+                                                                                    return e;
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    }}
+                                                                    value={d.value}
+                                                                    style={{ width: 130, border: 0 }}
+                                                                >
+                                                                    <option value={0} disabled={isPi}>
+                                                                        No
+                                                                    </option>
+                                                                    <option value={-1} disabled={!isPi}>
+                                                                        Pi
+                                                                    </option>
+                                                                    {LUNCH_TYPES.map((x) => {
+                                                                        return (
+                                                                            <option key={x.value} value={x.value} disabled={isPi}>
+                                                                                {x.name}
+                                                                            </option>
+                                                                        );
+                                                                    })}
+                                                                </select>
+                                                            </td>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </Table>
                             </div>
                         </CardBody>
                     </Card>

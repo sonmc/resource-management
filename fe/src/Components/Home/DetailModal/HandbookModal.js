@@ -18,8 +18,10 @@ const HandbookModal = ({ status, onCloseClick }) => {
                 toggle={() => {
                     onCloseClick();
                 }}
+                style={{ backgroundColor: '#002f13' }}
+                className="pb-3"
             >
-                Zen8labs Handbook
+                <span className="text-white">Zen8labs Handbook</span>
             </ModalHeader>
             <ModalBody>
                 <div className="col-lg-12 text-content" dangerouslySetInnerHTML={{ __html: Data }}></div>

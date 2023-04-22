@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
-import { Get } from '../../../Services/user.service';
+import { Get } from 'src/Services/user.service';
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
 import { GENDER_MALE, GENDER_FEMALE } from '../../../Constant/index';
-import { Get as GetEmployee } from '../../../Services/user.service';
 import { LEVEL_STATUS } from '../../../Constant';
 
 const EMPLOYEE_DEFAULT = {
@@ -15,22 +14,23 @@ const EMPLOYEE_DEFAULT = {
     username: '',
     email: '',
     phone_number: '',
+    address: '',
     status: 1,
     status_level: 1,
-    chapter_head: null,
+    chapterHead: 0,
     onboarding: new Date(),
     avatar: '',
     gender: 1,
+    roles: [],
 };
 const levelStatus = LEVEL_STATUS;
 
 const ModalUpdate = (props) => {
-    const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles } = props;
-    const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
-    const [employees, setEmployees] = useState([]);
-    const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
+    const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles, employees } = props;
+    const [selectedStatus, setSelectedStatus] = useState(null);
+
+    const [employee, setEmployee] = useState({ ...EMPLOYEE_DEFAULT });
     const [title, setTitle] = useState('Create employee');
-    const [selectedRoles, setRoles] = useState(null);
     const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
     const changeField = (event) => {
@@ -44,45 +44,47 @@ const ModalUpdate = (props) => {
     };
 
     const handleMultiRole = (selectedRoles) => {
-        setRoles(selectedRoles);
+        setEmployee((x) => {
+            return { ...x, roles: selectedRoles };
+        });
     };
 
     const handleChapterHead = (chapterHead) => {
         setSelectedChapterHead(chapterHead);
     };
-    const fetchEmployee = (filter) => {
-        GetEmployee(filter).then((res) => {
-            setEmployees(res);
-        });
-    };
 
     const handleLevelStatus = (st) => {
         setSelectedStatus(st);
     };
-    useEffect(() => {
-        let emp = { ...employee, roles: selectedRoles, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
-        setEmployee(emp);
-    }, [selectedRoles, selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
-        if (employeeId) {
-            const params = { id: employeeId };
-            Get(params).then((res) => {
-                setEmployee(res);
-            });
-            setTitle('Update employee');
-        } else {
-            setEmployee({ ...employee, role_id: roles.length > 0 ? roles[0].id : 0 });
-        }
-    }, [employeeId]);
-
-    useEffect(() => {
-        fetchEmployee({
-            searchTerm: '',
-            roleId: 0,
-            status: 0,
+        setEmployee((x) => {
+            return { ...x, status_level: selectedStatus?.id, chapterHead: selectedChapterHead?.id };
         });
-    }, []);
+    }, [selectedStatus, selectedChapterHead]);
+
+    useEffect(() => {
+        if (isShowFormUpdate) {
+            if (employeeId) {
+                const params = { id: employeeId };
+                Get(params).then((res) => {
+                    setEmployee(res);
+                    let st = levelStatus.find((x) => x.id == res.status_level) || {};
+                    setSelectedStatus(st);
+                });
+                setTitle('Update employee');
+            } else {
+                setEmployee((x) => {
+                    return { ...EMPLOYEE_DEFAULT, role_id: roles.length > 0 ? roles[0].id : 0 };
+                });
+            }
+        }
+    }, [employeeId, roles, isShowFormUpdate]);
+
+    useEffect(() => {
+        let chapterHead = employees.find((x) => x.id == employee.chapterHead);
+        setSelectedChapterHead(chapterHead);
+    }, [employees, employee]);
 
     return (
         <Modal
@@ -191,7 +193,7 @@ const ModalUpdate = (props) => {
                                 Role
                             </label>
                             <Select
-                                value={selectedRoles}
+                                value={employee.roles}
                                 getOptionLabel={(option) => {
                                     return option.name;
                                 }}
@@ -259,10 +261,22 @@ const ModalUpdate = (props) => {
                                 options={levelStatus}
                             />
                         </Col>
-
-                        <Col xxl={6} className="d-flex">
-                            <label className="form-label me-3">Gender</label>
-                            <div>
+                        <Col xxl={6} className="flex">
+                            <label htmlFor="address" className="form-label">
+                                Address
+                            </label>
+                            <Input
+                                value={employee.address}
+                                type="text"
+                                className="form-control"
+                                name="address"
+                                placeholder="Enter employee address"
+                                onChange={(x) => changeField(x)}
+                            />
+                        </Col>
+                        <Col xxl={6}>
+                            <label className="form-label">Gender</label>
+                            <div className="mt-2">
                                 <div className="form-check form-check-inline">
                                     <input
                                         className="form-check-input"
@@ -291,7 +305,6 @@ const ModalUpdate = (props) => {
                                 </div>
                             </div>
                         </Col>
-
                         <Col xxl={12}>
                             <div className="hstack gap-2 justify-content-end">
                                 <Button color="light" onClick={() => closeFormUpdate(false)}>

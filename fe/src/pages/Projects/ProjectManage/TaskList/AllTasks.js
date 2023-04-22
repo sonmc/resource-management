@@ -10,14 +10,14 @@ import { OrdersId, Project, Tasks, CreateBy, AssignedTo, DueDate, Status, Priori
 
 import { allTask } from './data';
 //Import images
-import avatar1 from '../../../../assets/images/users/avatar-1.jpg';
-import avatar2 from '../../../../assets/images/users/avatar-2.jpg';
-import avatar3 from '../../../../assets/images/users/avatar-3.jpg';
-import avatar5 from '../../../../assets/images/users/avatar-5.jpg';
-import avatar6 from '../../../../assets/images/users/avatar-6.jpg';
-import avatar7 from '../../../../assets/images/users/avatar-7.jpg';
-import avatar8 from '../../../../assets/images/users/avatar-8.jpg';
-import avatar10 from '../../../../assets/images/users/avatar-10.jpg';
+import avatar1 from 'src/assets/images/users/avatar-1.jpg';
+import avatar2 from 'src/assets/images/users/avatar-2.jpg';
+import avatar3 from 'src/assets/images/users/avatar-3.jpg';
+import avatar5 from 'src/assets/images/users/avatar-5.jpg';
+import avatar6 from 'src/assets/images/users/avatar-6.jpg';
+import avatar7 from 'src/assets/images/users/avatar-7.jpg';
+import avatar8 from 'src/assets/images/users/avatar-8.jpg';
+import avatar10 from 'src/assets/images/users/avatar-10.jpg';
 const AllTasks = () => {
     const [taskList, setTaskList] = useState(allTask);
 
@@ -124,7 +124,11 @@ const AllTasks = () => {
                                 <div className="row g-3">
                                     <div className="col-xxl-4 col-sm-12">
                                         <div className="search-box">
-                                            <input type="text" className="form-control search bg-light border-light" placeholder="Search for tasks or something..." />
+                                            <input
+                                                type="text"
+                                                className="form-control search bg-light border-light"
+                                                placeholder="Search for tasks or something..."
+                                            />
                                             <i className="ri-search-line search-icon"></i>
                                         </div>
                                     </div>
@@ -142,7 +146,13 @@ const AllTasks = () => {
 
                                     <div className="col-xxl-3 col-sm-4">
                                         <div className="input-light">
-                                            <select className="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                            <select
+                                                className="form-control"
+                                                data-choices
+                                                data-choices-search-false
+                                                name="choices-single-default"
+                                                id="idStatus"
+                                            >
                                                 <option value="">Status</option>
                                                 <option defaultValue="all">All</option>
                                                 <option value="New">New</option>

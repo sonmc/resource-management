@@ -5,10 +5,13 @@ import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { Login as OnLogin, GetCurrentUser } from '../../Services/auth.service';
+import { Login as OnLogin, GetCurrentUser } from 'src/Services/auth.service';
+import { useRecoilState } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states/users';
 
 const LoginPage = () => {
     const history = useHistory();
+    const [user, setCurrentUser] = useRecoilState(currentUserAtom);
 
     const validation = useFormik({
         enableReinitialize: true,
@@ -24,7 +27,7 @@ const LoginPage = () => {
             OnLogin(values).then((res) => {
                 if (res) {
                     GetCurrentUser().then((user) => {
-                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        setCurrentUser(user);
                         history.push('/projects');
                     });
                 }
@@ -77,7 +80,9 @@ const LoginPage = () => {
                                                     value={validation.values.username || ''}
                                                     invalid={validation.touched.email && validation.errors.username ? true : false}
                                                 />
-                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
+                                                {validation.touched.username && validation.errors.username ? (
+                                                    <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                                                ) : null}
                                             </div>
 
                                             <div className="mb-3">
@@ -95,8 +100,14 @@ const LoginPage = () => {
                                                         onBlur={validation.handleBlur}
                                                         invalid={validation.touched.password && validation.errors.password ? true : false}
                                                     />
-                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
-                                                    <button className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon">
+                                                    {validation.touched.password && validation.errors.password ? (
+                                                        <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                                                    ) : null}
+                                                    <button
+                                                        className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                        type="button"
+                                                        id="password-addon"
+                                                    >
                                                         <i className="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>

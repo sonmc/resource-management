@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardBody, Col, Row } from 'reactstrap';
-import illustarator from '../../assets/images/user-illustarator-2.png';
 import NewDetailModal from './DetailModal/NewDetailModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import moment from 'moment';
+import { Pagination, Navigation, Autoplay } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import './index.scss';
+
 const News = (props) => {
     const { news } = props;
     const [objectNewDetail, setObjectNewDetail] = useState({
@@ -17,40 +22,67 @@ const News = (props) => {
     };
     return (
         <React.Fragment>
-            <Row>
-                {news.map((item, key) => (
-                    <Col xl={6} md={6} key={key} onClick={() => showNewDetail(item)}>
-                        <Card className="card-animate">
-                            <CardBody className="p-2">
-                                <div className="d-flex align-middle">
-                                    {item.image && (
-                                        <div style={{ width: '200px' }} className="me-3">
-                                            <div className="box-img thumbnail">
-                                                <div className="img">
-                                                    <img src={item.image} className="rounded img-fluid" alt=""></img>
-                                                </div>
-                                            </div>
+            <Swiper
+                slidesPerView={1}
+                spaceBetween={10}
+                pagination={{
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }}
+                breakpoints={{
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 0,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 0,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 0,
+                    },
+                    1920: {
+                        slidesPerView: 5,
+                        spaceBetween: 0,
+                    },
+                }}
+                modules={[Pagination, Navigation, Autoplay]}
+                navigation={true}
+                // autoplay={{ delay: 2500, disableOnInteraction: false }}
+                className="mySwiper swiper responsive-swiper rounded gallery-light pb-4"
+            >
+                <div className="swiper-wrapper">
+                    {news.map((item, key) => {
+                        return (
+                            <SwiperSlide
+                                key={key}
+                                onClick={() => {
+                                    showNewDetail(item);
+                                }}
+                            >
+                                <div className="mx-3 card">
+                                    <div className="box-img thumbnail">
+                                        <div className="img p-2">
+                                            <img src={item.image} alt="" />
                                         </div>
-                                    )}
-
-                                    <div style={{ width: `calc(100% - 200px)` }}>
-                                        <h6 className="text-uppercase fw-medium text-muted text-truncate mb-3">{item.title}</h6>
-                                        <p
-                                            style={{ height: 60, overflow: 'hidden' }}
-                                            className="mb-1 text-content"
-                                            dangerouslySetInnerHTML={{ __html: item.content }}
-                                        ></p>
-                                        <p className="text-muted fs-12 mb-0">
-                                            Posted at {moment().format('MMM DD, YYYY hh:mm A')} by {item.user.username}
-                                        </p>
+                                        {/* <div className="gallery-overlay">
+                                        <h5 className="overlay-caption">Project discussion with team</h5>
+                                    </div> */}
+                                    </div>
+                                    <div className="box-content p-4">
+                                        <div className="d-flex mt-1">
+                                            <h6 className="text-line-3">
+                                                <b>{item.title}</b>
+                                            </h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-
+                            </SwiperSlide>
+                        );
+                    })}
+                </div>
+            </Swiper>
             <NewDetailModal objectNewDetail={objectNewDetail} onCloseClick={onCloseClick} />
         </React.Fragment>
     );

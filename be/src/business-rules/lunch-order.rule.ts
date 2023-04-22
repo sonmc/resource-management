@@ -15,7 +15,7 @@ export function GenerateLunchCalendars(date: Date): string {
 
     while (onboardDay <= last.day) {
         lunchCalendars.push({
-            date: onboardDay + '/' + month + '/' + year,
+            date: `${year}-${month > 9 ? month : '0' + month}-${onboardDay > 9 ? onboardDay : '0' + onboardDay}`,
             value: LUNCH_TYPE_NOMAL,
         });
         onboardDay++;

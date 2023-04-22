@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
@@ -7,10 +7,21 @@ import { Collapse } from 'reactstrap';
 import navdata from '../LayoutMenuData';
 //i18n
 import { withTranslation } from 'react-i18next';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states';
 
 const SidebarContent = (props) => {
-    const navData = navdata().props.children;
+    const currentUser = useRecoilValue(currentUserAtom);
 
+    const navData = navdata().props.children;
+    const [navs, setNav] = useState([]);
+    useEffect(() => {
+        let isAdmin = currentUser.role_ids?.includes(1);
+        let data = navData.filter((x) => {
+            return isAdmin || x.public || currentUser.permissions?.includes(x.id);
+        });
+        setNav(data);
+    }, [currentUser.permissions]);
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         const initMenu = () => {
@@ -42,7 +53,8 @@ const SidebarContent = (props) => {
             parentCollapseDiv.parentElement.children[0].setAttribute('aria-expanded', 'true');
             if (parentCollapseDiv.parentElement.closest('.collapse.menu-dropdown')) {
                 parentCollapseDiv.parentElement.closest('.collapse').classList.add('show');
-                if (parentCollapseDiv.parentElement.closest('.collapse').previousElementSibling) parentCollapseDiv.parentElement.closest('.collapse').previousElementSibling.classList.add('active');
+                if (parentCollapseDiv.parentElement.closest('.collapse').previousElementSibling)
+                    parentCollapseDiv.parentElement.closest('.collapse').previousElementSibling.classList.add('active');
             }
             return false;
         }
@@ -74,7 +86,7 @@ const SidebarContent = (props) => {
     return (
         <React.Fragment>
             {/* menu Items */}
-            {(navData || []).map((item, key) => {
+            {navs.map((item, key) => {
                 return (
                     <React.Fragment key={key}>
                         {/* Main Header */}
@@ -111,7 +123,10 @@ const SidebarContent = (props) => {
                                                                     {subItem.childItems &&
                                                                         (subItem.childItems || []).map((childItem, key) => (
                                                                             <li className="nav-item" key={key}>
-                                                                                <Link to={childItem.link ? childItem.link : '/#'} className="nav-link">
+                                                                                <Link
+                                                                                    to={childItem.link ? childItem.link : '/#'}
+                                                                                    className="nav-link"
+                                                                                >
                                                                                     {props.t(childItem.label)}
                                                                                 </Link>
                                                                             </li>

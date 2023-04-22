@@ -4,72 +4,110 @@ const Navdata = () => {
     const menuItems = [
         {
             id: 'home',
+            public: true,
             label: 'Home',
-            icon: 'ri-honour-line',
+            icon: 'ri-home-heart-line',
             link: '/home',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'projects',
-            label: 'Project management',
-            icon: 'ri-honour-line',
+            id: 'introduction',
+            public: true,
+            label: 'Introduction',
+            icon: 'ri-building-4-line',
+            link: '/introduction',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        {
+            id: 'project_get',
+            public: false,
+            label: 'Projects',
+            icon: 'ri-projector-line',
             link: '/projects',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'employees',
-            label: 'Employee management',
-            icon: 'ri-honour-line',
+            id: 'employee_get',
+            public: false,
+            label: 'Employees',
+            icon: 'ri-user-line',
             link: '/employees',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'cvs',
-            label: 'Curriculum Vitae',
-            icon: 'ri-honour-line',
-            link: '/cvs',
+            id: 'candidate_get',
+            public: false,
+            label: 'Candidates',
+            icon: 'ri-file-list-3-line',
+            link: '/candidates',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'vacations',
+            id: 'work_schedule',
+            public: true,
             label: 'Work schedule',
-            icon: 'ri-honour-line',
-            link: '/vacations',
+            icon: 'ri-calendar-2-line',
+            link: '/work-schedule',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
             id: 'lunch-order',
+            public: true,
             label: 'Lunch order',
-            icon: 'ri-honour-line',
+            icon: 'ri-timer-line',
             link: '/lunch-order',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'roles',
+            id: 'role_get',
+            public: false,
             label: 'Roles',
-            icon: 'ri-honour-line',
+            icon: 'ri-user-settings-line',
             link: '/roles',
             click: function (e) {
                 e.preventDefault();
             },
         },
         {
-            id: 'new-management',
-            label: 'New Management',
-            icon: 'ri-honour-line',
+            public: false,
+            id: 'new_get',
+            label: 'News Management',
+            icon: 'ri-newspaper-line',
             link: '/new-management',
+            click: function (e) {
+                e.preventDefault();
+            },
+        },
+        // {
+        //     id: 'library-management',
+        //     label: 'Libraries',
+        //     public: true,
+        //     icon: 'ri-book-open-line',
+        //     link: '/libraries',
+        //     click: function (e) {
+        //         e.preventDefault();
+        //     },
+        // },
+        {
+            id: 'vacation_get',
+            public: false,
+            label: 'Absence Management',
+            icon: 'ri-honour-line',
+            link: '/vacations',
             click: function (e) {
                 e.preventDefault();
             },

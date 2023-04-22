@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Permission } from 'src/infrastructure/schemas/permission.schema';
 import { plainToClass } from 'class-transformer';
 import { IRolePermRepository } from 'src/domain/repositories/role-perm-repository.interface';
 import { RolePermEntity } from 'src/domain/entities/role-pems.entity';

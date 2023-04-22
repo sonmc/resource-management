@@ -1,5 +1,6 @@
 @import 'react-big-calendar/lib/sass/styles';
 @import 'react-big-calendar/lib/addons/dragAndDrop/styles';
+
 html,
 body {
     font-family: 'Inter', sans-serif !important;
@@ -69,4 +70,24 @@ body {
 
 .card {
     box-shadow: 0 1px 10px rgba(56, 65, 74, 0.15);
+}
+.btn-success {
+    background-color: #2a7c30;
+}
+.form-switch-success .form-check-input:checked {
+    background-color: #42c94c;
+    border-color: #42c94c;
+}
+.link-success {
+    color: #2a7c30 !important;
+}
+.btn-danger {
+    background-color: #d60000;
+}
+.select-danger {
+    background: #ee1d1d
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="%23ffffff" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>')
+        right 1rem center/8px 10px no-repeat;
+    color: #ffffff;
+    border-radius: 0;
 }

@@ -1,4 +1,4 @@
-import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository';
+import { ILunchOrderRepository } from 'src/domain/repositories/lunch-order.repository.interface';
 import { ILogger } from '../../domain/logger/logger.interface';
 import { LunchOrderEntity } from 'src/domain/entities/lunch-order.entity';
 

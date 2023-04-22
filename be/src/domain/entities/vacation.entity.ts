@@ -6,4 +6,6 @@ export class VacationEntity {
     start_date: Date;
     end_date: Date;
     type: number;
+    user_id: number;
+    status: number;
 }

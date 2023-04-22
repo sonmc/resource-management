@@ -13,6 +13,7 @@ const NewDetailModal = ({ objectNewDetail, onCloseClick }) => {
             toggle={() => {
                 onCloseClick();
             }}
+            scrollable={true}
         >
             <ModalHeader
                 className="modal-title"
@@ -28,11 +29,7 @@ const NewDetailModal = ({ objectNewDetail, onCloseClick }) => {
                 </p>
             </ModalHeader>
             <ModalBody>
-                <div
-                    style={{ height: 100, overflow: 'hidden' }}
-                    className="mb-1 text-content"
-                    dangerouslySetInnerHTML={{ __html: data.content }}
-                ></div>
+                <div className="mb-1 text-content" dangerouslySetInnerHTML={{ __html: data.content }}></div>
             </ModalBody>
             <div className="modal-footer">
                 <Link to="#" className="btn btn-link link-success fw-medium" onClick={() => onCloseClick()}>

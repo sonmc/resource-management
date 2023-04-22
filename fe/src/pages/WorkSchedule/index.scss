@@ -1,0 +1,62 @@
+.custom-calendar {
+    .day-title {
+        text-transform: uppercase;
+        line-height: 18px;
+    }
+    .rbc-header {
+        padding: 10px 12px;
+        text-align: left;
+        background-color: #30925c;
+        color: #ffffff;
+    }
+    .rbc-date-cell {
+        text-align: left;
+        padding: 12px 12px;
+    }
+    .rbc-event,
+    .rbc-day-slot .rbc-background-event {
+        background: none;
+    }
+    .rbc-event.rbc-selected,
+    .rbc-day-slot .rbc-selected.rbc-background-event {
+        background-color: #ffffff;
+    }
+
+    .rbc-event.rbc-selected {
+        outline: unset !important;
+    }
+}
+.label-event,
+.label-remote,
+.label-off {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 4px;
+    div {
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0px 4px;
+        img {
+            margin-right: 6px;
+        }
+    }
+}
+.label-event {
+    div {
+        color: #00ba34;
+        background: linear-gradient(0deg, rgba(0, 186, 52, 0.1), rgba(0, 186, 52, 0.1)), #ffffff;
+    }
+}
+.label-remote {
+    div {
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), rgba(255, 150, 27, 0.1);
+        color: #ff9f2d;
+    }
+}
+.label-off {
+    div {
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), rgba(255, 59, 59, 0.1);
+        color: #e92c2c;
+    }
+}

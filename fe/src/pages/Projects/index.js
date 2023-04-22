@@ -3,7 +3,7 @@ import { CardBody, Container, Table } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { FetchProject, Create } from '../../Services/project.service';
+import { FetchProject, Create } from 'src/Services/project.service';
 import CreateModal from './Create';
 import AddMemberModal from './AddMember';
 import ConfirmDeleteModal from './ConfirmDelete';
@@ -13,14 +13,14 @@ import NoteControl from '../../Components/Common/Note';
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
-import { newWeekInMonthState } from '../../Recoil/states/common';
-import { Update, AddMember, RemoveMember } from '../../Services/project.service';
-import { Get as GetEmployee } from '../../Services/user.service';
-import { Get as GetRole } from '../../Services/role.service';
+import { newWeekInMonthState } from 'src/Recoil/states/common';
+import { Update, AddMember, RemoveMember } from 'src/Services/project.service';
+import { Get as GetEmployee } from 'src/Services/user.service';
+import { Get as GetRole } from 'src/Services/role.service';
 // Recoid
 import { useSetRecoilState } from 'recoil';
-import { rolesState } from '../../Recoil/states/roles';
-import { calculatorWorkloadStatus } from '../../helpers/common';
+import { rolesState } from 'src/Recoil/states/roles';
+import { calculatorWorkloadStatus, formatTime } from '../../helpers/common';
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
@@ -353,7 +353,7 @@ const ProjectPage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Projects</h5>
+                                        <h5 className="card-title mb-0 flex-grow-1">Projects Management</h5>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormCreate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> Create New
@@ -368,8 +368,8 @@ const ProjectPage = () => {
                                                 placeholder="Select start date"
                                                 className="form-control"
                                                 onChange={(data) => {
-                                                    let start_date = moment(data[0]).format('YYYY-MM-DD');
-                                                    let end_date = moment(data[1]).format('YYYY-MM-DD');
+                                                    let start_date = formatTime(data[0]);
+                                                    let end_date = formatTime(data[1]);
                                                     setFilter({ ...filter, start_date, end_date });
                                                 }}
                                                 options={{
@@ -412,7 +412,7 @@ const ProjectPage = () => {
                                             <thead>
                                                 <tr>
                                                     <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
-                                                        Project name
+                                                        Project's Name
                                                     </th>
                                                     <th rowSpan="2" style={{ width: '10%', verticalAlign: 'middle', textAlign: 'center' }}>
                                                         Notes
@@ -436,21 +436,48 @@ const ProjectPage = () => {
                                                     {workloadWeek[0].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[1].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
                                                     {workloadWeek[2].map((w, key) => {
                                                         return (
                                                             <React.Fragment key={key}>
-                                                                <td style={{ textAlign: 'center', fontWeight: 500, fontSize: '11px', padding: '10px 2px 10px 2px' }}>{w.start + '-' + w.end}</td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        fontWeight: 500,
+                                                                        fontSize: '11px',
+                                                                        padding: '10px 2px 10px 2px',
+                                                                    }}
+                                                                >
+                                                                    {w.start + '-' + w.end}
+                                                                </td>
                                                             </React.Fragment>
                                                         );
                                                     })}
@@ -486,7 +513,14 @@ const ProjectPage = () => {
                                                                 <td rowSpan={x.users.length} style={{ position: 'relative', width: '10%', padding: '5px 5px 5px 5px' }}>
                                                                     <NoteControl value={x.note} onChangeNote={(value) => onChangeNote(value, x.id)} />
                                                                 </td>
-                                                                <td style={{ position: 'relative', width: '10%', padding: '5px 20px 5px 5px', backgroundColor: x.project_leader === x.users[0].id ? '#c8ffc4' : '' }}>
+                                                                <td
+                                                                    style={{
+                                                                        position: 'relative',
+                                                                        width: '10%',
+                                                                        padding: '5px 20px 5px 5px',
+                                                                        backgroundColor: x.project_leader === x.users[0].id ? '#c8ffc4' : '',
+                                                                    }}
+                                                                >
                                                                     {x.users[0]?.full_name && (
                                                                         <Link
                                                                             to="#"
@@ -552,7 +586,14 @@ const ProjectPage = () => {
                                                                         {y.workloads.map((z, key3) => {
                                                                             const colorStatus = calculatorWorkloadStatus(z.value);
                                                                             return (
-                                                                                <td style={{ textAlign: 'center', padding: 0, backgroundColor: colorStatus }} key={key3}>
+                                                                                <td
+                                                                                    style={{
+                                                                                        textAlign: 'center',
+                                                                                        padding: 0,
+                                                                                        backgroundColor: colorStatus,
+                                                                                    }}
+                                                                                    key={key3}
+                                                                                >
                                                                                     {z.value} {z.value && <span>%</span>}
                                                                                 </td>
                                                                             );
@@ -563,6 +604,23 @@ const ProjectPage = () => {
                                                         })}
                                                     </React.Fragment>
                                                 ))}
+                                                {/* <tr>
+                                                    <td colSpan={workloadWeek[0].length + workloadWeek[1].length + workloadWeek[2].length + 4}></td>
+                                                </tr>
+                                                <tr>
+                                                    <th colSpan={4} className="font-weight-bold border border-secondary">
+                                                        Total efforts
+                                                    </th>
+                                                    {workloadWeek[0].map((item, i) => {
+                                                        return <td className="border border-secondary" key={i}></td>;
+                                                    })}
+                                                    {workloadWeek[1].map((item, i) => {
+                                                        return <td className="border border-secondary" key={i}></td>;
+                                                    })}
+                                                    {workloadWeek[2].map((item, i) => {
+                                                        return <td className="border border-secondary" key={i}></td>;
+                                                    })}
+                                                </tr> */}
                                             </tbody>
                                         </Table>
                                     </div>

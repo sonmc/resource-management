@@ -1,8 +1,7 @@
-import { Controller, UseGuards, Get, Post, Body, Query, Inject, Delete, Param } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Query, Inject, Delete, Param, Patch } from '@nestjs/common';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { GetAllUseCases } from 'src/use-cases/employee/get-all.usecases';
-import { CreateEmployeePresenter } from './presenter/create-employee.presenter';
 import { CreateEmployeeUseCases } from 'src/use-cases/employee/create-employee.usecase';
 import { GetOneUseCases } from 'src/use-cases/employee/get-one.usecases';
 import { plainToClass } from 'class-transformer';
@@ -13,6 +12,12 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { PermissionsGuard } from 'src/infrastructure/common/guards/permission.guard';
 import { Permissions } from 'src/infrastructure/decorators/permission.decorator';
 import { DeleteEmployeeUseCases } from 'src/use-cases/employee/delete-employee.usecase';
+
+import { EmployeePresenter } from './presenter/employee.presenter';
+import { ChangePasswordPresenter } from './presenter/change-password.presenter';
+import { ChangePasswordUseCases } from 'src/use-cases/employee/change-password.usecase';
+import { ChangeAvatarPresenter } from './presenter/change-avatar.presenter';
+import { ChangeAvatarUseCases } from 'src/use-cases/employee/change-avatar.usecase';
 
 @Controller('employees')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -25,7 +30,11 @@ export class UserController {
         @Inject(UseCasesProxyModule.CREATE_EMPLOYEES_USECASES_PROXY)
         private readonly createEmployeeUseCaseProxy: UseCaseProxy<CreateEmployeeUseCases>,
         @Inject(UseCasesProxyModule.DELETE_EMPLOYEE_USECASES_PROXY)
-        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>
+        private readonly deleteEmployeeUsecaseProxy: UseCaseProxy<DeleteEmployeeUseCases>,
+        @Inject(UseCasesProxyModule.CHANGE_PASSWORD_EMPLOYEE_USECASES_PROXY)
+        private readonly changePasswordEmployeeUseCaseProxy: UseCaseProxy<ChangePasswordUseCases>,
+        @Inject(UseCasesProxyModule.CHANGE_AVATAR_EMPLOYEE_USECASES_PROXY)
+        private readonly changeAvatarUseCaseProxy: UseCaseProxy<ChangeAvatarUseCases>
     ) {}
 
     @Get()
@@ -39,11 +48,23 @@ export class UserController {
     }
 
     @Post()
-    @Permissions(EndPoint.EMPLOYEE_CREATE)
-    async create(@Body() employeePresenter: CreateEmployeePresenter) {
+    // @Permissions(EndPoint.EMPLOYEE_CREATE)
+    async create(@Body() employeePresenter: EmployeePresenter) {
         const userEntity = plainToClass(UserEntity, employeePresenter);
         const userCreated = await this.createEmployeeUseCaseProxy.getInstance().execute(userEntity);
         return userCreated;
+    }
+
+    @Post('change-password')
+    async changePassword(@Body() changePasswordPresenter: ChangePasswordPresenter) {
+        const updated = await this.changePasswordEmployeeUseCaseProxy.getInstance().execute(changePasswordPresenter.id, changePasswordPresenter.old_password, changePasswordPresenter.new_password);
+        return updated;
+    }
+
+    @Post('change-avatar')
+    async changeAvatar(@Body() changeAvatarPresenter: ChangeAvatarPresenter) {
+        const updated = await this.changeAvatarUseCaseProxy.getInstance().execute(changeAvatarPresenter.id, changeAvatarPresenter.avatar);
+        return updated;
     }
 
     @Delete(':id')

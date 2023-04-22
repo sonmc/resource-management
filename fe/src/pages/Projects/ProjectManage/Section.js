@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Card, CardBody, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 
-import OverviewTab from './OverviewTab';
+import OverviewTab from './Overview';
 import TaskList from './TaskList';
 import MeetingNote from './MeetingNote';
 import ProjectIssues from './ProjectIssues';
 import ProjectReport from './ProjectReport';
+import ProjectDocuments from './ProjectDocuments';
 
 const Section = () => {
     //Tab
@@ -16,6 +17,8 @@ const Section = () => {
             setActiveTab(tab);
         }
     };
+    const [documents, setDocuments] = useState([]);
+
     return (
         <React.Fragment>
             <Row>
@@ -86,6 +89,17 @@ const Section = () => {
                                         }}
                                         href="#"
                                     >
+                                        Documents
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        className={classnames({ active: activeTab === '6' }, 'fw-semibold')}
+                                        onClick={() => {
+                                            toggleTab('6');
+                                        }}
+                                        href="#"
+                                    >
                                         Report
                                     </NavLink>
                                 </NavItem>
@@ -110,6 +124,9 @@ const Section = () => {
                             <ProjectIssues />
                         </TabPane>
                         <TabPane tabId="5">
+                            <ProjectDocuments documents={documents} />
+                        </TabPane>
+                        <TabPane tabId="6">
                             <ProjectReport />
                         </TabPane>
                     </TabContent>
