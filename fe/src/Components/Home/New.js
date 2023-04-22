@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import NewDetailModal from './DetailModal/NewDetailModal';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import moment from 'moment';
 import { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './index.scss';
-
+const base_url = process.env.REACT_APP_API_URL;
 const News = (props) => {
     const { news } = props;
     const [objectNewDetail, setObjectNewDetail] = useState({

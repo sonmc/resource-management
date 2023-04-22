@@ -118,60 +118,35 @@ const WorkSchedulePage = (props) => {
                         </div>
                         <CardBody>
                             <Row>
-                                <Col xs={12}>
-                                    <Row>
-                                        <Col xl={3}>
-                                            <Card className="card-h-100">
-                                                <CardBody>
-                                                    <h6>Infomation</h6>
-                                                    <div id="external-events">
-                                                        {categories &&
-                                                            categories.map((category, i) => (
-                                                                <div
-                                                                    className={`bg-soft-${category.type} external-event fc-event text-${category.type} d-flex align-items-center`}
-                                                                    key={'cat-' + category.id}
-                                                                >
-                                                                    <i className="mdi mdi-checkbox-blank-circle font-size-11 me-2" />
-                                                                    {category.icon && <img src={category.icon} alt="remote" className="me-2" />}
-                                                                    {category.title}
-                                                                </div>
-                                                            ))}
-                                                    </div>
-                                                </CardBody>
-                                            </Card>
-                                        </Col>
-
-                                        <Col xl={9}>
-                                            <Card className="card-h-100">
-                                                <CardBody>
-                                                    <Calendar
-                                                        localizer={localizer}
-                                                        className="custom-calendar"
-                                                        startAccessor="start"
-                                                        endAccessor="end"
-                                                        style={{ height: `calc(100vh)`, background: '#fff' }}
-                                                        views={{ month: true }}
-                                                        events={events}
-                                                        components={{
-                                                            toolbar: CustomToolbar,
-                                                            event: Event,
-                                                            month: {
-                                                                header: (e) => {
-                                                                    let dayNumber = e.date.getDay();
-                                                                    if (dayNumber === 0) dayNumber = 7;
-                                                                    let day = DAY_OF_WEEK.find((x) => x.key == dayNumber + 1);
-                                                                    return <span className="day-title">{day.value}</span>;
-                                                                },
-                                                                dateHeader: (e) => {
-                                                                    return <span>{parseInt(e.label)}</span>;
-                                                                },
-                                                            },
-                                                        }}
-                                                    />
-                                                </CardBody>
-                                            </Card>
-                                        </Col>
-                                    </Row>
+                                <Col xl={12}>
+                                    <Card className="card-h-100">
+                                        <CardBody>
+                                            <Calendar
+                                                localizer={localizer}
+                                                className="custom-calendar"
+                                                startAccessor="start"
+                                                endAccessor="end"
+                                                style={{ height: `calc(100vh)`, background: '#fff' }}
+                                                views={{ month: true }}
+                                                events={events}
+                                                components={{
+                                                    toolbar: CustomToolbar,
+                                                    event: Event,
+                                                    month: {
+                                                        header: (e) => {
+                                                            let dayNumber = e.date.getDay();
+                                                            if (dayNumber === 0) dayNumber = 7;
+                                                            let day = DAY_OF_WEEK.find((x) => x.key == dayNumber + 1);
+                                                            return <span className="day-title">{day.value}</span>;
+                                                        },
+                                                        dateHeader: (e) => {
+                                                            return <span>{parseInt(e.label)}</span>;
+                                                        },
+                                                    },
+                                                }}
+                                            />
+                                        </CardBody>
+                                    </Card>
                                 </Col>
                             </Row>
                         </CardBody>
@@ -188,22 +163,10 @@ class CustomToolbar extends Toolbar {
         return (
             <div className="rbc-toolbar">
                 <div className="btn-group">
-                    <button
-                        type="button"
-                        title="Previous month"
-                        aria-pressed="false"
-                        className="fc-prev-button btn btn-primary"
-                        onClick={() => this.navigate('PREV')}
-                    >
+                    <button type="button" title="Previous month" aria-pressed="false" className="fc-prev-button btn btn-primary" onClick={() => this.navigate('PREV')}>
                         <span className="fa fa-chevron-left"></span>
                     </button>
-                    <button
-                        type="button"
-                        title="Next month"
-                        aria-pressed="false"
-                        className="fc-next-button btn btn-primary"
-                        onClick={() => this.navigate('NEXT')}
-                    >
+                    <button type="button" title="Next month" aria-pressed="false" className="fc-next-button btn btn-primary" onClick={() => this.navigate('NEXT')}>
                         <span className="fa fa-chevron-right"></span>
                     </button>
                 </div>
@@ -237,7 +200,7 @@ function Event({ event }) {
                     <div className="label-remote">
                         <div id={'Tooltip-remote-' + event.start}>
                             <img src={homeSvg} alt="remote" />
-                            {pad(event.remotes.length)}
+                            {pad(event.remotes.length)} remote
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-remote-' + event.start}>
@@ -258,7 +221,7 @@ function Event({ event }) {
                     <div className="label-off">
                         <div id={'Tooltip-off-' + event.start}>
                             <img src={profileSvg} alt="off" />
-                            {pad(event.offs.length)}
+                            {pad(event.offs.length)} off
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-off-' + event.start}>

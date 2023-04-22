@@ -11,6 +11,7 @@ export class CreateCandidateUseCases {
     async execute(file: any): Promise<Candidate> {
         const extension = GetFileExtension(file.filename);
         let content = '';
+        let avatar = '';
         switch (extension) {
             case '.pdf':
                 content = await ExtractPdf(file);
