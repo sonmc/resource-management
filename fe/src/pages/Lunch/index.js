@@ -8,6 +8,8 @@ import MonthSelect from 'flatpickr/dist/plugins/monthSelect/index';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
 import { formatTime } from 'src/helpers/common';
 import './index.scss';
+import { useRecoilValue } from 'recoil';
+import { currentUserAtom } from 'src/Recoil/states';
 const checkPi = (value) => {
     return moment(value).startOf('day').set('hour', 10).isBefore(moment());
 };
@@ -43,6 +45,8 @@ const LUNCH_TYPES = [
     },
 ];
 const LunchPage = () => {
+    const currentUser = useRecoilValue(currentUserAtom);
+
     const [days, setDays] = useState([]);
     const [totals, setTotal] = useState([]);
     const [emps, setEmp] = useState([]);
@@ -66,21 +70,32 @@ const LunchPage = () => {
 
     useEffect(() => {
         if (days.length === 0) return;
+        let isAdmin = currentUser.role_ids.includes(1);
         GetLunch()
             .then((res) => {
-                let data = res.map((x) => {
-                    let lunchData = x.lunch_calendars;
-                    x.lunch_calendars = days.map((lc) => {
-                        let d = lunchData.find((ld) => {
-                            return moment(ld.date).isSame(lc.date);
+                let data = res
+                    .filter((x) => {
+                        return isAdmin || x.user.id === currentUser.user_id;
+                    })
+                    .map((x) => {
+                        let lunchData = x.lunch_calendars;
+                        x.lunch_calendars = days.map((lc) => {
+                            let d = lunchData.find((ld) => {
+                                return moment(ld.date).isSame(lc.date);
+                            });
+                            return d
+                                ? { ...d, active: true, disabled: isAdmin ? false : lc.disabled, classDisabled: isAdmin ? '' : lc.classDisabled }
+                                : {
+                                      date: formatTime(lc.date),
+                                      value: 0,
+                                      active: false,
+                                      disabled: isAdmin ? false : lc.disabled,
+                                      classDisabled: isAdmin ? '' : lc.classDisabled,
+                                  };
                         });
-                        return d
-                            ? { ...d, active: true, disabled: lc.disabled, classDisabled: lc.classDisabled }
-                            : { date: formatTime(lc.date), value: 0, active: false, disabled: lc.disabled, classDisabled: lc.classDisabled };
-                    });
 
-                    return x;
-                });
+                        return x;
+                    });
                 setEmp(data);
             })
             .catch(() => {});
@@ -121,9 +136,10 @@ const LunchPage = () => {
                                                 <div>Total</div>
                                             </th>
                                             {totals.map((x) => {
+                                                let keys = LUNCH_TYPES.map((x) => x.key);
                                                 return (
                                                     <th scope="col" key={x.date} className={x.classDisabled}>
-                                                        {x.lunchs.filter((l) => l.value != 0).length}
+                                                        {x.lunchs.filter((l) => keys.includes(l.value)).length}
                                                     </th>
                                                 );
                                             })}
@@ -137,7 +153,7 @@ const LunchPage = () => {
 
                                                     {totals.map((t) => {
                                                         return (
-                                                            <th className={t.classDisabled} scope="col" key={`${t.date}${lt.name}`}>
+                                                            <th scope="col" key={`${t.date}${lt.name}`}>
                                                                 {t.lunchs.filter((l) => l.value == lt.value).length}
                                                             </th>
                                                         );
@@ -174,11 +190,12 @@ const LunchPage = () => {
                                                         </div>
                                                     </td>
                                                     {emp.lunch_calendars.map((d, j) => {
+                                                        let isPi = checkPi(d.date);
                                                         return (
                                                             <td key={`${i}${j}`}>
                                                                 <select
                                                                     id="inputState"
-                                                                    className="form-select"
+                                                                    className={`form-select ${d.value == -1 ? 'select-danger' : ''}`}
                                                                     disabled={d.disabled}
                                                                     onChange={(event) => {
                                                                         d.value = event.target.value;
@@ -195,10 +212,15 @@ const LunchPage = () => {
                                                                     value={d.value}
                                                                     style={{ width: 130, border: 0 }}
                                                                 >
-                                                                    <option value={0}>No</option>
+                                                                    <option value={0} disabled={isPi}>
+                                                                        No
+                                                                    </option>
+                                                                    <option value={-1} disabled={!isPi}>
+                                                                        Pi
+                                                                    </option>
                                                                     {LUNCH_TYPES.map((x) => {
                                                                         return (
-                                                                            <option key={x.value} value={x.value}>
+                                                                            <option key={x.value} value={x.value} disabled={isPi}>
                                                                                 {x.name}
                                                                             </option>
                                                                         );

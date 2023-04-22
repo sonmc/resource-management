@@ -9,7 +9,7 @@ const ROLE_DEFAULT = {
 
 const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, roleId } = props;
-    const [role, setRole] = useState(ROLE_DEFAULT);
+    const [role, setRole] = useState({ ...ROLE_DEFAULT });
     const [title, setTitle] = useState('Create role');
 
     const changeField = (event) => {
@@ -22,6 +22,8 @@ const ModalUpdate = (props) => {
     };
 
     useEffect(() => {
+        if (!isShowFormUpdate) return;
+
         if (roleId) {
             const params = { id: roleId };
             Get(params).then((res) => {
@@ -31,7 +33,7 @@ const ModalUpdate = (props) => {
         } else {
             setRole({ ...ROLE_DEFAULT });
         }
-    }, [roleId]);
+    }, [roleId, isShowFormUpdate]);
 
     return (
         <Modal

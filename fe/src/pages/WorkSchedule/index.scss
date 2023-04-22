@@ -1,23 +1,29 @@
 .custom-calendar {
     .day-title {
         text-transform: uppercase;
-        font-weight: 400;
-        font-size: 16px;
         line-height: 18px;
     }
     .rbc-header {
         padding: 10px 12px;
         text-align: left;
+        background-color: #30925c;
+        color: #ffffff;
     }
     .rbc-date-cell {
         text-align: left;
-        font-weight: 500;
-        font-size: 15px;
         padding: 12px 12px;
     }
     .rbc-event,
     .rbc-day-slot .rbc-background-event {
         background: none;
+    }
+    .rbc-event.rbc-selected,
+    .rbc-day-slot .rbc-selected.rbc-background-event {
+        background-color: #ffffff;
+    }
+
+    .rbc-event.rbc-selected {
+        outline: unset !important;
     }
 }
 .label-event,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Button, Modal, ModalHeader, ModalBody, Row, Label, FormGroup } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
 import moment from 'moment';
@@ -9,13 +9,16 @@ import { formatTime } from 'src/helpers/common';
 const TakeALeave = (props) => {
     const currentUser = useRecoilValue(currentUserAtom);
 
-    const getVacationDefault = () => ({
-        reason: '',
-        start: '',
-        end: '',
-        type: 1,
-        user_id: currentUser.user_id,
-    });
+    const getVacationDefault = useCallback(
+        () => ({
+            reason: '',
+            start: '',
+            end: '',
+            type: 1,
+            user_id: currentUser.user_id,
+        }),
+        [currentUser]
+    );
     const { showFormCreate, closeFormCreate, createVacation } = props;
     const [vacation, setVacation] = useState(getVacationDefault());
     const changeField = (event) => {
@@ -23,7 +26,11 @@ const TakeALeave = (props) => {
         emp.type = emp.type * 1;
         setVacation(emp);
     };
-
+    useEffect(() => {
+        if (showFormCreate) {
+            setVacation(getVacationDefault());
+        }
+    }, [showFormCreate, setVacation, getVacationDefault]);
     const submit = () => {
         createVacation(vacation);
     };

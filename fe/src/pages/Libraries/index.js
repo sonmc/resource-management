@@ -4,14 +4,12 @@ import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import { Get as GetEmployee, Create, Delete } from 'src/Services/user.service';
 import { Get as GetRole } from 'src/Services/role.service';
-import { usersState } from 'src/Recoil/states/users';
 import { useSetRecoilState } from 'recoil';
 import { LEVEL_STATUS } from '../../Constant';
 
 const levelStatus = LEVEL_STATUS;
 
 const Libraries = () => {
-    const setUsersStore = useSetRecoilState(usersState);
     const [roles, setRoles] = useState([]);
     const [employeeId, setEmployeeId] = useState(0);
     const [employees, setEmployees] = useState([]);
@@ -27,7 +25,6 @@ const Libraries = () => {
     const fetchEmployee = (filter) => {
         GetEmployee(filter).then((res) => {
             setEmployees(res);
-            setUsersStore(res);
         });
     };
 
@@ -57,10 +54,8 @@ const Libraries = () => {
             .then((res) => {
                 if (employee?.id != 0) {
                     setEmployees([...employees.filter((x) => x.id !== res.id), res]);
-                    setUsersStore([...employees.filter((x) => x.id !== res.id), res]);
                 } else {
                     setEmployees([...employees, res]);
-                    setUsersStore([...employees, res]);
                 }
             })
             .catch((error) => {});
@@ -122,7 +117,14 @@ const Libraries = () => {
                                         <div className="row">
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="roleId" id="slIdRole">
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="roleId"
+                                                        id="slIdRole"
+                                                    >
                                                         <option defaultValue="all">Select role</option>
                                                         {roles.map((role, key) => {
                                                             return (
@@ -136,7 +138,14 @@ const Libraries = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="status"
+                                                        id="slIdStatus"
+                                                    >
                                                         <option value="all">Select status</option>
                                                         {levelStatus.map((item, key) => {
                                                             return (
@@ -150,7 +159,13 @@ const Libraries = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="search-box">
-                                                    <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name" />
+                                                    <input
+                                                        type="text"
+                                                        name="searchTerm"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        className="form-control search"
+                                                        placeholder="Search by name"
+                                                    />
                                                     <i className="ri-search-line search-icon"></i>
                                                 </div>
                                             </div>
@@ -188,7 +203,9 @@ const Libraries = () => {
                                                                     })
                                                                     .join(', ')}
                                                             </td>
-                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
+                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>
+                                                                {levelStatus.find((x) => x.id == emp.status_level).title}
+                                                            </td>
                                                             <td style={{ textAlign: 'center' }}>
                                                                 <Button color="success btn-sm me-2" onClick={() => showFormUpdate(emp.id)}>
                                                                     Update

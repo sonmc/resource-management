@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { CardBody, Col, Container, Table, Button } from 'reactstrap';
+import { CardBody, Col, Container, Table, Button, Input, Label } from 'reactstrap';
 import MetaTags from 'react-meta-tags';
 import { Link } from 'react-router-dom';
 import ModalUpdate from './FormUpdate';
-import ConfirmDelete from './ConfirmDelete';
-import { Get as GetEmployee, Create, Delete } from 'src/Services/user.service';
+import { Get as GetEmployee, Create, Update } from 'src/Services/user.service';
 import { Get as GetRole } from 'src/Services/role.service';
-import { usersState } from 'src/Recoil/states/users';
 import { useSetRecoilState } from 'recoil';
-import { LEVEL_STATUS } from '../../Constant';
-
+import { CONFIRM_TYPE, LEVEL_STATUS, STATUS } from '../../Constant';
+import ConfirmModal from 'src/Components/Common/ConfirmModal';
 const levelStatus = LEVEL_STATUS;
+
 const EmployeePage = () => {
-    const setUsersStore = useSetRecoilState(usersState);
     const [roles, setRoles] = useState([]);
     const [employeeId, setEmployeeId] = useState(0);
+    const [dataConfirm, setDataConfirm] = useState({});
+
     const [employees, setEmployees] = useState([]);
-    const [employeeDelete, setEmployeeDelete] = useState({ id: 0, full_name: '' });
-    const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
     const [filter, setFilter] = useState({
         searchTerm: '',
         roleId: 0,
+        status_level: 0,
         status: 0,
     });
     const [isShowFormUpdate, setShowFormUpdate] = useState(false);
@@ -28,7 +27,6 @@ const EmployeePage = () => {
     const fetchEmployee = (filter) => {
         GetEmployee(filter).then((res) => {
             setEmployees(res);
-            setUsersStore(res);
         });
     };
 
@@ -43,51 +41,54 @@ const EmployeePage = () => {
         setShowFormUpdate(!isShowFormUpdate);
     };
 
-    const confirmDelete = (employeeId) => {
-        const empDelete = employees.find((e) => e.id === employeeId);
-        setEmployeeDelete(empDelete);
-        setShowConfirmDelete(true);
-    };
-
     const closeFormUpdate = () => {
         setShowFormUpdate(false);
     };
 
     const save = (employee) => {
-        Create(employee)
+        return Create(employee)
             .then((res) => {
                 if (employee?.id != 0) {
-                    setEmployees([...employees.filter((x) => x.id !== res.id), res]);
-                    setUsersStore([...employees.filter((x) => x.id !== res.id), res]);
+                    setEmployees((emps) => {
+                        return emps.map((x) => {
+                            if (x.id !== res.id) return x;
+                            return res;
+                        });
+                    });
                 } else {
                     setEmployees([...employees, res]);
-                    setUsersStore([...employees, res]);
                 }
+                setShowFormUpdate(false);
             })
             .catch((error) => {});
-        setShowFormUpdate(false);
     };
 
     const changeFilter = (event) => {
         let value = event.target.value;
-        if (event.target.name === 'status') {
-            value = value === 'all' ? 0 : value;
+        setFilter({ ...filter, [event.target.name]: parseInt(value) });
+    };
+
+    const closeConfirm = () => {
+        setDataConfirm({ isOpen: false });
+    };
+    const openModal = (status, employee) => {
+        let statusMessage = 'active';
+        if (status == 2) {
+            statusMessage = 'inactive';
         }
-        setFilter({ ...filter, [event.target.name]: value });
+        let data = {
+            message: ` Are you sure you want to ${statusMessage} "${employee.first_name} ${employee.last_name}" ?`,
+            title: `Confirm ${statusMessage} Employee`,
+            typeConfirm: CONFIRM_TYPE.CONFIRM,
+            isOpen: true,
+            value: { employee, status },
+        };
+        setDataConfirm(data);
     };
-
-    const closeConfirmDelete = () => {
-        setShowConfirmDelete(false);
-    };
-
-    const deleteEmployee = (employeeId) => {
-        Delete(employeeId)
-            .then((res) => {
-                const newList = employees.filter((e) => e.id !== res);
-                setEmployees(newList);
-                setShowConfirmDelete(false);
-            })
-            .catch((err) => {});
+    const onConfirmClick = (value) => {
+        save({ ...value.employee, status: value.status }).then((x) => {
+            closeConfirm();
+        });
     };
 
     useEffect(() => {
@@ -123,8 +124,15 @@ const EmployeePage = () => {
                                         <div className="row">
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="roleId" id="slIdRole">
-                                                        <option defaultValue="all">Select role</option>
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="roleId"
+                                                        id="slIdRole"
+                                                    >
+                                                        <option value="0">Select role</option>
                                                         {roles.map((role, key) => {
                                                             return (
                                                                 <option key={key} value={role.id}>
@@ -137,8 +145,15 @@ const EmployeePage = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
-                                                        <option value="all">Select status</option>
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="status_level"
+                                                        id="slIdStatus"
+                                                    >
+                                                        <option value="0">Select contract type </option>
                                                         {levelStatus.map((item, key) => {
                                                             return (
                                                                 <option key={key} value={item.id}>
@@ -150,8 +165,35 @@ const EmployeePage = () => {
                                                 </div>
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
+                                                <div className="input-light">
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="status"
+                                                        id="slIdStatus"
+                                                    >
+                                                        <option value="0">Select status</option>
+                                                        {STATUS.map((item, key) => {
+                                                            return (
+                                                                <option key={key} value={item.id}>
+                                                                    {item.title}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="col-xxl-2 col-sm-4">
                                                 <div className="search-box">
-                                                    <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name" />
+                                                    <input
+                                                        type="text"
+                                                        name="searchTerm"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        className="form-control search"
+                                                        placeholder="Search by name"
+                                                    />
                                                     <i className="ri-search-line search-icon"></i>
                                                 </div>
                                             </div>
@@ -167,7 +209,8 @@ const EmployeePage = () => {
                                                     <th>Full name</th>
                                                     <th>Email</th>
                                                     <th>Role</th>
-                                                    <th style={{ width: '10%', textAlign: 'center' }}>Status</th>
+                                                    <th style={{ width: '10%' }}>Contract Type</th>
+                                                    <th>Status</th>
                                                     <th style={{ width: '20%', textAlign: 'center' }}>Action</th>
                                                 </tr>
                                             </thead>
@@ -189,13 +232,27 @@ const EmployeePage = () => {
                                                                     })
                                                                     .join(', ')}
                                                             </td>
-                                                            <td style={{ fontSize: 15, textAlign: 'center' }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
+                                                            <td style={{ fontSize: 15 }}>
+                                                                {levelStatus.find((x) => x.id == emp.status_level).title}
+                                                            </td>
+                                                            <td>
+                                                                <div className="form-check form-switch form-switch-success mb-3">
+                                                                    <Input
+                                                                        className="form-check-input"
+                                                                        type="checkbox"
+                                                                        role="switch"
+                                                                        id="SwitchCheck3"
+                                                                        checked={emp.status == STATUS[0].id}
+                                                                        onChange={(x) => {
+                                                                            let status = !(emp.status == STATUS[0].id) ? 1 : 2;
+                                                                            openModal(status, emp);
+                                                                        }}
+                                                                    />
+                                                                </div>
+                                                            </td>
                                                             <td style={{ textAlign: 'center' }}>
                                                                 <Button color="success btn-sm me-2" onClick={() => showFormUpdate(emp.id)}>
                                                                     Update
-                                                                </Button>
-                                                                <Button color="danger btn-sm" onClick={() => confirmDelete(emp.id)}>
-                                                                    Delete
                                                                 </Button>
                                                             </td>
                                                         </tr>
@@ -218,9 +275,9 @@ const EmployeePage = () => {
                             return x.id !== employeeId;
                         })}
                     />
-                    <ConfirmDelete deleteEmployee={deleteEmployee} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} employee={employeeDelete} />
                 </Container>
             </div>
+            <ConfirmModal data={dataConfirm} onConfirmClick={onConfirmClick} onCloseClick={closeConfirm} />
         </React.Fragment>
     );
 };
