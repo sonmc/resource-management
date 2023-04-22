@@ -69,19 +69,33 @@ const TakeALeave = (props) => {
                         </Row>
                         <Row className="mt-3">
                             <Col xxl={3}>
-                                <label className="form-label">Vacation type :</label>
+                                <label className="form-label">Type :</label>
                             </Col>
                             <Col xxl={9}>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="type" onChange={(x) => changeField(x)} checked={vacation.type} value={1} />
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="type"
+                                        onChange={(x) => changeField(x)}
+                                        checked={vacation.type}
+                                        value={1}
+                                    />
                                     <label className="form-check-label" htmlFor="inlineRadio1">
                                         Remote
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="type" onChange={(x) => changeField(x)} checked={!vacation.type} value={0} />
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="type"
+                                        onChange={(x) => changeField(x)}
+                                        checked={!vacation.type}
+                                        value={0}
+                                    />
                                     <label className="form-check-label" htmlFor="inlineRadio2">
-                                        Vacation
+                                        Off
                                     </label>
                                 </div>
                             </Col>
@@ -132,7 +146,14 @@ const TakeALeave = (props) => {
                                 <label className="form-label">Reason :</label>
                             </Col>
                             <Col xxl={9}>
-                                <textarea type="email" className="form-control" style={{ height: '150px' }} name="reason" onChange={(x) => changeField(x)} value={vacation.reason}></textarea>
+                                <textarea
+                                    type="email"
+                                    className="form-control"
+                                    style={{ height: '150px' }}
+                                    name="reason"
+                                    onChange={(x) => changeField(x)}
+                                    value={vacation.reason}
+                                ></textarea>
                             </Col>
                         </Row>
 

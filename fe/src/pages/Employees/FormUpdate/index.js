@@ -244,7 +244,7 @@ const ModalUpdate = (props) => {
                         </Col>
                         <Col xxl={6}>
                             <Label for="start-field" className="form-label">
-                                Status
+                                Contract Type
                             </Label>
                             <Select
                                 value={selectedStatus}
