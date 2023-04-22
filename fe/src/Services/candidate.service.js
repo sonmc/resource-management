@@ -3,6 +3,7 @@ const baseUrl = `candidates`;
 const api = new APIClient();
 
 export const Get = (params) => api.get(baseUrl, params);
+export const Update = (params) => api.create(baseUrl, params);
 
 export const Upload = (files) => {
     let fileToUpload = files[0];

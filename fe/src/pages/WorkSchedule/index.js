@@ -80,6 +80,7 @@ const WorkSchedulePage = (props) => {
             .then((res) => {
                 toast.success('successfully !', TOAST_CONFIG);
                 setShowVacation(false);
+                getData();
             })
             .catch((error) => {
                 toast.error('Error !', error);
@@ -118,7 +119,7 @@ const WorkSchedulePage = (props) => {
                         </div>
                         <CardBody>
                             <Row>
-                                <Col xl={12}>
+                                <Col xs={12}>
                                     <Card className="card-h-100">
                                         <CardBody>
                                             <Calendar
@@ -126,7 +127,7 @@ const WorkSchedulePage = (props) => {
                                                 className="custom-calendar"
                                                 startAccessor="start"
                                                 endAccessor="end"
-                                                style={{ height: `calc(100vh)`, background: '#fff' }}
+                                                style={{ height: `calc(800px)`, background: '#fff' }}
                                                 views={{ month: true }}
                                                 events={events}
                                                 components={{
@@ -163,10 +164,22 @@ class CustomToolbar extends Toolbar {
         return (
             <div className="rbc-toolbar">
                 <div className="btn-group">
-                    <button type="button" title="Previous month" aria-pressed="false" className="fc-prev-button btn btn-primary" onClick={() => this.navigate('PREV')}>
+                    <button
+                        type="button"
+                        title="Previous month"
+                        aria-pressed="false"
+                        className="fc-prev-button btn btn-primary"
+                        onClick={() => this.navigate('PREV')}
+                    >
                         <span className="fa fa-chevron-left"></span>
                     </button>
-                    <button type="button" title="Next month" aria-pressed="false" className="fc-next-button btn btn-primary" onClick={() => this.navigate('NEXT')}>
+                    <button
+                        type="button"
+                        title="Next month"
+                        aria-pressed="false"
+                        className="fc-next-button btn btn-primary"
+                        onClick={() => this.navigate('NEXT')}
+                    >
                         <span className="fa fa-chevron-right"></span>
                     </button>
                 </div>
@@ -183,24 +196,25 @@ class CustomToolbar extends Toolbar {
     };
 }
 function Event({ event }) {
-    function pad(d) {
-        return d < 10 ? '0' + d.toString() : d.toString();
+    function pad(d, text) {
+        let t = d > 1 ? text + 's' : text;
+        return (d < 10 ? `0${d}` : d) + ' ' + t;
     }
     return (
         <div>
-            {event.events.length > 0 ? (
+            {/* {event.events.length > 0 ? (
                 <div className="label-event">
                     <div>Event: {pad(event.events.length)}</div>
                 </div>
             ) : (
                 ''
-            )}
+            )} */}
             {event.remotes.length > 0 ? (
                 <>
                     <div className="label-remote">
                         <div id={'Tooltip-remote-' + event.start}>
                             <img src={homeSvg} alt="remote" />
-                            {pad(event.remotes.length)} remote
+                            {pad(event.remotes.length, 'remote')}
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-remote-' + event.start}>
@@ -221,7 +235,7 @@ function Event({ event }) {
                     <div className="label-off">
                         <div id={'Tooltip-off-' + event.start}>
                             <img src={profileSvg} alt="off" />
-                            {pad(event.offs.length)} off
+                            {pad(event.offs.length, 'off')}
                         </div>
                     </div>
                     <Tooltip placement="top" target={'Tooltip-off-' + event.start}>
