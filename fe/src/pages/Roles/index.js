@@ -7,6 +7,9 @@ import { Get as GetRole, Create, Update, Delete } from 'src/Services/role.servic
 import RolePems from './RolePems';
 import { useSetRecoilState } from 'recoil';
 import { rolesState } from 'src/Recoil/states/roles';
+import { ToastContainer, toast } from 'react-toastify';
+import { TOAST_CONFIG, VACATION_TYPES } from '../../Constant';
+
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 const RolePage = () => {
@@ -67,6 +70,7 @@ const RolePage = () => {
                 })
                 .catch((error) => {});
         }
+        toast.success('successfully !', TOAST_CONFIG);
     };
 
     const deleteRole = (roleId) => {
@@ -96,7 +100,7 @@ const RolePage = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h3 className="card-title mb-0 flex-grow-1">Users Management</h3>
+                                        <h3 className="card-title mb-0 flex-grow-1">Roles Management</h3>
                                         <div className="flex-shrink-0">
                                             <button className="btn btn-success" onClick={() => showFormUpdate()}>
                                                 <i className="ri-add-line align-bottom me-1"></i> New
@@ -144,14 +148,10 @@ const RolePage = () => {
                         </Col>
                     </div>
                     <ModalUpdate save={save} isShowFormUpdate={isShowFormUpdate} closeFormUpdate={closeFormUpdate} roleId={roleId} />
-                    <ConfirmDelete
-                        deleteRole={deleteRole}
-                        isShowConfirmDelete={isShowConfirmDelete}
-                        closeConfirmDelete={closeConfirmDelete}
-                        roleId={roleId}
-                    />
+                    <ConfirmDelete deleteRole={deleteRole} isShowConfirmDelete={isShowConfirmDelete} closeConfirmDelete={closeConfirmDelete} roleId={roleId} />
                 </Container>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };

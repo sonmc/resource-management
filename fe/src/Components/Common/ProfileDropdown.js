@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import avatar1 from 'src/assets/images/users/avatar-1.jpg';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Logout } from 'src/Services/auth.service';
 import { currentUserAtom } from 'src/Recoil/states/users';
+import avatarDefault from 'src/assets/images/default-avatar.png';
+
 const ProfileDropdown = () => {
     const history = useHistory();
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
@@ -13,7 +14,7 @@ const ProfileDropdown = () => {
     const toggleProfileDropdown = () => {
         setIsProfileDropdown(!isProfileDropdown);
     };
-    const [avatar, setAvatar] = useState(avatar1);
+    const [avatar, setAvatar] = useState(avatarDefault);
     useEffect(() => {
         setAvatar(currentUser.avatar);
     }, [currentUser]);
@@ -33,7 +34,7 @@ const ProfileDropdown = () => {
                             src={avatar}
                             alt="Header Avatar"
                             onError={() => {
-                                setAvatar(avatar1);
+                                setAvatar(avatarDefault);
                             }}
                         />
                         <span className="text-start ms-xl-2">

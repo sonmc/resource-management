@@ -26,10 +26,59 @@ import { Candidate } from 'src/infrastructure/schemas/candidate.schema';
 import { CandidateRepository } from './candidate.repository';
 import { Notification } from 'src/infrastructure/schemas/notification.schema';
 import { NotificationRepository } from './notification.repository';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionFilter } from 'src/infrastructure/common/filter/exception.filter';
 
 @Module({
-    imports: [ConfigModule, TypeOrmModule.forFeature([Project, User, Workload, Role, UserProject, Permission, UserRole, Vacation, RolePem, New, LunchOrder, Candidate, Notification])],
-    providers: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository, LunchOrderRepository, CandidateRepository, NotificationRepository],
-    exports: [ProjectRepository, UserRepository, RoleRepository, UserProjectRepository, WorkloadRepository, PermissionRepository, VacationRepository, RolePermRepository, NewRepository, LunchOrderRepository, CandidateRepository, NotificationRepository],
+    imports: [
+        ConfigModule,
+        TypeOrmModule.forFeature([
+            Project,
+            User,
+            Workload,
+            Role,
+            UserProject,
+            Permission,
+            UserRole,
+            Vacation,
+            RolePem,
+            New,
+            LunchOrder,
+            Candidate,
+            Notification,
+        ]),
+    ],
+    providers: [
+        {
+            provide: APP_FILTER,
+            useClass: AllExceptionFilter,
+        },
+        ProjectRepository,
+        UserRepository,
+        RoleRepository,
+        UserProjectRepository,
+        WorkloadRepository,
+        PermissionRepository,
+        VacationRepository,
+        RolePermRepository,
+        NewRepository,
+        LunchOrderRepository,
+        CandidateRepository,
+        NotificationRepository,
+    ],
+    exports: [
+        ProjectRepository,
+        UserRepository,
+        RoleRepository,
+        UserProjectRepository,
+        WorkloadRepository,
+        PermissionRepository,
+        VacationRepository,
+        RolePermRepository,
+        NewRepository,
+        LunchOrderRepository,
+        CandidateRepository,
+        NotificationRepository,
+    ],
 })
 export class RepositoriesModule {}

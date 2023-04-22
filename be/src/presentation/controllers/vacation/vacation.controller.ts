@@ -20,6 +20,7 @@ import { NotificationPresenter } from '../notification/presenter/notification.pr
 import { timeAgo } from 'src/actions/common';
 import { ChangeStatusPresenter } from './presenter/change-status.presenter';
 import { ChangeStatusUseCases } from 'src/use-cases/vacation/change-status.usecase';
+import { UserRepository } from 'src/presentation/repositories/user.repository';
 
 @Controller('vacations')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -36,14 +37,14 @@ export class VacationController {
         @Inject(UseCasesProxyModule.CHANGE_STATUS_USECASES_PROXY)
         private readonly changeStatusUseCaseProxy: UseCaseProxy<ChangeStatusUseCases>,
         @Inject(EventsGateway)
-        private readonly eventsGateway: EventsGateway
+        private readonly eventsGateway: EventsGateway,
+        private readonly userRepository: UserRepository
     ) {}
 
     @Get()
     @Permissions(EndPoint.VACATION_GET)
     async get(@Query() query, @Request() request) {
-        let model = { user_id: request.user.id, searchTerm: query.searchTerm, status: query.status, role_ids: request.user.roles.map((x) => x.id) };
-        const vacations = await this.getVacationUseCases.getInstance().execute(model);
+        const vacations = await this.getVacationUseCases.getInstance().execute(query);
         return vacations;
     }
 
@@ -61,16 +62,24 @@ export class VacationController {
         const user = await this.getOneUseCaseProxy.getInstance().execute(vacation.user.id);
         const full_name = (user.first_name ? user.first_name : '') + ' ' + (user.last_name ? user.last_name : '');
         const title = vacation.type == REMOTE ? full_name + ' ' + 'request remote' : full_name + 'request offline';
-        const content = vacation.reason;
-        const created_by = user.id;
-        const to = user.chapterHead;
-        const type = VACATION;
-        const vacation_id = vacation.id;
-        const notificationEntity = new NotificationEntity(title, content, created_by, to, type, vacation_id);
-        const notification = await this.createNotificationUseCases.getInstance().execute(notificationEntity);
-        let notificationPresenter = plainToClass(NotificationPresenter, notification);
-        notificationPresenter.time_ago = timeAgo(notification.created_at);
-        this.eventsGateway.sendToClient(vacation.user.chapterHead, 'vacations');
+        let projects = await this.userRepository.getProjects(user.id);
+        let leaders = projects.map((x) => x.project_leader);
+
+        leaders.push(user.chapterHead);
+        leaders = leaders.filter((x) => x > 0);
+        leaders = [...new Set(leaders)];
+        await Promise.all(
+            leaders.map(async (leader) => {
+                const content = vacation.reason;
+                const created_by = user.id;
+                const to = leader;
+                const type = VACATION;
+                const vacation_id = vacation.id;
+                const notificationEntity = new NotificationEntity(title, content, created_by, to, type, vacation_id);
+                await this.createNotificationUseCases.getInstance().execute(notificationEntity);
+            })
+        );
+        this.eventsGateway.sendToClients(leaders, 'vacations');
         return vacation;
     }
 }

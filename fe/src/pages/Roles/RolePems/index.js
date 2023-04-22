@@ -3,6 +3,8 @@ import { Col, CardBody } from 'reactstrap';
 import DualListBox from 'react-dual-listbox';
 import { Get as GetPermission } from 'src/Services/permission.service';
 import { UpdateRolePerms } from 'src/Services/role.service';
+import { ToastContainer, toast } from 'react-toastify';
+import { TOAST_CONFIG, VACATION_TYPES } from '../../../Constant';
 
 const RolePerm = (props) => {
     const { roles } = props;
@@ -32,7 +34,9 @@ const RolePerm = (props) => {
         permissionOfSelected.forEach((x) => {
             model.perm_ids.push(x);
         });
-        UpdateRolePerms(model);
+        UpdateRolePerms(model).then((res) => {
+            toast.success('successfully !', TOAST_CONFIG);
+        });
     };
 
     const changeRole = (e) => {

@@ -49,7 +49,7 @@ const EmployeePage = () => {
     const save = (employee) => {
         return Create(employee)
             .then((res) => {
-                if (employee?.id != 0) {
+                if (employee?.id) {
                     setEmployees((emps) => {
                         return emps.map((x) => {
                             if (x.id !== res.id) return x;
@@ -184,7 +184,7 @@ const EmployeePage = () => {
                                                     <th>Email</th>
                                                     <th>Role</th>
                                                     <th style={{ width: '10%' }}>Contract Type</th>
-                                                    <th>Status</th>
+                                                    <th className="text-center">Status</th>
                                                     <th style={{ width: '20%', textAlign: 'center' }}>Action</th>
                                                 </tr>
                                             </thead>
@@ -208,7 +208,7 @@ const EmployeePage = () => {
                                                             </td>
                                                             <td style={{ fontSize: 15 }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
                                                             <td>
-                                                                <div className="form-check form-switch form-switch-success mb-3">
+                                                                <div className="form-check form-switch form-switch-success form-switch-md text-center">
                                                                     <Input
                                                                         className="form-check-input"
                                                                         type="checkbox"

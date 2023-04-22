@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MetaTags from 'react-meta-tags';
 import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFeedback } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
@@ -8,11 +8,15 @@ import { useHistory } from 'react-router-dom';
 import { Login as OnLogin, GetCurrentUser } from 'src/Services/auth.service';
 import { useRecoilState } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
+import { notificationAtom } from 'src/Recoil/states/notification';
+import { GetAll as GetNoti } from 'src/Services/notification.service';
 
 const LoginPage = () => {
+    const [notifications, setNotifications] = useRecoilState(notificationAtom);
+
     const history = useHistory();
     const [user, setCurrentUser] = useRecoilState(currentUserAtom);
-
+    const [isShow, setIsShow] = useState(false);
     const validation = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -29,6 +33,11 @@ const LoginPage = () => {
                     GetCurrentUser().then((user) => {
                         setCurrentUser(user);
                         history.push('/projects');
+                        GetNoti({ user_id: user.id })
+                            .then((res) => {
+                                setNotifications(res);
+                            })
+                            .catch(() => {});
                     });
                 }
             });
@@ -93,7 +102,7 @@ const LoginPage = () => {
                                                     <Input
                                                         name="password"
                                                         value={validation.values.password || ''}
-                                                        type="password"
+                                                        type={isShow ? 'text' : 'password'}
                                                         className="form-control pe-5"
                                                         placeholder="Enter Password"
                                                         onChange={validation.handleChange}
@@ -107,8 +116,15 @@ const LoginPage = () => {
                                                         className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                         type="button"
                                                         id="password-addon"
+                                                        onClick={() => {
+                                                            setIsShow((x) => !x);
+                                                        }}
                                                     >
-                                                        <i className="ri-eye-fill align-middle"></i>
+                                                        {isShow ? (
+                                                            <i className="ri-eye-off-fill align-middle"></i>
+                                                        ) : (
+                                                            <i className="ri-eye-fill align-middle"></i>
+                                                        )}
                                                     </button>
                                                 </div>
                                             </div>

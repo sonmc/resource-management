@@ -167,9 +167,9 @@ const CandidatePage = () => {
                                                     {candidates.map((can, key) => {
                                                         return (
                                                             <tr key={key}>
-                                                                <th onChange={() => selectedItem(can.id)}>
+                                                                <th>
                                                                     <div className="form-check form-check-success">
-                                                                        <input checked={idsSelected.includes(can.id) || idsSelected.length == candidates.length} className="form-check-input" type="checkbox" id="check-all" />
+                                                                        <input onChange={() => selectedItem(can.id)} checked={idsSelected.includes(can.id) || idsSelected.length == candidates.length} className="form-check-input" type="checkbox" id="check-all" />
                                                                     </div>
                                                                 </th>
                                                                 <th>{key + 1}</th>

@@ -6,6 +6,7 @@ import { INewRepository } from 'src/domain/repositories/new-repository.interface
 import { New } from 'src/infrastructure/schemas/new.schema';
 import { NewEntity } from 'src/domain/entities/new.entity';
 import { User } from 'src/infrastructure/schemas/user.schema';
+import { convertToShortText } from 'src/actions/common';
 
 @Injectable()
 export class NewRepository implements INewRepository {
@@ -32,6 +33,6 @@ export class NewRepository implements INewRepository {
             },
         };
         let news = await this.repository.find(findOption as FindManyOptions);
-        return news.map((n) => plainToClass(NewEntity, n));
+        return news.map((n) => plainToClass(NewEntity, { ...n, short_des: convertToShortText(n.content) }));
     }
 }
