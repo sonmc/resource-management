@@ -70,16 +70,9 @@ export class UserRepository implements IUserRepository {
     }
 
     async createOrUpdate(user: UserEntity): Promise<UserEntity> {
-        let userUpdated = new User();
+        let userUpdated = null;
         if (user.id != 0) {
-            const userSchema = await this.userRepository.findOne(user.id);
-            userSchema.first_name = user.first_name;
-            userSchema.last_name = user.last_name;
-            userSchema.email = user.email;
-            userSchema.phone_number = user.phone_number;
-            userSchema.nick_name = user.nick_name;
-            userSchema.introduce = user.introduce;
-            userSchema.address = user.address;
+            const userSchema = plainToClass(User, user);
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
             if (userUpdated) {

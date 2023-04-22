@@ -21,6 +21,7 @@ export class EmployeeBasePresenter {
     chapterHead: number;
     workloads: WorkloadEntity[];
     news: [];
+    introduce: string;
     vacations: [];
     roles: RoleEntity[];
     projects: ProjectEntity[];
