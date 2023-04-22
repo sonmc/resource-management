@@ -22,6 +22,8 @@ export class UserWithoutPassword {
     chapterHead: number;
     workloads: WorkloadEntity[];
     news: [];
+    nick_name: string;
+    introduce: string;
     vacations: [];
     roles: RoleEntity[];
     projects: ProjectEntity[];

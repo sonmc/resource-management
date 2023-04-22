@@ -70,9 +70,16 @@ export class UserRepository implements IUserRepository {
     }
 
     async createOrUpdate(user: UserEntity): Promise<UserEntity> {
-        const userSchema = plainToClass(User, user);
         let userUpdated = new User();
         if (user.id != 0) {
+            const userSchema = await this.userRepository.findOne(user.id);
+            userSchema.first_name = user.first_name;
+            userSchema.last_name = user.last_name;
+            userSchema.email = user.email;
+            userSchema.phone_number = user.phone_number;
+            userSchema.nick_name = user.nick_name;
+            userSchema.introduce = user.introduce;
+            userSchema.address = user.address;
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
             if (userUpdated) {
@@ -83,6 +90,7 @@ export class UserRepository implements IUserRepository {
                 });
             }
         } else {
+            const userSchema = plainToClass(User, user);
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
         }
@@ -125,14 +133,7 @@ export class UserRepository implements IUserRepository {
     async getProjects(user_id: number): Promise<string[]> {
         let projects = [];
         if (user_id !== ADMIN_ID) {
-            projects = await this.projectRepository
-                .createQueryBuilder('projects')
-                .select('projects.name', 'name')
-                .innerJoin('users_projects', 'up', 'up.project_id=projects.id')
-                .innerJoin('users', 'u', 'u.id=up.user_id')
-                .where('u.id= :user_id', { user_id: user_id })
-                .printSql()
-                .getRawMany();
+            projects = await this.projectRepository.createQueryBuilder('projects').select('projects.name', 'name').innerJoin('users_projects', 'up', 'up.project_id=projects.id').innerJoin('users', 'u', 'u.id=up.user_id').where('u.id= :user_id', { user_id: user_id }).printSql().getRawMany();
         }
         const projectNameList = projects.map((p) => p.name);
         return projectNameList;

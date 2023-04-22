@@ -8,6 +8,7 @@ import { Get as GetRole } from 'src/Services/role.service';
 import { useSetRecoilState } from 'recoil';
 import { CONFIRM_TYPE, LEVEL_STATUS, STATUS } from '../../Constant';
 import ConfirmModal from 'src/Components/Common/ConfirmModal';
+
 const levelStatus = LEVEL_STATUS;
 
 const EmployeePage = () => {
@@ -124,14 +125,7 @@ const EmployeePage = () => {
                                         <div className="row">
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={(x) => changeFilter(x)}
-                                                        data-choices
-                                                        data-choices-search-false
-                                                        name="roleId"
-                                                        id="slIdRole"
-                                                    >
+                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="roleId" id="slIdRole">
                                                         <option value="0">Select role</option>
                                                         {roles.map((role, key) => {
                                                             return (
@@ -145,14 +139,7 @@ const EmployeePage = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={(x) => changeFilter(x)}
-                                                        data-choices
-                                                        data-choices-search-false
-                                                        name="status_level"
-                                                        id="slIdStatus"
-                                                    >
+                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status_level" id="slIdStatus">
                                                         <option value="0">Select contract type </option>
                                                         {levelStatus.map((item, key) => {
                                                             return (
@@ -166,14 +153,7 @@ const EmployeePage = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={(x) => changeFilter(x)}
-                                                        data-choices
-                                                        data-choices-search-false
-                                                        name="status"
-                                                        id="slIdStatus"
-                                                    >
+                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
                                                         <option value="0">Select status</option>
                                                         {STATUS.map((item, key) => {
                                                             return (
@@ -187,13 +167,7 @@ const EmployeePage = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="search-box">
-                                                    <input
-                                                        type="text"
-                                                        name="searchTerm"
-                                                        onChange={(x) => changeFilter(x)}
-                                                        className="form-control search"
-                                                        placeholder="Search by name"
-                                                    />
+                                                    <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name" />
                                                     <i className="ri-search-line search-icon"></i>
                                                 </div>
                                             </div>
@@ -232,9 +206,7 @@ const EmployeePage = () => {
                                                                     })
                                                                     .join(', ')}
                                                             </td>
-                                                            <td style={{ fontSize: 15 }}>
-                                                                {levelStatus.find((x) => x.id == emp.status_level).title}
-                                                            </td>
+                                                            <td style={{ fontSize: 15 }}>{levelStatus.find((x) => x.id == emp.status_level).title}</td>
                                                             <td>
                                                                 <div className="form-check form-switch form-switch-success mb-3">
                                                                     <Input
