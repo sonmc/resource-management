@@ -89,8 +89,8 @@ class APIClient {
         return response;
     };
 
-    create = (url, data) => {
-        return api.post(url, data);
+    create = (url, data, config) => {
+        return api.post(url, data, config);
     };
 
     update = (url, data) => {
