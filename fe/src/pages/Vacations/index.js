@@ -46,7 +46,7 @@ const Vacations = () => {
                             <div className="card" id="tasksList">
                                 <div className="card-header border-0">
                                     <div className="d-flex align-items-center">
-                                        <h5 className="card-title mb-0 flex-grow-1">Vacations</h5>
+                                        <h5 className="card-title mb-0 flex-grow-1">Absence Management</h5>
                                     </div>
                                 </div>
                                 <div className="card-body pt-0 pb-0">

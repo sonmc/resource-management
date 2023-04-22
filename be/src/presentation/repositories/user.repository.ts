@@ -41,15 +41,18 @@ export class UserRepository implements IUserRepository {
 
     async findAll(query: any): Promise<UserEntity[]> {
         const querySelecter = this.userRepository.createQueryBuilder('u');
-        querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID }).andWhere('u.status != :status', { status: STATUS_INACTIVE });
+        querySelecter.leftJoinAndSelect('u.roles', 'r').where('u.id != :id', { id: ADMIN_ID });
         let users = null;
         try {
             const role_id = parseInt(query.roleId);
             if (role_id) {
                 querySelecter.andWhere('r.id = :id', { id: role_id });
             }
+            if (query.status_level > 0) {
+                querySelecter.andWhere('u.status_level = :status_level', { status: query.status_level });
+            }
             if (query.status > 0) {
-                querySelecter.andWhere('u.status_level = :status', { status: query.status });
+                querySelecter.andWhere('u.status = :status', { status: query.status });
             }
             if (query.searchTerm) {
                 querySelecter.andWhere('u.username like :name', { name: `%${query.searchTerm}%` });
@@ -70,7 +73,6 @@ export class UserRepository implements IUserRepository {
         const userSchema = plainToClass(User, user);
         let userUpdated = new User();
         if (user.id != 0) {
-            userSchema.password = PASSWORD_DEFAULT;
             const userCreated = await this.userRepository.create(userSchema);
             userUpdated = await this.userRepository.save(userCreated);
             if (userUpdated) {
@@ -123,7 +125,14 @@ export class UserRepository implements IUserRepository {
     async getProjects(user_id: number): Promise<string[]> {
         let projects = [];
         if (user_id !== ADMIN_ID) {
-            projects = await this.projectRepository.createQueryBuilder('projects').select('projects.name', 'name').innerJoin('users_projects', 'up', 'up.project_id=projects.id').innerJoin('users', 'u', 'u.id=up.user_id').where('u.id= :user_id', { user_id: user_id }).printSql().getRawMany();
+            projects = await this.projectRepository
+                .createQueryBuilder('projects')
+                .select('projects.name', 'name')
+                .innerJoin('users_projects', 'up', 'up.project_id=projects.id')
+                .innerJoin('users', 'u', 'u.id=up.user_id')
+                .where('u.id= :user_id', { user_id: user_id })
+                .printSql()
+                .getRawMany();
         }
         const projectNameList = projects.map((p) => p.name);
         return projectNameList;

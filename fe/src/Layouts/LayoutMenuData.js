@@ -105,7 +105,7 @@ const Navdata = () => {
         {
             id: 'vacation_get',
             public: false,
-            label: 'Vacations',
+            label: 'Absence Management',
             icon: 'ri-honour-line',
             link: '/vacations',
             click: function (e) {

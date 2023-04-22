@@ -12,7 +12,7 @@ import { notificationAtom } from 'src/Recoil/states/notification';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import moment from 'moment';
 import { ChangeStatus } from 'src/Services/vacation.service';
-
+import Empty from 'src/Components/Common/Empty';
 const NotificationDropdown = () => {
     //Dropdown Toggle
     const [notifications, setNotifications] = useRecoilState(notificationAtom);
@@ -119,6 +119,7 @@ const NotificationDropdown = () => {
                                     </SimpleBar>
                                 );
                             })}
+                            <Empty data={notifications.length} height={50} text={'No notification'} />
                         </TabPane>
                     </TabContent>
                 </DropdownMenu>

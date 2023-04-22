@@ -2,7 +2,7 @@ import { VacationEntity } from 'src/domain/entities/vacation.entity';
 import { CreateVacationUseCases } from './../../../use-cases/vacation/create-vacation.usecase';
 import { GetVacationUseCases } from 'src/use-cases/vacation/get-vacations.usecase';
 import { CreateVacationPresenter } from './presenter/create-vacation.presenter';
-import { Controller, Get, Post, Inject, Body, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Inject, Body, UseGuards, Query, Request } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { UseCasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
@@ -41,8 +41,9 @@ export class VacationController {
 
     @Get()
     @Permissions(EndPoint.VACATION_GET)
-    async get(@Query() query) {
-        const vacations = await this.getVacationUseCases.getInstance().execute(query);
+    async get(@Query() query, @Request() request) {
+        let model = { user_id: request.user.id, searchTerm: query.searchTerm, status: query.status, role_ids: request.user.roles.map((x) => x.id) };
+        const vacations = await this.getVacationUseCases.getInstance().execute(model);
         return vacations;
     }
 

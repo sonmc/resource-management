@@ -9,7 +9,7 @@ export const VACATION_TYPES = [
         value: 'off',
     },
     {
-        key: 2,
+        key: 0,
         value: 'remote',
     },
 ];
@@ -47,7 +47,16 @@ export const LEVEL_STATUS = [
         title: 'Fulltime',
     },
 ];
-
+export const STATUS = [
+    {
+        id: 1,
+        title: 'Active',
+    },
+    {
+        id: 2,
+        title: 'Inactive',
+    },
+];
 export const TOAST_CONFIG = {
     position: 'top-right',
     autoClose: 2000,
@@ -88,3 +97,7 @@ export const DAY_OF_WEEK = [
         value: 'Sunday',
     },
 ];
+export const CONFIRM_TYPE = {
+    DELETE: 1,
+    CONFIRM: 2,
+};
