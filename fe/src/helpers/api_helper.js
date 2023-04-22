@@ -93,10 +93,6 @@ class APIClient {
         return api.post(url, data, config);
     };
 
-    update = (url, data) => {
-        return api.put(url, data);
-    };
-
     delete = (url, id) => {
         return api.delete(url + '/' + id);
     };

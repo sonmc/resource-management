@@ -55,10 +55,4 @@ export class UserController {
         const idDeleted = await this.deleteEmployeeUsecaseProxy.getInstance().execute(+id);
         return idDeleted;
     }
-
-    @Patch(':id')
-    async update(@Param('id') id: string, @Body() employeePresenter: EmployeePresenter) {
-        const userUpdated = await this.updateEmployeeUseCaseProxy.getInstance().execute(employeePresenter);
-        return userUpdated;
-    }
 }

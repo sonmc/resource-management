@@ -49,7 +49,7 @@ export class AuthController {
     async getCurrentUser(@Request() request: any) {
         const currentUser = new AuthPresenter();
         let user = request.user;
-        currentUser.user_id = user.id;
+        currentUser.id = user.id;
         currentUser.username = user.username;
         currentUser.avatar = user.avatar;
         currentUser.first_name = user.first_name;

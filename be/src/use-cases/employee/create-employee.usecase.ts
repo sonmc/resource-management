@@ -6,14 +6,11 @@ import { LunchOrderEntity } from 'src/domain/entities/lunch-order.entity';
 import { GenerateLunchCalendars } from 'src/business-rules/lunch-order.rule';
 
 export class CreateEmployeeUseCases {
-    constructor(
-        private readonly logger: ILogger,
-        private readonly userRepository: IUserRepository,
-        private readonly lunchOrderRepository: ILunchOrderRepository
-    ) {}
+    constructor(private readonly logger: ILogger, private readonly userRepository: IUserRepository, private readonly lunchOrderRepository: ILunchOrderRepository) {}
 
     async execute(userE: UserEntity): Promise<UserEntity> {
         const user = await this.userRepository.createOrUpdate(userE);
+
         const lunchOrder = new LunchOrderEntity();
         lunchOrder.user = user;
         if (!userE.id) {
