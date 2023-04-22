@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
+import { Card, Col, Input, Label } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
+
 const Education = (props) => {
+    const { education, updateEducation, key } = props;
+
     return (
-        <React.Fragment>
+        <Card key={key} className="p-3">
             <Col xxl={4}>
                 <label htmlFor="email" className="form-label">
                     Email <span className="text-danger">*</span>
@@ -28,7 +31,7 @@ const Education = (props) => {
                     placeholder="Select Date"
                 />
             </Col>
-        </React.Fragment>
+        </Card>
     );
 };
 

@@ -12,8 +12,8 @@ import Tooltip from '../../Components/Common/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import { TOAST_CONFIG, VACATION_TYPES } from '../../Constant';
 import TakeALeave from './TakeALeave';
-import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
+import { formatTime } from 'src/helpers/common';
 
 moment.locale('en', {
     week: {
@@ -56,10 +56,6 @@ const WorkSchedulePage = (props) => {
     const [isShowVacation, setShowVacation] = useState(false);
     const [month, setMonth] = useState(moment()._d);
     const [events, setEvents] = useState([]);
-
-    const onNavigate = (e) => {
-        setMonth(e);
-    };
 
     const createVacation = (vacation) => {
         Create(vacation)
@@ -151,7 +147,7 @@ class CustomToolbar extends Toolbar {
                     </button>
                 </span>
                 <span className="rbc-toolbar-label" style={{ position: 'absolute' }}>
-                    {moment(this.props.date).format('MM/yyyy')}
+                    {formatTime(this.props.date, 'MM/yyyy')}
                 </span>
                 <span className="rbc-toolbar-label"></span>
             </div>

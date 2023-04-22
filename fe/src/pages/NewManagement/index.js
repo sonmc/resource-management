@@ -4,6 +4,7 @@ import MetaTags from 'react-meta-tags';
 import { GetAll } from 'src/Services/new.service';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { formatTime } from 'src/helpers/common';
 
 const Component = () => {
     const history = useHistory();
@@ -67,7 +68,7 @@ const Component = () => {
                                                             <td>
                                                                 {n.user.first_name} {n.user.last_name}
                                                             </td>
-                                                            <td>{moment(n.created_at).format('DD/MM/YYYY hh:mm:ss')}</td>
+                                                            <td>{formatTime(n.created_at, 'YYYY-MM-DD HH:mm:ss')}</td>
                                                             <td style={{ textAlign: 'center' }}>
                                                                 <Button
                                                                     color="success btn-sm"

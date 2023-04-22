@@ -1,13 +1,12 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from './base.schema';
-import { Education } from './education.schema';
-import { WorkExperience } from './work-experience.schema';
-import { CvProject } from './cv-project.schema';
-import { CvSkill } from './cv-skill.schema';
+
 @Entity({ name: 'candidates' })
 export class Candidate extends BaseEntity {
     @Column({ nullable: true })
     name: string;
+    @Column({ nullable: true })
+    introduce: string;
     @Column({ nullable: true })
     email: string;
     @Column({ nullable: true })
@@ -16,37 +15,43 @@ export class Candidate extends BaseEntity {
     position: string;
     @Column({ nullable: true })
     avatar: string;
+    @Column({ nullable: true })
+    dob: Date;
+    @Column({ nullable: true })
+    gender: string;
     @Column()
     isInterview: boolean;
+
     @Column({ nullable: true })
     interview_by: number;
+
     @Column({ nullable: true })
     interview_date: Date;
+
     @Column()
     cv_file_path: string;
+
     @Column()
     cv_file_name: string;
+
     @Column({ nullable: true })
     notes: string;
-    @Column()
+
+    @Column({ nullable: true })
     address: string;
 
-    @OneToMany(() => Education, (edu) => edu.candidate, {
-        eager: true,
-    })
-    educations: Education[];
+    @Column({ nullable: true })
+    educations: string;
 
-    @OneToMany(() => WorkExperience, (edu) => edu.candidate, {
-        eager: true,
-    })
-    work_experiences: WorkExperience[];
+    @Column({ nullable: true })
+    work_experiences: string;
 
-    @OneToMany(() => CvProject, (edu) => edu.candidate, {
-        eager: true,
-    })
-    projects: CvProject[];
+    @Column({ nullable: true })
+    projects: string;
 
-    @OneToOne(() => CvSkill)
-    @JoinColumn()
-    cv_skill: CvSkill;
+    @Column({ nullable: true })
+    cv_skill: string;
+
+    @Column({ nullable: true })
+    certificates: string;
 }

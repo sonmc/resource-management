@@ -29,7 +29,7 @@ const ModalUpdate = (props) => {
     const { isShowFormUpdate, closeFormUpdate, save, employeeId, roles, employees } = props;
     const [selectedStatus, setSelectedStatus] = useState(null);
 
-    const [employee, setEmployee] = useState(EMPLOYEE_DEFAULT);
+    const [employee, setEmployee] = useState({ ...EMPLOYEE_DEFAULT });
     const [title, setTitle] = useState('Create employee');
     const [selectedChapterHead, setSelectedChapterHead] = useState(null);
 
@@ -64,20 +64,22 @@ const ModalUpdate = (props) => {
     }, [selectedStatus, selectedChapterHead]);
 
     useEffect(() => {
-        if (employeeId) {
-            const params = { id: employeeId };
-            Get(params).then((res) => {
-                setEmployee(res);
-                let st = levelStatus.find((x) => x.id == res.status_level) || {};
-                setSelectedStatus(st);
-            });
-            setTitle('Update employee');
-        } else {
-            setEmployee((x) => {
-                return { ...x, role_id: roles.length > 0 ? roles[0].id : 0 };
-            });
+        if (isShowFormUpdate) {
+            if (employeeId) {
+                const params = { id: employeeId };
+                Get(params).then((res) => {
+                    setEmployee(res);
+                    let st = levelStatus.find((x) => x.id == res.status_level) || {};
+                    setSelectedStatus(st);
+                });
+                setTitle('Update employee');
+            } else {
+                setEmployee((x) => {
+                    return { ...EMPLOYEE_DEFAULT, role_id: roles.length > 0 ? roles[0].id : 0 };
+                });
+            }
         }
-    }, [employeeId, roles]);
+    }, [employeeId, roles, isShowFormUpdate]);
 
     useEffect(() => {
         let chapterHead = employees.find((x) => x.id == employee.chapterHead);
@@ -104,7 +106,14 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     UserName
                                 </label>
-                                <Input value={employee.username} type="text" className="form-control" name="username" placeholder="Enter employee username" onChange={(x) => changeField(x)} />
+                                <Input
+                                    value={employee.username}
+                                    type="text"
+                                    className="form-control"
+                                    name="username"
+                                    placeholder="Enter employee username"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </div>
                         </Col>
                         <Col xxl={3}>
@@ -112,7 +121,14 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     FirstName
                                 </label>
-                                <Input value={employee.first_name} type="text" className="form-control" name="first_name" placeholder="Enter employee first name" onChange={(x) => changeField(x)} />
+                                <Input
+                                    value={employee.first_name}
+                                    type="text"
+                                    className="form-control"
+                                    name="first_name"
+                                    placeholder="Enter employee first name"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </div>
                         </Col>
                         <Col xxl={3}>
@@ -120,20 +136,41 @@ const ModalUpdate = (props) => {
                                 <label htmlFor="name" className="form-label">
                                     LastName
                                 </label>
-                                <Input value={employee.last_name} type="text" className="form-control" name="last_name" placeholder="Enter employee last name" onChange={(x) => changeField(x)} />
+                                <Input
+                                    value={employee.last_name}
+                                    type="text"
+                                    className="form-control"
+                                    name="last_name"
+                                    placeholder="Enter employee last name"
+                                    onChange={(x) => changeField(x)}
+                                />
                             </div>
                         </Col>
                         <Col xxl={6}>
                             <label htmlFor="email" className="form-label">
                                 Email
                             </label>
-                            <Input value={employee.email} type="email" className="form-control" name="email" placeholder="Enter employee email" onChange={(x) => changeField(x)} />
+                            <Input
+                                value={employee.email}
+                                type="email"
+                                className="form-control"
+                                name="email"
+                                placeholder="Enter employee email"
+                                onChange={(x) => changeField(x)}
+                            />
                         </Col>
                         <Col xxl={3}>
                             <label htmlFor="phoneNumber" className="form-label">
                                 Phone number
                             </label>
-                            <Input value={employee.phone_number} type="number" className="form-control" name="phone_number" placeholder="Enter employee phone number" onChange={(x) => changeField(x)} />
+                            <Input
+                                value={employee.phone_number}
+                                type="number"
+                                className="form-control"
+                                name="phone_number"
+                                placeholder="Enter employee phone number"
+                                onChange={(x) => changeField(x)}
+                            />
                         </Col>
                         <Col xxl={3}>
                             <Label for="start-field" className="form-label">
@@ -228,19 +265,40 @@ const ModalUpdate = (props) => {
                             <label htmlFor="address" className="form-label">
                                 Address
                             </label>
-                            <Input value={employee.address} type="text" className="form-control" name="address" placeholder="Enter employee address" onChange={(x) => changeField(x)} />
+                            <Input
+                                value={employee.address}
+                                type="text"
+                                className="form-control"
+                                name="address"
+                                placeholder="Enter employee address"
+                                onChange={(x) => changeField(x)}
+                            />
                         </Col>
                         <Col xxl={6}>
                             <label className="form-label">Gender</label>
                             <div className="mt-2">
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_MALE} value={GENDER_MALE} onChange={(x) => changeField(x)} />
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        checked={employee.gender == GENDER_MALE}
+                                        value={GENDER_MALE}
+                                        onChange={(x) => changeField(x)}
+                                    />
                                     <label className="form-check-label" htmlFor="inlineRadio1">
                                         Male
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="gender" checked={employee.gender == GENDER_FEMALE} value={GENDER_FEMALE} onChange={(x) => changeField(x)} />
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        checked={employee.gender == GENDER_FEMALE}
+                                        value={GENDER_FEMALE}
+                                        onChange={(x) => changeField(x)}
+                                    />
                                     <label className="form-check-label" htmlFor="inlineRadio2">
                                         Female
                                     </label>

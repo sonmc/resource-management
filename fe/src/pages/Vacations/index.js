@@ -4,6 +4,7 @@ import MetaTags from 'react-meta-tags';
 import { Get } from 'src/Services/vacation.service';
 import { VACATION_TYPES, VACATION_STATUS } from '../../Constant';
 import moment from 'moment';
+import { formatTime } from 'src/helpers/common';
 
 const vacation_types = VACATION_TYPES;
 const vacation_status = VACATION_STATUS;
@@ -53,7 +54,14 @@ const Vacations = () => {
                                         <div className="row">
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="input-light">
-                                                    <select className="form-control" onChange={(x) => changeFilter(x)} data-choices data-choices-search-false name="status" id="slIdStatus">
+                                                    <select
+                                                        className="form-control"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        data-choices
+                                                        data-choices-search-false
+                                                        name="status"
+                                                        id="slIdStatus"
+                                                    >
                                                         <option value="all">Select status</option>
                                                         {vacation_types.map((item, key) => {
                                                             return (
@@ -67,7 +75,13 @@ const Vacations = () => {
                                             </div>
                                             <div className="col-xxl-2 col-sm-4">
                                                 <div className="search-box">
-                                                    <input type="text" name="searchTerm" onChange={(x) => changeFilter(x)} className="form-control search" placeholder="Search by name" />
+                                                    <input
+                                                        type="text"
+                                                        name="searchTerm"
+                                                        onChange={(x) => changeFilter(x)}
+                                                        className="form-control search"
+                                                        placeholder="Search by name"
+                                                    />
                                                     <i className="ri-search-line search-icon"></i>
                                                 </div>
                                             </div>
@@ -99,10 +113,10 @@ const Vacations = () => {
                                                             <td>
                                                                 {va.user.first_name} {va.user.last_name}
                                                             </td>
-                                                            <td>{moment(va.start).format('DD/MM/YYYY')}</td>
-                                                            <td>{moment(va.end).format('DD/MM/YYYY')}</td>
+                                                            <td>{formatTime(va.start)}</td>
+                                                            <td>{formatTime(va.end)}</td>
                                                             <td>{vacation_status.find((x) => x.key == va.status).value}</td>
-                                                            <td>{moment(va.created_at).format('DD/MM/YYYY hh:mm:ss')}</td>
+                                                            <td>{formatTime(va.created_at, 'YYYY-MM-DD HH:mm:ss')}</td>
                                                         </tr>
                                                     );
                                                 })}
