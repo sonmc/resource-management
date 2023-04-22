@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Form, Input, Label, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 import MetaTags from 'react-meta-tags';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useRecoilState } from 'recoil';
 import { currentUserAtom } from '../../Recoil/states/users';
 //import images
@@ -10,10 +9,8 @@ import progileBg from 'src/assets/images/profile-bg.jpg';
 import avatar1 from 'src/assets/images/users/avatar-1.jpg';
 import { Upload } from 'src/Services/share.service';
 import { UpdateInfo, UpdatePassword, UpdateAvatar } from 'src/Services/user.service';
-import { MyUploadAdapter } from 'src/helpers';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import CkeditorCommon from 'src/Components/Common/Ckeditor';
 
-const base_url = process.env.REACT_APP_API_URL;
 const Settings = () => {
     const [currentUser, setCurrentUser] = useRecoilState(currentUserAtom);
     const [isShow, setIsShow] = useState({ old_password: false, new_password: false, confirm_password: false });
@@ -76,11 +73,10 @@ const Settings = () => {
         let files = e.target.files;
         Upload(files)
             .then((res) => {
-                let url = process.env.REACT_APP_API_URL + '/' + res.imagePath;
-                setAvatar(url);
+                setAvatar(res.imagePath);
                 updateUserAvatar(res.imagePath);
                 setForm((x) => {
-                    return { ...x, avatar: url };
+                    return { ...x, avatar: res.imagePath };
                 });
             })
             .catch((err) => {});
@@ -107,7 +103,7 @@ const Settings = () => {
                                             <img
                                                 className="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                                 alt="user-profile"
-                                                src={base_url + '/' + currentUser.avatar}
+                                                src={avatar}
                                                 onError={() => {
                                                     setAvatar(avatar1);
                                                 }}
@@ -269,20 +265,14 @@ const Settings = () => {
                                                             <Label htmlFor="JoiningdatInput" className="form-label">
                                                                 Introduce
                                                             </Label>
-                                                            <CKEditor
-                                                                editor={ClassicEditor}
-                                                                data={form?.introduce}
-                                                                onReady={(editor) => {
-                                                                    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                                                                        return new MyUploadAdapter(loader, 'news');
-                                                                    };
-                                                                }}
-                                                                onChange={(event, editor) => {
+                                                            <CkeditorCommon
+                                                                setValue={(value) => {
                                                                     setForm((x) => {
-                                                                        x.introduce = editor.getData();
+                                                                        x.introduce = value;
                                                                         return { ...x };
                                                                     });
                                                                 }}
+                                                                value={form?.introduce}
                                                             />
                                                         </div>
                                                     </Col>

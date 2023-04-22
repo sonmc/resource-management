@@ -65,7 +65,8 @@ function readDob(text) {
     return dob.replace('Date of birth', '').trim();
 }
 function readSkill(text) {
-    const programmingLanguagesRegex = /\.Net|NodeJs|Javascript|JavaScript|Java|Python|C#|PHP|C\+\+|Ruby|Swift|Objective-C|TypeScript|Go|Angular|SQL|Sql/gi;
+    const programmingLanguagesRegex =
+        /\.Net|NodeJs|Javascript|JavaScript|Java|Python|C#|PHP|C\+\+|Ruby|Swift|Objective-C|TypeScript|Go|Angular|SQL|Sql/gi;
     const dobMatch = text.match(programmingLanguagesRegex);
     const skill = dobMatch ? dobMatch[0] : '';
     return skill;
@@ -93,5 +94,9 @@ export function convertData(text): Candidate {
     candidate.cv_file_path = '';
     candidate.cv_file_name = '';
     candidate.notes = '';
+    candidate.educations = '[]';
+    candidate.work_experiences = '[]';
+    candidate.projects = '[]';
+    candidate.cv_skill = '[]';
     return candidate;
 }

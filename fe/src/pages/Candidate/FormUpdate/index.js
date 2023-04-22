@@ -1,167 +1,397 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Button, Modal, ModalHeader, ModalBody, Input, Label, Card } from 'reactstrap';
-import { Get } from 'src/Services/user.service';
-import { LEVEL_STATUS } from '../../../Constant';
-import Education from './Education';
-import PersonalInformation from './PersonalInformation';
-import Skill from './Skill';
-
+import { Col, Button, Spinner, Label, Card, Container, CardBody, Row, CardHeader, FormGroup } from 'reactstrap';
+import Flatpickr from 'react-flatpickr';
 import './index.scss';
-import Experience from './WorkExperience';
-import Project from '../Projects';
-
-const levelStatus = LEVEL_STATUS;
-
-const ModalUpdate = (props) => {
-    const { isShowFormUpdate, closeFormUpdate, save, candidateId, roles } = props;
-    const [selectedStatus, setSelectedStatus] = useState(levelStatus[0]);
-    const [candidate, setCandidate] = useState([]);
-    const [educations, setEducations] = useState([]);
-    const [experiences, setExperiences] = useState([]);
-    const [projects, setProjects] = useState([]);
-
-    const [skill, setSkill] = useState({});
-    const [personalInformation, setPersonalInformation] = useState({});
-    const [title, setTitle] = useState('Create candidate');
-
-    const changeField = (event) => {
-        let emp = { ...candidate, [event.target.name]: event.target.name == 'status' ? +event.target.value : event.target.value };
-        setCandidate(emp);
-    };
-
-    const update = () => {
-        candidate.gender = candidate.gender == 1;
-        save(candidate, candidateId ? 'UPDATE' : 'CREATE');
-    };
-
-    const handleLevelStatus = (st) => {
-        setSelectedStatus(st);
-    };
-
-    const addNewEducationForm = () => {
-        const edus = [
-            ...educations,
-            {
-                name: '',
-                description: '',
-                date_start: new Date(),
-                date_end: new Date(),
-            },
-        ];
-        setEducations(edus);
-    };
-
-    const updateEducation = () => {};
-    const updateSkill = () => {};
-    const updateExperience = () => {};
-    const updateProject = () => {};
-    // useEffect(() => {
-    //     let emp = { ...employee, roles: selectedRoles, status_level: selectedStatus?.id, chapter_head: selectedChapterHead?.id };
-    //     setEmployee(emp);
-    // }, [selectedRoles, selectedStatus, selectedChapterHead]);
-
-    useEffect(() => {
-        if (candidateId) {
-            const params = { id: candidateId };
-            Get(params).then((res) => {
-                setCandidate(res);
-            });
-            setTitle('Update candidate');
+import { MetaTags } from 'react-meta-tags';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
+import { Update } from 'src/Services/candidate.service';
+import CkeditorCommon from 'src/Components/Common/Ckeditor';
+import { formatTime } from 'src/helpers/common';
+import FormArray from './TemplateFormArray';
+const Index = (props) => {
+    const history = useHistory();
+    const [submitted, setSubmitted] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [form, setForm] = useState(undefined);
+    const { state } = props.location;
+    const { params } = props.match;
+    const parseData = (input) => {
+        try {
+            return JSON.parse(input);
+        } catch (_error) {
+            return '';
         }
-    }, [candidateId]);
-
-    console.log(educations);
+    };
+    const stringifyData = (input) => {
+        return JSON.stringify(input);
+    };
+    useEffect(() => {
+        setIsEdit(!!params.id);
+        if (params.id) {
+            let data = state.candidate;
+            setForm(data);
+        } else {
+            setForm({
+                name: '',
+                position: '',
+                gender: '1',
+                phone_number: '',
+                email: '',
+                dob: '',
+                address: '',
+                introduce: '',
+                educations: [],
+                projects: [],
+                work_experiences: [],
+                cv_skill: [],
+            });
+        }
+    }, [state, params]);
+    const submit = (value) => {
+        setSubmitted(true);
+        const param = {
+            ...value,
+            educations: stringifyData(value.educations),
+            projects: stringifyData(value.projects),
+            work_experiences: stringifyData(value.work_experiences),
+            cv_skill: stringifyData(value.cv_skill),
+        };
+        Update(param)
+            .then(() => {
+                history.push('/candidates');
+            })
+            .catch()
+            .finally(() => {
+                setSubmitted(false);
+            });
+    };
     return (
-        <Modal
-            id="flipModal"
-            size="lg"
-            modalclassname="flip"
-            isOpen={isShowFormUpdate}
-            toggle={() => {
-                closeFormUpdate(false);
-            }}
-            centered
-        >
-            <ModalHeader className="p-3 bg-soft-info">{title}</ModalHeader>
-            <ModalBody>
-                <form action="#">
+        <React.Fragment>
+            <div className="page-content">
+                <MetaTags>
+                    <title>Zen8labs - Tools | Candidate management</title>
+                </MetaTags>
+                <Container fluid>
                     <div className="row">
-                        <h4 className="pb-2"> Personal information</h4>
-                    </div>
-                    <PersonalInformation personalInformation={personalInformation} />
-
-                    <div className="row mt-3">
-                        <h4 className="pb-2"> Educations</h4>
-                    </div>
-                    <div className="row g-4">
-                        <Card className="p-3">
-                            {educations.map((edu, i) => {
-                                return <Education key={i} education={edu} updateEducation={updateEducation} />;
-                            })}
-
-                            <Col xxl={12} className="mt-0">
-                                <button type="button" onClick={() => addNewEducationForm()} className="w-25 btn btn-outline-secondary waves-effect waves-light">
-                                    Add
-                                </button>
-                            </Col>
-                        </Card>
-                    </div>
-
-                    <div className="row mt-3">
-                        <h4 className="pb-2">Work Experience</h4>
-                    </div>
-                    <div className="row g-4">
-                        <Card className="p-3">
-                            {educations.map((experience, i) => {
-                                return <Experience key={i} experience={experience} updateExperience={updateExperience} />;
-                            })}
-
-                            <Col xxl={12} className="mt-0">
-                                <button type="button" onClick={() => addNewEducationForm()} className="w-25 btn btn-outline-secondary waves-effect waves-light">
-                                    Add
-                                </button>
-                            </Col>
-                        </Card>
-                    </div>
-
-                    <div className="row mt-3">
-                        <h4 className="pb-2"> Projects</h4>
-                    </div>
-                    <div className="row g-4">
-                        <Card className="p-3">
-                            {projects.map((project, i) => {
-                                return <Project key={i} project={project} updateproject={updateProject} />;
-                            })}
-
-                            <Col xxl={12} className="mt-0">
-                                <button type="button" onClick={() => addNewEducationForm()} className="w-25 btn btn-outline-secondary waves-effect waves-light">
-                                    Add
-                                </button>
-                            </Col>
-                        </Card>
-                    </div>
-                    <div className="row mt-3">
-                        <h4 className="pb-2"> Skills</h4>
-                    </div>
-                    <div className="row g-4">
-                        <Skill skill={skill} updateSkill={updateSkill} />
-                    </div>
-                    <div className="row g-4 md-footer mt-3">
-                        <Col xxl={12}>
-                            <div className="hstack gap-2 justify-content-end">
-                                <Button color="light" onClick={() => closeFormUpdate(false)}>
-                                    Close
-                                </Button>
-                                <Button color="success" onClick={() => update()}>
-                                    Save
-                                </Button>
-                            </div>
+                        <Col lg={12}>
+                            <Card>
+                                <CardHeader>
+                                    <div className="d-flex align-items-center">
+                                        <h5 className="card-title mb-0 flex-grow-1">{isEdit ? 'Edit' : 'Create'} candidate</h5>
+                                        <div className="flex-shrink-0">
+                                            <button
+                                                className="btn btn-soft-dark"
+                                                onClick={() => {
+                                                    history.push('/candidates');
+                                                }}
+                                            >
+                                                <i className="ri-arrow-left-s-line align-bottom me-1"></i> Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                </CardHeader>
+                                <CardBody>
+                                    {form && (
+                                        <Formik
+                                            initialValues={form}
+                                            onSubmit={(values) => {
+                                                submit(values);
+                                            }}
+                                        >
+                                            {({ setFieldValue, values }) => (
+                                                <Form>
+                                                    <Row>
+                                                        <Col lg={12}>
+                                                            <h5 className="pb-2"> Personal information</h5>
+                                                        </Col>
+                                                        <Col lg={12}>
+                                                            <div className="section-page-content mb-3">
+                                                                <div className="page-box p-3">
+                                                                    <Row>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="name">
+                                                                                    Full name <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <Field
+                                                                                    type="text"
+                                                                                    className="form-control"
+                                                                                    name="name"
+                                                                                    placeholder="Enter name"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="position">
+                                                                                    Position <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <Field
+                                                                                    type="text"
+                                                                                    className="form-control"
+                                                                                    name="position"
+                                                                                    placeholder="Enter position"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="gender">
+                                                                                    Gender <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <FormGroup>
+                                                                                    <Field type="radio" name="gender" value={'1'} /> Male &ensp;
+                                                                                    <Field type="radio" name="gender" value={'0'} /> Female
+                                                                                </FormGroup>
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="email">
+                                                                                    Email <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <Field
+                                                                                    type="email"
+                                                                                    className="form-control"
+                                                                                    name="email"
+                                                                                    placeholder="Enter email"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="phone_number">
+                                                                                    Phone number <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <Field
+                                                                                    type="text"
+                                                                                    className="form-control"
+                                                                                    name="phone_number"
+                                                                                    placeholder="Enter phone number"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={4}>
+                                                                            <FormGroup>
+                                                                                <Label for="dob">
+                                                                                    Date of birth <span className="text-danger">*</span>
+                                                                                </Label>
+                                                                                <Flatpickr
+                                                                                    className="form-control"
+                                                                                    options={{
+                                                                                        dateFormat: 'Y-m-d',
+                                                                                    }}
+                                                                                    onChange={([value]) => {
+                                                                                        setFieldValue('dob', formatTime(value));
+                                                                                    }}
+                                                                                    value={values.dob}
+                                                                                    placeholder="Select Date"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={12}>
+                                                                            <FormGroup>
+                                                                                <Label for="address">Address</Label>
+                                                                                <Field
+                                                                                    type="text"
+                                                                                    className="form-control"
+                                                                                    name="address"
+                                                                                    placeholder="Enter address"
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                        <Col xxl={12}>
+                                                                            <FormGroup>
+                                                                                <Label for="introduce">Introduce</Label>
+                                                                                <Field
+                                                                                    name="introduce"
+                                                                                    render={({ field, form }) => {
+                                                                                        return (
+                                                                                            <>
+                                                                                                <CkeditorCommon
+                                                                                                    setValue={(value) => {
+                                                                                                        form.setFieldValue(field.name, value);
+                                                                                                    }}
+                                                                                                    value={field.value}
+                                                                                                />
+                                                                                            </>
+                                                                                        );
+                                                                                    }}
+                                                                                />
+                                                                            </FormGroup>
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
+                                                    <FormArray
+                                                        name={'educations'}
+                                                        values={values}
+                                                        title={'Educations'}
+                                                        emptyValue={{
+                                                            date_start: '',
+                                                            date_end: '',
+                                                            description: '',
+                                                        }}
+                                                        Component={Template}
+                                                        setFieldValue={setFieldValue}
+                                                        type={1}
+                                                    />
+                                                    <FormArray
+                                                        name={'work_experiences'}
+                                                        values={values}
+                                                        title={'Work experiences'}
+                                                        emptyValue={{
+                                                            date_start: '',
+                                                            date_end: '',
+                                                            description: '',
+                                                        }}
+                                                        Component={Template}
+                                                        setFieldValue={setFieldValue}
+                                                        type={1}
+                                                    />
+                                                    <FormArray
+                                                        name={'projects'}
+                                                        values={values}
+                                                        title={'Projects'}
+                                                        emptyValue={{
+                                                            name: '',
+                                                            description: '',
+                                                        }}
+                                                        Component={Template}
+                                                        setFieldValue={setFieldValue}
+                                                        type={2}
+                                                    />
+                                                    <FormArray
+                                                        name={'cv_skill'}
+                                                        values={values}
+                                                        title={'Skills'}
+                                                        emptyValue={{
+                                                            name: '',
+                                                            description: '',
+                                                        }}
+                                                        Component={Template}
+                                                        setFieldValue={setFieldValue}
+                                                        type={2}
+                                                    />
+                                                    <Col md={12}>
+                                                        <div className="text-end">
+                                                            <Button color="success" className="btn-load" type="submit" disabled={submitted}>
+                                                                <span className="d-flex align-items-center">
+                                                                    {submitted ? (
+                                                                        <Spinner size="sm" className="flex-shrink-0" role="status">
+                                                                            Submit
+                                                                        </Spinner>
+                                                                    ) : (
+                                                                        <span className="flex-grow-1 me-2">Submit</span>
+                                                                    )}
+                                                                </span>
+                                                            </Button>
+                                                        </div>
+                                                    </Col>
+                                                </Form>
+                                            )}
+                                        </Formik>
+                                    )}
+                                </CardBody>
+                            </Card>
                         </Col>
                     </div>
-                </form>
-            </ModalBody>
-        </Modal>
+                </Container>
+            </div>
+        </React.Fragment>
     );
 };
 
-export default ModalUpdate;
+const Template = ({ index, arrayHelpers, name_parent, values, setFieldValue, type }) => {
+    return (
+        <div className="page-box p-3 form-array-custom">
+            <Row>
+                <Col lg={10}>
+                    <Row>
+                        {type === 1 ? (
+                            <>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Label for="from">From</Label>
+                                        <Flatpickr
+                                            className="form-control"
+                                            options={{
+                                                dateFormat: 'Y-m-d',
+                                            }}
+                                            onChange={([value]) => {
+                                                setFieldValue(`${name_parent}.${index}.date_start`, formatTime(value));
+                                            }}
+                                            value={values.date_start}
+                                            placeholder="Select Date"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Label for="to">To</Label>
+                                        <Flatpickr
+                                            className="form-control"
+                                            options={{
+                                                dateFormat: 'Y-m-d',
+                                            }}
+                                            onChange={([value]) => {
+                                                setFieldValue(`${name_parent}.${index}.date_end`, formatTime(value));
+                                            }}
+                                            value={values.date_end}
+                                            placeholder="Select Date"
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </>
+                        ) : (
+                            <Col lg={6}>
+                                <FormGroup>
+                                    <Label for="name">Name</Label>
+                                    <Field type="text" className="form-control" name={`${name_parent}.${index}.name`} placeholder="Enter name" />
+                                </FormGroup>
+                            </Col>
+                        )}
+
+                        <Col lg={12}>
+                            <FormGroup>
+                                <Label for="from">Description</Label>
+                                <Field
+                                    name={`${name_parent}.${index}.description`}
+                                    render={({ field, form }) => {
+                                        return (
+                                            <>
+                                                <CkeditorCommon
+                                                    setValue={(value) => {
+                                                        form.setFieldValue(field.name, value);
+                                                    }}
+                                                    value={field.value}
+                                                />
+                                            </>
+                                        );
+                                    }}
+                                />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col lg={1} className="d-flex align-items-center">
+                    <a
+                        href="!#"
+                        className="link-danger fs-15"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            arrayHelpers.remove(index);
+                        }}
+                    >
+                        <i className="ri-delete-bin-line"></i>
+                    </a>
+                </Col>
+            </Row>
+        </div>
+    );
+};
+
+export default Index;
