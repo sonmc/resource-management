@@ -14,4 +14,5 @@ export const GetCurrentUser = () => {
 };
 export const Logout = () => {
     LogoutApi();
+    console.log(12);
 };
