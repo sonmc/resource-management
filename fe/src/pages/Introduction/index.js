@@ -89,7 +89,7 @@ const Introduction = () => {
                                                             </div>
                                                             {x.avatar && (
                                                                 <div style={{ width: '200px' }}>
-                                                                    <div className="box-img thumbnail h-100">
+                                                                    <div className="box-img thumbnail">
                                                                         <div className="img">
                                                                             <img src={x.avatar} className="rounded img-fluid" alt=""></img>
                                                                         </div>

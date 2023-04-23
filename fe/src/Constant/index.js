@@ -5,11 +5,11 @@ export const STATUS_INACTIVE = 2;
 
 export const VACATION_TYPES = [
     {
-        key: 1,
+        key: 0,
         value: 'off',
     },
     {
-        key: 0,
+        key: 1,
         value: 'remote',
     },
 ];
