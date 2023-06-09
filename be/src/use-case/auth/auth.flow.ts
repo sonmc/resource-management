@@ -9,6 +9,7 @@ export class AuthFlow {
         this.userService = userService;
         this.authService = authService;
     }
+
     async login(username: string, password: string) {
         const { status, result } = await this.userService.getUser(username);
 
@@ -18,7 +19,7 @@ export class AuthFlow {
         const user = result;
         const isMatched = await compare(password, user.password);
         if (!isMatched) {
-            return { status, result: {} };
+            return { status: 'error', result: {} };
         }
         const accessToken = await generateAccessToken(user.id);
         const refreshToken = await generateRefreshToken(user.id);

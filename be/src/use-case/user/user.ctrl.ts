@@ -1,8 +1,7 @@
 import { UserService } from 'service/user.service';
-import { User } from '../../../database/schemas/user.schema';
+import { UserSchema } from 'service/schemas/user.schema';
 import { UserPresenter } from './user.presenter';
 import { UserFlow } from './user.flow';
- 
 
 export async function getCurrentUser(req: any, res: any, next: any) {
     const flow = new UserFlow(new UserService());
@@ -15,7 +14,7 @@ export async function getCurrentUser(req: any, res: any, next: any) {
 export async function getAllUser(req: any, res: any, next: any) {
     const flow = new UserFlow(new UserService());
     const { status, result } = await flow.getAllUser();
-    const users = result.map((u: User) => {
+    const users = result.map((u: UserSchema) => {
         return new UserPresenter(u);
     });
     res.json(users);

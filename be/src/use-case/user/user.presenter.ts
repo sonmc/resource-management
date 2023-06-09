@@ -1,5 +1,4 @@
-import { RoleSchema } from "../../../database/schemas/role.schema";
-
+import { RoleSchema } from 'service/schemas/role.schema';
 
 export class UserPresenter {
     username: string = '';

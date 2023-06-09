@@ -1,6 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { Permission } from './perm.schema';
-import { User } from './user.schema';
+import { PermSchema } from './perm.schema';
+import { UserSchema } from './user.schema';
 import { BaseSchema } from './base.schema';
 
 @Entity({ name: 'roles' })
@@ -11,15 +11,15 @@ export class RoleSchema extends BaseSchema {
     @Column({ nullable: true })
     description: string = '';
 
-    @ManyToMany(() => User, (users) => users.roles)
+    @ManyToMany(() => UserSchema, (users) => users.roles)
     @JoinTable({
         name: 'users_roles',
         joinColumn: { name: 'role_id', referencedColumnName: 'id' },
         inverseJoinColumn: { name: 'user_id' },
     })
-    users: User[] | undefined;
+    users: UserSchema[] | undefined;
 
-    @ManyToMany(() => Permission, (perm) => perm.roles, {
+    @ManyToMany(() => PermSchema, (perm) => perm.roles, {
         eager: true,
     })
     @JoinTable({
@@ -27,5 +27,5 @@ export class RoleSchema extends BaseSchema {
         joinColumn: { name: 'role_id', referencedColumnName: 'id' },
         inverseJoinColumn: { name: 'perm_id' },
     })
-    permissions: Permission[] | undefined;
+    permissions: PermSchema[] | undefined;
 }
