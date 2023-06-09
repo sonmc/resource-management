@@ -1,21 +1,24 @@
 {
     "compilerOptions": {
+        "target": "es2016",
+        "lib": ["es6"],
         "module": "commonjs",
-        "declaration": true,
-        "removeComments": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "target": "es2017",
-        "sourceMap": true,
-        "outDir": "./dist",
-        "baseUrl": "./",
-        "incremental": true,
+        "baseUrl": "src",
+        "paths": {
+            "@use-case/*": ["use-case/*"],
+            "@schemas/*": ["database/schemas/*"],
+            "@services/*": ["services/*"],
+            "@util/*": ["util/*"]
+        },
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "outDir": "build",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
         "skipLibCheck": true,
-        "strictNullChecks": false,
-        "noImplicitAny": false,
-        "strictBindCallApply": false,
-        "forceConsistentCasingInFileNames": false,
-        "noFallthroughCasesInSwitch": false
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     }
 }
