@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import { UserSchema } from '../src/service/schemas/user.schema';
+import { UserSchema } from 'service/schemas/user.schema';
 
 export async function seed(connection: Connection) {
     const user = new UserSchema();

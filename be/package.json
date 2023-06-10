@@ -35,9 +35,9 @@
         "dev": "nodemon",
         "start": "npm run build && node build/index.js",
         "build": "rimraf ./build && npx tsc",
-        "typeorm": "NODE_ENV=local ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.json",
-        "typeorm:generate": "npm run typeorm migration:generate -- -n",
-        "typeorm:create": "npm run typeorm migration:create -n",
-        "typeorm:run": "npm run typeorm migration:run"
+        "revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
+        "generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n migration -p",
+        "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
+        "make-migration": "npx typeorm migration:create -n migrationName"
     }
 }
