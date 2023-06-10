@@ -3,7 +3,7 @@ import { verifyToken } from 'use-case/auth-middleware';
 import { getCurrentUser } from 'use-case/user/user.ctrl';
 
 const router = Router();
-router.get('/', verifyToken, getCurrentUser);
+router.get('/get-current-user', verifyToken, getCurrentUser);
 router.post('/', verifyToken, getCurrentUser);
 router.put('/', verifyToken, getCurrentUser);
 router.delete('/', verifyToken, getCurrentUser);

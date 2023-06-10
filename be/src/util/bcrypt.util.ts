@@ -14,17 +14,18 @@ export async function compare(
 
 export function generateAccessToken(payload: any) {
   const secretKey = process.env.JWT_SECRET || "";
-  const expiresIn = process.env.JWT_EXPIRATION_TIME + "s";
-  return jwt.sign(payload, secretKey, { expiresIn: expiresIn });
+  let token = "";
+  try {
+    token = jwt.sign(payload, secretKey);
+  } catch (error) {
+    console.log(error);
+  }
+  return token;
 }
 
 export function generateRefreshToken(payload: any) {
   const secretKeyRefreshToken = process.env.JWT_REFRESH_TOKEN_SECRET || "";
-  const expiresInForRefreshToken =
-    process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME + "s";
-  return jwt.sign(payload, secretKeyRefreshToken, {
-    expiresIn: expiresInForRefreshToken,
-  });
+  return jwt.sign(payload, secretKeyRefreshToken);
 }
 
 export function verify(token: string) {
@@ -33,6 +34,6 @@ export function verify(token: string) {
 }
 
 export function getUserNameByToken(token: string): string {
-  const decoded: any = jwt.decode(token);
+  let decoded: any = jwt.decode(token);
   return decoded.username;
 }

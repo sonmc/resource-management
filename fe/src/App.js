@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Route from './Routes';
-import Spinner from './Components/Common/Spinner';
-import { GetCurrentUser } from './Services/auth.service';
+import Spinner from './Components/Common/Spinner'; 
 import { spinnerAtom } from './Recoil/states/spinner';
 import { currentUserAtom } from './Recoil/states/users';
 import './assets/scss/themes.scss';
@@ -10,6 +9,7 @@ import './App.scss';
 import { GetAll } from './Services/notification.service';
 import { notificationAtom } from './Recoil/states/notification';
 import 'react-toastify/dist/ReactToastify.css';
+import { GetCurrentUser } from './Services/user.service';
 function App() {
     const [_, setSpinner] = useRecoilState(spinnerAtom);
     const [user, setCurrentUser] = useRecoilState(currentUserAtom);
