@@ -1,15 +1,15 @@
 {
-    "type": "postgres",
+    "type": "mysql",
     "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
+    "port": 3306,
+    "username": "root",
     "password": "123456",
     "database": "test_db10",
     "logging": false,
-    "entities": ["database/schemas/**/*.ts"],
+    "entities": ["service/schemas/**/*.ts"],
     "migrations": ["database/migration/**/*.ts"],
     "cli": {
-        "entitiesDir": "database/schemas",
+        "entitiesDir": "service/schemas",
         "migrationsDir": "database/migration"
     }
 }

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { PermSchema } from '../../database/schemas/perm.schema';
+import { PermSchema } from 'service/schemas/perm.schema';
 
 class PermService {
     async updateFromRouter(routers: any) {

@@ -1,8 +1,8 @@
 import { Connection } from 'typeorm';
-import { User } from '../src/service/schemas/user.schema';
+import { UserSchema } from '../src/service/schemas/user.schema';
 
 export async function seed(connection: Connection) {
-    const user = new User();
+    const user = new UserSchema();
     user.email = 'test@test.com';
     user.full_name = 'Jan';
     await connection.manager.save(user);

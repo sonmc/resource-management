@@ -3,8 +3,8 @@ import { IUser } from 'service/user.service';
 import { generateAccessToken, generateRefreshToken, getUserNameByToken, compare } from 'util/bcrypt.util';
 
 export class AuthFlow {
-    private userService;
-    private authService;
+    private userService: any;
+    private authService: any;
     constructor(userService: IUser, authService: IAuth) {
         this.userService = userService;
         this.authService = authService;
@@ -14,7 +14,7 @@ export class AuthFlow {
         const { status, result } = await this.userService.getUser(username);
 
         if (status === 'error') {
-            return { status, result: {} };
+            return { status: 'error', result: {} };
         }
         const user = result;
         const isMatched = await compare(password, user.password);
