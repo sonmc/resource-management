@@ -1,5 +1,5 @@
 import { IUser } from 'service/user.service';
-import { getUserNameByToken } from 'util/bcrypt.util';
+import { getUserNameByToken } from '@util/bcrypt.util';
 
 export class UserFlow {
     private userService: any;

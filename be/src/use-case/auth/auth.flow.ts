@@ -1,6 +1,6 @@
 import { IAuth } from 'service/auth.service';
 import { IUser } from 'service/user.service';
-import { generateAccessToken, generateRefreshToken, getUserNameByToken, compare } from 'util/bcrypt.util';
+import { generateAccessToken, generateRefreshToken, getUserNameByToken, compare } from '@util/bcrypt.util';
 
 export class AuthFlow {
     private userService: any;

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { hash } from 'util/bcrypt.util';
+import { hash } from '@util/bcrypt.util';
 import { UserSchema } from 'service/schemas/user.schema';
 
 export interface IAuth {
