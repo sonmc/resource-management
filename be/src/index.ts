@@ -21,4 +21,3 @@ createConnection()
     })
     .catch((error) => console.log(error));
 app.listen(5000, '0.0.0.0', () => console.log('server running on port 5000'));
-export default app;

@@ -1,8 +1,14 @@
 import { getRepository } from 'typeorm';
 import { PermSchema } from 'service/schemas/perm.schema';
 
-class PermService {
-    async updateFromRouter(routers: any) {
+export interface IPerm {
+    update(perm: PermSchema): Promise<any>;
+    getLastId(): Promise<any>;
+    isPermExist(name: string): Promise<any>;
+    updateFromRouter(routers: any): Promise<any>;
+}
+export class PermService implements IPerm {
+    async updateFromRouter(routers: any): Promise<any> {
         const permRepo = getRepository(PermSchema);
         const lastId = await this.getLastId();
         let index = 0;
@@ -19,7 +25,7 @@ class PermService {
         return { status: 'success', result: null };
     }
 
-    async isPermExist(name: string) {
+    async isPermExist(name: string): Promise<any> {
         const permRepo = getRepository(PermSchema);
         const perm = (await permRepo.findOne({
             where: {
@@ -29,7 +35,7 @@ class PermService {
         return perm;
     }
 
-    async getLastId() {
+    async getLastId(): Promise<any> {
         const permRepo = getRepository(PermSchema);
         const perm = (await permRepo.findOne({
             order: {
@@ -40,7 +46,7 @@ class PermService {
         return perm ? perm.id : 0;
     }
 
-    async update(perm: PermSchema) {
+    async update(perm: PermSchema): Promise<any> {
         const permRepo = getRepository(PermSchema);
         permRepo.save(perm);
         return { status: 'success', result: perm };

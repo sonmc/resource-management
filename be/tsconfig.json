@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es2016",
+        "target": "es2021",
         "lib": ["es6"],
         "module": "commonjs",
         "baseUrl": "src",
@@ -19,5 +19,6 @@
         "skipLibCheck": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
-    }
+    },
+    "include": ["src"]
 }
