@@ -1,0 +1,15 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "123456",
+    "database": "test_db7",
+    "logging": false,
+    "entities": ["src/service/schemas/**/*.ts"],
+    "migrations": ["src/database/migration/**/*.ts"],
+    "cli": {
+        "entitiesDir": "src/service/schemas",
+        "migrationsDir": "src/database/migration"
+    }
+}
