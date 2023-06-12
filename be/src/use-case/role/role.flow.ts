@@ -1,6 +1,6 @@
 import { RoleService } from 'service/role.service';
 
-export class GetAllFlow {
+export class RoleFlow {
     private roleService: RoleService;
     constructor(_roleService: RoleService) {
         this.roleService = _roleService;
@@ -11,4 +11,4 @@ export class GetAllFlow {
     }
 }
 
-export default GetAllFlow;
+export default RoleFlow;

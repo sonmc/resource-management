@@ -8,12 +8,12 @@ export class UserFlow {
     }
     async getCurrentUser(access_token: string) {
         const username = getUserNameByToken(access_token);
-        const { status, result } = await this.userService.getUserByName(username);
+        const { status, result } = await this.userService.getUser(username);
         return { status, result };
     }
 
-    async getAllUser() {
-        return await this.userService.list();
+    async getAllUser(param: any) {
+        return await this.userService.list(param);
     }
 }
 

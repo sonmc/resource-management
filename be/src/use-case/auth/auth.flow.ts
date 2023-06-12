@@ -12,7 +12,7 @@ export class AuthFlow {
     }
 
     async login(username: string, password: string) {
-        const { status, result } = await this.userService.getUserByName(username);
+        const { status, result } = await this.userService.getUser(username);
         if (status === 'error' || !result) {
             return { status, result: {} };
         }
@@ -35,7 +35,8 @@ export class AuthFlow {
         if (status === 'error') {
             return { status, result: null };
         }
-        const isRefreshTokenMatching = await compare(refresh_token, result.hash_refresh_token);
+        const userSchema = result;
+        const isRefreshTokenMatching = await compare(refresh_token, userSchema.hash_refresh_token);
         if (isRefreshTokenMatching) {
             return { status, result: null };
         }
