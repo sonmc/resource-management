@@ -1,4 +1,4 @@
-import { RoleSchema } from 'service/schemas/role.schema';
+import { RoleSchema } from './schemas/role.schema';
 import { getRepository } from 'typeorm';
 
 export interface IRole {

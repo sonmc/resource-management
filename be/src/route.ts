@@ -1,8 +1,8 @@
 import * as Koa from 'koa';
-import roleCtrl from 'use-case/role/role.ctrl';
-import userCtrl from 'use-case/user/user.ctrl';
-import authCtrl from 'use-case/auth/auth.ctrl';
-import { PROFILE_TYPE } from 'util/const.variable';
+import roleCtrl from './use-case/role/role.ctrl';
+import userCtrl from './use-case/user/user.ctrl';
+import authCtrl from './use-case/auth/auth.ctrl';
+import { PROFILE_TYPE } from './util/const.variable';
 
 type RouteItem = {
     path: string;

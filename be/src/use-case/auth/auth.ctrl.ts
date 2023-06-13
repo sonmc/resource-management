@@ -1,16 +1,12 @@
 import * as Koa from 'koa';
-import { AuthService } from 'service/auth.service';
+import { AuthService } from '../../service/auth.service';
 
-import { UserService } from 'service/user.service';
+import { UserService } from '../../service/user.service';
 import { AuthPresenter } from './auth.presenter';
 import { AuthFlow } from './auth.flow';
 import { authValidate } from './auth.validator';
 
 export class AuthCtrl {
-    flow: any;
-    constructor() {
-        this.flow = new AuthFlow(new AuthService(), new UserService());
-    }
     async login(ctx: Koa.Context, _next: Koa.Next) {
         const { username, password } = ctx.request.body as AuthPresenter;
         const validation = await authValidate({ username, password });
@@ -18,7 +14,8 @@ export class AuthCtrl {
             ctx.status = 400;
             ctx.body = 'bad request!';
         }
-        const { status, result } = await this.flow.login(username, password);
+        const flow = new AuthFlow(new AuthService(), new UserService());
+        const { status, result } = await flow.login(username, password);
         if (status == 'error') {
             ctx.status = 400;
             ctx.body = 'bad request!';
@@ -36,7 +33,8 @@ export class AuthCtrl {
             ctx.status = 400;
             ctx.body = 'bad request!';
         }
-        const { status, result } = await this.flow.refreshToken(refresh_token);
+        const flow = new AuthFlow(new AuthService(), new UserService());
+        const { status, result } = await flow.refreshToken(refresh_token);
         if (status === 'error') {
             ctx.status = 400;
             ctx.body = 'bad request!';

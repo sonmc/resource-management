@@ -2,6 +2,9 @@ import { createConnection } from 'typeorm';
 import { PermSchema } from '../../service/schemas/perm.schema';
 import { RolePermSchema } from '../../service/schemas/roles-perm.schema';
 import { RoleSchema } from '../../service/schemas/role.schema';
+const admin = '[1]';
+const staff = '[2]';
+const publicApi = '[]';
 async function seed() {
     try {
         const connection = await createConnection({
@@ -19,21 +22,21 @@ async function seed() {
         const perms = await permRepo.find();
         const rolesPerms: any = [];
         perms.forEach((perm) => {
-            if (perm.profile_types == '[1]') {
+            if (perm.profile_types == admin) {
                 const rolePerm = {
                     role_id: 1,
                     perm_id: perm.id,
                 };
                 const rolePermCreated = rolePermRepo.create(rolePerm);
                 rolesPerms.push(rolePermCreated);
-            } else if (perm.profile_types == '[2]') {
+            } else if (perm.profile_types == staff) {
                 const rolePerm = {
                     role_id: 2,
                     perm_id: perm.id,
                 };
                 const rolePermCreated = rolePermRepo.create(rolePerm);
                 rolesPerms.push(rolePermCreated);
-            } else if (perm.profile_types == '[1,2]' || perm.profile_types == '[]') {
+            } else if (perm.profile_types == '[1,2]' || perm.profile_types == publicApi) {
                 const rolePerm = {
                     role_id: 1,
                     perm_id: perm.id,

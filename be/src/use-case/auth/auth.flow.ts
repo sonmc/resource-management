@@ -1,7 +1,7 @@
-import { UserSchema } from 'service/schemas/user.schema';
-import { AuthService } from 'service/auth.service';
-import { UserService } from 'service/user.service';
-import { compare, generateAccessToken, generateRefreshToken } from 'util/bcrypt.util';
+import { UserSchema } from '../../service/schemas/user.schema';
+import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
+import { compare, generateAccessToken, generateRefreshToken } from '../../util/bcrypt.util';
 
 export class AuthFlow {
     private authService: AuthService;

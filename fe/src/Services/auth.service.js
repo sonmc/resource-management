@@ -1,6 +1,6 @@
 import { APIClient } from '../helpers/api_helper';
 
-const baseUrl = 'auth';
+const baseUrl = 'api/auth';
 const api = new APIClient();
 
 export const Login = (data) =>

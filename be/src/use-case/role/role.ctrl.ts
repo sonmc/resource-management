@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 import GetAllFlow from './role.flow';
-import { RoleService } from 'service/role.service';
+import { RoleService } from '../../service/role.service';
 
 class RoleCtrl {
     async list(ctx: Koa.Context, _next: Koa.Next) {
