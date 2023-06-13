@@ -27,6 +27,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@koa/cors@^4.0.0":
+  "integrity" "sha512-Y4RrbvGTlAaa04DBoPBWJqDR5gPj32OOz827ULXfgB1F7piD1MB/zwn8JR2LAnvdILhxUbXbkXGWuNVsFuVFCQ=="
+  "resolved" "https://registry.npmjs.org/@koa/cors/-/cors-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "vary" "^1.1.2"
+
 "@koa/router@^12.0.0":
   "integrity" "sha512-cnnxeKHXlt7XARJptflGURdJaO+ITpNkOHmQu7NHmCoRinPbyvFzce/EG/E8Zy81yQ1W9MoSdtklc3nyaDReUw=="
   "resolved" "https://registry.npmjs.org/@koa/router/-/router-12.0.0.tgz"
@@ -176,6 +183,13 @@
   "integrity" "sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw=="
   "resolved" "https://registry.npmjs.org/@types/keygrip/-/keygrip-1.0.2.tgz"
   "version" "1.0.2"
+
+"@types/koa__cors@^4.0.0":
+  "integrity" "sha512-qpwswNgQ2GxiDGNnKbDSBY5XmQTVJ6fspNvInLsAJ+jSwINxihvVzblj5anujNBg2BtL0xpUrcIt3UYwGzu05A=="
+  "resolved" "https://registry.npmjs.org/@types/koa__cors/-/koa__cors-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "@types/koa" "*"
 
 "@types/koa__router@^12.0.0":
   "integrity" "sha512-S6eHyZyoWCZLNHyy8j0sMW85cPrpByCbGGU2/BO4IzGiI87aHJ92lZh4E9xfsM9DcbCT469/OIqyC0sSJXSIBQ=="

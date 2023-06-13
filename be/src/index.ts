@@ -3,7 +3,7 @@ import Router from '@koa/router';
 import { get_routes, post_routes, delete_routes } from 'route';
 import { createConnection } from 'typeorm';
 import bodyParser from 'koa-bodyparser';
-import cors from 'koa2-cors';
+import cors from '@koa/cors';
 import 'reflect-metadata';
 
 const app = new Koa();
@@ -12,10 +12,12 @@ const router = new Router({
 });
 
 createConnection()
-    .then(async (connection) => {
+    .then(async () => {
         app.use(
             cors({
-                origin: 'http://localhost:4200',
+                allowHeaders: ['Content-Type'],
+                credentials: true,
+                origin: '*',
             })
         );
         app.use(bodyParser());
