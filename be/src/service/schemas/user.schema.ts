@@ -3,7 +3,7 @@ import { BaseSchema } from './base.schema';
 import { RoleSchema } from './role.schema';
 import { VacationSchema } from './vacation.schema';
 import { NewSchema } from './new.schema';
-import { hash } from 'utils/bcrypt.util';
+import { hash } from '../../util//bcrypt.util';
 
 @Entity({ name: 'users' })
 export class UserSchema extends BaseSchema {

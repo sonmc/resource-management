@@ -1,5 +1,5 @@
 import * as Koa from 'koa';
-import { getAll as getRoles } from 'use-case/role/role.ctrl';
+import roleCtrl from 'use-case/role/role.ctrl';
 import userCtrl from '@use-case/user/user.ctrl';
 import authCtrl from '@use-case/auth/auth.ctrl';
 import 'reflect-metadata';
@@ -9,7 +9,7 @@ type RouteItem = {
     ctrl: (ctx: Koa.Context, next: Koa.Next) => any;
 };
 const get_routes: RouteItem[] = [
-    { path: '/roles', ctrl: getRoles },
+    { path: '/roles', ctrl: roleCtrl.list },
     { path: '/users', ctrl: userCtrl.list },
     { path: '/auth/refresh-token', ctrl: authCtrl.refreshToken },
     { path: '/auth/logout', ctrl: authCtrl.logout },

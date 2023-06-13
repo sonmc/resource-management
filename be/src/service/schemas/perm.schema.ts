@@ -1,14 +1,22 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { RoleSchema } from './role.schema';
-import { BaseSchema } from './base.schema';
 
 @Entity({ name: 'permissions' })
-export class PermSchema extends BaseSchema {
-    @Column()
-    name: string = '';
+export class PermSchema {
+    @PrimaryGeneratedColumn()
+    id: number = 0;
 
     @Column()
-    label: string = '';
+    profile_types: string = '[]';
+
+    @Column()
+    title: string = '';
+
+    @Column()
+    module: string = '';
+
+    @Column()
+    action: string = '';
 
     @ManyToMany(() => RoleSchema, (role) => role.permissions)
     @JoinTable({

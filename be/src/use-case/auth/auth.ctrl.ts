@@ -4,6 +4,7 @@ import { AuthService } from 'service/auth.service';
 import { UserService } from 'service/user.service';
 import { AuthPresenter } from './auth.presenter';
 import { AuthFlow } from './auth.flow';
+import { authValidate } from './auth.validator';
 
 export class AuthCtrl {
     flow: any;
@@ -12,6 +13,11 @@ export class AuthCtrl {
     }
     async login(ctx: Koa.Context, _next: Koa.Next) {
         const { username, password } = ctx.request.body as AuthPresenter;
+        const validation = await authValidate({ username, password });
+        if (validation.status == 'error') {
+            ctx.status = 400;
+            ctx.body = 'bad request!';
+        }
         const { status, result } = await this.flow.login(username, password);
         if (status == 'error') {
             ctx.status = 400;

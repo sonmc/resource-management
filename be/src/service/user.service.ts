@@ -17,6 +17,7 @@ export class UserService implements IUser {
             relations: ['roles', 'roles.permissions'],
             where: { username: username },
         })) as UserSchema;
+
         if (user) {
             return { status: 'success', result: user };
         } else {
@@ -75,11 +76,13 @@ export class UserService implements IUser {
             const userCreated = await userRepo.create(user);
             userUpdated = await userRepo.save(userCreated);
             if (userUpdated) {
+                const roles: any = [];
                 user.roles?.forEach(async (role) => {
                     const userRole = new UserRole(+role.id, userUpdated.id);
                     const userRoleCreated = await userRoleRepo.create(userRole);
-                    await userRoleRepo.save(userRoleCreated);
+                    roles.push(userRoleCreated);
                 });
+                await userRoleRepo.save(roles);
             }
         } else {
             user.password = PASSWORD_DEFAULT;
