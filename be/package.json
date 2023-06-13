@@ -11,7 +11,7 @@
         "generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n migration -p",
         "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
         "make-migration": "npx typeorm migration:create -n migrationName",
-        "role_seeding": "node src/database/seed/role_seeding.js"
+        "seed": "node dist/database/seed/seeding.js"
     },
     "author": "",
     "license": "ISC",

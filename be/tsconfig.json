@@ -14,12 +14,12 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
-        "baseUrl": "src",
-        "paths": {
-            "@use-case/*": ["use-case/*"],
-            "@service/*": ["service/*"],
-            "@util/*": ["util/*"]
-        }
+        "baseUrl": "src"
+        // "paths": {
+        //     "@use-case/*": ["use-case/*"],
+        //     "@service/*": ["service/*"],
+        //     "@util/*": ["util/*"]
+        // }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]

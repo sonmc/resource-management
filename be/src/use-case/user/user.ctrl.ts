@@ -1,7 +1,7 @@
 import * as Koa from 'koa';
 import { UserService } from 'service/user.service';
 import UserFlow from './user.flow';
-import { order, paginated } from '@util/ctrl.util';
+import { order, paginated } from 'util/ctrl.util';
 import { PagingPresenter } from './paging.presenter';
 
 class UserCtrl {

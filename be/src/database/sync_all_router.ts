@@ -1,4 +1,4 @@
-import { PermSchema } from '@service/schemas/perm.schema';
+import { PermSchema } from 'service/schemas/perm.schema';
 
 export async function syncAllRouter(router: any, connection: any) {
     const routers: any[] = [];

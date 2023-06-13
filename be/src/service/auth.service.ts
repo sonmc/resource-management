@@ -1,4 +1,4 @@
-import { UserSchema } from 'service/schemas/user.schema';
+import { UserSchema } from './schemas/user.schema';
 import { getRepository } from 'typeorm';
 import { hash } from '../util/bcrypt.util';
 
