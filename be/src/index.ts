@@ -4,6 +4,8 @@ import { get_routes, post_routes, delete_routes } from 'route';
 import { createConnection } from 'typeorm';
 import bodyParser from 'koa-bodyparser';
 import { syncAllRouter } from 'database/sync_all_router';
+import 'reflect-metadata';
+
 const app = new Koa();
 const router = new Router({
     prefix: '/api',

@@ -6,7 +6,7 @@ import { UserRole } from './schemas/users-roles.schema';
 export interface IUser {
     list(param: any): Promise<any>;
     getUser(username: string): Promise<any>;
-    deleteById(id: number): Promise<void>;
+    deleteById(id: string): Promise<void>;
     create(user: UserSchema): Promise<UserSchema>;
 }
 
@@ -25,9 +25,11 @@ export class UserService implements IUser {
         }
     }
 
-    async deleteById(id: number): Promise<void> {
+    async deleteById(id: string): Promise<void> {
         const userRepo = getRepository(UserSchema);
-        const user = (await userRepo.findOne(id)) as UserSchema;
+        const user = (await userRepo.findOne({
+            where: { id: id },
+        })) as UserSchema;
         user.status = STATUS_INACTIVE;
         const userCreated = await userRepo.create(user);
         await userRepo.save(userCreated);
