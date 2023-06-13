@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { UserSchema } from 'service/schemas/user.schema';
-import { ADMIN_ID, PASSWORD_DEFAULT, STATUS_INACTIVE } from 'business/rules/constant';
+import { ADMIN_ID, PASSWORD_DEFAULT, STATUS_INACTIVE } from 'util/const.variable';
 import { UserRole } from './schemas/users-roles.schema';
 
 export interface IUser {

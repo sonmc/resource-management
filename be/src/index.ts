@@ -13,12 +13,12 @@ createConnection()
         app.use(bodyParser());
         app.use(router.routes()).use(router.allowedMethods());
 
-        get_routes.map(({ path: path, ctrl: ctrl }) => router.get(path, ctrl));
-        post_routes.map(({ path: path, ctrl: ctrl }) => router.post(path, ctrl));
-        delete_routes.map(({ path: path, ctrl: ctrl }) => router.delete(path, ctrl));
+        get_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.get(name, path, ctrl));
+        post_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.post(name, path, ctrl));
+        delete_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.delete(name, path, ctrl));
 
-        app.listen(5000, () => {
-            console.log('Server started on port 5000');
+        app.listen(process.env.SERVER_PORT, () => {
+            console.log('Server started on port ' + process.env.SERVER_PORT);
             syncAllRouter(router, connection);
         });
     })

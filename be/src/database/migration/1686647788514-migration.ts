@@ -1,23 +1,24 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class migration1686627535635 implements MigrationInterface {
-    name = 'migration1686627535635'
+export class migration1686647788514 implements MigrationInterface {
+    name = 'migration1686647788514'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             CREATE TABLE "permissions" (
                 "id" SERIAL NOT NULL,
-                "name" character varying NOT NULL,
-                "label" character varying NOT NULL,
+                "profile_types" character varying NOT NULL,
+                "title" character varying NOT NULL,
+                "module" character varying NOT NULL,
+                "action" character varying NOT NULL,
                 CONSTRAINT "PK_920331560282b8bd21bb02290df" PRIMARY KEY ("id")
             )
         `);
         await queryRunner.query(`
             CREATE TABLE "roles" (
-                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "created_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "name" character varying NOT NULL,
+                "id" SERIAL NOT NULL,
+                "title" character varying NOT NULL,
+                "profile_type" integer NOT NULL,
                 "description" character varying,
                 CONSTRAINT "PK_c1433d71a4838793a49dcad46ab" PRIMARY KEY ("id")
             )
@@ -104,7 +105,7 @@ export class migration1686627535635 implements MigrationInterface {
         await queryRunner.query(`
             CREATE TABLE "roles_perms" (
                 "perm_id" integer NOT NULL,
-                "role_id" uuid NOT NULL,
+                "role_id" integer NOT NULL,
                 CONSTRAINT "PK_97441bb429dffea41940d6094e0" PRIMARY KEY ("perm_id", "role_id")
             )
         `);
@@ -113,27 +114,6 @@ export class migration1686627535635 implements MigrationInterface {
         `);
         await queryRunner.query(`
             CREATE INDEX "IDX_8cce8a13d529875e48b259a7f0" ON "roles_perms" ("role_id")
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP CONSTRAINT "PK_c525e9373d63035b9919e578a9c"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD CONSTRAINT "PK_e4435209df12bc1f001e5360174" PRIMARY KEY ("user_id")
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP COLUMN "role_id"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD "role_id" uuid NOT NULL
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP CONSTRAINT "PK_e4435209df12bc1f001e5360174"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD CONSTRAINT "PK_c525e9373d63035b9919e578a9c" PRIMARY KEY ("user_id", "role_id")
         `);
         await queryRunner.query(`
             ALTER TABLE "users_roles" DROP CONSTRAINT "PK_c525e9373d63035b9919e578a9c"
@@ -236,27 +216,6 @@ export class migration1686627535635 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "users_roles" DROP CONSTRAINT "PK_1cf664021f00b9cc1ff95e17de4"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD CONSTRAINT "PK_c525e9373d63035b9919e578a9c" PRIMARY KEY ("user_id", "role_id")
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP CONSTRAINT "PK_c525e9373d63035b9919e578a9c"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD CONSTRAINT "PK_e4435209df12bc1f001e5360174" PRIMARY KEY ("user_id")
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP COLUMN "role_id"
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles"
-            ADD "role_id" integer NOT NULL
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "users_roles" DROP CONSTRAINT "PK_e4435209df12bc1f001e5360174"
         `);
         await queryRunner.query(`
             ALTER TABLE "users_roles"

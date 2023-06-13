@@ -26,25 +26,25 @@ export class AuthCtrl {
             const { accessToken, refreshToken } = result;
             ctx.cookies.set('access-token', accessToken, { httpOnly: true });
             ctx.cookies.set('refresh-token', refreshToken, { httpOnly: true });
-            ctx.body = 'successfully!';
+            ctx.body = 'success!';
         }
     }
 
     async refreshToken(ctx: Koa.Context, _next: Koa.Next) {
         const refresh_token = ctx.cookies.get('refresh-token') || '';
         if (!refresh_token) {
-            ctx.status = 401;
-            ctx.body = 'authorization!';
+            ctx.status = 400;
+            ctx.body = 'bad request!';
         }
         const { status, result } = await this.flow.refreshToken(refresh_token);
         if (status === 'error') {
-            ctx.status = 401;
-            ctx.body = 'authorization!';
+            ctx.status = 400;
+            ctx.body = 'bad request!';
         }
         ctx.cookies.set('access-token', result, {
             httpOnly: true,
         });
-        ctx.body = 'successfully!';
+        ctx.body = 'success!';
     }
 
     async logout(ctx: Koa.Context, _next: Koa.Next) {
