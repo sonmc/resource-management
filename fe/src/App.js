@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Route from './Routes';
 import Spinner from './Components/Common/Spinner';
-import { GetCurrentUser } from './Services/auth.service';
+import { GetCurrentUser } from './Services/user.service';
 import { spinnerAtom } from './Recoil/states/spinner';
 import { currentUserAtom } from './Recoil/states/users';
 import './assets/scss/themes.scss';

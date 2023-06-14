@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik, Formik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { Login as OnLogin, GetCurrentUser } from 'src/Services/auth.service';
+import { Login as OnLogin } from 'src/Services/auth.service';
+import { GetCurrentUser } from 'src/Services/user.service';
 import { useRecoilState } from 'recoil';
 import { currentUserAtom } from 'src/Recoil/states/users';
 import { notificationAtom } from 'src/Recoil/states/notification';
@@ -33,11 +34,11 @@ const LoginPage = () => {
                     GetCurrentUser().then((user) => {
                         setCurrentUser(user);
                         history.push('/projects');
-                        GetNoti({ user_id: user.id })
-                            .then((res) => {
-                                setNotifications(res);
-                            })
-                            .catch(() => {});
+                        // GetNoti({ user_id: user.id })
+                        //     .then((res) => {
+                        //         setNotifications(res);
+                        //     })
+                        //     .catch(() => {});
                     });
                 }
             });
@@ -89,9 +90,7 @@ const LoginPage = () => {
                                                     value={validation.values.username || ''}
                                                     invalid={validation.touched.email && validation.errors.username ? true : false}
                                                 />
-                                                {validation.touched.username && validation.errors.username ? (
-                                                    <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
-                                                ) : null}
+                                                {validation.touched.username && validation.errors.username ? <FormFeedback type="invalid">{validation.errors.username}</FormFeedback> : null}
                                             </div>
 
                                             <div className="mb-3">
@@ -109,9 +108,7 @@ const LoginPage = () => {
                                                         onBlur={validation.handleBlur}
                                                         invalid={validation.touched.password && validation.errors.password ? true : false}
                                                     />
-                                                    {validation.touched.password && validation.errors.password ? (
-                                                        <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
-                                                    ) : null}
+                                                    {validation.touched.password && validation.errors.password ? <FormFeedback type="invalid">{validation.errors.password}</FormFeedback> : null}
                                                     <button
                                                         className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                         type="button"
@@ -120,11 +117,7 @@ const LoginPage = () => {
                                                             setIsShow((x) => !x);
                                                         }}
                                                     >
-                                                        {isShow ? (
-                                                            <i className="ri-eye-off-fill align-middle"></i>
-                                                        ) : (
-                                                            <i className="ri-eye-fill align-middle"></i>
-                                                        )}
+                                                        {isShow ? <i className="ri-eye-off-fill align-middle"></i> : <i className="ri-eye-fill align-middle"></i>}
                                                     </button>
                                                 </div>
                                             </div>
