@@ -20,11 +20,13 @@ createConnection()
                 origin: '*',
             })
         );
+
         app.use(bodyParser());
         app.use(router.routes()).use(router.allowedMethods());
         get_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.get(name, path, ctrl));
         post_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.post(name, path, ctrl));
         delete_routes.map(({ name: name, path: path, ctrl: ctrl }) => router.delete(name, path, ctrl));
+
         app.listen(process.env.SERVER_PORT, () => {
             console.log('Server started on port ' + process.env.SERVER_PORT);
         });

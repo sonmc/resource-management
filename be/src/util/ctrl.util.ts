@@ -1,4 +1,4 @@
-export function paginated(limit: number, page: number, data: any) {
+export function paginated(limit: number = 10, page: number = 1, data: any) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
@@ -21,6 +21,7 @@ export function paginated(limit: number, page: number, data: any) {
             limit: limit,
         };
     }
+
     results.data = data.find().limit(limit).skip(startIndex).exec();
     return results;
 }

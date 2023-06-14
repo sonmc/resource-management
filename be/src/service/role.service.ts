@@ -5,9 +5,9 @@ export interface IRole {
     getAll(): Promise<RoleSchema[]>;
 }
 export class RoleService implements IRole {
-    async getAll(): Promise<RoleSchema[]> {
+    async getAll(): Promise<any> {
         const roleRepo = getRepository(RoleSchema);
         const roles = await roleRepo.find();
-        return roles;
+        return { status: 'success', result: roles };
     }
 }

@@ -6,8 +6,8 @@ import { UserRole } from './schemas/users-roles.schema';
 export interface IUser {
     list(param: any): Promise<any>;
     getUser(username: string): Promise<any>;
-    deleteById(id: string): Promise<void>;
-    create(user: UserSchema): Promise<UserSchema>;
+    delete(id: string): Promise<void>;
+    create(user: UserSchema): Promise<any>;
 }
 
 export class UserService implements IUser {
@@ -25,14 +25,8 @@ export class UserService implements IUser {
         }
     }
 
-    async deleteById(id: string): Promise<void> {
-        const userRepo = getRepository(UserSchema);
-        const user = (await userRepo.findOne({
-            where: { id: id },
-        })) as UserSchema;
-        user.status = STATUS_INACTIVE;
-        const userCreated = await userRepo.create(user);
-        await userRepo.save(userCreated);
+    async delete(id: string): Promise<any> {
+        return { status: 'success', result: id };
     }
 
     async list(param: any): Promise<any> {
@@ -67,10 +61,10 @@ export class UserService implements IUser {
         } catch (error) {
             console.log(error);
         }
-        return users;
+        return { status: 'success', result: users };
     }
 
-    async create(user: UserSchema): Promise<UserSchema> {
+    async create(user: UserSchema): Promise<any> {
         let userUpdated: any = null;
         const userRepo = getRepository(UserSchema);
         const userRoleRepo = getRepository(UserRole);
@@ -91,7 +85,6 @@ export class UserService implements IUser {
             const userCreated = await userRepo.create(user);
             userUpdated = await userRepo.save(userCreated);
         }
-
-        return userUpdated;
+        return { status: 'success', result: userUpdated };
     }
 }

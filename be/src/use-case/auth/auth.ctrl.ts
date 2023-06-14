@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import { AuthService } from '../../service/auth.service';
-
 import { UserService } from '../../service/user.service';
 import { AuthPresenter } from './auth.presenter';
 import { AuthFlow } from './auth.flow';

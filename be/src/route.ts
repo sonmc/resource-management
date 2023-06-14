@@ -13,6 +13,7 @@ type RouteItem = {
 const get_routes: RouteItem[] = [
     { name: JSON.stringify([PROFILE_TYPE.ADMIN]), path: '/roles', ctrl: roleCtrl.list },
     { name: JSON.stringify([PROFILE_TYPE.ADMIN]), path: '/users', ctrl: userCtrl.list },
+    { name: '[]', path: '/users/get-current-user', ctrl: userCtrl.getCurrentUser },
     { name: '[]', path: '/auth/refresh-token', ctrl: authCtrl.refreshToken },
     { name: '[]', path: '/auth/logout', ctrl: authCtrl.logout },
 ];
