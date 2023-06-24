@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'users_roles' })
-export class UserRole {
+export class UserRoleSchema {
     @Column()
     @PrimaryColumn()
     role_id: Number;

@@ -1,8 +1,8 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export class BaseSchema {
-    @PrimaryGeneratedColumn('uuid')
-    id: string = '';
+    @PrimaryGeneratedColumn()
+    id: number = 0;
 
     @CreateDateColumn()
     created_at: Date = new Date();

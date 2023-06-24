@@ -4,6 +4,7 @@ import { UserService } from '../../service/user.service';
 import { AuthPresenter } from './auth.presenter';
 import { AuthFlow } from './auth.flow';
 import { authValidate } from './auth.validator';
+import { applySort } from '../../util/ctrl.util';
 
 export class AuthCtrl {
     async login(ctx: Koa.Context, _next: Koa.Next) {
@@ -48,6 +49,7 @@ export class AuthCtrl {
         ctx.cookies.set('access-token', null, {
             httpOnly: true,
         });
+        ctx.body = 'success!';
     }
 }
 

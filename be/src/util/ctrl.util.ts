@@ -1,32 +1,28 @@
-export function paginated(limit: number = 10, page: number = 1, data: any) {
-    const startIndex = (page - 1) * limit;
+export function applyPagination(limit: number = 10, page: number = 1, data: any) {
+    const startIndex = (page - 1) * limit ? 1 : (page - 1) * limit;
     const endIndex = page * limit;
-
     const results = {
         next: {},
         previous: {},
         data: {},
     };
-
     if (endIndex < data.length) {
         results.next = {
             page: page + 1,
             limit: limit,
         };
     }
-
     if (startIndex > 0) {
         results.previous = {
             page: page - 1,
             limit: limit,
         };
     }
-
-    results.data = data.find().limit(limit).skip(startIndex).exec();
+    results.data = data.slice(startIndex, startIndex + limit);
     return results;
 }
 
-export function order(dataList: any, sortBy: keyof any, sortOrder: 'asc' | 'desc') {
+export function applySort(sortBy: keyof any, sortOrder: 'asc' | 'desc', dataList: any) {
     const sortedData = [...dataList];
 
     sortedData.sort((a, b) => {

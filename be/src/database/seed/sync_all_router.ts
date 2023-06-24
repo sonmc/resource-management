@@ -6,11 +6,11 @@ async function seed() {
     try {
         const connection = await createConnection({
             type: 'mysql',
-            host: 'localhost',
+            host: '61.14.233.220',
             port: 3306,
-            username: 'root',
-            password: '123456',
-            database: 'test_db1',
+            username: 'admin',
+            password: '123123123',
+            database: 'baongoc_db',
             entities: ['dist/service/schemas/**/*.js'],
         });
         const routers = [...get_routes, ...post_routes, ...delete_routes];
@@ -33,6 +33,7 @@ async function seed() {
             });
             await permRepo.save(permissions);
         }
+        console.log('sync all perm');
         await connection.close();
     } catch (error) {
         console.log('Error connecting to the database:', error);

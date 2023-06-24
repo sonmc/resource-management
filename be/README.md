@@ -1,12 +1,12 @@
 # development
 
 $ npm run dev
-password default: $2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2
 
 # Migration
 
 -   npm run generate
 -   npm run migrate
+    password default: $2b$12$3.7JhJKdBP8Lnoore/aMuOjBt8oiIPwyc1X5JLL6AB9oP2Mh1ato2
 
 # Clean architect
 
